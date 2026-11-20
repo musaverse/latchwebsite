@@ -5,7 +5,7 @@ Redesign of [latchinfinity.com](https://www.latchinfinity.com/), built on the La
 - One static page (`index.html`) with hash routes for every page: Home, About, Work, Marketing and its four service pages, EdTech, Gamification, Blogs, Contact.
 - No build step and no dependencies. Fonts load from Google Fonts (Archivo).
 - `img/` holds the client logos and blog covers as WebP; `img/kaynes/` holds the Kaynes lookbook pages and textures.
-- `video/` holds the Kaynes brand film (1080p, a 720p version for phones, and a poster).
+- `video/` holds the Kaynes brand film (27.5 s, 60 fps, original score; 1080p, a 720p version for phones, and a poster).
 - Case studies: `#work-kaynes` (Kaynes Technology brand refresh). Its logo and icons are vectors traced from the client's lookbook PDF.
 - Pushing to `main` deploys a preview to GitHub Pages (`.github/workflows/pages.yml`).
 
