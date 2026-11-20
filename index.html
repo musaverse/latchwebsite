@@ -13,7 +13,7 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62.5..125,300..700&family=Space+Grotesk:wght@300..700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62.5..125,300..700&family=Space+Grotesk:wght@300..700&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap">
 <style>
 /* Layout: a 12-column grid on a warm-green paper ground. Every page opens on a deep band
    whose climb device carries its business line's colour: Mint for marketing, Ice for EdTech,
@@ -1471,6 +1471,324 @@ fieldset.field { border: 0; margin: 0; padding: 0; }
   .ky-in { opacity: 1; transform: none; transition: none; }
   .ky-screen { transform: none; }
 }
+
+/* ================= Case study: Oli =================
+   A gig night, not a lookbook. The page is a setlist: every section is a track.
+   Latch keeps its grey intros; Oli's own system (Poppins, the seven-step red ramp,
+   the ellipse) fills everything else. */
+.ol { --o0: #4E0705; --o1: #670D0D; --o2: #881616; --o3: #A31E21; --o4: #BB2B2A; --o5: #D83232; --o6: #ED5C5F;
+  --o-blush: #FFB3B8; --o-cream: #FEF1EC; --o-ink: #231F20; --o-font: 'Poppins', var(--font);
+  font-family: var(--o-font); }
+.ol h1, .ol h2, .ol h3 { font-family: var(--o-font); font-stretch: 100%; letter-spacing: -0.02em; font-weight: 300; }
+.ol h1 b, .ol h2 b, .ol h3 b { font-weight: 600; }
+.ol .label { font-family: var(--font); }
+.ol-night { background: var(--o0); color: #fff; }
+.ol-night .label, .ol-night .lede { color: rgba(255, 236, 236, .62); }
+.ol-night :focus-visible, .ol-red :focus-visible { outline-color: #fff; }
+.ol-red { background: var(--o5); color: #fff; }
+.ol-red .label { color: rgba(255,255,255,.72); }
+.ol-cream { background: var(--o-cream); color: var(--o-ink); }
+.ol-cream .lede { color: #5f5658; }
+.ol-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 18px 48px; margin-bottom: clamp(32px, 4.5vw, 60px); }
+.ol-head h2 { font-size: var(--t-1); line-height: 1.06; max-width: 16ch; }
+.ol-head p { max-width: 44ch; }
+.ol-trk { font-family: var(--o-font); font-size: 13px; letter-spacing: .02em; display: inline-flex; gap: 10px; align-items: center; margin-bottom: 14px; color: var(--o6); }
+.ol-night .ol-trk, .ol-red .ol-trk { color: var(--o-blush); }
+.ol-trk i { width: 18px; height: 6px; border-radius: 50%; border: 1.5px solid currentColor; }
+.ol-in { opacity: 0; transform: translateY(34px); transition: opacity .9s var(--ease), transform 1s var(--ease); transition-delay: calc(var(--k, 0) * 80ms); }
+.ol-in.on { opacity: 1; transform: none; }
+
+/* Logo */
+.ol-logo { display: block; width: 100%; height: auto; overflow: visible; fill: currentColor; }
+
+/* Hero: the deck cover, alive. Rings breathe outward one bar at a time (120 BPM). */
+.ol-hero { position: relative; overflow: hidden; background: var(--o0); color: #fff; isolation: isolate; }
+.ol-hero > .wrap:first-child { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, .7fr); align-content: start; gap: 18px clamp(24px, 5vw, 80px); padding-block: clamp(28px, 4vw, 56px) 0; }
+.ol-about { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px clamp(32px, 6vw, 96px); align-items: end; padding-bottom: clamp(40px, 5vw, 72px); margin-top: clamp(-40px, -2vw, -16px); position: relative; z-index: 1; }
+.ol-hero .crumbs { grid-column: 1 / -1; color: rgba(255,255,255,.6); }
+.ol-hero .crumbs a:hover { color: #fff; }
+.ol-hero .label { color: rgba(255,255,255,.66); }
+.ol-hero h1 { font-size: clamp(44px, 7.6vw, 124px); line-height: .98; font-weight: 500; color: var(--o-blush); }
+.ol-hero h1 span { display: block; }
+.ol-hero .lede { color: rgba(255, 236, 236, .8); max-width: 52ch; font-size: clamp(16.5px, 1.35vw, 19px); }
+.ol-hero .row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+.ol .btn-solid.ol-btn { background: #fff; color: var(--o0); border-color: #fff; --sweep: var(--o-blush); }
+.ol .btn-solid.ol-btn:hover { color: var(--o0); border-color: var(--o-blush); }
+.ol .btn-ghost.ol-btn { color: #fff; --sweep: #fff; }
+.ol .btn-ghost.ol-btn:hover { color: var(--o0); border-color: #fff; }
+.ol-quote { margin: 0; align-self: start; justify-self: end; max-width: 300px; font-style: italic; font-size: clamp(16px, 1.4vw, 20px); line-height: 1.55; position: relative; padding-left: 26px; padding-top: 52px; }
+.ol-quote::before { content: "\201C"; position: absolute; left: 0; top: 34px; font-size: 64px; line-height: 1; font-style: normal; font-weight: 600; }
+.ol-quote cite { display: block; text-align: right; font-size: 13px; margin-top: 8px; opacity: .8; }
+.ol-field { position: relative; height: min(44vw, 640px); margin-top: clamp(-150px, -8vw, -40px); z-index: 0; }
+.ol-field svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.ol-field .rg { transform-box: fill-box; transform-origin: 50% 50%; animation: olBreathe 2s cubic-bezier(.3, 0, .2, 1) infinite; animation-delay: calc(var(--i) * 110ms); }
+@keyframes olBreathe { 0%, 100% { transform: scale(1); } 12% { transform: scale(1.035); } }
+.ol-field .lg { color: #fff; animation: olLand 1.4s var(--ease) .5s both; }
+@keyframes olLand { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: none; } }
+.ol-meta { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1px solid rgba(255,255,255,.22); }
+.ol-meta div:nth-child(3) { border-left: 0; padding-left: 0; }
+.ol-meta div:nth-child(n+3) { border-top: 1px solid rgba(255,255,255,.22); padding-top: 14px; }
+.ol-meta div { padding: 14px 16px 14px 0; display: grid; gap: 2px; min-width: 0; }
+.ol-meta div + div { border-left: 1px solid rgba(255,255,255,.22); padding-left: clamp(12px, 2vw, 24px); }
+.ol-meta b { font-weight: 400; font-size: 15px; line-height: 1.4; }
+.ol-meta span { font-family: var(--font); font-stretch: 75%; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.6); }
+
+/* Track 01: the lyric sheet, lit word by word as you scroll */
+.ol-lyric { padding-block: clamp(72px, 11vw, 160px) clamp(80px, 10vw, 150px); position: relative; overflow: hidden; }
+.ol-lyrics { font-size: clamp(30px, 4.6vw, 68px); line-height: 1.18; font-weight: 300; letter-spacing: -.02em; max-width: 20ch; }
+.ol-lyrics .ln { display: block; }
+.ol-lyric .w-fill .w > span { color: rgba(255, 179, 184, .16); }
+.ol-lyric .w-fill .w.lit > span { color: #fff; }
+.ol-lyric .w-fill .ln.hi .w.lit > span { color: var(--o-blush); font-weight: 500; }
+.ol-lyric .side { position: absolute; right: max(16px, calc((100vw - var(--max)) / 2)); top: 50%; translate: 0 -50%; width: min(34vw, 420px); aspect-ratio: 1; pointer-events: none; }
+.ol-lyric .side svg { width: 100%; height: 100%; overflow: visible; }
+.ol-lyric .side ellipse { fill: none; stroke: var(--o6); stroke-width: 1.5; vector-effect: non-scaling-stroke; opacity: calc(var(--lit, 0) * .9); transition: opacity .6s; }
+.ol-sign { margin-top: clamp(40px, 6vw, 80px); display: flex; flex-wrap: wrap; gap: 16px 28px; align-items: center; font-size: clamp(18px, 1.6vw, 22px); color: rgba(255,236,236,.8); }
+.ol-sign b { color: #fff; font-weight: 600; }
+
+/* Players: the film (16:9) and the reel (9:16) share one set of controls */
+.ol-film { padding-block: 0 clamp(64px, 9vw, 128px); position: relative; overflow: hidden; }
+.ol-film .ol-head p { color: rgba(255,236,236,.66); }
+.ol-stagewrap { position: relative; }
+.ol-stagewrap::after { content: ""; position: absolute; left: 4%; right: 4%; bottom: -14%; height: 26%; z-index: 0; border-radius: 50%; background: radial-gradient(closest-side, rgba(237,92,95,.38), rgba(216,50,50,.14) 60%, transparent); pointer-events: none; }
+.ol-scr { position: relative; z-index: 1; overflow: hidden; background: #000; border-radius: clamp(10px, 1.6vw, 22px); isolation: isolate; transform: scale(var(--s, 1)); transform-origin: 50% 100%; }
+.ol-scr.wide { aspect-ratio: 16 / 9; box-shadow: 0 0 0 1px rgba(255,179,184,.14), 0 50px 140px -50px rgba(237,92,95,.7); }
+.ol-scr video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.ol-big { position: absolute; inset: 0; display: grid; place-items: center; background: none; border: 0; cursor: pointer; color: #fff; transition: opacity .5s var(--ease); z-index: 1; }
+.ol-big i { width: clamp(64px, 8vw, 104px); aspect-ratio: 1; border-radius: 50%; display: grid; place-items: center; background: rgba(78,7,5,.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,.4); transition: transform .5s var(--ease), background .4s; }
+.ol-big i svg { width: 34%; height: 34%; margin-left: 6%; }
+.ol-big:hover i { transform: scale(1.08); background: rgba(216,50,50,.6); }
+.ol-scr.playing .ol-big { opacity: 0; pointer-events: none; }
+.ol-snd { position: absolute; top: clamp(10px, 1.6vw, 20px); right: clamp(10px, 1.6vw, 20px); z-index: 2; display: inline-flex; align-items: center; gap: 10px; height: 40px; padding: 0 16px 0 14px; border-radius: 999px; border: 1px solid rgba(255,255,255,.38); background: rgba(40,4,4,.42); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); color: #fff; font-size: 13.5px; cursor: pointer; }
+.ol-snd:hover { background: rgba(40,4,4,.65); }
+.ol-eq { display: inline-flex; align-items: flex-end; gap: 2px; height: 14px; }
+.ol-eq i { width: 2.5px; height: 30%; background: currentColor; border-radius: 1px; }
+.ol-scr.loud.playing .ol-eq i, .ol-np.on .ol-eq i { animation: olEq .9s ease-in-out infinite alternate; }
+.ol-eq i:nth-child(2) { animation-delay: -.3s !important; } .ol-eq i:nth-child(3) { animation-delay: -.6s !important; } .ol-eq i:nth-child(4) { animation-delay: -.15s !important; }
+@keyframes olEq { from { height: 20%; } to { height: 100%; } }
+.ol-bar { position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; display: flex; align-items: center; gap: 12px; padding: 12px clamp(12px, 1.6vw, 20px); background: linear-gradient(transparent, rgba(30,3,3,.6)); color: #fff; font-size: 13px; opacity: 0; transition: opacity .4s; }
+.ol-scr:hover .ol-bar, .ol-scr:focus-within .ol-bar, .ol-scr.paused .ol-bar { opacity: 1; }
+.ol-bar button { width: 36px; height: 36px; border-radius: 50%; border: 1px solid rgba(255,255,255,.42); background: rgba(0,0,0,.25); color: #fff; display: grid; place-items: center; cursor: pointer; flex: none; }
+.ol-bar button svg { width: 14px; height: 14px; }
+.ol-track { flex: 1; height: 4px; background: rgba(255,255,255,.25); border-radius: 4px; overflow: hidden; cursor: pointer; }
+.ol-track i { display: block; height: 100%; background: linear-gradient(90deg, var(--o5), var(--o6), var(--o-blush)); transform-origin: 0 50%; transform: scaleX(var(--t, 0)); }
+.ol-time { font-variant-numeric: tabular-nums; opacity: .8; min-width: 70px; text-align: right; }
+.ol-set { list-style: none; padding: 0; margin: clamp(26px, 3vw, 40px) 0 0; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; position: relative; z-index: 1; }
+.ol-set button { width: 100%; text-align: left; background: none; border: 0; border-top: 2px solid rgba(255,179,184,.2); padding: 12px 0 0; color: rgba(255,236,236,.55); cursor: pointer; font-size: 14px; line-height: 1.3; position: relative; transition: color .3s; }
+.ol-set button::before { content: ""; position: absolute; left: 0; top: -2px; height: 2px; width: calc(var(--c, 0) * 100%); background: var(--o-blush); }
+.ol-set button:hover, .ol-set button.on { color: #fff; }
+.ol-set small { display: block; font-size: 11.5px; opacity: .7; font-variant-numeric: tabular-nums; margin-bottom: 2px; }
+
+/* Track 03: the mixing desk */
+.ol-desk { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: 16px; align-items: stretch; }
+.ol-console { background: #1c0c0c; border-radius: var(--r); padding: clamp(16px, 2.2vw, 28px); display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: clamp(6px, 1vw, 14px); color: #fff; box-shadow: inset 0 1px 0 rgba(255,255,255,.06); }
+.ol-ch { background: #2a1414; border: 1px solid rgba(255,255,255,.06); border-radius: 12px; padding: 12px 6px 14px; display: grid; justify-items: center; gap: 12px; cursor: pointer; color: rgba(255,236,236,.7); text-align: center; min-width: 0; transition: background .4s var(--ease), border-color .4s; }
+.ol-ch:hover { background: #351818; }
+.ol-ch[aria-pressed="true"] { background: #3d1515; border-color: rgba(237,92,95,.55); color: #fff; }
+.ol-ch .n { font-size: 11px; letter-spacing: .06em; opacity: .7; }
+.ol-ch .nm { font-size: clamp(11.5px, 1.05vw, 14px); font-weight: 500; line-height: 1.2; overflow-wrap: anywhere; }
+.ol-ch .solo { width: 26px; height: 20px; border-radius: 5px; display: grid; place-items: center; font-size: 11px; font-weight: 600; background: #4a2323; color: rgba(255,255,255,.55); transition: background .3s, color .3s; }
+.ol-ch[aria-pressed="true"] .solo { background: var(--o-blush); color: var(--o0); }
+.ol-ch .strip { display: flex; gap: clamp(4px, .6vw, 8px); align-items: stretch; height: clamp(150px, 17vw, 230px); }
+.ol-ch .mtr { width: 6px; border-radius: 3px; background: #170707; position: relative; overflow: hidden; }
+.ol-ch .mtr::after { content: ""; position: absolute; inset: auto 0 0; height: 100%; background: linear-gradient(to top, var(--o3), var(--o5) 55%, var(--o6) 80%, var(--o-blush)); transform-origin: 50% 100%; transform: scaleY(var(--lv, .2)); animation: olLv var(--sp, .7s) ease-in-out infinite alternate; }
+.ol-ch[aria-pressed="true"] .mtr::after { --lo: .55; --hi: .98; }
+@keyframes olLv { from { transform: scaleY(var(--lo, .12)); } to { transform: scaleY(var(--hi, .5)); } }
+.ol-ch .fdr { width: 22px; position: relative; display: grid; justify-items: center; }
+.ol-ch .fdr::before { content: ""; width: 3px; height: 100%; border-radius: 2px; background: #120505; }
+.ol-ch .cap { position: absolute; left: 0; width: 22px; height: 30px; border-radius: 5px; background: linear-gradient(#e9e2e2, #b7aeae); box-shadow: 0 4px 10px rgba(0,0,0,.5), inset 0 -2px 0 rgba(0,0,0,.2); bottom: calc(var(--f, .4) * (100% - 30px)); transition: bottom .7s var(--ease); }
+.ol-ch .cap::after { content: ""; position: absolute; left: 3px; right: 3px; top: 14px; height: 2px; background: var(--o-ink); }
+.ol-ch[aria-pressed="true"] .cap { --f: .86; background: linear-gradient(#fff, #f2c9cb); }
+.ol-solo { border-radius: var(--r); background: var(--o5); color: #fff; padding: clamp(24px, 3vw, 44px); display: grid; align-content: space-between; gap: 28px; min-width: 0; position: relative; overflow: hidden; }
+.ol-solo::before { content: ""; position: absolute; right: -30%; bottom: -36%; width: 110%; aspect-ratio: 3.1; border-radius: 50%; background: var(--o6); box-shadow: 0 0 0 clamp(26px, 4vw, 54px) var(--o4), 0 0 0 clamp(52px, 8vw, 108px) var(--o3); opacity: .9; }
+.ol-solo > * { position: relative; }
+.ol-solo .k { font-size: 13px; opacity: .8; }
+.ol-solo h3 { font-size: clamp(36px, 4.2vw, 62px); line-height: 1; font-weight: 600; margin-top: 8px; }
+.ol-solo p { font-size: clamp(16px, 1.3vw, 19px); line-height: 1.55; max-width: 34ch; margin-top: 16px; }
+.ol-solo ul { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.ol-solo li { border: 1px solid rgba(255,255,255,.55); border-radius: 999px; padding: 5px 13px; font-size: 13.5px; background: rgba(78,7,5,.2); }
+.ol-solo.swap > * { animation: olSwap .55s var(--ease) both; }
+@keyframes olSwap { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+/* Track 04: the mark */
+.ol-mark .wrap { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); gap: 40px clamp(32px, 6vw, 96px); align-items: center; padding-block: clamp(64px, 9vw, 128px); }
+.ol-mark h2 { font-size: var(--t-1); line-height: 1.04; }
+.ol-mark p { color: rgba(255,255,255,.86); max-width: 44ch; margin-top: 22px; }
+.ol-facts { list-style: none; padding: 0; margin: 28px 0 0; display: grid; gap: 0; border-top: 1px solid rgba(255,255,255,.3); }
+.ol-facts li { padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,.3); display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 10px; font-size: 15.5px; line-height: 1.45; }
+.ol-facts span { opacity: .7; font-variant-numeric: tabular-nums; }
+.ol-draw { position: relative; min-width: 0; }
+.ol-draw svg { width: 100%; height: auto; overflow: visible; display: block; }
+.ol-draw .od { fill: none; stroke: #fff; stroke-width: 38.12; stroke-dasharray: 1 1; stroke-dashoffset: calc(1 - var(--a, 1)); }
+.ol-draw .o { fill: #fff; opacity: 1; }
+.ol-draw .l { fill: #fff; clip-path: inset(calc((1 - var(--b, 1)) * 100%) 0 0 0); }
+.ol-draw .st { fill: #fff; clip-path: inset(calc((1 - var(--c, 1)) * 100%) 0 0 0); }
+.ol-draw .dt { fill: #fff; transform: translateY(calc((1 - var(--d, 1)) * -160px)); opacity: var(--d, 1); }
+.ol-draw .gd { fill: none; stroke: rgba(255,255,255,.55); stroke-width: 1.2; stroke-dasharray: 5 6; vector-effect: non-scaling-stroke; opacity: var(--g, 1); }
+.ol-draw .gt { font-family: var(--o-font); font-size: 15px; fill: #fff; opacity: var(--g, 1); }
+.ol-draw .gt tspan { font-size: 12px; opacity: .75; }
+.ol-on { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 16px; }
+.ol-on div { border-radius: 14px; aspect-ratio: 16 / 10; display: grid; place-items: center; position: relative; padding: 18%; }
+.ol-on span { position: absolute; left: 12px; bottom: 9px; font-size: 12px; opacity: .7; }
+.ol-on .a { background: var(--o5); color: #fff; } .ol-on .b { background: var(--o0); color: #fff; } .ol-on .c { background: var(--o-cream); color: var(--o-ink); } .ol-on .d { background: #fff; color: var(--o5); box-shadow: inset 0 0 0 1px var(--line); }
+
+/* Track 05: colour as the ripple itself */
+.ol-pal { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, .65fr); gap: clamp(24px, 4vw, 56px); align-items: center; }
+.ol-rip { width: 100%; height: auto; overflow: visible; display: block; }
+.ol-rip ellipse { cursor: pointer; transition: transform .5s var(--ease), filter .3s; transform-box: fill-box; transform-origin: 50% 50%; outline: none; }
+.ol-rip ellipse.hot { transform: scale(1.03); filter: brightness(1.12); }
+.ol-rip ellipse:focus-visible { stroke: #fff; stroke-width: 3; }
+.ol-rip text { font-family: var(--o-font); font-size: 22px; fill: #fff; pointer-events: none; text-anchor: middle; }
+.ol-sws { list-style: none; padding: 0; margin: 0; display: grid; gap: 4px; }
+.ol-sws button { width: 100%; display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 9px 10px; border-radius: 10px; border: 0; background: none; color: rgba(255,236,236,.8); cursor: pointer; text-align: left; font-size: 15px; transition: background .3s, color .3s; }
+.ol-sws button:hover, .ol-sws button.hot { background: rgba(255,255,255,.08); color: #fff; }
+.ol-sws i { width: 28px; height: 18px; border-radius: 50%; box-shadow: inset 0 0 0 1px rgba(255,255,255,.2); }
+.ol-sws code { font-family: var(--o-font); font-size: 13.5px; opacity: .75; }
+.ol-sws small { display: block; font-size: 12px; opacity: .6; }
+.ol-sup { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-top: clamp(28px, 4vw, 48px); }
+.ol-sup button { border: 0; border-radius: 14px; padding: 16px; min-height: 104px; display: grid; align-content: space-between; text-align: left; cursor: pointer; font-size: 14.5px; position: relative; overflow: hidden; }
+.ol-sup code { font-family: var(--o-font); font-size: 13px; opacity: .75; }
+.ol-copied { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); translate: -50% 0; z-index: 80; background: #fff; color: var(--o0); border-radius: 999px; padding: 10px 18px; font-family: var(--o-font); font-size: 14px; box-shadow: 0 10px 40px rgba(0,0,0,.3); animation: olToast 1.6s var(--ease) both; pointer-events: none; }
+@keyframes olToast { 0% { opacity: 0; transform: translateY(12px); } 15%, 80% { opacity: 1; transform: none; } 100% { opacity: 0; } }
+
+/* Track 06: type */
+.ol-type { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 16px; }
+.ol-spec { background: var(--o-ink); color: #fff; border-radius: var(--r); padding: clamp(22px, 3vw, 40px); display: grid; align-content: space-between; gap: 28px; min-width: 0; }
+.ol-spec .nm { font-size: clamp(44px, 5.4vw, 84px); line-height: 1; font-weight: 500; letter-spacing: -.02em; }
+.ol-spec .gl { font-size: clamp(16px, 1.5vw, 22px); line-height: 1.5; opacity: .82; overflow-wrap: anywhere; }
+.ol-spec .ws { display: grid; gap: 2px; font-size: 18px; }
+.ol-say { background: #fff; border-radius: var(--r); padding: clamp(22px, 3vw, 40px); display: grid; gap: 22px; align-content: space-between; min-width: 0; box-shadow: inset 0 0 0 1px #f3dcd6; }
+.ol-say .big { font-size: clamp(42px, 6.4vw, 104px); line-height: 1.02; letter-spacing: -.03em; color: var(--o5); overflow-wrap: anywhere; }
+.ol-say .big b { font-weight: 700; }
+.ol-say .big span { font-weight: var(--wt, 400); outline: none; border-bottom: 2px dashed rgba(216,50,50,.25); }
+.ol-wts { display: flex; flex-wrap: wrap; gap: 6px; }
+.ol-wts button { font-size: 14px; border: 1px solid #e6cfca; background: none; color: var(--o-ink); border-radius: 999px; padding: 6px 14px; cursor: pointer; }
+.ol-wts button[aria-pressed="true"] { background: var(--o5); color: #fff; border-color: var(--o5); }
+.ol-say .note { font-size: 14px; color: #7a6d6f; }
+
+/* Track 07: the reel, played on a phone */
+.ol-reel { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: clamp(32px, 6vw, 96px); align-items: start; }
+.ol-phone { position: sticky; top: calc(var(--head-h) + 24px); justify-self: center; width: min(100%, 340px); }
+.ol-scr.tall { aspect-ratio: 9 / 16; border-radius: 34px; box-shadow: 0 0 0 9px #140404, 0 0 0 10px rgba(255,179,184,.22), 0 60px 120px -40px rgba(237,92,95,.6); }
+.ol-scr.tall .ol-snd { top: auto; bottom: 64px; right: 14px; height: 34px; font-size: 12.5px; padding: 0 12px 0 10px; }
+.ol-steps { list-style: none; padding: 0; margin: 0; display: grid; gap: 0; }
+.ol-steps li { min-height: 46vh; display: grid; align-content: center; }
+.ol-steps button { text-align: left; background: none; border: 0; color: inherit; cursor: pointer; padding: 0 0 0 26px; border-left: 2px solid rgba(255,179,184,.18); transition: border-color .4s, opacity .4s; opacity: .45; display: grid; gap: 10px; }
+.ol-steps button.on { opacity: 1; border-left-color: var(--o-blush); }
+.ol-steps small { font-size: 13px; color: var(--o-blush); font-variant-numeric: tabular-nums; }
+.ol-steps b { font-weight: 300; font-size: clamp(26px, 3vw, 44px); line-height: 1.1; letter-spacing: -.02em; }
+.ol-steps b strong { font-weight: 600; }
+.ol-steps span { font-size: 16.5px; color: rgba(255,236,236,.7); max-width: 40ch; line-height: 1.55; }
+
+/* Track 08: on stage. The LED wall in the render is live. */
+.ol-venue { position: relative; height: 210vh; background: #0b0202; }
+.ol-venue .pin { position: sticky; top: var(--head-h); height: calc(100vh - var(--head-h)); overflow: hidden; display: grid; }
+.ol-venue .ol-ph { position: absolute; left: 50%; top: 50%; width: max(100%, calc((100vh - var(--head-h)) * 4 / 3)); aspect-ratio: 4 / 3; translate: -50% -50%; transform: scale(var(--z, 1)); transform-origin: 50% 46%; will-change: transform; }
+.ol-venue .ol-ph img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.ol-led { position: absolute; left: 0; top: 0; width: 1000px; height: 290px; transform-origin: 0 0; overflow: hidden; }
+.ol-led svg { width: 100%; height: 100%; display: block; }
+.ol-led .lr { transform-box: fill-box; transform-origin: 50% 50%; animation: olBreathe 2s cubic-bezier(.3, 0, .2, 1) infinite; animation-delay: calc(var(--i) * 120ms); }
+.ol-led .lg { animation: olGlow 2s ease-in-out infinite; }
+@keyframes olGlow { 0%, 100% { opacity: 1; } 12% { opacity: .86; } }
+.ol-venue .cap { position: relative; z-index: 1; align-self: end; color: #fff; padding-bottom: clamp(28px, 5vw, 56px); opacity: calc(1 - var(--z2, 0)); }
+.ol-venue .cap h2 { font-size: var(--t-1); line-height: 1.05; max-width: 16ch; text-shadow: 0 2px 30px rgba(0,0,0,.6); }
+.ol-venue .cap .ol-trk { color: var(--o-blush); }
+.ol-venue-m { display: none; }
+.ol-venue-m .h { font-size: var(--t-1); line-height: 1.05; font-weight: 300; letter-spacing: -.02em; }
+.ol-venue-m .h b { font-weight: 600; }
+.ol-venue .end { position: absolute; z-index: 1; left: 0; right: 0; bottom: clamp(20px, 4vw, 40px); text-align: center; color: #fff; font-size: clamp(15px, 1.3vw, 18px); opacity: var(--z2, 0); }
+.ol-venue .pin::after { content: ""; position: absolute; inset: 0; background: linear-gradient(transparent 45%, rgba(10,1,1,.75)); opacity: calc(1 - var(--z2, 0)); pointer-events: none; }
+.ol-props { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.ol-props figure { margin: 0; border-radius: var(--r); overflow: hidden; position: relative; background: #000; aspect-ratio: 4 / 3; }
+.ol-props img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease); }
+.ol-props figure:hover img { transform: scale(1.04); }
+.ol-props figcaption { position: absolute; left: 16px; right: 16px; bottom: 14px; color: #fff; font-size: 14.5px; display: flex; gap: 10px; align-items: baseline; text-shadow: 0 1px 12px rgba(0,0,0,.6); }
+.ol-props figcaption b { font-weight: 600; }
+
+/* Track 09: the blog rooms, as record sleeves */
+.ol-crate { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: clamp(14px, 2vw, 28px); padding-right: clamp(40px, 6vw, 90px); }
+.ol-rec { position: relative; min-width: 0; }
+.ol-rec .sl { position: relative; z-index: 2; aspect-ratio: 1; border-radius: 6px; overflow: hidden; box-shadow: 0 20px 40px -18px rgba(78,7,5,.45); transition: transform .8s var(--ease); }
+.ol-rec .sl img { width: 100%; height: 100%; object-fit: cover; }
+.ol-rec .vy { position: absolute; z-index: 1; top: 3%; left: 3%; width: 94%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, var(--lb) 0 17%, #120607 17.5% 19%, transparent 19.5%), repeating-radial-gradient(circle, #1a1213 0 2px, #0d0809 2px 4px); box-shadow: 0 10px 30px -10px rgba(0,0,0,.5); transform: translateX(0) rotate(0); transition: transform 1.1s var(--ease); }
+.ol-rec .vy::after { content: ""; position: absolute; left: 50%; top: 50%; width: 22%; height: 7%; translate: -50% -50%; border-radius: 50%; border: 2px solid rgba(255,255,255,.85); }
+.ol-rec.out .vy { transform: translateX(46%) rotate(140deg); }
+.ol-rec:hover .vy { transform: translateX(58%) rotate(320deg); }
+.ol-rec:hover .sl { transform: translateY(-6px) rotate(-1.5deg); }
+.ol-rec p { margin-top: 14px; font-size: 15px; font-weight: 500; }
+.ol-rec p small { display: block; font-weight: 400; font-size: 13px; color: #7a6d6f; margin-top: 2px; }
+
+/* Encore */
+.ol-encore { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 clamp(24px, 4vw, 64px); list-style: none; padding: 0; margin: 0; counter-reset: enc; }
+.ol-encore li { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 12px; padding: 20px 0; border-top: 1px solid #ecd6d0; align-items: baseline; }
+.ol-encore span { color: var(--o5); font-size: 14px; font-variant-numeric: tabular-nums; }
+.ol-encore b { font-weight: 500; font-size: var(--t-3); display: block; }
+.ol-encore p { font-size: var(--t-small); color: #6d6264; margin-top: 4px; }
+
+/* Now playing: which track of the page you are on */
+.ol-np { position: fixed; right: max(16px, env(safe-area-inset-right, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 45; display: flex; align-items: center; gap: 12px; padding: 8px 16px 8px 8px; border-radius: 999px; background: rgba(35,8,8,.86); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); color: #fff; font-family: 'Poppins', var(--font); font-size: 13px; line-height: 1.2; box-shadow: 0 12px 40px -12px rgba(0,0,0,.5); opacity: 0; transform: translateY(20px); transition: opacity .5s var(--ease), transform .5s var(--ease); pointer-events: none; }
+.ol-np.show { opacity: 1; transform: none; pointer-events: auto; }
+.ol-np .disc { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: conic-gradient(var(--o-blush) calc(var(--p, 0) * 1turn), rgba(255,255,255,.14) 0); }
+.ol-np .disc::before { content: ""; width: 26px; height: 26px; border-radius: 50%; background: #2a0909; grid-area: 1 / 1; }
+.ol-np .disc .ol-eq { grid-area: 1 / 1; z-index: 1; height: 12px; }
+.ol-np small { display: block; font-size: 11px; opacity: .6; }
+
+/* Work tile cover */
+.tile .cover.ol-cover { background: var(--o0, #4E0705); isolation: isolate; }
+.ol-cover svg.f { position: absolute; inset: 0; width: 100%; height: 100%; }
+.ol-cover .rg { transform-box: fill-box; transform-origin: 50% 50%; animation: olBreathe 2s cubic-bezier(.3, 0, .2, 1) infinite; animation-delay: calc(var(--i) * 110ms); }
+.tile:hover .ol-cover .rg { animation-duration: 1s; }
+.ol-cover .cap { position: absolute; left: 18px; bottom: 16px; right: 18px; display: flex; justify-content: space-between; color: rgba(255,255,255,.85); font-family: 'Poppins', var(--font); font-size: 13.5px; }
+
+@media (max-width: 900px) {
+  .ol-hero > .wrap:first-child { grid-template-columns: minmax(0, 1fr); }
+  .ol-quote { justify-self: start; padding-top: 30px; grid-row: 3; }
+  .ol-quote::before { top: 14px; font-size: 52px; }
+  .ol-field { height: clamp(220px, 70vw, 380px); margin-top: -10px; }
+  .ol-about { grid-template-columns: minmax(0, 1fr); margin-top: 0; }
+  .ol-lyric .side { position: relative; right: auto; top: auto; translate: none; width: min(70vw, 300px); margin: 0 0 24px; }
+  .ol-set { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 14px; }
+  .ol-desk, .ol-mark .wrap, .ol-pal, .ol-type, .ol-reel { grid-template-columns: minmax(0, 1fr); }
+  .ol-console { padding: 12px; gap: 6px; }
+  .ol-ch { padding: 10px 2px 12px; }
+  .ol-ch .strip { height: 150px; }
+  .ol-on { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ol-sup { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ol-phone { position: relative; top: auto; width: min(72vw, 300px); }
+  .ol-steps { display: flex; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 8px; overscroll-behavior-x: contain; }
+  .ol-steps li { min-height: 0; flex: 0 0 min(78vw, 300px); scroll-snap-align: start; }
+  .ol-steps button { border-left: 0; border-top: 2px solid rgba(255,179,184,.18); padding: 14px 0 0; opacity: .6; }
+  .ol-steps button.on { border-top-color: var(--o-blush); }
+  .ol-steps b { font-size: 24px; }
+  .ol-steps span { font-size: 15px; }
+  .ol-venue { height: auto; }
+  .ol-venue .pin { position: relative; top: auto; height: auto; aspect-ratio: 4 / 3; }
+  .ol-venue .ol-ph { width: 100%; }
+  .ol-venue { display: flex; flex-direction: column-reverse; }
+  .ol-venue .pin { display: block; }
+  .ol-venue .pin::after { display: none; }
+  .ol-venue .cap { display: none; }
+  .ol-venue .end { display: none; }
+  .ol-venue-m { display: block; padding-block: 48px 24px; background: var(--o0); color: #fff; }
+  .ol-props { grid-template-columns: minmax(0, 1fr); }
+  .ol-crate { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; padding: 0 0 12px; gap: 16px; overscroll-behavior-x: contain; }
+  .ol-rec { flex: 0 0 min(52vw, 220px); scroll-snap-align: start; margin-right: 18%; }
+  .ol-encore { grid-template-columns: minmax(0, 1fr); }
+  .ol-np { display: none; }
+}
+@media (max-width: 520px) {
+  .ol-set { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ol-ch .nm { font-size: 11px; }
+  .ol-ch .fdr { width: 16px; } .ol-ch .cap { width: 16px; height: 24px; } .ol-ch .cap::after { top: 11px; }
+  .ol-ch .strip { height: 130px; gap: 4px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ol-field .rg, .ol-field .lg, .ol-led .lr, .ol-led .lg, .ol-cover .rg, .ol-ch .mtr::after, .ol-np .ol-eq i { animation: none; }
+  .ol-in { opacity: 1; transform: none; transition: none; }
+  .ol-scr { transform: none; }
+  .ol-venue { height: auto; } .ol-venue .pin { position: relative; top: auto; height: auto; aspect-ratio: 4 / 3; } .ol-venue .ol-ph { width: 100%; transform: none; }
+  .ol-rec .vy, .ol-rec .sl { transition: none; }
+}
 </style>
 
 <a class="skip" href="#main" id="skip">Skip to content</a>
@@ -2104,6 +2422,7 @@ const DETAIL = {
 };
 const DETAIL_NAV = [['branding', 'Branding'], ['advertising', 'Advertising'], ['web-app-development', 'Web & App Development'], ['digital-services', 'Digital Services']];
 const WORK = [
+  { t: 'Oli', sub: 'Brand, website and apps for a next-gen gig platform for live music.', tags: ['BRAND IDENTITY', 'APP', 'FILM'], tone: 'mint', href: '#work-oli', ol: true },
   { t: 'Kaynes Technology', sub: 'A brand identity refresh for India’s electronics and semiconductor company.', tags: ['BRAND IDENTITY', 'LOOKBOOK', 'FILM'], tone: 'mint', href: '#work-kaynes', ky: true },
   { t: 'Logo & Branding', tags: ['LOGO', 'DESIGN'], tone: 'mint', art: 'climb' },
   { t: 'AdTech Web App', tags: ['SAAS', 'UI/UX'], tone: 'ice', art: 'lines' },
@@ -2262,7 +2581,7 @@ P.work = () => `
   <section class="sec">
     <div class="wrap work">
       ${WORK.map((w, i) => w.href ? `<a class="tile" href="${w.href}" style="${toneVars(w.tone)}" data-cursor="View">
-        <div class="cover ky-cover"><div class="ky-flow" aria-hidden="true"></div><div class="ky-flow b" aria-hidden="true"></div><div class="mk">${kyMark()}</div><div class="cap"><span>Case study</span><span>2026</span></div></div>
+        ${w.ol ? `<div class="cover ol-cover">${olField(360, 'f', '250 170 1500 1125')}<div class="cap"><span>Case study</span><span>2026</span></div></div>` : `<div class="cover ky-cover"><div class="ky-flow" aria-hidden="true"></div><div class="ky-flow b" aria-hidden="true"></div><div class="mk">${kyMark()}</div><div class="cap"><span>Case study</span><span>2026</span></div></div>`}
         <div class="tags">${w.tags.map(t => `<span>${t}</span>`).join('')}</div>
         <h3><span>${w.t}<small>${w.sub}</small></span><span aria-hidden="true" style="width:18px;flex:none">${I.arrow}</span></h3>
       </a>` : `<article class="tile" style="${toneVars(w.tone)}">
@@ -2563,6 +2882,383 @@ function kyLightbox(i, opener) {
   addEventListener('keydown', key); document.body.style.overflow = 'hidden';
   document.body.append(lb); show(i); lb.querySelector('.x').focus();
 }
+
+/* ================= Case study: Oli =================
+   Vectors are the client's own logo file. The ripple geometry is measured from their key visuals. */
+const OL = {
+  O: 'M346.78,223.96c-89.22,0-173.34-9.77-236.86-27.5C36.98,176.1,0,148.15,0,113.41S36.98,50.72,109.92,30.36C173.44,12.62,257.56,2.86,346.78,2.86s173.34,9.77,236.86,27.5c72.94,20.36,109.92,48.31,109.92,83.05s-36.98,62.69-109.92,83.05c-63.52,17.73-147.64,27.5-236.86,27.5ZM346.78,40.97c-85.85,0-166.33,9.27-226.61,26.1-64.9,18.12-82.05,38.23-82.05,46.34s17.15,28.22,82.05,46.34c60.28,16.83,140.76,26.1,226.61,26.1s166.33-9.27,226.61-26.1c64.9-18.12,82.05-38.23,82.05-46.34s-17.15-28.22-82.05-46.34c-60.28-16.83-140.76-26.1-226.61-26.1Z',
+  stem: 'M818.74,224.89h-37.71l-8.93-137.4c-.67-10.27,7.48-18.97,17.78-18.97h20.02c10.29,0,18.45,8.7,17.78,18.97l-8.93,137.4Z',
+  ramp: ['#4E0705', '#670D0D', '#881616', '#A31E21', '#BB2B2A', '#D83232', '#ED5C5F'],
+};
+const olLogo = (label = 'Oli') => `<svg class="ol-logo" viewBox="0 0 827.71 224.89" role="img" aria-label="${label}"><path d="${OL.O}"/><rect x="712.74" width="38.12" height="224.89"/><path d="${OL.stem}"/><circle cx="799.89" cy="27.14" r="27.14"/></svg>`;
+/* The deck cover's stage floor: rings centred further down the further out they go. [cy, rx, ry] */
+const OL_FLOOR = [[915, 1140, 405], [795, 757, 280], [732, 600, 210], [668, 453, 138], [627, 306, 96], [612, 252, 58]];
+const olField = (logoW = 300, cls = '', vb = '-300 330 2600 1010') => `<svg class="${cls}" viewBox="${vb}" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+  <rect x="-1000" y="-1000" width="4600" height="3400" fill="${OL.ramp[0]}"/>
+  ${OL_FLOOR.map(([cy, rx, ry], i) => `<ellipse class="rg" style="--i:${5 - i}" cx="1000" cy="${cy}" rx="${rx}" ry="${ry}" fill="${OL.ramp[i + 1]}"/>`).join('')}
+  <g class="lg"><g transform="translate(${1000 - logoW / 2} ${612 - logoW * 224.89 / 827.71 / 2}) scale(${logoW / 827.71})" fill="#fff"><path d="${OL.O}"/><rect x="712.74" width="38.12" height="224.89"/><path d="${OL.stem}"/><circle cx="799.89" cy="27.14" r="27.14"/></g></g>
+</svg>`;
+const OL_FILM = { len: 26, ch: [['Empty room', 0], ['First ring', 4], ['The crowd', 8], ['Colour &amp; type', 12], ['Five rooms', 16], ['The drop', 20]] };
+const OL_REEL = { len: 16, ch: [['Bedroom', 0], ['The climb', 4], ['The turn', 8], ['The invite', 12], ['Oli', 14.4]] };
+const OL_CH = [
+  ['Artists', 'For the ones on stage', 'Get found by venues that want your sound. Book gigs, studios and jam rooms, team up with other musicians, and grow fans who follow you from show to show.', ['Gigs', 'Studios &amp; jams', 'Collabs', 'Fans']],
+  ['Venues', 'For the rooms', 'Find the right act for your room and your crowd, book them in a few taps, and let the platform promote the night.', ['Discovery', 'Booking', 'Promotion']],
+  ['Crews', 'For sound, light, photo &amp; video', 'The people behind the show get booked all year round, not just in festival season.', ['Sound', 'Light', 'Photo &amp; video']],
+  ['Labels', 'For the scouts', 'Spot new talent early, across every genre, from real performances in front of real crowds.', ['Scouting', 'Every genre']],
+  ['Fans', 'For the front row', 'Find shows near you, book tickets, watch performances and back the artists you love.', ['Shows', 'Tickets', 'Watch']],
+];
+const OL_COL = [['Room', '#4E0705', 'The back of the room'], ['Step 6', '#670D0D', ''], ['Step 5', '#881616', ''], ['Step 4', '#A31E21', ''], ['Step 3', '#BB2B2A', ''], ['Oli Red', '#D83232', 'The core colour'], ['Spotlight', '#ED5C5F', 'Where the artist stands']];
+const OL_ROOMS = [['genres', 'Genres &amp; Trends', 'Ultramarine and yellow', '#F7EC29'], ['business', 'Business &amp; Careers', 'Red meets blue', '#D83232'], ['creative', 'Creative Processes', 'Violet loops', '#E04BE8'], ['society', 'Music &amp; Society', 'Forest and lime', '#E9E35A'], ['lifestyle', 'Music &amp; Lifestyle', 'The core red', '#ED5C5F']];
+const olIc = { play: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 4l15 8-15 8z"/></svg>', pause: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>' };
+const olFmt = s => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+const olTrk = (n, t) => `<p class="ol-trk"><i></i>Track ${String(n).padStart(2, '0')} · ${t}</p>`;
+const olPlayer = (id, shape, src, poster, label, len) => `
+      <div class="ol-scr ${shape}" id="${id}" data-len="${len}">
+        <video playsinline muted preload="metadata" poster="video/${poster}" aria-label="${label}">
+          <source src="video/${src}-720.mp4" type="video/mp4" media="(max-width: 900px)">
+          <source src="video/${src}.mp4" type="video/mp4">
+        </video>
+        <button class="ol-big" type="button" aria-label="Play with sound"><i>${olIc.play}</i></button>
+        <button class="ol-snd" type="button" aria-pressed="false"><span class="ol-eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="st">Sound on</span></button>
+        <div class="ol-bar">
+          <button type="button" class="pp" aria-label="Play">${olIc.play}</button>
+          <div class="ol-track" role="slider" tabindex="0" aria-label="Seek" aria-valuemin="0" aria-valuemax="${len}" aria-valuenow="0"><i></i></div>
+          <span class="ol-time">0:00 / ${olFmt(len)}</span>
+        </div>
+      </div>`;
+
+P['work-oli'] = () => `
+<div class="ol">
+  <section class="ol-hero" aria-labelledby="ol-h">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="#home">Home</a><span aria-hidden="true">/</span><a href="#work">Work</a><span aria-hidden="true">/</span><span aria-current="page">Oli</span></nav>
+      <div style="min-width:0">
+        <div class="rise-in">${intro('Case study · Brand, website &amp; apps')}<h1 id="ol-h"><span>Next Gen</span><span>Gig Platform</span></h1></div>
+        <div class="row rise-in d2"><a class="btn btn-solid ol-btn" href="#ol-film">Watch the film${I.arrow}</a><a class="btn btn-ghost ol-btn" href="#ol-reel">Play the reel</a></div>
+      </div>
+      <blockquote class="ol-quote rise-in d2">No music no life,<br>know music know life.<cite>Thomas Carlyle</cite></blockquote>
+    </div>
+    <div class="ol-field">${olField(300)}</div>
+    <div class="wrap ol-about">
+      <p class="lede rise-in d1">Oli is a gig platform for live music. It puts artists, venues, crews, labels and fans on one stage. We built the brand it performs under: a mark drawn like a stage, a red that glows like stage light, and one system for everything from an LED wall to the phone in a musician’s pocket.</p>
+      <div class="ol-meta rise-in d3">
+        <div><span>Client</span><b>Oli</b></div>
+        <div><span>Sector</span><b>Live music &amp; gigs</b></div>
+        <div><span>Scope</span><b>Identity, website, apps, films</b></div>
+        <div><span>Year</span><b>2026</b></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ol-night ol-lyric" aria-labelledby="ol-ly-h">
+    <div class="wrap">
+      <div class="side" aria-hidden="true" id="ol-ly-side"><svg viewBox="0 0 400 400">${[0, 1, 2, 3, 4, 5].map(i => `<ellipse cx="200" cy="${250 - i * 6}" rx="${50 + i * 30}" ry="${12 + i * 8}" style="--lit:0" data-i="${i}"/>`).join('')}</svg></div>
+      ${olTrk(1, 'Intro')}
+      <h2 id="ol-ly-h" class="ol-lyrics fillme"><span class="ln">You learned three chords in your bedroom.</span><span class="ln">You played to six people and a barista.</span><span class="ln">You carried your own amp up the stairs.</span><span class="ln">You kept writing anyway.</span><span class="ln hi">Oli is for you.</span></h2>
+      <div class="ol-sign ol-in"><span>The brief, in one line:</span><b>make the stage come looking for the musician.</b></div>
+    </div>
+  </section>
+
+  <section class="ol-night ol-film" id="ol-film" aria-labelledby="ol-film-h">
+    <div class="wrap">
+      <div class="ol-head">
+        <div>${olTrk(2, 'The headliner')}<h2 id="ol-film-h">From an empty room <b>to a full house.</b></h2></div>
+        <p>A 26-second stage film, cut to an original score we wrote for it: a plucked guitar alone in a room, then drums, the crowd, and the drop where the mark lands. Turn the sound on.</p>
+      </div>
+      <div class="ol-stagewrap">${olPlayer('ol-fv', 'wide', 'oli-stage-film', 'oli-stage-film-poster.webp', 'Oli stage film, 26 seconds, with music', OL_FILM.len)}</div>
+      <ol class="ol-set" data-for="ol-fv">${OL_FILM.ch.map(([t, s], i) => `<li><button type="button" data-t="${s}"><small>${String(i + 1).padStart(2, '0')} · ${olFmt(s)}</small>${t}</button></li>`).join('')}</ol>
+    </div>
+  </section>
+
+  <section class="ol-cream sec" aria-labelledby="ol-mix-h">
+    <div class="wrap">
+      <div class="ol-head">
+        <div>${olTrk(3, 'The mix')}<h2 id="ol-mix-h">Five channels. <b>One stage.</b></h2></div>
+        <p class="lede">A gig needs more than a musician. Oli brings everyone who makes the night onto one platform. Solo a channel to hear who it is for.</p>
+      </div>
+      <div class="ol-desk">
+        <div class="ol-console" role="group" aria-label="Who Oli is for">
+          ${OL_CH.map(([t], i) => `<button type="button" class="ol-ch" data-i="${i}" aria-pressed="${i === 0}" aria-controls="ol-solo">
+            <span class="n">CH ${String(i + 1).padStart(2, '0')}</span><span class="solo" aria-hidden="true">S</span>
+            <span class="strip" aria-hidden="true"><span class="mtr" style="--sp:${(.55 + i * .13).toFixed(2)}s"></span><span class="fdr"><span class="cap"></span></span><span class="mtr" style="--sp:${(.68 + i * .09).toFixed(2)}s"></span></span>
+            <span class="nm">${t}</span></button>`).join('')}
+        </div>
+        <div class="ol-solo" id="ol-solo" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ol-red ol-mark" aria-labelledby="ol-mark-h">
+    <div class="wrap">
+      <div>${olTrk(4, 'The mark')}<h2 id="ol-mark-h">A stage, a mic stand <b>and a performer.</b></h2>
+        <p>Look at the O from the crowd and it is a stage: a wide, flat ring of light. The l stands beside it like a mic stand. The i is the performer, head up, body narrowing to the same stroke as everything else.</p>
+        <ul class="ol-facts">
+          <li><span>01</span>One stroke: the ring of the O is exactly as thick as the l.</li>
+          <li><span>02</span>The O is about three times wider than it is tall, the angle you see a stage from.</li>
+          <li><span>03</span>The dot of the i is as wide as the top of its body.</li>
+        </ul>
+      </div>
+      <div class="ol-draw" id="ol-draw" aria-hidden="true">
+        <svg viewBox="-40 -120 920 420">
+          <g class="gds">
+            <line class="gd" x1="-40" y1="113.41" x2="760" y2="113.41"/><line class="gd" x1="346.78" y1="-40" x2="346.78" y2="270"/>
+            <line class="gd" x1="712.74" y1="-60" x2="712.74" y2="270"/><line class="gd" x1="750.86" y1="-60" x2="750.86" y2="270"/>
+            <line class="gd" x1="-40" y1="2.86" x2="880" y2="2.86"/><line class="gd" x1="-40" y1="40.97" x2="880" y2="40.97"/>
+            <circle class="gd" cx="799.89" cy="27.14" r="27.14"/><line class="gd" x1="772" y1="68.5" x2="828" y2="68.5"/>
+            <text class="gt" x="0" y="-70">Stage<tspan x="0" dy="20">the O, seen from the crowd</tspan></text>
+            <text class="gt" x="640" y="-70">Mic stand<tspan x="640" dy="20">the l</tspan></text>
+            <text class="gt" x="760" y="290">Performer<tspan x="760" dy="20">the i</tspan></text>
+            <text class="gt" x="-40" y="290">One stroke: 38.12<tspan x="-40" dy="20">ring = stand = foot of the i</tspan></text>
+          </g>
+          <ellipse class="od" cx="346.78" cy="113.41" rx="327.72" ry="91.5" pathLength="1" transform="rotate(180 346.78 113.41)"/>
+          <path class="o" d="${OL.O}"/><rect class="l" x="712.74" width="38.12" height="224.89"/><path class="st" d="${OL.stem}"/><circle class="dt" cx="799.89" cy="27.14" r="27.14"/>
+        </svg>
+      </div>
+    </div>
+    <div class="wrap" style="padding-bottom:clamp(56px,8vw,112px)">
+      <div class="ol-on">${[['a', 'On Oli Red'], ['b', 'On Room'], ['c', 'On Cream'], ['d', 'On white']].map(([c, t], i) => `<div class="${c} ol-in" style="--k:${i}">${olLogo()}<span>${t}</span></div>`).join('')}</div>
+    </div>
+  </section>
+
+  <section class="ol-night sec" aria-labelledby="ol-col-h">
+    <div class="wrap">
+      <div class="ol-head">
+        <div>${olTrk(5, 'Colour')}<h2 id="ol-col-h">Seven steps from the back row <b>to the spotlight.</b></h2></div>
+        <p class="lede">Oli’s colour is one red, stepped like light falling off a stage. The steps are always flat, never a blur, so they hold up on an LED wall, a screen or a print. Pick a ring to copy its value.</p>
+      </div>
+      <div class="ol-pal">
+        <svg class="ol-rip" viewBox="0 0 1000 560" role="group" aria-label="The seven colour steps">
+          ${OL_COL.map(([n, h], i) => { const k = 6 - i; return `<ellipse tabindex="0" role="button" aria-label="Copy ${n} ${h}" data-hex="${h}" data-i="${i}" cx="500" cy="${300 - k * 6}" rx="${110 + k * 66}" ry="${34 + k * 36}" fill="${h}"/>`; }).join('')}
+          <text x="500" y="282" style="font-size:20px">Spotlight</text>
+        </svg>
+        <ul class="ol-sws">${OL_COL.map(([n, h, d], i) => `<li><button type="button" data-hex="${h}" data-i="${i}"><i style="background:${h}"></i><span>${n}${d ? `<small>${d}</small>` : ''}</span><code>${h}</code></button></li>`).reverse().join('')}</ul>
+      </div>
+      <div class="ol-sup">${[['Blush', '#FFB3B8', 'Headlines on red', '#FFB3B8', '#4E0705'], ['Cream', '#FEF1EC', 'Light pages', '#FEF1EC', '#231F20'], ['Ink', '#231F20', 'Text on light', '#231F20', '#fff'], ['White', '#FFFFFF', 'The mark on red', '#fff', '#D83232']].map(([n, h, d, bg, fg]) => `<button type="button" data-hex="${h}" style="background:${bg};color:${fg}" aria-label="Copy ${n} ${h}"><span>${n}<br><small style="opacity:.7">${d}</small></span><code>${h}</code></button>`).join('')}</div>
+    </div>
+  </section>
+
+  <section class="ol-cream sec" aria-labelledby="ol-type-h">
+    <div class="wrap">
+      <div class="ol-head">
+        <div>${olTrk(6, 'Typeface')}<h2 id="ol-type-h"><b>Poppins</b>, said two ways.</h2></div>
+        <p class="lede">Bold for the name, light for everything it says. The contrast does the shouting, so the layouts never have to.</p>
+      </div>
+      <div class="ol-type">
+        <div class="ol-spec ol-in"><div class="nm">Poppins</div><div class="gl">ABCDEFGHIJKLM<br>NOPQRSTUVWXYZ<br>abcdefghijklm<br>nopqrstuvwxyz<br>0123456789 &amp;?!</div>
+          <div class="ws">${[[300, 'Light'], [400, 'Regular'], [500, 'Medium'], [600, 'SemiBold'], [700, 'Bold']].map(([w, n]) => `<span style="font-weight:${w}">${n}</span>`).join('')}</div></div>
+        <div class="ol-say ol-in" style="--k:1" id="ol-say">
+          <div class="ol-wts" role="group" aria-label="Weight of the line">${[[300, 'Light'], [400, 'Regular'], [500, 'Medium'], [600, 'SemiBold']].map(([w, n]) => `<button type="button" data-w="${w}" aria-pressed="${w === 300}">${n}</button>`).join('')}</div>
+          <div class="big"><b>Oli</b>’s <span contenteditable="true" spellcheck="false" aria-label="Type your own line">first gig</span></div>
+          <p class="note">Type over the words to try your own line. The name stays bold.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ol-night sec" id="ol-reel" aria-labelledby="ol-reel-h">
+    <div class="wrap">
+      <div class="ol-head">
+        <div>${olTrk(7, 'The reel')}<h2 id="ol-reel-h">Made for the phone in <b>every musician’s pocket.</b></h2></div>
+        <p class="lede">A 16-second vertical cut of the same story for Reels, Shorts and Stories. Same score, shorter fuse, and it ends inside the app.</p>
+      </div>
+      <div class="ol-reel">
+        <div class="ol-phone">${olPlayer('ol-rv', 'tall', 'oli-reel', 'oli-reel-poster.webp', 'Oli vertical reel, 16 seconds, with music', OL_REEL.len)}</div>
+        <ol class="ol-steps" data-for="ol-rv">
+          ${[[0, 'The <strong>bedroom.</strong>', 'It starts where most careers do: three chords, six people and a barista, an amp carried up the stairs.'], [4, 'The <strong>climb.</strong>', 'Each line adds a ring to the stage. The spotlight widens bar by bar, and the performer grows with it.'], [8, 'The <strong>turn.</strong>', 'On the beat, the words get big: now the stage comes looking for you.'], [12, 'The <strong>invite.</strong>', 'It lands inside the artist app. One tap on “Accept invitation” and the screen floods red.']].map(([t, b, s], i) => `<li><button type="button" data-t="${t}"><small>${String(i + 1).padStart(2, '0')} · ${olFmt(t)}</small><b>${b}</b><span>${s}</span></button></li>`).join('')}
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="ol-venue" id="ol-venue" aria-labelledby="ol-venue-h">
+    <div class="pin">
+      <div class="ol-ph" id="ol-ph">
+        <img src="img/oli/stage.webp" alt="A dark venue with rows of chairs facing a stage. The LED wall shows Oli’s red rings and logo." width="2000" height="1500" loading="lazy">
+        <div class="ol-led" id="ol-led" aria-hidden="true"><svg viewBox="0 0 1000 290" preserveAspectRatio="none">
+          <rect width="1000" height="290" fill="#C93737"/>
+          <ellipse class="lr" style="--i:2" cx="500" cy="145" rx="560" ry="190" fill="#D93D40"/>
+          <ellipse class="lr" style="--i:1" cx="500" cy="145" rx="525" ry="160" fill="#E43E40"/>
+          <ellipse class="lr" style="--i:0" cx="500" cy="145" rx="458" ry="118" fill="#F86666"/>
+          <g class="lg"><g transform="translate(388 115) scale(.27)" fill="#fff"><path d="${OL.O}"/><rect x="712.74" width="38.12" height="224.89"/><path d="${OL.stem}"/><circle cx="799.89" cy="27.14" r="27.14"/></g></g>
+        </svg></div>
+      </div>
+      <div class="wrap cap">${olTrk(8, 'On stage')}<h2 id="ol-venue-h">Big enough for <b>the back row.</b></h2></div>
+      <p class="end">The rings on the wall keep time at 120 BPM.</p>
+    </div>
+    <div class="ol-venue-m" aria-hidden="true"><div class="wrap"><p class="ol-trk"><i></i>Track 08 · On stage</p><p class="h">Big enough for <b>the back row.</b></p></div></div>
+  </section>
+
+  <section class="ol-night sec" aria-label="Oli on the mic and in the app">
+    <div class="wrap">
+      <div class="ol-props">
+        <figure class="ol-in"><img src="img/oli/mic.webp" alt="A black microphone with a red Oli mic flag, on a red background." width="1600" height="1200" loading="lazy"><figcaption><b>Mic flag</b>The mark reads from any seat in the house.</figcaption></figure>
+        <figure class="ol-in" style="--k:1"><img src="img/oli/app.webp" alt="A hand holding a phone showing the Oli artist app: an exclusive invite reading Hey Arjun, with an Accept invitation button." width="1400" height="1401" loading="lazy"><figcaption><b>Artist app</b>The invite that starts it all.</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="ol-cream sec" aria-labelledby="ol-rooms-h">
+    <div class="wrap">
+      <div class="ol-head">
+        <div>${olTrk(9, 'The blog')}<h2 id="ol-rooms-h">Five rooms for <b>every conversation.</b></h2></div>
+        <p class="lede">The blog is split into five rooms, each with its own colour. Every cover is built from the same ellipse as the mark, so the whole crate still reads as Oli.</p>
+      </div>
+      <div class="ol-crate" id="ol-crate">${OL_ROOMS.map(([f, t, d, lb], i) => `<figure class="ol-rec" style="--lb:${lb};margin:0"><span class="vy" aria-hidden="true"></span><div class="sl"><img src="img/oli/blog-${f}.webp" alt="Blog cover: ${t}" width="900" height="900" loading="lazy"></div><p>${t}<small>${d}</small></p></figure>`).join('')}</div>
+    </div>
+  </section>
+
+  <section class="ol-cream sec" style="padding-top:0" aria-labelledby="ol-enc-h">
+    <div class="wrap">
+      <div class="ol-head">
+        <div>${olTrk(10, 'Encore')}<h2 id="ol-enc-h">Everything Oli needs <b>to go on stage.</b></h2></div>
+      </div>
+      <ol class="ol-encore">${[['Logo and mark', 'The stage, the stand and the performer, in one stroke.'], ['Colour', 'A seven-step red, flat from the back row to the spotlight.'], ['Typography', 'Poppins: bold for the name, light for the rest.'], ['Ripple key visuals', 'Centred, stage-floor and off-centre versions for screens, decks and social.'], ['Website and app design', 'The Oli website and the artist app, starting with the invite.'], ['Blog covers', 'Five rooms, five colours, one ellipse.'], ['Stage film', '26 seconds, 16:9, with an original score.'], ['Vertical reel', '16 seconds, 9:16, for Reels, Shorts and Stories.']].map(([t, p], i) => `<li class="ol-in" style="--k:${i % 2}"><span>${String(i + 1).padStart(2, '0')}</span><div><b>${t}</b><p>${p}</p></div></li>`).join('')}</ol>
+      <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:40px">${arrowBtn('#work', 'Back to all work', 'btn-ghost')}</div>
+    </div>
+  </section>
+</div>
+  ${ctaBand('mint', 'Got a stage to fill?', 'Let’s build your brand')}`;
+
+let olRaf = 0;
+function olToast(t) { const d = document.createElement('div'); d.className = 'ol-copied'; d.textContent = t; document.body.append(d); setTimeout(() => d.remove(), 1700); }
+function olCopy(hex) { navigator.clipboard?.writeText(hex).catch(() => {}); olToast(`Copied ${hex}`); }
+/* The film and the reel share one player: muted autoplay in view, sound on request, a setlist to jump. */
+function olSetupPlayer(scr, setlist, ok) {
+  const v = scr.querySelector('video'), len = +scr.dataset.len, pp = scr.querySelector('.pp'), tr = scr.querySelector('.ol-track'), tm = scr.querySelector('.ol-time');
+  const snd = scr.querySelector('.ol-snd'), sndT = snd.querySelector('.st'), chs = setlist ? [...setlist.querySelectorAll('button')] : [];
+  const st = { userPaused: false, v };
+  const sync = () => {
+    const d = v.duration || len, t = v.currentTime;
+    tr.style.setProperty('--t', t / d); tr.setAttribute('aria-valuenow', Math.round(t)); tm.textContent = `${olFmt(t)} / ${olFmt(d)}`;
+    chs.forEach((b, i) => { const a = +b.dataset.t, z = i < chs.length - 1 ? +chs[i + 1].dataset.t : d; b.style.setProperty('--c', clamp((t - a) / (z - a))); b.classList.toggle('on', t >= a && t < z); });
+  };
+  const setState = () => { const p = !v.paused; scr.classList.toggle('playing', p); scr.classList.toggle('paused', !p && v.currentTime > 0); pp.innerHTML = p ? olIc.pause : olIc.play; pp.setAttribute('aria-label', p ? 'Pause' : 'Play'); };
+  st.play = () => { st.userPaused = false; v.play().catch(() => {}); };
+  st.seek = t => { v.currentTime = clamp(t, 0, (v.duration || len) - .05); sync(); };
+  const setSound = on => { v.muted = !on; snd.setAttribute('aria-pressed', on); sndT.textContent = on ? 'Sound off' : 'Sound on'; scr.classList.toggle('loud', on); };
+  st.setSound = setSound;
+  v.addEventListener('timeupdate', sync); v.addEventListener('loadedmetadata', sync);
+  v.addEventListener('play', setState); v.addEventListener('pause', setState);
+  v.addEventListener('ended', () => { v.currentTime = 0; if (v.muted) st.play(); else setState(); });
+  snd.addEventListener('click', () => { const on = v.muted; setSound(on); if (on && v.paused) st.play(); });
+  scr.querySelector('.ol-big').addEventListener('click', () => { setSound(true); if (v.currentTime > len - 1) v.currentTime = 0; st.play(); });
+  pp.addEventListener('click', () => { if (v.paused) st.play(); else { st.userPaused = true; v.pause(); } });
+  v.addEventListener('click', () => { if (!v.paused) { st.userPaused = true; v.pause(); } });
+  tr.addEventListener('click', e => { const r = tr.getBoundingClientRect(); st.seek((e.clientX - r.left) / r.width * (v.duration || len)); });
+  tr.addEventListener('keydown', e => { if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { e.preventDefault(); st.seek(v.currentTime + (e.key === 'ArrowRight' ? 2 : -2)); } });
+  chs.forEach(b => b.addEventListener('click', () => { st.seek(+b.dataset.t); st.play(); }));
+  if (ok) new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting && !st.userPaused) st.play(); else if (!e.isIntersecting && !v.paused) v.pause(); }), { threshold: .5 }).observe(scr);
+  return st;
+}
+/* Map a 1000 x 290 box onto the LED wall's four corners in the photo (a projective transform). */
+const OL_LED_Q = [[.119, .3473], [.8845, .292], [.8845, .6177], [.119, .6087]];
+function olQuad(w, h, q) {
+  const [[x0, y0], [x1, y1], [x2, y2], [x3, y3]] = q;
+  const dx1 = x1 - x2, dx2 = x3 - x2, dx3 = x0 - x1 + x2 - x3, dy1 = y1 - y2, dy2 = y3 - y2, dy3 = y0 - y1 + y2 - y3;
+  const den = dx1 * dy2 - dx2 * dy1, g = (dx3 * dy2 - dx2 * dy3) / den, hh = (dx1 * dy3 - dx3 * dy1) / den;
+  const a = x1 - x0 + g * x1, b = x3 - x0 + hh * x3, c = x0, d = y1 - y0 + g * y1, e = y3 - y0 + hh * y3, f = y0;
+  return `matrix3d(${a / w},${d / w},0,${g / w},${b / h},${e / h},0,${hh / h},0,0,1,0,${c},${f},0,1)`;
+}
+function setupOli(main) {
+  const root = main.querySelector('.ol'); if (!root) return;
+  const ok = motionOK();
+  const io = new IntersectionObserver(es => es.forEach(e => { if (!e.isIntersecting) return; e.target.classList.add('on', 'out'); io.unobserve(e.target); }), { threshold: .2 });
+  root.querySelectorAll('.ol-in, .ol-rec').forEach(el => io.observe(el));
+  if (!ok) root.querySelectorAll('.ol-rec').forEach(el => el.classList.add('out'));
+
+  /* Players */
+  const film = olSetupPlayer(root.querySelector('#ol-fv'), root.querySelector('.ol-set[data-for="ol-fv"]'), ok);
+  const reel = olSetupPlayer(root.querySelector('#ol-rv'), null, ok);
+  const steps = [...root.querySelectorAll('.ol-steps button')];
+  const markStep = t => steps.forEach((b, i) => b.classList.toggle('on', t >= +b.dataset.t && (i === steps.length - 1 || t < +steps[i + 1].dataset.t)));
+  reel.v.addEventListener('timeupdate', () => markStep(reel.v.currentTime));
+  steps.forEach(b => b.addEventListener('click', () => { reel.seek(+b.dataset.t); reel.play(); }));
+  // On wide screens the phone stays put while the story scrolls past it; each step cues its moment.
+  const wide = matchMedia('(min-width: 901px)');
+  if (ok) {
+    const sio = new IntersectionObserver(es => es.forEach(e => { if (!e.isIntersecting || !wide.matches || reel.userPaused) return; const t = +e.target.dataset.t; if (Math.abs(reel.v.currentTime - t) > 1.2 && !(reel.v.currentTime > t && reel.v.currentTime < t + 3.5)) reel.seek(t); reel.play(); }), { rootMargin: '-45% 0px -45% 0px' });
+    steps.forEach(b => sio.observe(b));
+  }
+
+  /* Mixing desk */
+  const solo = root.querySelector('#ol-solo'), chs = [...root.querySelectorAll('.ol-ch')];
+  const pick = (i, anim) => {
+    chs.forEach((c, j) => c.setAttribute('aria-pressed', i === j));
+    const [t, k, p, tags] = OL_CH[i];
+    solo.innerHTML = `<div><p class="k">CH ${String(i + 1).padStart(2, '0')} · ${k}</p><h3>${t}</h3><p>${p}</p></div><ul>${tags.map(x => `<li>${x}</li>`).join('')}</ul>`;
+    if (anim) { solo.classList.remove('swap'); void solo.offsetWidth; solo.classList.add('swap'); }
+  };
+  chs.forEach((c, i) => c.addEventListener('click', () => pick(i, ok)));
+  root.querySelector('.ol-console').addEventListener('keydown', e => {
+    if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+    const i = chs.indexOf(document.activeElement); if (i < 0) return; e.preventDefault();
+    const n = (i + (e.key === 'ArrowRight' ? 1 : -1) + chs.length) % chs.length; chs[n].focus(); pick(n, ok);
+  });
+  pick(0, false);
+
+  /* Colour: ring and list light up together; click copies */
+  const rings = [...root.querySelectorAll('.ol-rip ellipse')], sws = [...root.querySelectorAll('.ol-sws button')];
+  const hot = i => { rings.forEach(r => r.classList.toggle('hot', +r.dataset.i === i)); sws.forEach(s => s.classList.toggle('hot', +s.dataset.i === i)); };
+  [...rings, ...sws].forEach(el => {
+    el.addEventListener('pointerenter', () => hot(+el.dataset.i)); el.addEventListener('focus', () => hot(+el.dataset.i));
+    el.addEventListener('pointerleave', () => hot(-1)); el.addEventListener('blur', () => hot(-1));
+    el.addEventListener('click', () => olCopy(el.dataset.hex));
+    if (el.tagName === 'ellipse') el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); olCopy(el.dataset.hex); } });
+  });
+  root.querySelectorAll('.ol-sup button').forEach(b => b.addEventListener('click', () => olCopy(b.dataset.hex)));
+
+  /* Type */
+  const say = root.querySelector('#ol-say'), wb = [...say.querySelectorAll('[data-w]')];
+  const setW = w => { say.style.setProperty('--wt', w); wb.forEach(b => b.setAttribute('aria-pressed', b.dataset.w === String(w))); };
+  wb.forEach(b => b.addEventListener('click', () => setW(b.dataset.w))); setW(300);
+
+  /* LED wall: fit the live screen onto the photo */
+  const ph = root.querySelector('#ol-ph'), led = root.querySelector('#ol-led');
+  const fitLed = () => { const w = ph.offsetWidth, h = ph.offsetHeight; led.style.transform = olQuad(1000, 290, OL_LED_Q.map(([x, y]) => [x * w, y * h])); };
+  fitLed();
+
+  /* Now playing */
+  const np = document.createElement('div'); np.className = 'ol-np'; np.setAttribute('aria-hidden', 'true');
+  np.innerHTML = '<span class="disc"><span class="ol-eq"><i></i><i></i><i></i><i></i></span></span><span><small>Now playing</small><b class="t"></b></span>';
+  document.body.append(np);
+  const npT = np.querySelector('.t'), tracks = [...root.querySelectorAll('.ol-trk')].map(el => ({ el: el.closest('section'), t: el.textContent.replace(/^Track \d+ · /, ''), n: el.textContent.match(/\d+/)[0] }));
+  let lastT = '';
+
+  /* Scroll scenes: the film rises into place, the mark draws, the venue pulls you towards the stage */
+  const fv = root.querySelector('#ol-fv'), draw = root.querySelector('#ol-draw'), venue = root.querySelector('#ol-venue'), lySide = root.querySelector('#ol-ly-side'), lyEl = [...lySide.querySelectorAll('ellipse')], lyr = root.querySelector('.ol-lyrics');
+  const tick = () => {
+    olRaf = 0; if (!root.isConnected) return;
+    const vh = innerHeight;
+    if (ok) {
+      const r = fv.getBoundingClientRect(); fv.style.setProperty('--s', (.9 + .1 * easeIO(clamp((vh - r.top) / (vh * .85)))).toFixed(4));
+      const a = draw.getBoundingClientRect(), q = clamp((vh * .92 - a.top) / (vh * .7));
+      draw.style.setProperty('--a', clamp(q / .5).toFixed(3)); draw.style.setProperty('--b', clamp((q - .4) / .2).toFixed(3));
+      draw.style.setProperty('--c', clamp((q - .5) / .2).toFixed(3)); draw.style.setProperty('--d', eo3(clamp((q - .62) / .25)).toFixed(3)); draw.style.setProperty('--g', clamp((q - .25) / .5).toFixed(3));
+      draw.querySelector('.o').style.opacity = q >= .5 ? 1 : 0; draw.querySelector('.od').style.opacity = q >= .5 ? 0 : 1;
+      if (wide.matches) {
+        const vr = venue.getBoundingClientRect(), p = clamp(-vr.top / (vr.height - vh));
+        ph.style.setProperty('--z', (1 + .55 * easeIO(p)).toFixed(4)); venue.style.setProperty('--z2', clamp((p - .35) / .4).toFixed(3));
+      } else ph.style.setProperty('--z', 1);
+      const lr = lyr.getBoundingClientRect(), lp = clamp((vh * .85 - lr.top) / (lr.height + vh * .3));
+      lyEl.forEach((e, i) => e.style.setProperty('--lit', lp * 6 > i ? 1 : 0));
+    } else lyEl.forEach(e => e.style.setProperty('--lit', 1));
+    // Now playing: the section under the middle of the screen
+    const mid = vh * .5, hero = root.querySelector('.ol-hero').getBoundingClientRect();
+    let cur = null; for (const tk of tracks) { const b = tk.el.getBoundingClientRect(); if (b.top <= mid) cur = tk; }
+    const show = hero.bottom < vh * .4 && root.getBoundingClientRect().bottom > vh * .7;
+    np.classList.toggle('show', !!cur && show); np.classList.toggle('on', ok && !!cur && show);
+    if (cur && cur.t !== lastT) { lastT = cur.t; npT.textContent = `${cur.n} · ${cur.t}`; }
+    const rb = root.getBoundingClientRect(); np.style.setProperty('--p', clamp(-rb.top / (rb.height - vh)).toFixed(3));
+  };
+  const onScroll = () => { if (!olRaf) olRaf = requestAnimationFrame(tick); };
+  const onResize = () => { fitLed(); onScroll(); };
+  addEventListener('scroll', onScroll, { passive: true }); addEventListener('resize', onResize);
+  const stop = () => { if (!root.isConnected) { np.remove(); removeEventListener('scroll', onScroll); removeEventListener('resize', onResize); removeEventListener('hashchange', later); } };
+  const later = () => { np.classList.remove('show'); setTimeout(stop, 1500); };
+  addEventListener('hashchange', later);
+  tick();
+}
+const eo3 = t => 1 - Math.pow(1 - t, 3);
 
 P.marketing = () => `
   ${pageHero({ tone: 'mint', crumbs: [['#home', 'Home'], ['', 'Marketing']], eyebrow: 'Marketing', h: 'Digital Marketing Services in Bangalore.', lede: '50 years of combined experience in crafting timeless brands with passion and precision.' })}
@@ -2983,6 +3679,7 @@ function setupHero() {
 function setupPage(route) {
   setupHero();
   if (route === 'work-kaynes') setupKaynes(document.getElementById('main'));
+  if (route === 'work-oli') setupOli(document.getElementById('main'));
   document.querySelectorAll('.tabs').forEach(list => {
     const tabs = [...list.querySelectorAll('[role="tab"]')];
     const sel = i => tabs.forEach((t, j) => {
@@ -3055,7 +3752,7 @@ const motionOK = () => !RM.matches;
 const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 const easeIO = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 const PAGE_TONE = { edtech: 'ice', gamification: 'lilac' };
-const PAGE_NAME = { home: 'Latch Infinity', about: 'About', work: 'Work', 'work-kaynes': 'Kaynes Technology', marketing: 'Marketing', branding: 'Branding', advertising: 'Advertising', 'digital-services': 'Digital Services', 'web-app-development': 'Website &amp; App Development', edtech: 'EdTech', gamification: 'Gamification', blog: 'Blogs', contact: 'Let\'s Talk', legal: 'Terms &amp; Privacy' };
+const PAGE_NAME = { home: 'Latch Infinity', about: 'About', work: 'Work', 'work-kaynes': 'Kaynes Technology', 'work-oli': 'Oli', marketing: 'Marketing', branding: 'Branding', advertising: 'Advertising', 'digital-services': 'Digital Services', 'web-app-development': 'Website &amp; App Development', edtech: 'EdTech', gamification: 'Gamification', blog: 'Blogs', contact: 'Let\'s Talk', legal: 'Terms &amp; Privacy' };
 const wipe = document.getElementById('wipe'), bars = [...wipe.querySelectorAll('i')], wipeMark = document.getElementById('wipe-mark');
 const EASE_IO = 'cubic-bezier(.76,0,.24,1)';
 const SKEW = x => `translateX(${x}) skewX(-33deg)`;

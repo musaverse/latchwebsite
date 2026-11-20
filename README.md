@@ -4,9 +4,11 @@ Redesign of [latchinfinity.com](https://www.latchinfinity.com/), built on the La
 
 - One static page (`index.html`) with hash routes for every page: Home, About, Work, Marketing and its four service pages, EdTech, Gamification, Blogs, Contact.
 - No build step and no dependencies. Fonts load from Google Fonts (Archivo).
-- `img/` holds the client logos and blog covers as WebP; `img/kaynes/` holds the Kaynes lookbook pages and textures.
-- `video/` holds the Kaynes brand film (27.5 s, 60 fps, original score; 1080p, a 720p version for phones, and a poster).
-- Case studies: `#work-kaynes` (Kaynes Technology brand refresh). Its logo and icons are vectors traced from the client's lookbook PDF.
+- `img/` holds the client logos and blog covers as WebP; `img/kaynes/` holds the Kaynes lookbook pages and textures; `img/oli/` holds the Oli stage, mic and app renders and the five Oli blog covers.
+- `video/` holds the Kaynes brand film (27.5 s, 60 fps, original score; 1080p, a 720p version for phones, and a poster) and the two Oli films: a 16:9 stage film (26 s) and a 9:16 reel (16 s), both 60 fps with an original synthesised score, each with a 720p phone version and a poster.
+- Case studies:
+  - `#work-kaynes` (Kaynes Technology brand refresh). Its logo and icons are vectors traced from the client's lookbook PDF.
+  - `#work-oli` (Oli, a gig platform for live music). Built as a setlist of ten tracks: lyric intro, stage film, mixing desk, mark, colour, Poppins, vertical reel, a venue scene whose LED wall is a live SVG mapped onto the photo, blog covers as record sleeves, and an encore. The logo is the client's own SVG. Nothing from the Oli pitch deck (figures, market data, roadmap) is used on the page.
 - Pushing to `main` deploys a preview to GitHub Pages (`.github/workflows/pages.yml`).
 
 ## Preview locally
