@@ -1562,25 +1562,14 @@ fieldset.field { border: 0; margin: 0; padding: 0; }
 .ol-big i svg { width: 34%; height: 34%; margin-left: 6%; }
 .ol-big:hover i { transform: scale(1.08); background: rgba(216,50,50,.6); }
 .ol-scr.playing .ol-big { opacity: 0; pointer-events: none; }
-.ol-snd { position: absolute; top: 12px; right: 12px; z-index: 2; display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 14px 0 12px; border-radius: 999px; border: 1px solid rgba(255,255,255,.38); background: rgba(40,4,4,.42); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); color: #fff; font-size: 13px; cursor: pointer; }
-.ol-snd:hover { background: rgba(40,4,4,.65); }
+.ol-scr video { cursor: pointer; }
+.ol-hint { position: absolute; bottom: 14px; left: 50%; translate: -50% 0; z-index: 2; display: inline-flex; align-items: center; gap: 8px; height: 32px; padding: 0 12px; border-radius: 999px; background: rgba(40,4,4,.5); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); color: #fff; font-size: 12.5px; pointer-events: none; opacity: 0; transition: opacity .4s; }
+.ol-scr.silent .ol-hint { opacity: 1; }
+.ol-scr.playing:not(.silent) .ol-eq i { animation: olEq .9s ease-in-out infinite alternate; }
 .ol-eq { display: inline-flex; align-items: flex-end; gap: 2px; height: 13px; }
 .ol-eq i { width: 2.5px; height: 30%; background: currentColor; border-radius: 1px; }
-.ol-scr.loud.playing .ol-eq i, .ol-np.on .ol-eq i { animation: olEq .9s ease-in-out infinite alternate; }
 .ol-eq i:nth-child(2) { animation-delay: -.3s !important; } .ol-eq i:nth-child(3) { animation-delay: -.6s !important; } .ol-eq i:nth-child(4) { animation-delay: -.15s !important; }
 @keyframes olEq { from { height: 20%; } to { height: 100%; } }
-.ol-bar { position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: linear-gradient(transparent, rgba(30,3,3,.6)); color: #fff; font-size: 12.5px; opacity: 0; transition: opacity .4s; }
-.ol-scr:hover .ol-bar, .ol-scr:focus-within .ol-bar, .ol-scr.paused .ol-bar { opacity: 1; }
-.ol-bar button { width: 34px; height: 34px; border-radius: 50%; border: 1px solid rgba(255,255,255,.42); background: rgba(0,0,0,.25); color: #fff; display: grid; place-items: center; cursor: pointer; flex: none; }
-.ol-bar button svg { width: 13px; height: 13px; }
-.ol-track { flex: 1; height: 4px; background: rgba(255,255,255,.25); border-radius: 4px; overflow: hidden; cursor: pointer; }
-.ol-track i { display: block; height: 100%; background: linear-gradient(90deg, var(--o5), var(--o6), var(--o-blush)); transform-origin: 0 50%; transform: scaleX(var(--t, 0)); }
-.ol-time { font-variant-numeric: tabular-nums; opacity: .8; min-width: 64px; text-align: right; }
-.ol-set { list-style: none; padding: 0; margin: 40px 0 0; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; position: relative; z-index: 1; }
-.ol-set button { width: 100%; text-align: left; background: none; border: 0; border-top: 2px solid rgba(255,179,184,.2); padding: 12px 0 0; color: rgba(255,236,236,.55); cursor: pointer; font-size: 14px; line-height: 1.3; position: relative; transition: color .3s; }
-.ol-set button::before { content: ""; position: absolute; left: 0; top: -2px; height: 2px; width: calc(var(--c, 0) * 100%); background: var(--o-blush); }
-.ol-set button:hover, .ol-set button.on { color: #fff; }
-.ol-set small { display: block; font-size: 11.5px; opacity: .7; font-variant-numeric: tabular-nums; margin-bottom: 2px; }
 
 /* Track 03: the mixing desk */
 .ol-desk { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 16px; align-items: stretch; }
@@ -1653,22 +1642,12 @@ fieldset.field { border: 0; margin: 0; padding: 0; }
 .ol-sup small { display: block; font-size: 12.5px; opacity: .7; margin-top: 2px; }
 
 /* Track 06: the reel, beside its story */
-.ol-reel { display: grid; grid-template-columns: minmax(260px, 320px) minmax(0, 1fr); grid-template-areas: "phone head" "phone steps"; gap: 40px clamp(40px, 7vw, 112px); align-items: start; }
-.ol-reel-head { grid-area: head; align-self: end; }
+.ol-reel { display: grid; grid-template-columns: minmax(260px, 320px) minmax(0, 1fr); grid-template-areas: "phone head"; gap: 40px clamp(40px, 7vw, 112px); align-items: center; }
+.ol-reel-head { grid-area: head; }
 .ol-reel-head h2 { font-size: var(--o-h2); line-height: 1.1; max-width: 18ch; }
 .ol-reel-head .lede { margin-top: 16px; max-width: 46ch; }
 .ol-phone { grid-area: phone; width: 100%; }
 .ol-scr.tall { aspect-ratio: 9 / 16; border-radius: 32px; box-shadow: 0 0 0 8px #140404, 0 0 0 9px rgba(255,179,184,.22), 0 60px 120px -40px rgba(237,92,95,.6); }
-.ol-scr.tall .ol-snd { top: auto; bottom: 60px; right: 12px; height: 32px; font-size: 12px; padding: 0 12px 0 10px; }
-.ol-steps { grid-area: steps; list-style: none; padding: 0; margin: 0; display: grid; border-top: 1px solid rgba(255,179,184,.18); }
-.ol-steps li { border-bottom: 1px solid rgba(255,179,184,.18); }
-.ol-steps button { width: 100%; display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 16px; align-items: baseline; text-align: left; background: none; border: 0; color: rgba(255,236,236,.62); cursor: pointer; padding: 16px 0; position: relative; transition: color .3s; font-size: 15px; line-height: 1.5; }
-.ol-steps button::before { content: ""; position: absolute; left: 0; top: -1px; height: 2px; width: 0; background: var(--o-blush); transition: width .5s var(--ease); }
-.ol-steps button:hover { color: #fff; }
-.ol-steps button.on { color: #fff; }
-.ol-steps button.on::before { width: 100%; }
-.ol-steps small { font-size: 13px; color: var(--o-blush); font-variant-numeric: tabular-nums; }
-.ol-steps b { display: block; font-weight: 500; font-size: 18px; color: #fff; margin-bottom: 2px; }
 
 /* Track 07: on stage. The LED wall in the render is live. */
 .ol-venue { position: relative; height: 210vh; background: #0b0202; }
@@ -1738,8 +1717,6 @@ fieldset.field { border: 0; margin: 0; padding: 0; }
   .ol-about { grid-template-columns: minmax(0, 1fr); margin-top: 0; gap: 32px; }
   .ol-lyric .wrap { grid-template-columns: minmax(0, 1fr); gap: 0; }
   .ol-lyric .side { display: none; }
-  .ol-scr.wide .ol-snd { top: 8px; right: 8px; height: 28px; padding: 0 10px 0 8px; font-size: 11.5px; gap: 6px; }
-  .ol-set { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 16px; margin-top: 32px; }
   .ol-desk, .ol-pal { grid-template-columns: minmax(0, 1fr); }
   .ol-console { padding: 12px; gap: 6px; }
   .ol-ch { padding: 10px 2px 12px; gap: 10px; }
@@ -1749,7 +1726,7 @@ fieldset.field { border: 0; margin: 0; padding: 0; }
   .ol-rules li { padding: 16px 0; }
   .ol-on { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 16px; margin-top: 40px; }
   .ol-sup { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 40px; gap: 12px; }
-  .ol-reel { grid-template-columns: minmax(0, 1fr); grid-template-areas: "head" "phone" "steps"; gap: 32px; }
+  .ol-reel { grid-template-columns: minmax(0, 1fr); grid-template-areas: "head" "phone"; gap: 32px; }
   .ol-phone { width: min(64vw, 280px); justify-self: center; }
   .ol-venue { height: auto; display: flex; flex-direction: column-reverse; }
   .ol-venue .pin { position: relative; top: auto; height: auto; aspect-ratio: 4 / 3; display: block; }
@@ -1765,7 +1742,6 @@ fieldset.field { border: 0; margin: 0; padding: 0; }
   .ol-np { display: none; }
 }
 @media (max-width: 520px) {
-  .ol-set { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .ol-ch .fdr { width: 16px; } .ol-ch .cap { width: 16px; height: 24px; } .ol-ch .cap::after { top: 11px; }
   .ol-ch .strip { height: 130px; }
   .ol-ch .nm { font-size: 10px; overflow-wrap: normal; letter-spacing: -.01em; }
@@ -2889,8 +2865,6 @@ const olField = (logoW = 300, cls = '', vb = '-300 330 2600 1010') => `<svg clas
   ${OL_FLOOR.map(([cy, rx, ry], i) => `<ellipse class="rg" style="--i:${5 - i}" cx="1000" cy="${cy}" rx="${rx}" ry="${ry}" fill="${OL.ramp[i + 1]}"/>`).join('')}
   ${logoW ? `<g class="lg"><g transform="translate(${1000 - logoW / 2} ${612 - logoW * 224.89 / 827.71 / 2}) scale(${logoW / 827.71})" fill="#fff"><path d="${OL.O}"/><rect x="712.74" width="38.12" height="224.89"/><path d="${OL.stem}"/><circle cx="799.89" cy="27.14" r="27.14"/></g></g>` : ''}
 </svg>`;
-const OL_FILM = { len: 26, ch: [['Empty room', 0], ['First ring', 4], ['The crowd', 8], ['Colour &amp; genres', 12], ['Five rooms', 16], ['The drop', 20]] };
-const OL_REEL = { len: 16, ch: [['Bedroom', 0], ['The climb', 4], ['The turn', 8], ['The invite', 12], ['Oli', 14.4]] };
 const OL_CH = [
   ['Artists', 'For the ones on stage', 'Get found by venues that want your sound. Book gigs, studios and jam rooms, team up with other musicians, and grow fans who follow you from show to show.', ['Gigs', 'Studios &amp; jams', 'Collabs', 'Fans']],
   ['Venues', 'For the rooms', 'Find the right act for your room and your crowd, book them in a few taps, and let the platform promote the night.', ['Discovery', 'Booking', 'Promotion']],
@@ -2903,19 +2877,14 @@ const OL_ROOMS = [['genres', 'Genres &amp; Trends', 'Ultramarine and yellow', '#
 const olIc = { play: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 4l15 8-15 8z"/></svg>', pause: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>' };
 const olFmt = s => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
 const olTrk = (n, t) => `<p class="ol-trk"><i></i>Track ${String(n).padStart(2, '0')} · ${t}</p>`;
-const olPlayer = (id, shape, src, poster, label, len) => `
-      <div class="ol-scr ${shape}" id="${id}" data-len="${len}">
-        <video playsinline muted preload="metadata" poster="video/${poster}" aria-label="${label}">
+const olPlayer = (id, shape, src, poster, label) => `
+      <div class="ol-scr ${shape}" id="${id}">
+        <video playsinline muted loop preload="metadata" poster="video/${poster}" aria-label="${label}">
           <source src="video/${src}-720.mp4" type="video/mp4" media="(max-width: 900px)">
           <source src="video/${src}.mp4" type="video/mp4">
         </video>
-        <button class="ol-big" type="button" aria-label="Play with sound"><i>${olIc.play}</i></button>
-        <button class="ol-snd" type="button" aria-pressed="false"><span class="ol-eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="st">Sound on</span></button>
-        <div class="ol-bar">
-          <button type="button" class="pp" aria-label="Play">${olIc.play}</button>
-          <div class="ol-track" role="slider" tabindex="0" aria-label="Seek" aria-valuemin="0" aria-valuemax="${len}" aria-valuenow="0"><i></i></div>
-          <span class="ol-time">0:00 / ${olFmt(len)}</span>
-        </div>
+        <button class="ol-big" type="button" aria-label="Play"><i>${olIc.play}</i></button>
+        <span class="ol-hint" aria-hidden="true"><span class="ol-eq"><i></i><i></i><i></i><i></i></span>Tap for sound</span>
       </div>`;
 
 P['work-oli'] = () => `
@@ -2959,10 +2928,9 @@ P['work-oli'] = () => `
     <div class="wrap">
       <div class="ol-head">
         <div>${olTrk(2, 'The headliner')}<h2 id="ol-film-h">From an empty room <b>to a full house.</b></h2></div>
-        <p>A 26-second stage film. The camera flies the stage: it dollies into an empty room, cranes up as the rings land, whips round the crowd and dives into the drop where the mark lands. Every move has its own sound in an original score. Turn the sound on.</p>
+        <p>A 26-second stage film. The camera flies the stage: it dollies into an empty room, cranes up as the rings land, whips round the crowd and dives into the drop where the mark lands. Every move has its own sound in an original score.</p>
       </div>
-      <div class="ol-stagewrap">${olPlayer('ol-fv', 'wide', 'oli-stage-film', 'oli-stage-film-poster.webp', 'Oli stage film, 26 seconds, with music', OL_FILM.len)}</div>
-      <ol class="ol-set" data-for="ol-fv">${OL_FILM.ch.map(([t, s], i) => `<li><button type="button" data-t="${s}"><small>${String(i + 1).padStart(2, '0')} · ${olFmt(s)}</small>${t}</button></li>`).join('')}</ol>
+      <div class="ol-stagewrap">${olPlayer('ol-fv', 'wide', 'oli-stage-film', 'oli-stage-film-poster.webp', 'Oli stage film, 26 seconds, with music')}</div>
     </div>
   </section>
 
@@ -3038,10 +3006,7 @@ P['work-oli'] = () => `
     <div class="wrap ol-reel">
       <div class="ol-reel-head">${olTrk(6, 'The reel')}<h2 id="ol-reel-h">Made for the phone in <b>every musician’s pocket.</b></h2>
         <p class="lede">A 16-second vertical cut of the same story for Reels, Shorts and Stories. Same score, shorter fuse, and it ends inside the app.</p></div>
-      <div class="ol-phone">${olPlayer('ol-rv', 'tall', 'oli-reel', 'oli-reel-poster.webp', 'Oli vertical reel, 16 seconds, with music', OL_REEL.len)}</div>
-      <ol class="ol-steps">
-        ${[[0, 'The bedroom', 'Three chords, six people and a barista, an amp carried up the stairs.'], [4, 'The climb', 'Each line adds a ring to the stage, and the performer grows with it.'], [8, 'The turn', 'On the beat: now the stage comes looking for you.'], [12, 'The invite', 'It lands in the artist app. One tap, and the screen floods red.']].map(([t, b, d]) => `<li><button type="button" data-t="${t}"><small>${olFmt(t)}</small><span><b>${b}</b>${d}</span></button></li>`).join('')}
-      </ol>
+      <div class="ol-phone">${olPlayer('ol-rv', 'tall', 'oli-reel', 'oli-reel-poster.webp', 'Oli vertical reel, 16 seconds, with music')}</div>
     </div>
   </section>
 
@@ -3095,32 +3060,31 @@ P['work-oli'] = () => `
   ${ctaBand('mint', 'Got a stage to fill?', 'Let’s build your brand')}`;
 
 let olRaf = 0;
-/* The film and the reel share one player: muted autoplay in view, sound on request, a setlist to jump. */
-function olSetupPlayer(scr, setlist, ok) {
-  const v = scr.querySelector('video'), len = +scr.dataset.len, pp = scr.querySelector('.pp'), tr = scr.querySelector('.ol-track'), tm = scr.querySelector('.ol-time');
-  const snd = scr.querySelector('.ol-snd'), sndT = snd.querySelector('.st'), chs = setlist ? [...setlist.querySelectorAll('button')] : [];
-  const st = { userPaused: false, v };
-  const sync = () => {
-    const d = v.duration || len, t = v.currentTime;
-    tr.style.setProperty('--t', t / d); tr.setAttribute('aria-valuenow', Math.round(t)); tm.textContent = `${olFmt(t)} / ${olFmt(d)}`;
-    chs.forEach((b, i) => { const a = +b.dataset.t, z = i < chs.length - 1 ? +chs[i + 1].dataset.t : d; b.style.setProperty('--c', clamp((t - a) / (z - a))); b.classList.toggle('on', t >= a && t < z); });
+/* The film and the reel play on their own, with sound. Browsers only allow sound once the visitor
+   has clicked or tapped the page, so until then a video plays silently with a "Tap for sound" hint,
+   and the first click or tap anywhere turns the sound on. Only one video plays at a time. */
+let olSoundOK = false;
+const olPlayers = [];
+function olUnlock() {
+  if (olSoundOK) return; olSoundOK = true;
+  olPlayers.forEach(p => { p.v.muted = false; p.scr.classList.remove('silent'); });
+}
+document.addEventListener('pointerdown', olUnlock, { capture: true });
+document.addEventListener('keydown', olUnlock, { capture: true });
+function olSetupPlayer(scr, ok) {
+  const v = scr.querySelector('video'), st = { v, scr, userPaused: false };
+  const setState = () => { scr.classList.toggle('playing', !v.paused); scr.classList.toggle('silent', v.muted && !v.paused); };
+  st.play = () => {
+    st.userPaused = false;
+    olPlayers.forEach(p => { if (p !== st && !p.v.paused) p.v.pause(); });
+    v.muted = !olSoundOK;
+    v.play().catch(() => { v.muted = true; v.play().catch(() => {}); });
   };
-  const setState = () => { const p = !v.paused; scr.classList.toggle('playing', p); scr.classList.toggle('paused', !p && v.currentTime > 0); pp.innerHTML = p ? olIc.pause : olIc.play; pp.setAttribute('aria-label', p ? 'Pause' : 'Play'); };
-  st.play = () => { st.userPaused = false; v.play().catch(() => {}); };
-  st.seek = t => { v.currentTime = clamp(t, 0, (v.duration || len) - .05); sync(); };
-  const setSound = on => { v.muted = !on; snd.setAttribute('aria-pressed', on); sndT.textContent = on ? 'Sound off' : 'Sound on'; scr.classList.toggle('loud', on); };
-  st.setSound = setSound;
-  v.addEventListener('timeupdate', sync); v.addEventListener('loadedmetadata', sync);
-  v.addEventListener('play', setState); v.addEventListener('pause', setState);
-  v.addEventListener('ended', () => { v.currentTime = 0; if (v.muted) st.play(); else setState(); });
-  snd.addEventListener('click', () => { const on = v.muted; setSound(on); if (on && v.paused) st.play(); });
-  scr.querySelector('.ol-big').addEventListener('click', () => { setSound(true); if (v.currentTime > len - 1) v.currentTime = 0; st.play(); });
-  pp.addEventListener('click', () => { if (v.paused) st.play(); else { st.userPaused = true; v.pause(); } });
-  v.addEventListener('click', () => { if (!v.paused) { st.userPaused = true; v.pause(); } });
-  tr.addEventListener('click', e => { const r = tr.getBoundingClientRect(); st.seek((e.clientX - r.left) / r.width * (v.duration || len)); });
-  tr.addEventListener('keydown', e => { if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { e.preventDefault(); st.seek(v.currentTime + (e.key === 'ArrowRight' ? 2 : -2)); } });
-  chs.forEach(b => b.addEventListener('click', () => { st.seek(+b.dataset.t); st.play(); }));
+  v.addEventListener('play', setState); v.addEventListener('pause', setState); v.addEventListener('volumechange', setState);
+  scr.querySelector('.ol-big').addEventListener('click', () => { olUnlock(); st.play(); });
+  v.addEventListener('click', () => { if (v.muted) { olUnlock(); setState(); return; } if (v.paused) st.play(); else { st.userPaused = true; v.pause(); } });
   if (ok) new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting && !st.userPaused) st.play(); else if (!e.isIntersecting && !v.paused) v.pause(); }), { threshold: .5 }).observe(scr);
+  olPlayers.push(st);
   return st;
 }
 /* Map a 1000 x 290 box onto the LED wall's four corners in the photo (a projective transform). */
@@ -3140,12 +3104,9 @@ function setupOli(main) {
   if (!ok) root.querySelectorAll('.ol-rec').forEach(el => el.classList.add('out'));
 
   /* Players */
-  const film = olSetupPlayer(root.querySelector('#ol-fv'), root.querySelector('.ol-set[data-for="ol-fv"]'), ok);
-  const reel = olSetupPlayer(root.querySelector('#ol-rv'), null, ok);
-  const steps = [...root.querySelectorAll('.ol-steps button')];
-  const markStep = t => steps.forEach((b, i) => b.classList.toggle('on', t >= +b.dataset.t && (i === steps.length - 1 || t < +steps[i + 1].dataset.t)));
-  reel.v.addEventListener('timeupdate', () => markStep(reel.v.currentTime));
-  steps.forEach(b => b.addEventListener('click', () => { reel.seek(+b.dataset.t); reel.play(); }));
+  olPlayers.length = 0;
+  olSetupPlayer(root.querySelector('#ol-fv'), ok);
+  olSetupPlayer(root.querySelector('#ol-rv'), ok);
   const wide = matchMedia('(min-width: 901px)');
 
   /* Mixing desk */
