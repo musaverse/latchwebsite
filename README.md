@@ -8,7 +8,7 @@ Redesign of [latchinfinity.com](https://www.latchinfinity.com/), built on the La
 - `video/` holds the Kaynes brand film (27.5 s, 60 fps, original score; 1080p, a 720p version for phones, and a poster) and the two Oli films: a 16:9 stage film (26 s) and a 9:16 reel (16 s), both 60 fps, flown by a 3D camera over the stage, with an original score built from the same cue sheet as the picture, each with a 720p phone version and a poster.
 - Case studies:
   - `#work-kaynes` (Kaynes Technology brand refresh). Its logo and icons are vectors traced from the client's lookbook PDF.
-  - `#work-oli` (Oli, a gig platform for live music). Built as a setlist of nine tracks: lyric intro, stage film, mixing desk, the measured mark, colour, vertical reel, a venue scene whose LED wall is a live SVG mapped onto the photo, blog covers as record sleeves, and an encore. The logo is the client's own SVG. Nothing from the Oli pitch deck (figures, market data, roadmap) is used on the page.
+  - `#work-oli` (Oli, a gig platform for live music). Built as a setlist of eight tracks: lyric intro, stage film, mixing desk, the measured mark, colour, vertical reel, a venue scene whose LED wall is a live SVG mapped onto the photo, and the blog covers as record sleeves. The logo is the client's own SVG. Nothing from the Oli pitch deck (figures, market data, roadmap) is used on the page.
 - Pushing to `main` deploys a preview to GitHub Pages (`.github/workflows/pages.yml`).
 
 ## Preview locally

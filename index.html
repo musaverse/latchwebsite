@@ -1686,12 +1686,6 @@ fieldset.field { border: 0; margin: 0; padding: 0; }
 .ol-rec p { margin-top: 16px; font-size: 15px; font-weight: 500; line-height: 1.35; }
 .ol-rec p small { display: block; font-weight: 400; font-size: 13px; color: #7a6d6f; margin-top: 2px; }
 
-/* Encore */
-.ol-encore { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 clamp(24px, 4vw, 64px); list-style: none; padding: 0; margin: 0; }
-.ol-encore li { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 8px; padding: 20px 0; border-top: 1px solid #ecd6d0; align-items: baseline; }
-.ol-encore span { color: var(--o5); font-size: 13px; font-variant-numeric: tabular-nums; }
-.ol-encore b { font-weight: 500; font-size: 17px; display: block; }
-.ol-encore p { font-size: 14.5px; color: #6d6264; margin-top: 4px; }
 
 /* Now playing: which track of the page you are on */
 .ol-np { position: fixed; right: max(16px, env(safe-area-inset-right, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 45; display: flex; align-items: center; gap: 12px; padding: 8px 16px 8px 8px; border-radius: 999px; background: rgba(35,8,8,.86); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); color: #fff; font-family: 'Poppins', var(--font); font-size: 13px; line-height: 1.2; box-shadow: 0 12px 40px -12px rgba(0,0,0,.5); opacity: 0; transform: translateY(20px); transition: opacity .5s var(--ease), transform .5s var(--ease); pointer-events: none; }
@@ -1738,7 +1732,6 @@ fieldset.field { border: 0; margin: 0; padding: 0; }
   .ol-crate { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 16px; margin-inline: calc(-1 * max(24px, env(safe-area-inset-left, 0px))); padding: 0 max(24px, env(safe-area-inset-left, 0px)) 8px; scroll-padding-inline: max(24px, env(safe-area-inset-left, 0px)); scrollbar-width: none; overscroll-behavior-x: contain; }
   .ol-crate::-webkit-scrollbar { display: none; }
   .ol-rec { flex: 0 0 min(58vw, 240px); scroll-snap-align: start; }
-  .ol-encore { grid-template-columns: minmax(0, 1fr); }
   .ol-np { display: none; }
 }
 @media (max-width: 520px) {
@@ -3044,18 +3037,10 @@ P['work-oli'] = () => `
         <p class="lede">The blog is split into five rooms, each with its own colour. Every cover is built from the same ellipse as the mark, so the whole crate still reads as Oli.</p>
       </div>
       <div class="ol-crate" id="ol-crate">${OL_ROOMS.map(([f, t, d, lb], i) => `<figure class="ol-rec" style="--lb:${lb};margin:0"><span class="vy" aria-hidden="true"></span><div class="sl"><img src="img/oli/blog-${f}.webp" alt="Blog cover: ${t}" width="900" height="900" loading="lazy"></div><p>${t}<small>${d}</small></p></figure>`).join('')}</div>
+      <div style="margin-top:64px">${arrowBtn('#work', 'Back to all work', 'btn-ghost')}</div>
     </div>
   </section>
 
-  <section class="ol-cream sec" style="padding-top:0" aria-labelledby="ol-enc-h">
-    <div class="wrap">
-      <div class="ol-head">
-        <div>${olTrk(9, 'Encore')}<h2 id="ol-enc-h">Everything Oli needs <b>to go on stage.</b></h2></div>
-      </div>
-      <ol class="ol-encore">${[['Logo and mark', 'The stage, the stand and the performer, in one stroke.'], ['Colour', 'A seven-step red, flat from the back row to the spotlight.'], ['Ripple key visuals', 'Centred, stage-floor and off-centre versions for screens, decks and social.'], ['Website and app design', 'The Oli website and the artist app, starting with the invite.'], ['Blog covers', 'Five rooms, five colours, one ellipse.'], ['Stage film', '26 seconds, 16:9, with an original score.'], ['Vertical reel', '16 seconds, 9:16, for Reels, Shorts and Stories.'], ['Venue and merch renders', 'The LED wall, the mic flag and the app, in place.']].map(([t, p], i) => `<li class="ol-in" style="--k:${i % 2}"><span>${String(i + 1).padStart(2, '0')}</span><div><b>${t}</b><p>${p}</p></div></li>`).join('')}</ol>
-      <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:40px">${arrowBtn('#work', 'Back to all work', 'btn-ghost')}</div>
-    </div>
-  </section>
 </div>
   ${ctaBand('mint', 'Got a stage to fill?', 'Let’s build your brand')}`;
 
