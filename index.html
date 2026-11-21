@@ -1749,6 +1749,203 @@ fieldset.field { border: 0; margin: 0; padding: 0; }
   .ol-venue { height: auto; } .ol-venue .pin { position: relative; top: auto; height: auto; aspect-ratio: 4 / 3; } .ol-venue .ol-ph { width: 100%; transform: none; }
   .ol-rec .vy { transition: none; }
 }
+/* ================= Case study: Cube Audience Manager =================
+   A product walk-through, not a lookbook. The page follows the product's own flow, step by step,
+   in Cube's dark system: near-black, Space Grotesk, the blue-to-lilac headline gradient and one
+   electric blue for actions. Latch keeps its grey intros. Screens sit in angled frames that turn
+   as you scroll. Spacing runs on one scale: 8, 16, 24, 40, 64. */
+.cb { --c0: #050609; --c1: #0b0d16; --c2: #141726; --c-line: rgba(150, 160, 255, .16); --c-blue: #2E4BFF; --c-lilac: #9B7BFF; --c-mist: #C9CBE0;
+  --c-txt: rgba(226, 228, 245, .7); --c-font: 'Space Grotesk', var(--font);
+  --c-h2: clamp(28px, 3.3vw, 48px); --c-gap: clamp(32px, 4.5vw, 64px);
+  font-family: var(--c-font); background: var(--c0); color: #fff; overflow-x: clip; }
+.cb h1, .cb h2, .cb h3 { font-family: var(--c-font); font-stretch: 100%; letter-spacing: -0.02em; font-weight: 400; }
+.cb .label { font-family: var(--font); color: rgba(226, 228, 245, .55); }
+.cb .lede { font-size: clamp(16px, 1.2vw, 18px); line-height: 1.6; color: var(--c-txt); }
+.cb :focus-visible { outline-color: #fff; }
+.cb-grad { background: linear-gradient(90deg, #4458FF 0%, #9B7BFF 52%, #D8D9E8 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.cb-sec { padding: clamp(72px, 10vw, 140px) 0; position: relative; }
+.cb-sec.alt { background: var(--c1); }
+.cb-head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: end; gap: 16px clamp(32px, 6vw, 96px); margin-bottom: var(--c-gap); }
+.cb-head h2 { font-size: var(--c-h2); line-height: 1.1; max-width: 18ch; }
+.cb-head > p { max-width: 46ch; }
+.cb-step { font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: #8E98FF; display: flex; gap: 12px; align-items: center; margin-bottom: 16px; font-weight: 500; }
+.cb-step i { width: 14px; height: 14px; flex: none; border: 1.5px solid currentColor; border-radius: 3px; transform: rotate(45deg) scale(.8); }
+
+/* The mark: four tiles */
+.cb-mark { display: grid; grid-template-columns: repeat(2, 1fr); gap: 5%; width: 100%; aspect-ratio: 1; }
+.cb-mark span { background: #F4F5FB; color: #05060A; display: grid; place-items: center; font: 700 1em/1 var(--c-font); aspect-ratio: 1; }
+
+/* Angled frames */
+.cb-3d { perspective: 1800px; perspective-origin: 50% 40%; }
+.cb-fr { position: relative; border-radius: clamp(8px, 1vw, 14px); overflow: hidden; background: #000;
+  box-shadow: 0 0 0 1px rgba(150, 160, 255, .28), 0 40px 120px -40px rgba(68, 88, 255, .55), 0 30px 60px -30px rgba(0, 0, 0, .9);
+  transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) rotateZ(var(--rz, 0deg)) translateZ(var(--tz, 0px)); transform-style: preserve-3d;
+  transition: transform .9s var(--ease), opacity .6s var(--ease), filter .6s var(--ease); }
+.cb-fr img { display: block; width: 100%; height: auto; aspect-ratio: 1600 / 1039; }
+.cb-fr::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(115deg, rgba(255,255,255,.07), transparent 38%); }
+
+/* Hero */
+.cb-hero { position: relative; padding: clamp(28px, 4vw, 48px) 0 clamp(64px, 8vw, 120px); isolation: isolate; }
+.cb-hero::before { content: ""; position: absolute; inset: -10% -10% 0; z-index: -1; pointer-events: none;
+  background: radial-gradient(40% 50% at 22% 30%, rgba(46, 60, 220, .32), transparent 70%), radial-gradient(36% 46% at 80% 60%, rgba(120, 70, 220, .26), transparent 70%); }
+.cb-hero .crumbs a, .cb-hero .crumbs span { color: rgba(226, 228, 245, .6); }
+.cb-hero-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(32px, 5vw, 80px); align-items: center; margin-top: clamp(24px, 4vw, 56px); }
+.cb-hero .cb-mark { width: clamp(56px, 6vw, 80px); font-size: clamp(22px, 2.4vw, 32px); margin-bottom: clamp(24px, 3vw, 40px); }
+.cb-hero h1 { font-size: clamp(40px, 5.6vw, 84px); line-height: 1.02; letter-spacing: -0.03em; font-weight: 500; }
+.cb-hero h1 span { display: block; }
+.cb-hero .row { margin-top: clamp(24px, 3vw, 40px); }
+.cb-btn { background: var(--c-blue); color: #fff; border-color: var(--c-blue); }
+.cb-btn:hover { background: #4458FF; border-color: #4458FF; }
+.cb-ghost { color: #fff; border-color: rgba(255,255,255,.35); }
+.cb-ghost:hover { border-color: #fff; }
+.cb-stack { position: relative; aspect-ratio: 16 / 12; transform-style: preserve-3d; }
+.cb-stack .cb-fr { position: absolute; width: 78%; }
+.cb-stack .cb-fr:nth-child(1) { left: 0; top: 0; --ry: 24deg; --rx: 8deg; --tz: -120px; filter: brightness(.55); }
+.cb-stack .cb-fr:nth-child(2) { left: 22%; top: 24%; --ry: 24deg; --rx: 8deg; --tz: -20px; filter: brightness(.8); }
+.cb-stack .cb-fr:nth-child(3) { left: 12%; top: 50%; --ry: 24deg; --rx: 8deg; --tz: 80px; }
+.cb-stack-wrap { transform: rotateX(var(--px, 0deg)) rotateY(var(--py, 0deg)); transform-style: preserve-3d; transition: transform .6s var(--ease); }
+.cb-about { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(32px, 5vw, 80px); margin-top: clamp(56px, 7vw, 96px); align-items: start; }
+.cb-meta { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 32px; }
+.cb-meta span { display: block; font-size: 13px; color: rgba(226, 228, 245, .5); margin-bottom: 6px; }
+.cb-meta b { font-weight: 500; font-size: 17px; }
+
+/* Film */
+.cb-filmwrap { position: relative; }
+.cb-filmwrap::after { content: ""; position: absolute; left: 6%; right: 6%; bottom: -12%; height: 24%; z-index: 0; border-radius: 50%; background: radial-gradient(closest-side, rgba(90, 100, 255, .38), rgba(120, 80, 220, .14) 60%, transparent); pointer-events: none; }
+.cb .ol-scr.wide { box-shadow: 0 0 0 1px rgba(150, 160, 255, .22), 0 50px 140px -50px rgba(68, 88, 255, .7); }
+.cb .ol-scr.tall { box-shadow: 0 0 0 8px #0b0d16, 0 0 0 9px rgba(150, 160, 255, .26), 0 60px 120px -40px rgba(68, 88, 255, .6); }
+.cb .ol-big i { background: rgba(10, 12, 40, .45); }
+.cb .ol-big:hover i { background: rgba(46, 75, 255, .7); }
+.cb .ol-hint { background: rgba(8, 10, 30, .55); }
+
+/* Principles */
+.cb-pr { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.cb-pr li { list-style: none; padding: 24px; border-radius: 16px; background: var(--c2); border: 1px solid var(--c-line); min-width: 0; }
+.cb-pr .ic { width: 40px; height: 40px; border-radius: 10px; display: grid; place-items: center; background: rgba(68, 88, 255, .14); color: #A9B2FF; margin-bottom: 24px; }
+.cb-pr .ic svg { width: 22px; height: 22px; }
+.cb-pr h3 { font-size: 20px; line-height: 1.2; margin-bottom: 8px; }
+.cb-pr p { color: var(--c-txt); font-size: 15px; line-height: 1.55; }
+
+/* Personality picker */
+.cb-pick { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: clamp(32px, 5vw, 80px); align-items: center; }
+.cb-tabs { display: grid; gap: 8px; }
+.cb-tab { display: grid; grid-template-columns: 40px 1fr; gap: 16px; align-items: center; text-align: left; padding: 16px; border-radius: 14px; border: 1px solid var(--c-line); background: transparent; color: #fff; cursor: pointer; font: inherit; transition: background .3s, border-color .3s; }
+.cb-tab .n { width: 40px; height: 40px; border-radius: 10px; display: grid; place-items: center; background: var(--c2); color: rgba(226, 228, 245, .6); font-size: 13px; }
+.cb-tab b { display: block; font-weight: 500; font-size: 18px; }
+.cb-tab small { display: block; color: rgba(226, 228, 245, .5); font-size: 13.5px; margin-top: 2px; }
+.cb-tab[aria-pressed="true"] { background: var(--c2); border-color: rgba(120, 135, 255, .55); }
+.cb-tab[aria-pressed="true"] .n { background: var(--c-blue); color: #fff; }
+.cb-tab:hover { border-color: rgba(120, 135, 255, .4); }
+.cb-pick .cb-fr { --ry: -14deg; --rx: 4deg; }
+.cb-pick .cb-fr.swap { animation: cbSwap .7s var(--ease); }
+@keyframes cbSwap { from { opacity: .2; transform: rotateX(4deg) rotateY(-30deg) translateZ(-80px); } to { opacity: 1; transform: rotateX(4deg) rotateY(-14deg); } }
+
+/* Archetype scene: pinned while you scroll through all twelve */
+.cb-arch { height: 360vh; position: relative; }
+.cb-arch .pin { position: sticky; top: 0; height: 100vh; display: flex; align-items: center; overflow: hidden; }
+.cb-arch .pin > .wrap { width: 100%; }
+.cb-arch-grid > :first-child { position: relative; z-index: 2; }
+.cb-arch-grid { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: clamp(32px, 5vw, 80px); align-items: center; }
+.cb-arch h2 { font-size: var(--c-h2); line-height: 1.1; margin-bottom: 24px; }
+.cb-arch-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px 24px; margin-bottom: 24px; }
+.cb-arch-list li { list-style: none; font-size: 17px; color: rgba(226, 228, 245, .32); transition: color .3s, transform .3s var(--ease); display: flex; align-items: center; gap: 8px; }
+.cb-arch-list li::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; opacity: 0; transition: opacity .3s; }
+.cb-arch-list li.on { color: var(--ac, #fff); transform: translateX(4px); }
+.cb-arch-list li.on::before { opacity: 1; }
+.cb-arch-d { min-height: 6.4em; color: var(--c-txt); line-height: 1.6; max-width: 44ch; }
+.cb-ring { position: relative; aspect-ratio: 16 / 11; transform-style: preserve-3d; }
+.cb-ring .cb-fr { position: absolute; left: 6%; top: 8%; width: 88%; transition: none; }
+.cb-meter { height: 2px; background: rgba(255,255,255,.1); border-radius: 2px; margin-top: 24px; overflow: hidden; }
+.cb-meter i { display: block; height: 100%; width: calc(var(--p, 0) * 100%); background: linear-gradient(90deg, #4458FF, #9B7BFF); }
+
+/* Set-up: a staircase */
+.cb-stairs { position: relative; aspect-ratio: 16 / 8; transform-style: preserve-3d; margin-top: 8px; }
+.cb-stairs .cb-fr { position: absolute; width: 44%; --ry: -22deg; --rx: 6deg; opacity: var(--o, 1); }
+.cb-stairs figure { margin: 0; }
+.cb-stairs .k { position: absolute; font-size: 13px; color: rgba(226, 228, 245, .6); white-space: nowrap; }
+.cb-stairs .k b { color: #fff; font-weight: 500; display: block; font-size: 15px; }
+.cb-spaces { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); gap: clamp(32px, 5vw, 80px); align-items: center; margin-top: clamp(72px, 9vw, 128px); }
+.cb-explode { position: relative; aspect-ratio: 16 / 12; transform-style: preserve-3d; }
+.cb-explode .cb-fr { position: absolute; left: 10%; top: 14%; width: 76%; --rx: 52deg; --rz: -32deg; transition: none; }
+.cb-notes { display: grid; gap: 24px; }
+.cb-notes li { list-style: none; padding-left: 20px; border-left: 2px solid rgba(120, 135, 255, .45); }
+.cb-notes b { display: block; font-weight: 500; font-size: 18px; margin-bottom: 4px; }
+.cb-notes p { color: var(--c-txt); font-size: 15px; line-height: 1.55; }
+
+/* The form: a track that slides sideways as you scroll */
+.cb-form { height: 300vh; position: relative; }
+.cb-form .pin { position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
+.cb-track { display: flex; gap: clamp(24px, 3vw, 48px); padding: 0 var(--gutter, 24px); width: max-content; transform: translate3d(var(--x, 0px), 0, 0); will-change: transform; margin-top: var(--c-gap); }
+.cb-track figure { margin: 0; width: clamp(280px, 34vw, 520px); flex: none; }
+.cb-track .cb-fr { --ry: var(--tr, 0deg); transition: none; }
+.cb-track figcaption { margin-top: 16px; font-size: 14px; color: rgba(226, 228, 245, .6); display: flex; gap: 10px; }
+.cb-track figcaption b { color: #fff; font-weight: 500; }
+
+/* Cube AI */
+.cb-ai { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); gap: clamp(32px, 5vw, 80px); align-items: center; }
+.cb-ai-shots { position: relative; aspect-ratio: 16 / 12.5; transform-style: preserve-3d; }
+.cb-ai-shots .cb-fr { position: absolute; width: 80%; }
+.cb-ai-shots .cb-fr:nth-child(1) { left: 0; top: 0; --ry: 18deg; --rx: 4deg; }
+.cb-ai-shots .cb-fr:nth-child(2) { right: 0; bottom: 0; --ry: 18deg; --rx: 4deg; --tz: 60px; }
+.cb-flow { display: grid; gap: 8px; counter-reset: f; }
+.cb-flow li { list-style: none; display: grid; grid-template-columns: 32px 1fr; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--c-line); }
+.cb-flow li::before { counter-increment: f; content: counter(f, decimal-leading-zero); color: #8E98FF; font-size: 13px; padding-top: 3px; }
+.cb-flow b { display: block; font-weight: 500; font-size: 17px; }
+.cb-flow p { color: var(--c-txt); font-size: 15px; line-height: 1.5; margin-top: 4px; }
+.cb-reel { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(32px, 6vw, 96px); align-items: center; }
+.cb-phone { width: min(100%, 340px); justify-self: center; }
+
+/* Scroll reveal */
+.cb-in { opacity: 0; transform: translateY(28px); transition: opacity .8s var(--ease), transform .8s var(--ease); transition-delay: calc(var(--k, 0) * 80ms); }
+.cb-in.on { opacity: 1; transform: none; }
+
+/* Work tile cover */
+.tile .cover.cb-cover { background: #050609; isolation: isolate; }
+.cb-cover .cb-fr { position: absolute; width: 74%; left: 13%; top: 16%; --ry: -18deg; --rx: 10deg; transition: transform .8s var(--ease); }
+.cb-cover .cb-3d { position: absolute; inset: 0; }
+.cb-cover::before { content: ""; position: absolute; inset: 0; background: radial-gradient(60% 60% at 30% 30%, rgba(46, 60, 220, .4), transparent 70%), radial-gradient(50% 50% at 80% 80%, rgba(120, 70, 220, .3), transparent 70%); }
+.tile:hover .cb-cover .cb-fr { --ry: -8deg; --rx: 4deg; }
+.cb-cover .cap { position: absolute; left: 18px; bottom: 16px; right: 18px; display: flex; justify-content: space-between; color: rgba(255,255,255,.8); font-family: 'Space Grotesk', var(--font); font-size: 13.5px; z-index: 1; }
+.cb-cover .cb-mark { position: absolute; top: 16px; left: 18px; width: 34px; font-size: 13px; z-index: 1; }
+
+@media (max-width: 900px) {
+  .cb-head, .cb-hero-grid, .cb-about, .cb-pick, .cb-arch-grid, .cb-spaces, .cb-ai, .cb-reel { grid-template-columns: minmax(0, 1fr); }
+  .cb-pr { grid-template-columns: minmax(0, 1fr); }
+  .cb-stack { margin: 8px 4% 0; }
+  .cb-meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cb-pick .cb-fr { --ry: 0deg; --rx: 0deg; }
+  .cb-tabs { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
+  .cb-tab { grid-template-columns: 1fr; padding: 8px 4px; text-align: center; gap: 6px; justify-items: center; }
+  .cb-tab .n { width: 32px; height: 32px; }
+  .cb-tab b { font-size: 11.5px; }
+  .cb-tab small { display: none; }
+  .cb-arch { height: auto; }
+  .cb-arch .pin { position: relative; height: auto; display: block; overflow: visible; padding: clamp(72px, 10vw, 140px) 0; }
+  .cb-ring { aspect-ratio: auto; display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; margin: 0 calc(var(--gutter, 16px) * -1); padding: 8px var(--gutter, 16px) 24px; scrollbar-width: none; }
+  .cb-ring::-webkit-scrollbar { display: none; }
+  .cb-ring .cb-fr { position: relative; left: auto; top: auto; width: 84%; flex: none; scroll-snap-align: center; transform: none !important; opacity: 1 !important; filter: none !important; }
+  .cb-meter { display: none; }
+  .cb-stairs { aspect-ratio: auto; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 12px; }
+  .cb-stairs figure { position: static !important; width: auto !important; }
+  .cb-stairs .cb-fr { position: relative; width: 100%; left: auto !important; top: auto !important; --ry: 0deg; --rx: 0deg; opacity: 1; }
+  .cb-stairs .k { position: static; margin-top: 8px; white-space: normal; }
+  .cb-explode .cb-fr { --rx: 46deg; --rz: -28deg; }
+  .cb-form { height: auto; }
+  .cb-form .pin { position: relative; height: auto; overflow: visible; padding: clamp(72px, 10vw, 140px) 0; }
+  .cb-track { width: auto; transform: none; overflow-x: auto; scroll-snap-type: x mandatory; padding: 8px var(--gutter, 16px) 24px; scrollbar-width: none; }
+  .cb-track::-webkit-scrollbar { display: none; }
+  .cb-track figure { width: 80%; scroll-snap-align: center; }
+  .cb-track .cb-fr { --ry: 0deg; }
+  .cb-phone { width: min(64vw, 280px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cb-in { opacity: 1; transform: none; transition: none; }
+  .cb-fr, .cb-stack-wrap { transition: none; }
+  .cb-pick .cb-fr.swap { animation: none; }
+  .cb-arch, .cb-form { height: auto; }
+  .cb-arch .pin, .cb-form .pin { position: relative; height: auto; padding: clamp(72px, 10vw, 140px) 0; }
+  .cb-track { width: auto; transform: none; overflow-x: auto; }
+}
 </style>
 
 <a class="skip" href="#main" id="skip">Skip to content</a>
@@ -2382,10 +2579,10 @@ const DETAIL = {
 };
 const DETAIL_NAV = [['branding', 'Branding'], ['advertising', 'Advertising'], ['web-app-development', 'Web & App Development'], ['digital-services', 'Digital Services']];
 const WORK = [
+  { t: 'Cube Audience Manager', sub: 'Product design and films for an AI audience-research platform by Cubera.', tags: ['PRODUCT DESIGN', 'UI/UX', 'FILM'], tone: 'ice', href: '#work-cube', cb: true },
   { t: 'Oli', sub: 'Brand, website and apps for a next-gen gig platform for live music.', tags: ['BRAND IDENTITY', 'APP', 'FILM'], tone: 'mint', href: '#work-oli', ol: true },
   { t: 'Kaynes Technology', sub: 'A brand identity refresh for India’s electronics and semiconductor company.', tags: ['BRAND IDENTITY', 'LOOKBOOK', 'FILM'], tone: 'mint', href: '#work-kaynes', ky: true },
   { t: 'Logo & Branding', tags: ['LOGO', 'DESIGN'], tone: 'mint', art: 'climb' },
-  { t: 'AdTech Web App', tags: ['SAAS', 'UI/UX'], tone: 'ice', art: 'lines' },
   { t: 'Brand Typography', tags: ['TYPOGRAPHY', 'DESIGN'], tone: 'lilac', art: 'type' },
   { t: 'Photoshoot for Schools', tags: ['PHOTOGRAPHY', 'ASSETS'], tone: 'ice', art: 'nest' },
   { t: 'HoReCa Brochure', tags: ['DESIGN', 'PHOTOSHOOT'], tone: 'mint', art: 'lines2' },
@@ -2541,7 +2738,7 @@ P.work = () => `
   <section class="sec">
     <div class="wrap work">
       ${WORK.map((w, i) => w.href ? `<a class="tile" href="${w.href}" style="${toneVars(w.tone)}" data-cursor="View">
-        ${w.ol ? `<div class="cover ol-cover">${olField(360, 'f', '250 170 1500 1125')}<div class="cap"><span>Case study</span><span>2026</span></div></div>` : `<div class="cover ky-cover"><div class="ky-flow" aria-hidden="true"></div><div class="ky-flow b" aria-hidden="true"></div><div class="mk">${kyMark()}</div><div class="cap"><span>Case study</span><span>2026</span></div></div>`}
+        ${w.cb ? `<div class="cover cb-cover"><div class="cb-3d">${cbFr('s10', '', '', true)}</div>${cbMark()}<div class="cap"><span>Case study</span><span>2026</span></div></div>` : w.ol ? `<div class="cover ol-cover">${olField(360, 'f', '250 170 1500 1125')}<div class="cap"><span>Case study</span><span>2026</span></div></div>` : `<div class="cover ky-cover"><div class="ky-flow" aria-hidden="true"></div><div class="ky-flow b" aria-hidden="true"></div><div class="mk">${kyMark()}</div><div class="cap"><span>Case study</span><span>2026</span></div></div>`}
         <div class="tags">${w.tags.map(t => `<span>${t}</span>`).join('')}</div>
         <h3><span>${w.t}<small>${w.sub}</small></span><span aria-hidden="true" style="width:18px;flex:none">${I.arrow}</span></h3>
       </a>` : `<article class="tile" style="${toneVars(w.tone)}">
@@ -3158,6 +3355,270 @@ function setupOli(main) {
 }
 const eo3 = t => 1 - Math.pow(1 - t, 3);
 
+/* ================= Case study: Cube Audience Manager =================
+   Every screen is the client's own design, exported from their Figma flow. */
+const cbImg = (id, alt, lazy = true) => `<img src="img/cube/${id}.webp" alt="${alt}" width="1600" height="1039"${lazy ? ' loading="lazy"' : ''} decoding="async">`;
+const cbFr = (id, alt, attrs = '', lazy = true) => `<div class="cb-fr"${attrs}>${cbImg(id, alt, lazy)}</div>`;
+const cbMark = () => `<span class="cb-mark" role="img" aria-label="Cube">${'CUBE'.split('').map(l => `<span aria-hidden="true">${l}</span>`).join('')}</span>`;
+const cbStep = (n, t) => `<p class="cb-step"><i></i>Step ${String(n).padStart(2, '0')} · ${t}</p>`;
+const CB_PERS = [
+  ['s02', 'Sincerity', 'Down-to-earth, family-oriented, honest, wholesome, cheerful, friendly.'],
+  ['s03', 'Excitement', 'Daring, trendy, spirited, young, imaginative, independent.'],
+  ['s04', 'Competence', 'Reliable, hard-working, technical, successful, confident.'],
+  ['s05', 'Sophistication', 'Upper-class, glamorous, charming, smooth.'],
+  ['s06', 'Ruggedness', 'Outdoorsy, tough, bold, blue-collar.'],
+];
+const CB_ARCH = [
+  ['Innocent', '#6F86FF', 'Clarity, cheerfulness and warmth, for an audience looking for a break from the world’s harshness.'],
+  ['Sage', '#6F86FF', 'Always learning how everything fits together, and putting it to use. Its question: how can our work shape the future?'],
+  ['Explorer', '#6F86FF', 'Thrives on new adventures and hard challenges. A search for truth makes transparency central to the brand.'],
+  ['Outlaw', '#3CC184', 'The rule-breaker who knows the boundaries and defies them, to disrupt an industry and show what is authentic.'],
+  ['Magician', '#3CC184', 'Wit, cleverness and intelligence. The magician makes the impossible look effortless.'],
+  ['Hero', '#3CC184', 'Nobody starts as a hero. The change comes from meeting injustice or a challenge, and rising to it.'],
+  ['Lover', '#F0566E', 'Brands that bring people together: passion and deep, lasting connection.'],
+  ['Jester', '#F0566E', 'Irreverence, energy and impulse. It defies the rules, and the truths it tells are hard to resist.'],
+  ['Everyman', '#F0566E', 'The joy of being normal. Not every moment has to be extraordinary.'],
+  ['Caregiver', '#E2B93B', 'Altruism, compassion and generosity. A caregiver brand works from the heart, so it must be trusted.'],
+  ['Ruler', '#E2B93B', 'Sets the pace for its industry and writes the rules others follow. Exclusivity and status.'],
+  ['Creator', '#E2B93B', 'The builder: a nonconformist who values self-expression and helps its audience find their own.'],
+];
+const CB_FORM = [['s34', 'Start', 'Fill a form or attach a brief'], ['s38', 'Gender', 'Tap an avatar'], ['s42', 'Age', 'Drag a range'], ['s43', 'Economic status', 'Pick a house'], ['s44', 'Monthly spend', 'Drag a range'], ['s45', 'Family size', 'Fill the circles'], ['s46', 'Internet use', 'Hours a day'], ['s47', 'Credit card', 'Thumbs up or down'], ['s48', 'Location', 'Rural to metro']];
+const CB_IC = {
+  dash: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>',
+  game: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 18V6M4 6h9l-1.5 3L13 12H4"/><circle cx="17" cy="17" r="3"/></svg>',
+  team: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/></svg>',
+  clear: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 7h16M4 12h10M4 17h6"/></svg>',
+};
+
+P['work-cube'] = () => `
+<div class="cb">
+  <section class="cb-hero" aria-labelledby="cb-h">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="#home">Home</a><span aria-hidden="true">/</span><a href="#work">Work</a><span aria-hidden="true">/</span><span aria-current="page">Cube</span></nav>
+      <div class="cb-hero-grid">
+        <div style="min-width:0">
+          <div class="rise-in">${cbMark()}${intro('Case study · Product design')}</div>
+          <div class="rise-in d1"><h1 id="cb-h" class="cb-grad"><span>Let’s discover</span><span>your audience.</span></h1></div>
+          <div class="row rise-in d2"><a class="btn btn-solid cb-btn" href="#cb-film">Watch the film${I.arrow}</a><a class="btn btn-ghost cb-ghost" href="#cb-reel">Play the reel</a></div>
+        </div>
+        <div class="cb-3d rise-in d2" aria-hidden="true"><div class="cb-stack-wrap" id="cb-tilt"><div class="cb-stack">
+          ${cbFr('s00', '', '', false)}${cbFr('s10', '', '', false)}${cbFr('s51', '', '', false)}
+        </div></div></div>
+      </div>
+      <div class="cb-about">
+        <p class="lede rise-in d1">Cube Audience Manager is a product from Cubera’s big data engine. A brand team describes who they are and who they sell to, talks it through with Cube AI, and gets back the audience cohort to plan a campaign around. We designed the product: every flow, from the first “Let’s discover” to the cube that turns while the data is crunched.</p>
+        <div class="cb-meta rise-in d3">
+          <div><span>Client</span><b>Cubera</b></div>
+          <div><span>Product</span><b>Cube Audience Manager</b></div>
+          <div><span>Scope</span><b>UX, UI, product flows, films</b></div>
+          <div><span>Year</span><b>2026</b></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cb-sec" id="cb-film" aria-labelledby="cb-film-h">
+    <div class="wrap">
+      <div class="cb-head">
+        <div>${cbStep(1, 'The film')}<h2 id="cb-film-h" class="cb-grad">The whole flow, from every angle.</h2></div>
+        <p class="lede">A 36-second product film made from the real screens. The camera flies the flow: the cubes snap into the mark, twelve archetypes turn on a ring, the form cards stand up as it passes, and it ends inside the cube. Every cut lands on the beat of an original score.</p>
+      </div>
+      <div class="cb-filmwrap">${olPlayer('cb-fv', 'wide', 'cube-film', 'cube-film-poster.webp', 'Cube product film, 36 seconds, with music')}</div>
+    </div>
+  </section>
+
+  <section class="cb-sec alt" aria-labelledby="cb-idea-h">
+    <div class="wrap">
+      <div class="cb-head">
+        <div>${cbStep(2, 'The idea')}<h2 id="cb-idea-h">Big data, asked <span class="cb-grad">like a conversation.</span></h2></div>
+        <p class="lede">Audience research usually means spreadsheets and a long brief. Cube turns it into a few friendly questions, a team chat and one button. Four rules shaped every screen.</p>
+      </div>
+      <ul class="cb-pr">
+        ${[['dash', 'One home', 'A chat-style dashboard is the hub for campaigns and team spaces. The profile menu holds everything else.'], ['game', 'A form that plays', 'Audience questions become avatars, sliders and illustrations, one question per screen.'], ['team', 'Built for teams', 'Each brand gets a team space. Members brainstorm there, and Cube AI joins in with questions.'], ['clear', 'Nothing extra', 'Clean, dark and uncluttered. Hard jobs are split into small steps with clear instructions.']].map(([ic, t, p], i) => `<li class="cb-in" style="--k:${i}"><span class="ic">${CB_IC[ic]}</span><h3>${t}</h3><p>${p}</p></li>`).join('')}
+      </ul>
+    </div>
+  </section>
+
+  <section class="cb-sec" aria-labelledby="cb-pers-h">
+    <div class="wrap">
+      <div class="cb-head">
+        <div>${cbStep(3, 'Personality')}<h2 id="cb-pers-h">Five ways <span class="cb-grad">a brand can feel.</span></h2></div>
+        <p class="lede">Setting up a team space starts with the brand, not the data. Pick the personality that sounds most like your customers. Hover an option in the product to see its traits; here, tap one.</p>
+      </div>
+      <div class="cb-pick">
+        <div class="cb-tabs" role="group" aria-label="Brand personality">
+          ${CB_PERS.map(([, t, d], i) => `<button type="button" class="cb-tab" data-i="${i}" aria-pressed="${i === 0}" aria-controls="cb-pers-fr"><span class="n">0${i + 1}</span><span><b>${t}</b><small>${d}</small></span></button>`).join('')}
+        </div>
+        <div class="cb-3d"><div class="cb-fr" id="cb-pers-fr" aria-live="polite">${cbImg('s02', 'The personality step with Sincerity selected')}</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cb-arch alt" id="cb-arch" aria-labelledby="cb-arch-h">
+    <div class="pin"><div class="wrap">
+      <div class="cb-arch-grid">
+        <div style="min-width:0">
+          ${cbStep(4, 'Archetype')}
+          <h2 id="cb-arch-h">Twelve archetypes, <span class="cb-grad">one wheel.</span></h2>
+          <ol class="cb-arch-list" id="cb-arch-list">${CB_ARCH.map(([t, c]) => `<li style="--ac:${c}">${t}</li>`).join('')}</ol>
+          <p class="cb-arch-d" id="cb-arch-d" aria-live="polite"></p>
+          <div class="cb-meter" aria-hidden="true"><i id="cb-arch-m"></i></div>
+        </div>
+        <div class="cb-3d"><div class="cb-ring" id="cb-ring">${CB_ARCH.map(([t], i) => cbFr('s' + String(7 + i).padStart(2, '0'), `The archetype wheel with ${t} selected`)).join('')}</div></div>
+      </div>
+    </div></div>
+  </section>
+
+  <section class="cb-sec" aria-labelledby="cb-team-h">
+    <div class="wrap">
+      <div class="cb-head">
+        <div>${cbStep(5, 'Team space')}<h2 id="cb-team-h">Set up in <span class="cb-grad">four steps.</span></h2></div>
+        <p class="lede">Personality, archetype, the brand’s name and industry, then the people. Members can be added later from the brand space settings, so nobody is stuck waiting.</p>
+      </div>
+      <div class="cb-3d"><div class="cb-stairs" id="cb-stairs">
+        ${[['s02', '01', 'Personality'], ['s07', '02', 'Archetype'], ['s19', '03', 'Your brand'], ['s27', '04', 'Your team']].map(([id, n, t], i) => `<figure style="position:absolute;left:${i * 18.5}%;top:${54 - i * 17}%;width:44%">${cbFr(id, `Set-up step ${n}: ${t}`, ' style="width:100%;position:relative"')}<figcaption class="k" style="left:0;top:-38px">${n}<b>${t}</b></figcaption></figure>`).join('')}
+      </div></div>
+      <div class="cb-spaces">
+        <div class="cb-3d" aria-hidden="true"><div class="cb-explode" id="cb-explode">${['s22', 's23', 's24', 's25'].map(id => cbFr(id, '')).join('')}</div></div>
+        <div>
+          <ul class="cb-notes">
+            <li class="cb-in"><b>A space for every brand</b><p>Switch spaces from the profile menu. Anyone who starts without one works in a guest space.</p></li>
+            <li class="cb-in" style="--k:1"><b>All spaces at a glance</b><p>A filterable grid of every team space you belong to.</p></li>
+            <li class="cb-in" style="--k:2"><b>People, managed in place</b><p>Search, add, edit and remove members without leaving the space.</p></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cb-form alt" id="cb-form" aria-labelledby="cb-form-h">
+    <div class="pin">
+      <div class="wrap">
+        <div class="cb-head" style="margin-bottom:0">
+          <div>${cbStep(6, 'The form')}<h2 id="cb-form-h">A brief that <span class="cb-grad">feels like a game.</span></h2></div>
+          <p class="lede">Attach a campaign brief, or answer eight questions one at a time. Each answer is a tap or a drag, never a text box, and the answers land in the chat as a neat table.</p>
+        </div>
+      </div>
+      <div class="cb-track" id="cb-track">
+        ${CB_FORM.map(([id, t, d], i) => `<figure>${cbFr(id, `Form step: ${t}`)}<figcaption><b>${String(i).padStart(2, '0')}</b>${t} · ${d}</figcaption></figure>`).join('')}
+      </div>
+    </div>
+  </section>
+
+  <section class="cb-sec" aria-labelledby="cb-ai-h">
+    <div class="wrap">
+      <div class="cb-head">
+        <div>${cbStep(7, 'Cube AI')}<h2 id="cb-ai-h">The team talks. <span class="cb-grad">Cube AI listens.</span></h2></div>
+        <p class="lede">Teammates brainstorm in the space and tag each other for files. Cube AI joins the thread, asks for the details it is missing, and when the team is ready one button turns it all into a cohort.</p>
+      </div>
+      <div class="cb-ai">
+        <div class="cb-3d" aria-hidden="true"><div class="cb-ai-shots">${cbFr('s51', '')}${cbFr('s52', '')}</div></div>
+        <ol class="cb-flow">
+          <li class="cb-in"><div><b>Brief in</b><p>The form answers, or an attached document, appear in the chat.</p></div></li>
+          <li class="cb-in" style="--k:1"><div><b>Team talks</b><p>Members share ideas; Cube AI asks follow-up questions.</p></div></li>
+          <li class="cb-in" style="--k:2"><div><b>Summarise</b><p>One button sends everything to Cube.</p></div></li>
+          <li class="cb-in" style="--k:3"><div><b>Cohort out</b><p>A turning cube while the data is fine-tuned into an audience.</p></div></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="cb-sec alt" id="cb-reel" aria-labelledby="cb-reel-h">
+    <div class="wrap cb-reel">
+      <div>${cbStep(8, 'The reel')}<h2 id="cb-reel-h" style="font-size:var(--c-h2);line-height:1.1">Made for <span class="cb-grad">the vertical feed.</span></h2>
+        <p class="lede" style="margin-top:24px">An 18-second 9:16 cut of the same story for Reels, Shorts and LinkedIn, on the same score.</p>
+        <div style="margin-top:40px">${arrowBtn('#work', 'Back to all work', 'btn-ghost cb-ghost')}</div></div>
+      <div class="cb-phone">${olPlayer('cb-rv', 'tall', 'cube-reel', 'cube-reel-poster.webp', 'Cube vertical reel, 18 seconds, with music')}</div>
+    </div>
+  </section>
+</div>
+  ${ctaBand('mint', 'Got a product to design?', 'Let’s build it together')}`;
+
+let cbRaf = 0;
+function setupCube(main) {
+  const root = main.querySelector('.cb'); if (!root) return;
+  const ok = motionOK(), wide = matchMedia('(min-width: 901px)');
+  const io = new IntersectionObserver(es => es.forEach(e => { if (!e.isIntersecting) return; e.target.classList.add('on'); io.unobserve(e.target); }), { threshold: .2 });
+  root.querySelectorAll('.cb-in').forEach(el => io.observe(el));
+
+  olPlayers.length = 0;
+  olSetupPlayer(root.querySelector('#cb-fv'), ok);
+  olSetupPlayer(root.querySelector('#cb-rv'), ok);
+
+  /* Hero: the stack leans towards the pointer */
+  const tilt = root.querySelector('#cb-tilt'), hero = root.querySelector('.cb-hero');
+  if (ok && matchMedia('(pointer: fine)').matches) hero.addEventListener('pointermove', e => {
+    const r = hero.getBoundingClientRect();
+    tilt.style.setProperty('--py', (((e.clientX - r.left) / r.width - .5) * 10).toFixed(2) + 'deg');
+    tilt.style.setProperty('--px', (((e.clientY - r.top) / r.height - .5) * -8).toFixed(2) + 'deg');
+  });
+
+  /* Personality picker */
+  const pf = root.querySelector('#cb-pers-fr'), tabs = [...root.querySelectorAll('.cb-tab')];
+  const pick = i => {
+    tabs.forEach((t, j) => t.setAttribute('aria-pressed', i === j));
+    const [id, t] = CB_PERS[i]; pf.innerHTML = cbImg(id, `The personality step with ${t} selected`, false);
+    if (ok) { pf.classList.remove('swap'); void pf.offsetWidth; pf.classList.add('swap'); }
+  };
+  tabs.forEach((b, i) => b.addEventListener('click', () => pick(i)));
+  root.querySelector('.cb-tabs').addEventListener('keydown', e => {
+    if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft' && e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+    const i = tabs.indexOf(document.activeElement); if (i < 0) return; e.preventDefault();
+    const n = (i + (e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : -1) + tabs.length) % tabs.length; tabs[n].focus(); pick(n);
+  });
+
+  /* Scroll scenes */
+  const arch = root.querySelector('#cb-arch'), ring = [...root.querySelectorAll('#cb-ring .cb-fr')], aList = [...root.querySelectorAll('#cb-arch-list li')], aD = root.querySelector('#cb-arch-d'), aM = root.querySelector('#cb-arch-m');
+  const stairs = root.querySelector('#cb-stairs'), steps = [...stairs.querySelectorAll('.cb-fr')];
+  const ex = root.querySelector('#cb-explode'), layers = [...ex.querySelectorAll('.cb-fr')];
+  const form = root.querySelector('#cb-form'), track = root.querySelector('#cb-track'), cards = [...track.querySelectorAll('figure')];
+  let lastA = -1;
+  const setArch = a => {
+    if (a === lastA) return; lastA = a;
+    aList.forEach((li, i) => li.classList.toggle('on', i === a));
+    aD.textContent = CB_ARCH[a][2];
+  };
+  const tick = () => {
+    cbRaf = 0; if (!root.isConnected) return;
+    const vh = innerHeight, big = wide.matches && ok;
+    // Archetypes: a cover-flow that turns with the scroll
+    if (big) {
+      const r = arch.getBoundingClientRect(), p = clamp(-r.top / (r.height - vh)), f = p * 11.999;
+      setArch(Math.round(clamp(f, 0, 11))); aM.parentElement && aM.style.setProperty('--p', p.toFixed(3));
+      ring.forEach((el, i) => {
+        const d = i - f, a = Math.abs(d);
+        el.style.transform = `translateX(${(d * 46).toFixed(2)}%) translateZ(${(-a * 240).toFixed(1)}px) rotateY(${(-clamp(d, -2.5, 2.5) * 30).toFixed(2)}deg)`;
+        el.style.opacity = clamp(d < 0 ? 1 - a * 1.6 : 1.2 - a * .5).toFixed(3); el.style.filter = `brightness(${clamp(1 - a * .45, .25, 1).toFixed(3)})`; el.style.zIndex = 20 - Math.round(a * 2);
+      });
+    } else if (lastA < 0) setArch(0);
+    // Staircase: each step rises in turn
+    if (big) {
+      const r = stairs.getBoundingClientRect(), q = clamp((vh * .95 - r.top) / (vh * .75));
+      steps.forEach((el, i) => { const k = easeIO(clamp(q * 1.6 - i * .2)); el.style.opacity = k.toFixed(3); el.style.transform = `rotateX(6deg) rotateY(-22deg) translateY(${((1 - k) * 90).toFixed(1)}px) translateZ(${((1 - k) * -120).toFixed(1)}px)`; });
+    } else steps.forEach(el => { el.style.opacity = ''; el.style.transform = ''; });
+    // Exploded stack: the layers lift apart
+    {
+      const r = ex.getBoundingClientRect(), q = ok ? easeIO(clamp((vh - r.top) / (vh * .9))) : 1, sep = (wide.matches ? 30 : 16) + q * (wide.matches ? 120 : 56);
+      layers.forEach((el, i) => { el.style.transform = `rotateX(var(--rx)) rotateZ(var(--rz)) translateZ(${(i * sep).toFixed(1)}px)`; el.style.filter = `brightness(${(.55 + .15 * i).toFixed(2)})`; });
+    }
+    // The form: the track slides sideways, each card turns to face you as it passes the middle
+    if (big) {
+      const r = form.getBoundingClientRect(), p = clamp(-r.top / (r.height - vh)), span = track.scrollWidth - innerWidth;
+      track.style.setProperty('--x', (-p * Math.max(0, span)).toFixed(1) + 'px');
+      cards.forEach(c => { const b = c.getBoundingClientRect(), d = clamp(((b.left + b.width / 2) / innerWidth - .5) * 2, -1, 1); c.firstElementChild.style.setProperty('--tr', (-d * 28).toFixed(2) + 'deg'); });
+    } else { track.style.removeProperty('--x'); cards.forEach(c => c.firstElementChild.style.removeProperty('--tr')); ring.forEach(el => { el.style.transform = ''; el.style.opacity = ''; el.style.filter = ''; }); }
+  };
+  const onScroll = () => { if (!cbRaf) cbRaf = requestAnimationFrame(tick); };
+  addEventListener('scroll', onScroll, { passive: true }); addEventListener('resize', onScroll);
+  const stop = () => { if (!root.isConnected) { removeEventListener('scroll', onScroll); removeEventListener('resize', onScroll); removeEventListener('hashchange', later); } };
+  const later = () => setTimeout(stop, 1500);
+  /* Phones swipe the archetypes instead: the list follows the swipe */
+  const ringEl = root.querySelector('#cb-ring');
+  ringEl.addEventListener('scroll', () => { if (wide.matches && ok) return; const w = ring[0].offsetWidth + 16; setArch(Math.round(clamp(ringEl.scrollLeft / w, 0, 11))); }, { passive: true });
+  addEventListener('hashchange', later);
+  pick(0); tick();
+}
+
 P.marketing = () => `
   ${pageHero({ tone: 'mint', crumbs: [['#home', 'Home'], ['', 'Marketing']], eyebrow: 'Marketing', h: 'Digital Marketing Services in Bangalore.', lede: '50 years of combined experience in crafting timeless brands with passion and precision.' })}
   <section class="sec">
@@ -3578,6 +4039,7 @@ function setupPage(route) {
   setupHero();
   if (route === 'work-kaynes') setupKaynes(document.getElementById('main'));
   if (route === 'work-oli') setupOli(document.getElementById('main'));
+  if (route === 'work-cube') setupCube(document.getElementById('main'));
   document.querySelectorAll('.tabs').forEach(list => {
     const tabs = [...list.querySelectorAll('[role="tab"]')];
     const sel = i => tabs.forEach((t, j) => {
@@ -3650,7 +4112,7 @@ const motionOK = () => !RM.matches;
 const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 const easeIO = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 const PAGE_TONE = { edtech: 'ice', gamification: 'lilac' };
-const PAGE_NAME = { home: 'Latch Infinity', about: 'About', work: 'Work', 'work-kaynes': 'Kaynes Technology', 'work-oli': 'Oli', marketing: 'Marketing', branding: 'Branding', advertising: 'Advertising', 'digital-services': 'Digital Services', 'web-app-development': 'Website &amp; App Development', edtech: 'EdTech', gamification: 'Gamification', blog: 'Blogs', contact: 'Let\'s Talk', legal: 'Terms &amp; Privacy' };
+const PAGE_NAME = { home: 'Latch Infinity', about: 'About', work: 'Work', 'work-kaynes': 'Kaynes Technology', 'work-oli': 'Oli', 'work-cube': 'Cube', marketing: 'Marketing', branding: 'Branding', advertising: 'Advertising', 'digital-services': 'Digital Services', 'web-app-development': 'Website &amp; App Development', edtech: 'EdTech', gamification: 'Gamification', blog: 'Blogs', contact: 'Let\'s Talk', legal: 'Terms &amp; Privacy' };
 const wipe = document.getElementById('wipe'), bars = [...wipe.querySelectorAll('i')], wipeMark = document.getElementById('wipe-mark');
 const EASE_IO = 'cubic-bezier(.76,0,.24,1)';
 const SKEW = x => `translateX(${x}) skewX(-33deg)`;
