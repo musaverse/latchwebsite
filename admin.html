@@ -1,0 +1,652 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Blog Editor · Latch Infinity</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62.5..125,300..700&display=swap">
+<style>
+:root {
+  --paper: #fff; --surface: #f4f5f1; --ink: #141813; --ink-2: #4a5149; --ink-3: #737a71; --line: #e2e4dc;
+  --deep: #333a32; --deep-ink: #eef3ec; --deep-ink-2: #a9b3a7; --mint: #b1f7bb; --tint-mint: #dff7e2;
+  --lilac: #d8ccff; --focus: #1f6b2c; --err: #a33a2e; --r: 14px;
+  --font: 'Archivo', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--surface); color: var(--ink); font: 15.5px/1.55 var(--font); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+h1, h2, h3 { font-weight: 400; font-stretch: 125%; margin: 0; line-height: 1.1; letter-spacing: -.01em; }
+button, input, select, textarea { font: inherit; color: inherit; }
+a { color: inherit; }
+img { max-width: 100%; display: block; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 6px; }
+[hidden] { display: none !important; }
+.label { font-stretch: 75%; letter-spacing: .1em; text-transform: uppercase; font-size: 12.5px; color: var(--ink-3); }
+
+/* Bar */
+.bar { position: sticky; top: 0; z-index: 20; background: var(--deep); color: var(--deep-ink); display: flex; align-items: center; gap: 14px; padding: 12px max(16px, env(safe-area-inset-left)); min-height: 60px; flex-wrap: wrap; }
+.bar .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; margin-right: auto; min-width: 0; }
+.bar .brand b { font-weight: 400; font-stretch: 125%; font-size: 17px; white-space: nowrap; }
+.bar .brand span { color: var(--deep-ink-2); font-size: 13.5px; white-space: nowrap; }
+.conn { display: inline-flex; align-items: center; gap: 8px; font-size: 13.5px; color: var(--deep-ink-2); }
+.conn i { width: 8px; height: 8px; border-radius: 50%; background: #c9a24b; }
+.conn.on i { background: var(--mint); }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 40px; padding: 0 16px; border-radius: 999px; border: 1px solid var(--line); background: var(--paper); cursor: pointer; font-size: 14.5px; text-decoration: none; white-space: nowrap; }
+.btn:hover { border-color: var(--ink-3); }
+.btn.solid { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.btn.mint { background: var(--mint); color: #1d221c; border-color: var(--mint); }
+.btn.ghost-d { background: none; color: var(--deep-ink); border-color: rgba(238,243,236,.25); }
+.btn.ghost-d:hover { border-color: var(--deep-ink); }
+.btn.danger { color: var(--err); }
+.btn.sm { min-height: 32px; padding: 0 12px; font-size: 13.5px; }
+.btn:disabled { opacity: .5; cursor: default; }
+
+main { max-width: 1440px; margin: 0 auto; padding: 24px max(16px, env(safe-area-inset-left)) 80px; }
+.card { background: var(--paper); border: 1px solid var(--line); border-radius: var(--r); padding: clamp(18px, 2.4vw, 28px); }
+
+/* Setup */
+.setup { max-width: 760px; margin: 24px auto; display: grid; gap: 18px; }
+.setup ol { margin: 0; padding-left: 1.3em; display: grid; gap: 8px; color: var(--ink-2); }
+.setup code { background: var(--surface); padding: 1px 6px; border-radius: 6px; font-size: .9em; }
+
+/* List */
+.list-head { display: flex; align-items: end; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
+.list-head h1 { font-size: clamp(28px, 3.4vw, 44px); margin-right: auto; }
+.search { min-height: 40px; border: 1px solid var(--line); border-radius: 999px; padding: 0 16px; background: var(--paper); width: min(320px, 100%); }
+.rows { display: grid; gap: 10px; }
+.row { display: grid; grid-template-columns: 120px minmax(0, 1fr) auto; gap: 18px; align-items: center; background: var(--paper); border: 1px solid var(--line); border-radius: var(--r); padding: 12px; }
+.row .thumb { aspect-ratio: 16/9; border-radius: 10px; overflow: hidden; background: var(--surface); }
+.row .thumb img { width: 100%; height: 100%; object-fit: cover; }
+.row h3 { font-size: 17px; font-stretch: 110%; line-height: 1.3; }
+.row .meta { display: flex; gap: 8px; flex-wrap: wrap; font-size: 13px; color: var(--ink-3); margin-top: 4px; align-items: center; }
+.row .acts { display: flex; gap: 8px; }
+.pill { display: inline-flex; align-items: center; border-radius: 999px; padding: 1px 9px; font-size: 12px; background: var(--lilac); color: #37323f; }
+.pill.live { background: var(--tint-mint); color: var(--deep); }
+@media (max-width: 640px) {
+  .row { grid-template-columns: 88px minmax(0, 1fr); }
+  .row .acts { grid-column: 1 / -1; justify-content: flex-end; }
+}
+
+/* Editor */
+.ed-head { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 18px; }
+.ed-head h1 { font-size: clamp(22px, 2.6vw, 32px); margin-right: auto; min-width: 0; }
+.ed { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; align-items: start; }
+.fields { display: grid; gap: 16px; }
+.f { display: grid; gap: 6px; min-width: 0; }
+.f label, .f .lb { font-size: 13.5px; color: var(--ink-2); font-weight: 500; }
+.f small { color: var(--ink-3); font-size: 12.5px; }
+.f input[type=text], .f input[type=date], .f select, .f textarea { width: 100%; min-height: 42px; border: 1px solid var(--line); border-radius: 10px; padding: 9px 12px; background: var(--paper); }
+.f textarea { resize: vertical; }
+.f.bad input, .f.bad textarea, .f.bad select { border-color: var(--err); }
+.f .err { color: var(--err); font-size: 13px; }
+.two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; }
+.slugline { display: flex; align-items: center; border: 1px solid var(--line); border-radius: 10px; background: var(--paper); overflow: hidden; }
+.slugline span { padding: 0 0 0 12px; color: var(--ink-3); font-size: 13.5px; white-space: nowrap; }
+.slugline input { border: 0 !important; min-width: 0; padding-left: 2px !important; }
+.drop { position: relative; border: 1.5px dashed var(--line); border-radius: 12px; background: var(--surface); aspect-ratio: 16/9; display: grid; place-items: center; overflow: hidden; cursor: pointer; text-align: center; color: var(--ink-3); font-size: 14px; }
+.drop.over { border-color: var(--focus); background: var(--tint-mint); }
+.drop img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.drop .hint { position: relative; padding: 16px; }
+.drop.has .hint { position: absolute; bottom: 10px; right: 10px; background: rgba(20,24,19,.75); color: #fff; padding: 6px 12px; border-radius: 999px; font-size: 13px; }
+.toggle { display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 14.5px; }
+.toggle input { width: 18px; height: 18px; accent-color: var(--deep); }
+
+.writer { border: 1px solid var(--line); border-radius: 12px; background: var(--paper); overflow: hidden; }
+.tools { display: flex; flex-wrap: wrap; gap: 2px; padding: 6px; border-bottom: 1px solid var(--line); background: var(--surface); position: sticky; top: 60px; z-index: 2; }
+.tools button { min-width: 36px; height: 34px; border: 0; background: none; border-radius: 8px; cursor: pointer; font-size: 14px; padding: 0 9px; color: var(--ink-2); }
+.tools button:hover { background: var(--paper); color: var(--ink); }
+.tools .sep { width: 1px; background: var(--line); margin: 4px 4px; }
+.writer textarea { display: block; width: 100%; border: 0; min-height: 520px; padding: 16px; font: 15px/1.7 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; resize: vertical; outline: none; }
+.writer .foot { display: flex; justify-content: space-between; gap: 10px; padding: 8px 14px; border-top: 1px solid var(--line); font-size: 12.5px; color: var(--ink-3); flex-wrap: wrap; }
+
+.preview { position: sticky; top: 80px; max-height: calc(100vh - 100px); overflow: auto; background: var(--paper); border: 1px solid var(--line); border-radius: var(--r); }
+.pv-hero { background: var(--deep); color: var(--deep-ink); padding: 28px; display: grid; gap: 12px; }
+.pv-hero .label { color: var(--deep-ink-2); }
+.pv-hero h2 { font-size: clamp(24px, 2.4vw, 34px); }
+.pv-hero p { color: var(--deep-ink-2); }
+.pv-cover { aspect-ratio: 16/9; background: var(--surface); }
+.pv-cover img { width: 100%; height: 100%; object-fit: cover; }
+.art { padding: 28px; font-size: 16.5px; line-height: 1.72; color: #262b25; overflow-wrap: anywhere; }
+.art > * + * { margin-top: 1.05em; }
+.art p { margin-bottom: 0; }
+.art h2 { font-size: 25px; line-height: 1.15; margin-top: 1.9em; }
+.art h3 { font-size: 19.5px; line-height: 1.25; margin-top: 1.6em; }
+.art h2 + *, .art h3 + * { margin-top: .6em; }
+.art ul, .art ol { margin-bottom: 0; display: grid; gap: .4em; }
+.art ul { list-style: none; padding-left: 0; }
+.art ul > li { position: relative; padding-left: 1.5em; }
+.art ul > li::before { content: ""; position: absolute; left: 0; top: .78em; width: 12px; height: 2px; background: var(--deep); transform: skewX(-33deg); }
+.art a { color: var(--focus); text-underline-offset: 3px; }
+.art blockquote { margin: 1.4em 0; padding: 2px 0 2px 20px; border-left: 3px solid var(--mint); font-size: 1.1em; color: var(--ink); }
+.art blockquote p { margin: 0; }
+.art figure { margin: 1.6em 0; }
+.art figure img { border-radius: 12px; }
+.art figcaption { font-size: 13.5px; color: var(--ink-3); margin-top: 8px; }
+.art hr { border: 0; border-top: 1px solid var(--line); }
+.art code { background: var(--surface); padding: 1px 6px; border-radius: 6px; font-size: .88em; }
+.art .cta { margin-top: 2.2em; padding: 22px; border-radius: 14px; background: var(--tint-mint); }
+.tabs { display: none; gap: 4px; padding: 4px; background: var(--paper); border: 1px solid var(--line); border-radius: 999px; margin-bottom: 14px; }
+.tabs button { flex: 1; min-height: 36px; border: 0; border-radius: 999px; background: none; cursor: pointer; }
+.tabs button[aria-selected=true] { background: var(--ink); color: var(--paper); }
+@media (max-width: 1000px) {
+  .ed { grid-template-columns: minmax(0, 1fr); }
+  .tabs { display: flex; }
+  .ed[data-view=write] .preview, .ed[data-view=preview] .fields { display: none; }
+  .preview { position: static; max-height: none; }
+  .tools { top: 0; position: static; }
+}
+@media (max-width: 560px) { .two { grid-template-columns: minmax(0, 1fr); } .bar .brand span { display: none; } }
+
+/* Toast and dialog */
+.toast { position: fixed; left: 50%; bottom: max(20px, env(safe-area-inset-bottom)); transform: translateX(-50%); background: var(--ink); color: var(--paper); padding: 12px 18px; border-radius: 12px; font-size: 14.5px; z-index: 50; max-width: calc(100vw - 32px); box-shadow: 0 10px 30px rgba(0,0,0,.2); }
+.toast.err { background: var(--err); }
+.toast a { color: var(--mint); }
+dialog { border: 0; border-radius: 18px; padding: 0; width: min(560px, calc(100vw - 32px)); box-shadow: 0 30px 80px rgba(0,0,0,.25); }
+dialog::backdrop { background: rgba(20,24,19,.45); }
+dialog form { padding: 24px; display: grid; gap: 16px; }
+dialog .acts { display: flex; justify-content: flex-end; gap: 10px; flex-wrap: wrap; }
+.note { font-size: 13.5px; color: var(--ink-2); background: var(--surface); border-radius: 10px; padding: 12px 14px; }
+.empty { padding: 40px; text-align: center; color: var(--ink-3); border: 1.5px dashed var(--line); border-radius: var(--r); }
+</style>
+</head>
+<body>
+<header class="bar">
+  <a class="brand" href="#"><svg width="22" height="30" viewBox="8 4 298 410" aria-hidden="true"><g fill="none" stroke="#B1F7BB" stroke-width="28"><path d="M220.6 128.8A72 72 0 1 0 96.6 134.2L168 254"/><path d="M93.4 225.2A72 72 0 1 0 217.4 219.8L140.2 101"/></g></svg><b>Blog editor</b><span>Latch Infinity</span></a>
+  <span class="conn" id="conn"><i></i><span>Not connected</span></span>
+  <button class="btn ghost-d sm" type="button" id="btn-settings">Connection</button>
+  <a class="btn ghost-d sm" href="index.html#blog" target="_blank" rel="noopener">View site</a>
+</header>
+<main id="app"></main>
+
+<dialog id="dlg-settings">
+  <form method="dialog" id="settings-form">
+    <h2 style="font-size:24px">Connect to GitHub</h2>
+    <p class="note">The editor publishes by committing to the website's GitHub repository. Each commit to the main branch redeploys the site, and changes go live in about a minute. Your token is kept in this browser only and is sent only to api.github.com.</p>
+    <div class="f"><label for="s-token">Personal access token</label><input type="text" id="s-token" autocomplete="off" spellcheck="false" placeholder="github_pat_…"><small>Fine-grained token with <b>Contents: Read and write</b> on the website repository only.</small></div>
+    <div class="two">
+      <div class="f"><label for="s-repo">Repository</label><input type="text" id="s-repo" spellcheck="false"></div>
+      <div class="f"><label for="s-branch">Branch</label><input type="text" id="s-branch" spellcheck="false"></div>
+    </div>
+    <p class="err" id="s-err" style="color:var(--err);margin:0" hidden></p>
+    <div class="acts">
+      <button class="btn danger" type="button" id="s-forget">Forget token</button>
+      <button class="btn" type="button" id="s-cancel">Cancel</button>
+      <button class="btn solid" type="submit" id="s-save">Connect</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="dlg-link">
+  <form method="dialog" id="link-form">
+    <h2 style="font-size:22px">Insert link</h2>
+    <div class="f"><label for="l-text">Text</label><input type="text" id="l-text"></div>
+    <div class="f"><label for="l-url">Address</label><input type="text" id="l-url" placeholder="https://… or #contact"></div>
+    <div class="acts"><button class="btn" type="button" data-close>Cancel</button><button class="btn solid" type="submit">Insert</button></div>
+  </form>
+</dialog>
+
+<input type="file" id="file-cover" accept="image/*" hidden>
+<input type="file" id="file-inline" accept="image/*" hidden>
+
+<script src="blog/md.js"></script>
+<script>
+(() => {
+const { render, inline, esc, slugify, words } = LatchMD;
+const $ = (s, el = document) => el.querySelector(s);
+const LS = {
+  get(k, d) { try { const v = localStorage.getItem('latchblog.' + k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
+  set(k, v) { try { localStorage.setItem('latchblog.' + k, JSON.stringify(v)); } catch (e) {} },
+  del(k) { try { localStorage.removeItem('latchblog.' + k); } catch (e) {} },
+};
+const cfg = Object.assign({ repo: 'musaverse/latchwebsite', branch: 'main', token: '' }, LS.get('cfg', {}));
+const DATA_PATH = 'blog/posts.json';
+
+let data = { categories: [], posts: [] };   // what the repository holds now
+let source = 'site';                         // 'github' when loaded through the API
+let editing = null;                          // { orig: slug|null, post }
+let pending = {};                            // repo path -> { b64, url } images waiting to be committed
+let dirty = false, busy = false;
+
+/* ---------- helpers ---------- */
+function toast(msg, err, ms = 4200) {
+  document.querySelectorAll('.toast').forEach(t => t.remove());
+  const t = document.createElement('div'); t.className = 'toast' + (err ? ' err' : ''); t.setAttribute('role', 'status'); t.innerHTML = msg;
+  document.body.append(t); setTimeout(() => t.remove(), ms);
+}
+const today = () => new Date().toISOString().slice(0, 10);
+const fmtDate = d => { const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(d || ''); return m ? new Date(+m[1], m[2] - 1, +m[3]).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }) : ''; };
+const b64utf8 = s => { const b = new TextEncoder().encode(s); let bin = ''; for (let i = 0; i < b.length; i += 0x8000) bin += String.fromCharCode.apply(null, b.subarray(i, i + 0x8000)); return btoa(bin); };
+const utf8b64 = s => new TextDecoder().decode(Uint8Array.from(atob(s.replace(/\s/g, '')), c => c.charCodeAt(0)));
+const connected = () => !!cfg.token;
+const sorted = list => [...list].sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+
+/* ---------- GitHub ---------- */
+async function gh(path, opts = {}) {
+  const r = await fetch(`https://api.github.com/repos/${cfg.repo}${path}`, {
+    ...opts, cache: 'no-store',
+    headers: { Accept: 'application/vnd.github+json', Authorization: `Bearer ${cfg.token}`, 'X-GitHub-Api-Version': '2022-11-28', ...(opts.body ? { 'Content-Type': 'application/json' } : {}) },
+  });
+  if (!r.ok) {
+    let m = ''; try { m = (await r.json()).message; } catch (e) {}
+    const why = r.status === 401 ? 'The token was refused. Check it has not expired.' : r.status === 403 || r.status === 404 ? 'The token cannot reach this repository. It needs Contents: Read and write on ' + cfg.repo + '.' : r.status === 409 || r.status === 422 ? 'Someone else published at the same moment. Try again.' : m || 'GitHub returned ' + r.status + '.';
+    const e = new Error(why); e.status = r.status; throw e;
+  }
+  return r.status === 204 ? null : r.json();
+}
+async function readRemote(ref) {
+  const f = await gh(`/contents/${DATA_PATH}?ref=${encodeURIComponent(ref)}`);
+  const text = f.content ? utf8b64(f.content) : utf8b64((await gh(`/git/blobs/${f.sha}`)).content);
+  return JSON.parse(text);
+}
+/* One commit carries the images and the updated posts.json. The change is replayed on the latest
+   posts.json so an edit made elsewhere in the meantime is never overwritten. */
+async function commit(change, message) {
+  const ref = await gh(`/git/ref/heads/${encodeURIComponent(cfg.branch)}`);
+  const head = ref.object.sha;
+  const headCommit = await gh(`/git/commits/${head}`);
+  const latest = await readRemote(head);
+  const next = change(structuredClone(latest));
+  const tree = [];
+  for (const [path, img] of Object.entries(pending)) {
+    if (!JSON.stringify(next).includes(path)) continue;          // image removed before publishing
+    const blob = await gh('/git/blobs', { method: 'POST', body: JSON.stringify({ content: img.b64, encoding: 'base64' }) });
+    tree.push({ path, mode: '100644', type: 'blob', sha: blob.sha });
+  }
+  tree.push({ path: DATA_PATH, mode: '100644', type: 'blob', content: JSON.stringify(next, null, 2) + '\n' });
+  const t = await gh('/git/trees', { method: 'POST', body: JSON.stringify({ base_tree: headCommit.tree.sha, tree }) });
+  const c = await gh('/git/commits', { method: 'POST', body: JSON.stringify({ message, tree: t.sha, parents: [head] }) });
+  await gh(`/git/refs/heads/${encodeURIComponent(cfg.branch)}`, { method: 'PATCH', body: JSON.stringify({ sha: c.sha }) });
+  data = next; pending = {};
+  return c;
+}
+
+/* ---------- loading ---------- */
+async function load() {
+  setConn();
+  try {
+    if (connected()) { data = await readRemote(cfg.branch); source = 'github'; }
+    else { const r = await fetch(DATA_PATH, { cache: 'no-cache' }); data = await r.json(); source = 'site'; }
+  } catch (e) {
+    if (connected()) { toast(esc(e.message), true, 7000); const r = await fetch(DATA_PATH, { cache: 'no-cache' }).catch(() => null); data = r && r.ok ? await r.json() : data; source = 'site'; }
+    else toast('Could not load posts. Open this page from the website, not as a file.', true);
+  }
+  data.categories = data.categories || []; data.posts = data.posts || [];
+  setConn(); route();
+}
+function setConn() {
+  const c = $('#conn'); c.classList.toggle('on', source === 'github');
+  c.lastElementChild.textContent = source === 'github' ? `Connected · ${cfg.repo}` : connected() ? 'Connecting…' : 'Not connected';
+}
+
+/* ---------- routing ---------- */
+function route() {
+  const h = location.hash.slice(1);
+  if (h === 'new') return openEditor(null);
+  if (h.startsWith('edit/')) return openEditor(decodeURIComponent(h.slice(5)));
+  editing = null; dirty = false; showList();
+}
+addEventListener('hashchange', () => {
+  if (dirty && editing && !location.hash.startsWith('#edit/') && location.hash !== '#new') {
+    if (!confirm('Leave without saving? Your changes stay in this browser and you can pick them up later.')) { history.pushState(null, '', editing.orig ? '#edit/' + editing.orig : '#new'); return; }
+  }
+  route();
+});
+addEventListener('beforeunload', e => { if (dirty) { e.preventDefault(); e.returnValue = ''; } });
+
+/* ---------- list ---------- */
+let q = '';
+function showList() {
+  document.title = 'Blog Editor · Latch Infinity';
+  const app = $('#app');
+  const intro = source === 'github' ? '' : `<div class="card setup">
+      <h2 style="font-size:24px">Connect once to publish</h2>
+      <p style="color:var(--ink-2);margin:0">You can browse and draft without connecting. To publish, the editor needs a GitHub token that can write to <b>${esc(cfg.repo)}</b>.</p>
+      <ol>
+        <li>On GitHub, open <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">Settings › Developer settings › Fine-grained tokens › Generate new token</a>.</li>
+        <li>Under <b>Repository access</b>, choose <i>Only select repositories</i> and pick <code>${esc(cfg.repo)}</code>.</li>
+        <li>Under <b>Permissions › Repository permissions</b>, set <b>Contents</b> to <i>Read and write</i>. Leave everything else as it is.</li>
+        <li>Generate it, copy it, then press <b>Connect</b> below and paste it.</li>
+      </ol>
+      <div><button class="btn solid" type="button" data-act="settings">Connect</button></div>
+    </div>`;
+  app.innerHTML = `${intro}
+    <div class="list-head">
+      <h1>Articles</h1>
+      <input class="search" type="search" id="q" placeholder="Search articles" value="${esc(q)}" aria-label="Search articles">
+      <a class="btn solid" href="#new">New article</a>
+    </div>
+    <div class="rows" id="rows"></div>`;
+  const draw = () => {
+    const s = q.toLowerCase();
+    const list = sorted(data.posts).filter(p => !s || [p.title, p.category, p.excerpt, ...(p.keywords || [])].join(' ').toLowerCase().includes(s));
+    const unsaved = LS.get('unsaved', null);
+    $('#rows').innerHTML = (unsaved && unsaved.post ? `<div class="row" style="border-color:var(--focus)"><div class="thumb"></div><div><h3>Unsaved: ${esc(unsaved.post.title || 'Untitled article')}</h3><div class="meta">Changes you made on this device that were not published.</div></div><div class="acts"><button class="btn sm" type="button" data-act="discard">Discard</button><a class="btn sm solid" href="${unsaved.orig ? '#edit/' + encodeURIComponent(unsaved.orig) : '#new'}">Continue</a></div></div>` : '') +
+      (list.length ? list.map(p => `<div class="row">
+        <div class="thumb">${p.cover ? `<img src="${esc(p.cover)}" alt="" loading="lazy">` : ''}</div>
+        <div style="min-width:0"><h3>${esc(p.title)}</h3><div class="meta"><span class="pill${p.draft ? '' : ' live'}">${p.draft ? 'Draft' : 'Published'}</span><span>${fmtDate(p.date)}</span><span>·</span><span>${esc(p.category)}</span></div></div>
+        <div class="acts">${p.draft ? '' : `<a class="btn sm" href="index.html#blog/${encodeURIComponent(p.slug)}" target="_blank" rel="noopener">View</a>`}<a class="btn sm solid" href="#edit/${encodeURIComponent(p.slug)}">Edit</a></div>
+      </div>`).join('') : `<p class="empty">${q ? 'No articles match your search.' : 'No articles yet.'}</p>`);
+  };
+  draw();
+  $('#q').addEventListener('input', e => { q = e.target.value; draw(); });
+}
+document.addEventListener('click', e => {
+  const a = e.target.closest('[data-act]'); if (!a) return;
+  if (a.dataset.act === 'settings') openSettings();
+  if (a.dataset.act === 'discard' && confirm('Discard the unsaved changes?')) { LS.del('unsaved'); showList(); }
+});
+
+/* ---------- editor ---------- */
+const blank = () => ({ slug: '', title: '', excerpt: '', category: data.categories[0] || '', keywords: [], date: today(), author: 'Latch Infinity', cover: '', coverAlt: '', cta: '', body: '', draft: true });
+function openEditor(slug) {
+  const existing = slug ? data.posts.find(p => p.slug === slug) : null;
+  if (slug && !existing) { toast('That article was not found.', true); location.hash = ''; return; }
+  const unsaved = LS.get('unsaved', null);
+  let post = existing ? structuredClone(existing) : blank();
+  if (unsaved && (unsaved.orig || null) === (slug || null) && unsaved.post) { post = unsaved.post; pending = Object.fromEntries(Object.entries(unsaved.pending || {}).map(([k, v]) => [k, { ...v, url: 'data:image/webp;base64,' + v.b64 }])); dirty = true; toast('Picked up your unsaved changes from this device.'); }
+  else { pending = {}; dirty = false; }
+  editing = { orig: slug || null, post, slugTouched: !!slug };
+  drawEditor();
+}
+function drawEditor() {
+  const p = editing.post, isNew = !editing.orig;
+  document.title = (p.title || 'New article') + ' · Blog Editor';
+  const cats = [...new Set([...data.categories, ...data.posts.map(x => x.category), p.category].filter(Boolean))];
+  $('#app').innerHTML = `
+    <div class="ed-head">
+      <a class="btn sm" href="#">← Articles</a>
+      <h1>${isNew ? 'New article' : 'Edit article'}</h1>
+      ${isNew ? '' : '<button class="btn sm danger" type="button" id="b-del">Delete</button>'}
+      <button class="btn" type="button" id="b-draft">${p.draft ? 'Save draft' : 'Move to drafts'}</button>
+      <button class="btn mint" type="button" id="b-pub">${p.draft ? 'Publish' : 'Update'}</button>
+    </div>
+    <div class="tabs" role="tablist" aria-label="View"><button role="tab" type="button" aria-selected="true" data-view="write">Write</button><button role="tab" type="button" aria-selected="false" data-view="preview">Preview</button></div>
+    <div class="ed" id="ed" data-view="write">
+      <form class="fields" id="form" novalidate autocomplete="off">
+        <div class="card fields">
+          <div class="f" id="f-title"><label for="title">Title</label><input type="text" id="title" value="${esc(p.title)}" placeholder="A clear, specific headline"><span class="err" hidden></span></div>
+          <div class="f" id="f-slug"><label for="slug">Web address</label><div class="slugline"><span>…/#blog/</span><input type="text" id="slug" value="${esc(p.slug)}" spellcheck="false"></div><small>Made from the title. Changing it on a published article breaks links people have shared.</small><span class="err" hidden></span></div>
+          <div class="f" id="f-excerpt"><label for="excerpt">Summary</label><textarea id="excerpt" rows="3" placeholder="One or two sentences shown on the blog list and under the headline.">${esc(p.excerpt)}</textarea><small><span id="ex-n">0</span> characters. Aim for 120 to 180.</small><span class="err" hidden></span></div>
+          <div class="two">
+            <div class="f" id="f-category"><label for="category">Category</label><select id="category">${cats.map(c => `<option${c === p.category ? ' selected' : ''}>${esc(c)}</option>`).join('')}<option value="__new">New category…</option></select><span class="err" hidden></span></div>
+            <div class="f"><label for="date">Date</label><input type="date" id="date" value="${esc(p.date || today())}"></div>
+          </div>
+          <div class="two">
+            <div class="f"><label for="keywords">Topics</label><input type="text" id="keywords" value="${esc((p.keywords || []).join(', '))}" placeholder="brand film, video production"><small>Separate with commas.</small></div>
+            <div class="f"><label for="author">Author</label><input type="text" id="author" value="${esc(p.author || 'Latch Infinity')}"></div>
+          </div>
+        </div>
+        <div class="card fields">
+          <div class="f" id="f-cover"><span class="lb">Cover image</span>
+            <div class="drop${p.cover ? ' has' : ''}" id="drop" tabindex="0" role="button" aria-label="Choose cover image">${p.cover ? `<img src="${esc(imgSrc(p.cover))}" alt="">` : ''}<span class="hint">${p.cover ? 'Replace image' : 'Drop an image here or click to choose<br><small>Wide, 16:9 works best. It is resized and converted to WebP for you.</small>'}</span></div>
+            <span class="err" hidden></span>
+          </div>
+          <div class="f"><label for="coverAlt">Describe the cover image</label><input type="text" id="coverAlt" value="${esc(p.coverAlt || '')}" placeholder="For screen readers. Leave empty if it is decorative."></div>
+        </div>
+        <div class="card fields">
+          <div class="f" id="f-body"><span class="lb" id="body-lb">Article</span>
+            <div class="writer">
+              <div class="tools" role="toolbar" aria-label="Formatting">
+                <button type="button" data-md="h2" title="Section heading">H2</button><button type="button" data-md="h3" title="Sub-heading">H3</button><span class="sep"></span>
+                <button type="button" data-md="b" title="Bold (Ctrl+B)"><b>B</b></button><button type="button" data-md="i" title="Italic (Ctrl+I)"><i>I</i></button><button type="button" data-md="link" title="Link (Ctrl+K)">Link</button><span class="sep"></span>
+                <button type="button" data-md="ul" title="Bulleted list">• List</button><button type="button" data-md="ol" title="Numbered list">1. List</button><button type="button" data-md="quote" title="Quote">“ Quote</button><button type="button" data-md="hr" title="Divider">—</button><span class="sep"></span>
+                <button type="button" data-md="img" title="Insert image">Image</button>
+              </div>
+              <textarea id="body" aria-labelledby="body-lb" spellcheck="true" placeholder="Start writing. Leave an empty line between paragraphs.&#10;&#10;## A section heading&#10;&#10;- a bullet point">${esc(p.body)}</textarea>
+              <div class="foot"><span id="wc"></span><span>## heading · **bold** · *italic* · - list · > quote</span></div>
+            </div>
+            <span class="err" hidden></span>
+          </div>
+          <div class="f"><label for="cta">Closing note</label><textarea id="cta" rows="3" placeholder="Optional. Shown in a box at the end with a Let's Talk button.">${esc(p.cta || '')}</textarea></div>
+        </div>
+      </form>
+      <aside class="preview" aria-label="Preview" id="preview"></aside>
+    </div>`;
+  bindEditor();
+  drawPreview();
+}
+const imgSrc = path => pending[path] ? pending[path].url : path;
+function readForm() {
+  const p = editing.post;
+  p.title = $('#title').value.trim();
+  p.slug = $('#slug').value.trim();
+  p.excerpt = $('#excerpt').value.trim();
+  const c = $('#category').value; if (c !== '__new') p.category = c;
+  p.date = $('#date').value || today();
+  p.keywords = $('#keywords').value.split(',').map(s => s.trim()).filter(Boolean);
+  p.author = $('#author').value.trim() || 'Latch Infinity';
+  p.coverAlt = $('#coverAlt').value.trim();
+  p.body = $('#body').value.replace(/\s+$/, '') + '\n';
+  p.cta = $('#cta').value.trim();
+}
+let saveT;
+function changed() {
+  readForm(); dirty = true; drawPreview();
+  clearTimeout(saveT); saveT = setTimeout(() => LS.set('unsaved', { orig: editing.orig, post: editing.post, pending: smallPending() }), 400);
+}
+// Keep unsaved images in the browser copy only while they are small enough for storage.
+const smallPending = () => Object.fromEntries(Object.entries(pending).filter(([, v]) => v.b64.length < 1.5e6));
+function drawPreview() {
+  const p = editing.post;
+  const html = render(p.body || '').replace(/src="([^"]+)"/g, (m, s) => `src="${esc(imgSrc(s.replace(/&amp;/g, '&')))}"`);
+  $('#preview').innerHTML = `
+    <div class="pv-hero"><span class="label">${esc((p.category || '').toUpperCase())}</span><h2>${esc(p.title || 'Untitled article')}</h2>${p.excerpt ? `<p>${esc(p.excerpt)}</p>` : ''}<span class="label" style="letter-spacing:.06em">${fmtDate(p.date)} · ${esc(p.author || '')} · ${Math.max(1, Math.round(words(p.body) / 220))} min read</span></div>
+    ${p.cover ? `<div class="pv-cover"><img src="${esc(imgSrc(p.cover))}" alt=""></div>` : ''}
+    <div class="art">${html || '<p style="color:var(--ink-3)">Your article will appear here as you write.</p>'}${p.cta ? `<div class="cta"><span class="label">Work with Latch Infinity</span><p style="margin:.5em 0 0">${inline(p.cta)}</p></div>` : ''}</div>`;
+  const n = words(p.body); $('#wc').textContent = `${n.toLocaleString()} words`;
+  $('#ex-n').textContent = (p.excerpt || '').length;
+}
+function bindEditor() {
+  const form = $('#form');
+  form.addEventListener('input', e => {
+    if (e.target.id === 'title' && !editing.slugTouched) $('#slug').value = slugify(e.target.value);
+    if (e.target.id === 'slug') { editing.slugTouched = true; }
+    changed();
+  });
+  $('#slug').addEventListener('blur', e => { e.target.value = slugify(e.target.value); changed(); });
+  $('#category').addEventListener('change', e => {
+    if (e.target.value !== '__new') return changed();
+    const n = (prompt('Name of the new category') || '').trim();
+    if (n) { const o = new Option(n, n, true, true); e.target.add(o, e.target.options[e.target.options.length - 1]); editing.post.category = n; }
+    else e.target.value = editing.post.category;
+    changed();
+  });
+  document.querySelectorAll('.tabs [data-view]').forEach(b => b.addEventListener('click', () => {
+    $('#ed').dataset.view = b.dataset.view; document.querySelectorAll('.tabs [data-view]').forEach(x => x.setAttribute('aria-selected', x === b));
+  }));
+  // cover
+  const drop = $('#drop'), fc = $('#file-cover');
+  drop.addEventListener('click', () => { fc.value = ''; fc.click(); });
+  drop.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fc.value = ''; fc.click(); } });
+  drop.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add('over'); });
+  drop.addEventListener('dragleave', () => drop.classList.remove('over'));
+  drop.addEventListener('drop', e => { e.preventDefault(); drop.classList.remove('over'); const f = e.dataTransfer.files[0]; if (f) setCover(f); });
+  fc.onchange = () => fc.files[0] && setCover(fc.files[0]);
+  // toolbar
+  const ta = $('#body');
+  document.querySelectorAll('[data-md]').forEach(b => b.addEventListener('click', () => fmt(b.dataset.md)));
+  ta.addEventListener('keydown', e => {
+    const k = e.key.toLowerCase();
+    if ((e.ctrlKey || e.metaKey) && k === 'b') { e.preventDefault(); fmt('b'); }
+    if ((e.ctrlKey || e.metaKey) && k === 'i') { e.preventDefault(); fmt('i'); }
+    if ((e.ctrlKey || e.metaKey) && k === 'k') { e.preventDefault(); fmt('link'); }
+    if (e.key === 'Enter' && !e.shiftKey) {           // carry list markers onto the next line
+      const s = ta.selectionStart, line = ta.value.slice(ta.value.lastIndexOf('\n', s - 1) + 1, s), m = line.match(/^(\s*)([-*]|(\d+)[.)])\s+(.*)$/);
+      if (m) {
+        e.preventDefault();
+        if (!m[4]) { setRange(ta, s - line.length, s, ''); }
+        else insert(ta, '\n' + m[1] + (m[3] ? (+m[3] + 1) + '. ' : m[2] + ' '));
+        changed();
+      }
+    }
+  });
+  ta.addEventListener('paste', e => {
+    const f = [...(e.clipboardData?.files || [])].find(x => x.type.startsWith('image/'));
+    if (f) { e.preventDefault(); addInline(f); }
+  });
+  ta.addEventListener('drop', e => { const f = [...e.dataTransfer.files].find(x => x.type.startsWith('image/')); if (f) { e.preventDefault(); addInline(f); } });
+  const fi = $('#file-inline'); fi.onchange = () => fi.files[0] && addInline(fi.files[0]);
+  // actions
+  $('#b-pub').addEventListener('click', () => save(false));
+  $('#b-draft').addEventListener('click', () => save(true));
+  $('#b-del')?.addEventListener('click', remove);
+}
+document.addEventListener('keydown', e => { if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's' && editing) { e.preventDefault(); save(editing.post.draft); } });
+
+function setRange(ta, a, b, text) { ta.focus(); ta.setSelectionRange(a, b); if (!document.execCommand('insertText', false, text)) ta.setRangeText(text, a, b, 'end'); }
+function insert(ta, text) { setRange(ta, ta.selectionStart, ta.selectionEnd, text); }
+function fmt(kind) {
+  const ta = $('#body'); let a = ta.selectionStart, b = ta.selectionEnd; const v = ta.value, sel = v.slice(a, b);
+  const ls = v.lastIndexOf('\n', a - 1) + 1, le = (v.indexOf('\n', b) + 1 || v.length + 1) - 1;
+  const lines = fn => { const block = v.slice(ls, le); setRange(ta, ls, le, block.split('\n').map(fn).join('\n')); };
+  const strip = l => l.replace(/^(#{1,4}\s+|[-*•]\s+|\d+[.)]\s+|>\s?)/, '');
+  if (kind === 'b' || kind === 'i') { const m = kind === 'b' ? '**' : '*'; setRange(ta, a, b, m + (sel || (kind === 'b' ? 'bold text' : 'italic text')) + m); if (!sel) ta.setSelectionRange(a + m.length, a + m.length + (kind === 'b' ? 9 : 11)); }
+  if (kind === 'h2') lines(l => l.startsWith('## ') ? strip(l) : '## ' + strip(l));
+  if (kind === 'h3') lines(l => l.startsWith('### ') ? strip(l) : '### ' + strip(l));
+  if (kind === 'ul') lines(l => /^[-*]\s/.test(l) ? strip(l) : l.trim() ? '- ' + strip(l) : l);
+  if (kind === 'ol') { let n = 0; lines(l => /^\d+[.)]\s/.test(l) ? strip(l) : l.trim() ? `${++n}. ` + strip(l) : l); }
+  if (kind === 'quote') lines(l => l.startsWith('>') ? strip(l) : '> ' + l);
+  if (kind === 'hr') insert(ta, '\n\n---\n\n');
+  if (kind === 'img') { const f = $('#file-inline'); f.value = ''; f.click(); return; }
+  if (kind === 'link') {
+    const d = $('#dlg-link'); $('#l-text').value = sel; $('#l-url').value = '';
+    d.showModal(); (sel ? $('#l-url') : $('#l-text')).focus();
+    $('#link-form').onsubmit = ev => {
+      const t = $('#l-text').value.trim(), u = $('#l-url').value.trim(); if (!u) { ev.preventDefault(); $('#l-url').focus(); return; }
+      d.close(); ta.setSelectionRange(a, b); insert(ta, `[${t || u}](${u})`); changed();
+    };
+    return;
+  }
+  changed();
+}
+
+/* Images are resized in the browser and stored as WebP, like the rest of the site's images. */
+async function toWebp(file, maxW) {
+  if (!file.type.startsWith('image/')) throw new Error('Choose an image file (JPG, PNG or WebP).');
+  const bmp = await createImageBitmap(file);
+  const scale = Math.min(1, maxW / bmp.width), w = Math.round(bmp.width * scale), h = Math.round(bmp.height * scale);
+  const c = document.createElement('canvas'); c.width = w; c.height = h; c.getContext('2d').drawImage(bmp, 0, 0, w, h);
+  const blob = await new Promise(r => c.toBlob(r, 'image/webp', .84));
+  if (!blob || blob.type !== 'image/webp') throw new Error('This browser cannot make WebP images. Try Chrome, Edge or Firefox.');
+  const url = URL.createObjectURL(blob);
+  const b64 = await new Promise(r => { const fr = new FileReader(); fr.onload = () => r(String(fr.result).split(',')[1]); fr.readAsDataURL(blob); });
+  return { url, b64, w, h, kb: Math.round(blob.size / 1024) };
+}
+const imgPath = suffix => `img/blog/${slugify(editing.post.slug || editing.post.title || 'post') || 'post'}-${suffix}-${Date.now().toString(36)}.webp`;
+async function setCover(file) {
+  try {
+    const img = await toWebp(file, 1600), path = imgPath('cover');
+    if (img.w < 1000) toast(`This image is only ${img.w} px wide and may look soft. 1600 px or wider is best.`);
+    pending[path] = img; editing.post.cover = path;
+    const drop = $('#drop'); drop.classList.add('has'); drop.innerHTML = `<img src="${img.url}" alt=""><span class="hint">Replace image</span>`;
+    $('#f-cover').classList.remove('bad'); $('#f-cover .err').hidden = true;
+    changed();
+  } catch (e) { toast(esc(e.message), true); }
+}
+async function addInline(file) {
+  try {
+    const img = await toWebp(file, 1400), path = imgPath('img');
+    pending[path] = img;
+    const alt = (prompt('Describe this image (for screen readers):') || '').replace(/[\[\]]/g, '');
+    const ta = $('#body'); insert(ta, `\n\n![${alt}](${path})\n\n`); changed();
+  } catch (e) { toast(esc(e.message), true); }
+}
+
+function validate() {
+  const p = editing.post, errs = {};
+  if (!p.title) errs.title = 'Add a title.';
+  if (!p.slug) errs.slug = 'Add a web address.';
+  else if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(p.slug)) errs.slug = 'Use lower-case letters, numbers and hyphens only.';
+  else if (data.posts.some(x => x.slug === p.slug && x.slug !== editing.orig)) errs.slug = 'Another article already uses this address.';
+  if (!p.excerpt) errs.excerpt = 'Add a short summary.';
+  if (!p.category) errs.category = 'Choose a category.';
+  if (words(p.body) < 20) errs.body = 'Write the article before publishing.';
+  ['title', 'slug', 'excerpt', 'category', 'body'].forEach(k => {
+    const f = $('#f-' + k); if (!f) return; f.classList.toggle('bad', !!errs[k]);
+    const s = f.querySelector('.err'); s.hidden = !errs[k]; s.textContent = errs[k] || '';
+  });
+  const first = Object.keys(errs)[0];
+  if (first) { $('#ed').dataset.view = 'write'; const el = $('#' + first); el.focus(); el.scrollIntoView({ block: 'center' }); }
+  return !first;
+}
+function needToken() {
+  if (connected() && source === 'github') return false;
+  openSettings('Connect to GitHub to publish. Your changes are kept in this browser in the meantime.');
+  return true;
+}
+async function save(asDraft) {
+  if (busy) return;
+  readForm();
+  const p = editing.post;
+  if (asDraft) { if (!p.title) { validate(); return; } if (!p.slug) p.slug = slugify(p.title); }
+  else if (!validate()) return;
+  if (needToken()) return;
+  const was = editing.orig, post = { ...p, draft: !!asDraft };
+  busy = true; setBusy(true);
+  try {
+    await commit(d => {
+      d.posts = d.posts || [];
+      if (d.posts.some(x => x.slug === post.slug && x.slug !== was)) throw new Error('Another article already uses this web address. Change it and try again.');
+      const i = was ? d.posts.findIndex(x => x.slug === was) : -1;
+      if (i >= 0) d.posts[i] = post; else d.posts.unshift(post);
+      d.categories = d.categories || [];
+      if (post.category && !d.categories.includes(post.category)) d.categories.push(post.category);
+      return d;
+    }, `${asDraft ? 'Save draft' : was ? 'Update article' : 'Publish article'}: ${post.title}`);
+    LS.del('unsaved'); dirty = false;
+    editing = { orig: post.slug, post: structuredClone(post), slugTouched: true };
+    history.replaceState(null, '', '#edit/' + encodeURIComponent(post.slug));
+    drawEditor();
+    toast(asDraft ? 'Draft saved. It is not shown on the site.' : `Published. The site updates in about a minute. <a href="index.html#blog/${encodeURIComponent(post.slug)}" target="_blank" rel="noopener">View article</a>`, false, 7000);
+  } catch (e) { toast(esc(e.message), true, 7000); }
+  busy = false; setBusy(false);
+}
+async function remove() {
+  const p = editing.post;
+  if (!confirm(`Delete “${p.title}”? It disappears from the website. Its earlier versions stay in the repository history.`)) return;
+  if (needToken()) return;
+  busy = true; setBusy(true);
+  try {
+    await commit(d => { d.posts = (d.posts || []).filter(x => x.slug !== editing.orig); return d; }, `Delete article: ${p.title}`);
+    LS.del('unsaved'); dirty = false; editing = null; location.hash = ''; toast('Article deleted.');
+  } catch (e) { toast(esc(e.message), true, 7000); }
+  busy = false; setBusy(false);
+}
+function setBusy(on) { document.querySelectorAll('#b-pub, #b-draft, #b-del').forEach(b => { b.disabled = on; }); const b = $('#b-pub'); if (b && on) b.textContent = 'Publishing…'; }
+
+/* ---------- settings ---------- */
+function openSettings(msg) {
+  const d = $('#dlg-settings');
+  $('#s-token').value = cfg.token; $('#s-repo').value = cfg.repo; $('#s-branch').value = cfg.branch;
+  const err = $('#s-err'); err.hidden = !msg; err.textContent = msg || ''; err.style.color = msg ? 'var(--ink-2)' : '';
+  d.showModal(); $('#s-token').focus();
+}
+$('#btn-settings').addEventListener('click', () => openSettings());
+$('#s-cancel').addEventListener('click', () => $('#dlg-settings').close());
+$('#dlg-link [data-close]').addEventListener('click', () => $('#dlg-link').close());
+$('#s-forget').addEventListener('click', () => { cfg.token = ''; LS.set('cfg', cfg); source = 'site'; $('#dlg-settings').close(); toast('Token removed from this browser.'); load(); });
+$('#settings-form').addEventListener('submit', async e => {
+  e.preventDefault();
+  const token = $('#s-token').value.trim(), repo = $('#s-repo').value.trim().replace(/^https:\/\/github\.com\//, '').replace(/\/$/, ''), branch = $('#s-branch').value.trim() || 'main';
+  const err = $('#s-err'); err.style.color = 'var(--err)';
+  if (!token) { err.hidden = false; err.textContent = 'Paste a token first.'; return; }
+  const old = { ...cfg }; Object.assign(cfg, { token, repo, branch });
+  $('#s-save').disabled = true; $('#s-save').textContent = 'Checking…';
+  try {
+    const r = await gh(''); if (r.permissions && !r.permissions.push) throw new Error('This token can read ' + repo + ' but cannot write to it. Set Contents to Read and write.');
+    LS.set('cfg', cfg); $('#dlg-settings').close(); toast('Connected. You can publish now.');
+    await load();
+  } catch (x) { Object.assign(cfg, old); err.hidden = false; err.textContent = x.message; }
+  $('#s-save').disabled = false; $('#s-save').textContent = 'Connect';
+});
+
+load();
+})();
+</script>
+</body>
+</html>

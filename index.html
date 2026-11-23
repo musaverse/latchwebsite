@@ -454,6 +454,53 @@ button.chip[aria-pressed="true"] .c { color: inherit; opacity: .7; }
 .kw summary { cursor: pointer; color: var(--ink-2); font-size: 15px; }
 .kw .chips { margin-top: 14px; }
 .kw .chip { min-height: 32px; font-size: 13.5px; padding: 0 12px; }
+.post-hero h1 { font-size: var(--t-1); max-width: 22ch; }
+.art-meta { display: flex; flex-wrap: wrap; gap: 10px; font-size: 14.5px; color: var(--deep-ink-2); }
+.art-cover { margin: 0 0 clamp(32px, 5vw, 64px); aspect-ratio: 16 / 9; border-radius: var(--r); overflow: hidden; background: var(--surface); }
+.art-cover img { width: 100%; height: 100%; object-fit: cover; }
+.art-grid { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 8fr); gap: clamp(28px, 5vw, 80px); align-items: start; }
+.art-side { position: sticky; top: calc(var(--head-h) + 24px); }
+.art-toc ol { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 2px; counter-reset: toc; border-left: 1px solid var(--line); }
+.art-toc li { counter-increment: toc; }
+.art-toc a { display: grid; grid-template-columns: 28px 1fr; padding: 7px 0 7px 14px; font-size: 14.5px; line-height: 1.4; color: var(--ink-2); margin-left: -1px; border-left: 2px solid transparent; transition: color .2s, border-color .2s; }
+.art-toc a::before { content: counter(toc, decimal-leading-zero); font-stretch: 75%; color: var(--ink-3); font-size: 12.5px; padding-top: 1px; }
+.art-toc a:hover, .art-toc a.on { color: var(--ink); border-left-color: var(--deep); }
+.art-body { max-width: 70ch; min-width: 0; font-size: 18px; line-height: 1.72; color: #262b25; overflow-wrap: anywhere; }
+.art-body > * + * { margin-top: 1.1em; }
+.art-body h2 { font-size: clamp(24px, 2.3vw, 32px); line-height: 1.15; margin-top: 2.1em; color: var(--ink); }
+.art-body h3 { font-size: clamp(19px, 1.6vw, 22px); line-height: 1.25; margin-top: 1.8em; color: var(--ink); }
+.art-body h4 { font-size: 17px; font-weight: 600; margin-top: 1.6em; }
+.art-body h2:first-child, .art-body h3:first-child { margin-top: 0; }
+.art-body h2 + *, .art-body h3 + * { margin-top: .6em; }
+.art-body ul, .art-body ol { padding-left: 1.3em; display: grid; gap: .45em; }
+.art-body ul { list-style: none; padding-left: 0; }
+.art-body ul > li { position: relative; padding-left: 1.5em; }
+.art-body ul > li::before { content: ""; position: absolute; left: 0; top: .78em; width: 12px; height: 2px; background: var(--deep); transform: skewX(-33deg); }
+.art-body ol > li::marker { font-stretch: 75%; color: var(--ink-3); }
+.art-body a:not(.btn) { text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--focus) 50%, transparent); text-underline-offset: 3px; color: var(--focus); }
+.art-body blockquote { margin: 1.6em 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--mint); font-size: 1.12em; color: var(--ink); }
+.art-body figure { margin: 1.8em 0; }
+.art-body figure img { border-radius: 14px; width: 100%; }
+.art-body figcaption { font-size: 14px; color: var(--ink-3); margin-top: 10px; }
+.art-body hr { border: 0; border-top: 1px solid var(--line); margin: 2.4em 0; }
+.art-body code { font-size: .88em; background: var(--surface); padding: 1px 6px; border-radius: 6px; }
+.art-cta { margin-top: 3em !important; padding: clamp(24px, 3vw, 36px); border-radius: var(--r); background: var(--tint-mint); display: grid; gap: 18px; justify-items: start; font-size: 17px; }
+.art-cta .intro { margin: 0; color: var(--deep); }
+.art-tags { margin-top: 2.4em !important; display: grid; gap: 12px; }
+.art-tags .chip { min-height: 34px; font-size: 14px; padding: 0 14px; }
+.art-tags .chip:hover { border-color: var(--ink-3); }
+.art-nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: clamp(48px, 6vw, 88px); padding-top: 32px; border-top: 1px solid var(--line); }
+.art-nav a { display: grid; gap: 8px; padding: 22px 24px; border: 1px solid var(--line); border-radius: var(--r); transition: background .2s, border-color .2s; min-width: 0; }
+.art-nav a:hover { background: var(--surface); border-color: var(--ink-3); }
+.art-nav a.next { grid-column: 2; text-align: right; }
+.art-nav b { font-weight: 400; font-stretch: 112%; font-size: 18px; line-height: 1.3; }
+@media (max-width: 900px) {
+  .art-grid { grid-template-columns: minmax(0, 1fr); }
+  .art-side { position: static; }
+  .art-toc { padding: 18px 20px; border-radius: 14px; background: var(--surface); }
+  .art-body { font-size: 17px; }
+}
+@media (max-width: 640px) { .art-nav { grid-template-columns: minmax(0, 1fr); } .art-nav a.next { grid-column: auto; text-align: left; } }
 .empty { padding: 40px; border: 1px dashed var(--line); border-radius: var(--r); color: var(--ink-2); }
 
 /* EdTech */
@@ -2341,6 +2388,7 @@ fieldset.field { border: 0; margin: 0; padding: 0; }
   </div>
 </footer>
 
+<script src="blog/md.js"></script>
 <script>
 (() => {
 /* ================= Brand devices (ported from Brand.tsx, Lookbook Edition 01) ================= */
@@ -2934,18 +2982,13 @@ const WORK = [
   { t: 'Photoshoot for Schools', tags: ['PHOTOGRAPHY', 'ASSETS'], tone: 'ice', art: 'nest' },
   { t: 'Fashion Branding', tags: ['DIGITAL', 'BANNERS'], tone: 'lilac', art: 'climb2' },
 ];
-const POSTS = [
-  { slug: 'corporate-film-vs-brand-film-vs-ad-film', img: 'corporate-brand-ad-film', cat: 'Video Production', t: 'Corporate Film vs. Brand Film vs. Ad Film: What Your Business Actually Needs', p: 'Corporate film, brand film and ad film are not interchangeable. Here’s what each one actually does, who watches it, and how to stop paying for the wrong one.', kw: ['corporate film', 'brand film', 'ad film production'] },
-  { slug: 'shooting-for-nine-aspect-ratios', img: 'nine-aspect-ratios', cat: 'Video Production', t: 'Shooting for Nine Aspect Ratios: How to Plan One Shoot for Every Platform', p: '9:16, 16:9, 1:1 and 4:5: one shoot can feed all of them when framing, safe zones and coverage are planned before production.', kw: ['aspect ratios', 'vertical video', 'social media video'] },
-  { slug: 'campus-films-that-drive-admissions', img: 'campus-films-admissions', cat: 'Education & EdTech', t: 'Campus Films That Actually Drive Admissions: What Universities Get Wrong', p: 'Most university campus videos are the same. Here’s what prospective students actually watch and how to build a campus film that moves applications.', kw: ['campus film', 'university admissions', 'higher education video'] },
-  { slug: 'from-slm-to-screen', img: 'slm-to-screen', cat: 'Education & EdTech', t: 'From SLM to Screen: Turning a Word Document into a Lecture Students Finish', p: 'A 40-page Self Learning Material file is not a lecture script. This production process turns compliant course documents into videos students finish.', kw: ['SLM to video', 'e-learning', 'lecture production'] },
-  { slug: 'gamification-in-corporate-training', img: 'gamification-training', cat: 'Education & EdTech', t: 'Gamification in Corporate Training — Beyond Points and Badges', p: 'Points, badges and leaderboards are the least interesting part of gamification. Here’s what actually drives engagement and retention in corporate learning.', kw: ['gamification', 'corporate training', 'employee engagement'] },
-  { slug: 'what-goes-inside-a-real-brand-book', img: 'real-brand-book', cat: 'Branding', t: 'A Logo Is Not a Brand: What Goes Inside a Real Brand Book', p: 'A logo file is not a brand identity. Here’s what a proper brand book contains, why it matters and how to tell one from a glorified logo sheet.', kw: ['brand book', 'brand identity', 'brand guidelines'] },
-  { slug: 'seo-in-the-age-of-ai-answers', img: 'seo-ai-answers', cat: 'SEO', t: 'SEO in the Age of AI Answers: What Changed, What Didn’t', p: 'AI Overviews, ChatGPT and Perplexity have rewired how people find things. Here’s what changed in SEO, what stayed the same and what to do about it.', kw: ['AI Overviews', 'GEO', 'SEO'] },
-  { slug: 'on-page-vs-off-page-seo-2026', img: 'on-page-off-page-seo', cat: 'SEO', t: 'On-Page vs. Off-Page in 2026: An Honest Audit Checklist', p: 'What still moves rankings on your own site, what has to be earned elsewhere and a practical audit checklist updated for search in 2026.', kw: ['on-page SEO', 'off-page SEO', 'SEO audit'] },
-  { slug: 'core-web-vitals-for-marketers', img: 'core-web-vitals', cat: 'Web Development', t: 'Core Web Vitals for Marketers: The Three Numbers That Matter', p: 'LCP, INP and CLS explained without engineering jargon: what each measures, what good looks like and what to ask your developers.', kw: ['Core Web Vitals', 'LCP', 'INP', 'CLS'] },
-  { slug: 'why-your-ads-work-but-landing-page-doesnt', img: 'ads-landing-page', cat: 'Advertising', t: 'Why Your Ads Work but Your Landing Page Doesn’t', p: 'Great click-through rate, terrible conversion rate? Here’s how message match, offer relevance and page design leak your advertising budget.', kw: ['landing pages', 'message match', 'conversion rate'] },
-];
+/* Blog articles live in blog/posts.json and are edited in admin.html, which commits the file to the repository.
+   Drafts are kept out of the public list. */
+let POSTS = [], BLOG_CATS = [];
+const blogReady = fetch('blog/posts.json', { cache: 'no-cache' }).then(r => r.ok ? r.json() : Promise.reject(r.status)).then(d => {
+  BLOG_CATS = d.categories || [];
+  POSTS = (d.posts || []).filter(p => !p.draft).sort((x, y) => (y.date || '').localeCompare(x.date || ''));
+}).catch(err => { console.warn('Blog posts did not load', err); });
 
 /* ================= Shared blocks ================= */
 const arrowBtn = (href, label, cls = 'btn-solid') => `<a class="btn ${cls}" href="${href}">${label}${I.arrow}</a>`;
@@ -2958,8 +3001,8 @@ const ctaBand = (tone = 'mint', h = '"Latch your Dreams to Infinity and Beyond."
       <a class="btn btn-solid btn-big" href="#contact">${btn}${I.arrow}</a>
     </div>
   </section>`;
-const pageHero = ({ tone = 'mint', crumbs = [], eyebrow, h, lede = '', actions = '', side = '', fx = 'climb' }) => `
-  <section class="band page-hero${fx === 'nest' ? ' hero-nest' : ''}" style="${toneVars(tone)}">
+const pageHero = ({ tone = 'mint', crumbs = [], eyebrow, h, lede = '', actions = '', side = '', fx = 'climb', cls = '' }) => `
+  <section class="band page-hero${fx === 'nest' ? ' hero-nest' : ''}${cls ? ' ' + cls : ''}" style="${toneVars(tone)}">
     <div class="wrap band-inner${side ? ' has-side' : ''}">
       <div style="display:grid;gap:26px;min-width:0">
         ${crumbs.length ? `<nav class="crumbs" aria-label="Breadcrumb">${crumbs.map(([href, t], i) => i < crumbs.length - 1 ? `<a href="${href}">${t}</a><span aria-hidden="true">/</span>` : `<span aria-current="page">${t}</span>`).join('')}</nav>` : ''}
@@ -4233,26 +4276,58 @@ P.edtech = () => `
 
 P.gamification = () => gmMarkup();
 
-let blogFilter = 'All articles', blogKw = null;
-const CATS = ['All articles', 'Video Production', 'Education & EdTech', 'Branding', 'SEO', 'Web Development', 'Advertising'];
-const postCard = (p, lead) => `<a class="post${lead ? ' lead' : ''}" href="https://www.latchinfinity.com/blog/${p.slug}/" target="_blank" rel="noopener" data-cursor="Read">
-  <div class="img"><img src="img/blog/${p.img}.webp" alt="" loading="${lead ? 'eager' : 'lazy'}"></div>
-  <div style="display:grid;gap:12px;min-width:0"><div class="meta"><span>AUGUST 2026</span><span aria-hidden="true">·</span><span>Latch Infinity</span><span aria-hidden="true">·</span><span>${p.cat}</span></div><h3>${p.t}</h3><p>${p.p}</p></div></a>`;
+let blogFilter = 'All articles', blogKw = null, blogSlug = '';
+const CATS = () => ['All articles', ...[...new Set([...BLOG_CATS, ...POSTS.map(p => p.category)])].filter(c => POSTS.some(p => p.category === c))];
+const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const postDate = d => { const m = /^(\d{4})-(\d{2})/.exec(d || ''); return m ? `${MONTHS[+m[2] - 1]} ${m[1]}` : ''; };
+const readMins = p => Math.max(1, Math.round(LatchMD.words(p.body) / 220));
+const e_ = s => LatchMD.esc(String(s || ''));
+const postCard = (p, lead) => `<a class="post${lead ? ' lead' : ''}" href="#blog/${p.slug}" data-cursor="Read">
+  <div class="img">${p.cover ? `<img src="${e_(p.cover)}" alt="" loading="${lead ? 'eager' : 'lazy'}">` : ''}</div>
+  <div style="display:grid;gap:12px;min-width:0"><div class="meta"><span>${postDate(p.date).toUpperCase()}</span><span aria-hidden="true">·</span><span>${e_(p.author || 'Latch Infinity')}</span><span aria-hidden="true">·</span><span>${e_(p.category)}</span></div><h3>${e_(p.title)}</h3><p>${e_(p.excerpt)}</p></div></a>`;
 const renderPosts = () => {
-  const list = POSTS.filter(p => (blogFilter === 'All articles' || p.cat === blogFilter) && (!blogKw || p.kw.includes(blogKw)));
-  return list.length ? list.map((p, i) => postCard(p, i === 0 && list.length > 2)).join('') : `<p class="empty">No articles match this filter.</p>`;
+  const list = POSTS.filter(p => (blogFilter === 'All articles' || p.category === blogFilter) && (!blogKw || (p.keywords || []).includes(blogKw)));
+  return list.length ? list.map((p, i) => postCard(p, i === 0 && list.length > 2)).join('') : `<p class="empty">${POSTS.length ? 'No articles match this filter.' : 'Articles are on their way. Check back soon.'}</p>`;
 };
 P.blog = () => `
   ${pageHero({ tone: 'mint', fx: 'tunnel', crumbs: [['#home', 'Home'], ['', 'Blogs']], h: 'BLOGS' })}
   <section class="sec">
     <div class="wrap">
       <div class="blog-bar">
-        <div class="chips" role="group" aria-label="Categories">${CATS.map(c => `<button class="chip" type="button" data-cat="${c}" aria-pressed="${c === blogFilter}">${c}<span class="c">${c === 'All articles' ? POSTS.length : POSTS.filter(p => p.cat === c).length}</span></button>`).join('')}</div>
-        <details class="kw"><summary>Keywords</summary><div class="chips">${POSTS.flatMap(p => p.kw).map(k => `<button class="chip" type="button" data-kw="${k}" aria-pressed="${k === blogKw}">${k}</button>`).join('')}</div></details>
+        <div class="chips" role="group" aria-label="Categories">${CATS().map(c => `<button class="chip" type="button" data-cat="${e_(c)}" aria-pressed="${c === blogFilter}">${e_(c)}<span class="c">${c === 'All articles' ? POSTS.length : POSTS.filter(p => p.category === c).length}</span></button>`).join('')}</div>
+        <details class="kw"><summary>Keywords</summary><div class="chips">${[...new Set(POSTS.flatMap(p => p.keywords || []))].map(k => `<button class="chip" type="button" data-kw="${e_(k)}" aria-pressed="${k === blogKw}">${e_(k)}</button>`).join('')}</div></details>
       </div>
       <div class="posts" id="posts">${renderPosts()}</div>
     </div>
   </section>`;
+P['blog-post'] = () => {
+  const i = POSTS.findIndex(p => p.slug === blogSlug), p = POSTS[i];
+  if (!p) return `
+  ${pageHero({ tone: 'mint', fx: 'tunnel', crumbs: [['#home', 'Home'], ['#blog', 'Blogs'], ['', 'Not found']], h: 'Article not found', lede: 'This article may have moved or been unpublished.', actions: arrowBtn('#blog', 'All articles') })}`;
+  const { html, toc } = LatchMD.render(p.body, { toc: true, idPrefix: 'a-' });
+  const newer = POSTS[i - 1], older = POSTS[i + 1];
+  const more = POSTS.filter(q => q !== p && q.category === p.category).concat(POSTS.filter(q => q !== p && q.category !== p.category)).slice(0, 2);
+  return `
+  ${pageHero({ tone: 'mint', fx: 'tunnel', cls: 'post-hero', crumbs: [['#home', 'Home'], ['#blog', 'Blogs'], ['', e_(p.category)]], eyebrow: e_(p.category).toUpperCase(), h: e_(p.title), lede: e_(p.excerpt),
+    actions: `<p class="art-meta"><span>${postDate(p.date)}</span><span aria-hidden="true">·</span><span>${e_(p.author || 'Latch Infinity')}</span><span aria-hidden="true">·</span><span>${readMins(p)} min read</span></p>` })}
+  <article class="sec article" aria-labelledby="art-h">
+    <div class="wrap">
+      ${p.cover ? `<figure class="art-cover"><img src="${e_(p.cover)}" alt="${e_(p.coverAlt || '')}" width="1600" height="900"></figure>` : ''}
+      <div class="art-grid">
+        <aside class="art-side" aria-label="In this article">
+          ${toc.length > 2 ? `<nav class="art-toc"><p class="label">In this article</p><ol>${toc.map(([id, t]) => `<li><a href="#${id}">${t}</a></li>`).join('')}</ol></nav>` : ''}
+        </aside>
+        <div class="art-body" id="art-h">${html}
+          ${p.cta ? `<aside class="art-cta"><p class="label intro">WORK WITH LATCH INFINITY</p><p>${LatchMD.inline(p.cta)}</p>${arrowBtn('#contact', 'Let’s Talk')}</aside>` : ''}
+          ${(p.keywords || []).length ? `<div class="art-tags"><span class="label">Topics</span><div class="chips">${p.keywords.map(k => `<a class="chip" href="#blog" data-kw-go="${e_(k)}">${e_(k)}</a>`).join('')}</div></div>` : ''}
+        </div>
+      </div>
+      <nav class="art-nav" aria-label="More articles">${[older && ['Previous', older], newer && ['Next', newer]].filter(Boolean).map(([l, q]) => `<a href="#blog/${q.slug}" class="${l === 'Next' ? 'next' : ''}"><span class="label">${l} article</span><b>${e_(q.title)}</b></a>`).join('')}</nav>
+    </div>
+  </article>
+  ${more.length ? `<section class="sec" style="padding-top:0"><div class="wrap"><div class="sec-head"><h2>Keep reading</h2></div><div class="posts">${more.map(q => postCard(q)).join('')}</div></div></section>` : ''}
+  ${ctaBand('mint')}`;
+};
 
 const SVC = ['Social Media Management', 'Content Development', 'Search Engine Optimisation (SEO)', 'Paid Advertising', 'Website Development & Management', 'Branding', 'Public Relations', 'Programmatic Advertising', 'Lead Generation', 'Marketing Strategy & Consulting'];
 const field = (id, label, type = 'text', req = false, auto = '') => `<div class="field" id="f-${id}"><label for="${id}">${label}${req ? '*' : ''}</label><input id="${id}" name="${id}" type="${type}"${req ? ' required' : ''}${auto ? ` autocomplete="${auto}"` : ''}><span class="err" id="${id}-err" aria-live="polite"></span></div>`;
@@ -4794,6 +4869,12 @@ function setupPage(route) {
     sel(0);
   });
   const main = document.getElementById('main');
+  if (route === 'blog-post' && !main._artBound) {
+    main._artBound = true;
+    main.addEventListener('click', e => {
+      const t = e.target.closest('[data-kw-go]'); if (t) { blogKw = t.dataset.kwGo; blogFilter = 'All articles'; }
+    });
+  }
   if (route === 'blog' && !main._blogBound) {
     main._blogBound = true;
     main.addEventListener('click', e => {
@@ -4836,10 +4917,14 @@ function render(r) {
   window.scrollTo(0, 0);
   const crumb = document.getElementById('foot-crumb');
   if (crumb) crumb.innerHTML = r === 'home' ? '' : `<span aria-hidden="true">›</span>${PAGE_NAME[r] || ''}`;
+  const bp = r === 'blog-post' && POSTS.find(p => p.slug === blogSlug);
+  document.title = bp ? `${bp.title} | Latch Infinity` : 'Latch Infinity Redesign';
 }
 let firstRoute = true, routeToken = 0;
 function route() {
   let r = (location.hash || '#home').slice(1);
+  if (r.startsWith('blog/')) { blogSlug = decodeURIComponent(r.slice(5)); r = 'blog-post'; }
+  if ((r === 'blog' || r === 'blog-post') && !POSTS.length && !blogReady.done) { blogReady.then(() => { blogReady.done = true; route(); }); return; }
   if (r === 'gamification-platform') { document.getElementById('gamification-platform')?.scrollIntoView({ behavior: 'smooth' }); return; }
   if (!P[r]) r = 'home';
   if (firstRoute) { firstRoute = false; render(r); playIntro(); return; }
@@ -4855,7 +4940,7 @@ const motionOK = () => !RM.matches;
 const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 const easeIO = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 const PAGE_TONE = { edtech: 'ice', gamification: 'lilac' };
-const PAGE_NAME = { home: 'Latch Infinity', about: 'About', work: 'Work', 'work-kaynes': 'Kaynes Technology', 'work-oli': 'Oli', 'work-cube': 'Cube', 'work-dharmaram': 'Dharmaram', 'work-milntown': 'Miln Town', marketing: 'Marketing', branding: 'Branding', advertising: 'Advertising', 'digital-services': 'Digital Services', 'web-app-development': 'Website &amp; App Development', edtech: 'EdTech', gamification: 'Gamification', blog: 'Blogs', contact: 'Let\'s Talk', legal: 'Terms &amp; Privacy' };
+const PAGE_NAME = { home: 'Latch Infinity', about: 'About', work: 'Work', 'work-kaynes': 'Kaynes Technology', 'work-oli': 'Oli', 'work-cube': 'Cube', 'work-dharmaram': 'Dharmaram', 'work-milntown': 'Miln Town', marketing: 'Marketing', branding: 'Branding', advertising: 'Advertising', 'digital-services': 'Digital Services', 'web-app-development': 'Website &amp; App Development', edtech: 'EdTech', gamification: 'Gamification', blog: 'Blogs', 'blog-post': 'Blogs', contact: 'Let\'s Talk', legal: 'Terms &amp; Privacy' };
 const wipe = document.getElementById('wipe'), bars = [...wipe.querySelectorAll('i')], wipeMark = document.getElementById('wipe-mark');
 const EASE_IO = 'cubic-bezier(.76,0,.24,1)';
 const SKEW = x => `translateX(${x}) skewX(-33deg)`;
