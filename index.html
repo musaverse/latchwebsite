@@ -470,7 +470,10 @@ button.chip[aria-pressed="true"] .c { color: inherit; opacity: .7; }
 .tile .tags { display: flex; gap: 6px; flex-wrap: wrap; }
 .tile .tags span { font-stretch: 75%; letter-spacing: .08em; font-size: 12px; border: 1px solid var(--line); border-radius: 999px; padding: 3px 10px; color: var(--ink-2); }
 .tile h3 { font-size: var(--t-3); line-height: 1.2; display: flex; justify-content: space-between; gap: 12px; }
+.work .tile:last-child:nth-child(odd) { grid-column: 1 / -1; }
+.work .tile:last-child:nth-child(odd) .cover { aspect-ratio: 21 / 9; }
 @media (max-width: 640px) { .work { grid-template-columns: minmax(0, 1fr); } .work .tile:nth-child(even) { margin-top: 0; } }
+@media (max-width: 640px) { .work .tile:last-child:nth-child(odd) .cover { aspect-ratio: 4 / 3; } }
 
 /* Blog */
 .posts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 40px 24px; }
@@ -3397,10 +3400,6 @@ const WORK = [
   { t: 'Cube Audience Manager', sub: 'Product design and films for an AI audience-research platform by Cubera.', tags: ['PRODUCT DESIGN', 'UI/UX', 'FILM'], tone: 'ice', href: '#work-cube', cb: true },
   { t: 'Oli', sub: 'Brand, website and apps for a next-gen gig platform for live music.', tags: ['BRAND IDENTITY', 'APP', 'FILM'], tone: 'mint', href: '#work-oli', ol: true },
   { t: 'Kaynes Technology', sub: 'A brand identity refresh for India’s electronics and semiconductor company.', tags: ['BRAND IDENTITY', 'LOOKBOOK', 'FILM'], tone: 'mint', href: '#work-kaynes', ky: true },
-  { t: 'Logo & Branding', tags: ['LOGO', 'DESIGN'], tone: 'mint', art: 'climb' },
-  { t: 'Brand Typography', tags: ['TYPOGRAPHY', 'DESIGN'], tone: 'lilac', art: 'type' },
-  { t: 'Photoshoot for Schools', tags: ['PHOTOGRAPHY', 'ASSETS'], tone: 'ice', art: 'nest' },
-  { t: 'Fashion Branding', tags: ['DIGITAL', 'BANNERS'], tone: 'lilac', art: 'climb2' },
 ];
 /* Blog articles live in blog/posts.json and are edited in admin.html, which commits the file to the repository.
    Drafts are kept out of the public list. */
@@ -3546,15 +3545,11 @@ P.work = () => `
   ${pageHero({ tone: 'mint', crumbs: [['#home', 'Home'], ['', 'Work']], eyebrow: 'Work', h: 'Our Recent Work &amp; Portfolio' })}
   <section class="sec">
     <div class="wrap work">
-      ${WORK.map((w, i) => w.href ? `<a class="tile" href="${w.href}" style="${toneVars(w.tone)}" data-cursor="View">
+      ${WORK.filter(w => w.href).map((w, i) => w.href ? `<a class="tile" href="${w.href}" style="${toneVars(w.tone)}" data-cursor="View">
         ${w.mt ? `<div class="cover mt-cover"><img class="bg" src="img/milntown/07533-s.webp" alt="" loading="lazy"><img class="lg" src="img/milntown/logo.webp" alt="" loading="lazy"><div class="cap"><span>Case study</span><span>2026</span></div></div>` : w.dv ? dvCover() : w.cb ? `<div class="cover cb-cover"><div class="cb-3d">${cbFr('s10', '', '', true)}</div>${cbMark()}<div class="cap"><span>Case study</span><span>2026</span></div></div>` : w.ol ? `<div class="cover ol-cover">${olField(360, 'f', '250 170 1500 1125')}<div class="cap"><span>Case study</span><span>2026</span></div></div>` : `<div class="cover ky-cover"><div class="ky-flow" aria-hidden="true"></div><div class="ky-flow b" aria-hidden="true"></div><div class="mk">${kyMark()}</div><div class="cap"><span>Case study</span><span>2026</span></div></div>`}
         <div class="tags">${w.tags.map(t => `<span>${t}</span>`).join('')}</div>
         <h3><span>${w.t}<small>${w.sub}</small></span><span aria-hidden="true" style="width:18px;flex:none">${I.arrow}</span></h3>
-      </a>` : `<article class="tile" style="${toneVars(w.tone)}">
-        <div class="cover empty"><span class="plus">${ic('plus')}</span><span>Add project here</span></div>
-        <div class="tags">${w.tags.map(t => `<span>${t}</span>`).join('')}</div>
-        <h3>${w.t}<span aria-hidden="true" style="width:18px;flex:none">${I.arrow}</span></h3>
-      </article>`).join('')}
+      </a>` : '').join('')}
     </div>
   </section>
   ${ctaBand('mint', 'So, you have a project. We can take make it awesome', 'Let\'s Discuss &amp; Start')}`;
