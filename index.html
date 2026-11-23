@@ -169,6 +169,40 @@ img { max-width: 100%; display: block; }
   .menu-btn { display: inline-grid; }
 }
 
+/* Phone menu: a floating button bottom right; tapping it stacks the pages above it as pills */
+.fab, .fab-scrim { display: none; }
+@media (max-width: 1080px) {
+  .menu-btn { display: none !important; }
+  .fab { position: fixed; z-index: 80; right: max(16px, calc(env(safe-area-inset-right, 0px) + 12px)); bottom: calc(env(safe-area-inset-bottom, 0px) + 18px);
+    display: flex; flex-direction: column; align-items: flex-end; gap: 12px; pointer-events: none; }
+  .fab > * { pointer-events: auto; }
+  body.lp .fab { bottom: calc(env(safe-area-inset-bottom, 0px) + 90px); }
+  .fab-scrim { display: block; position: fixed; inset: 0; z-index: 79; background: rgba(20, 24, 19, .5); -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px);
+    opacity: 0; visibility: hidden; transition: opacity .3s var(--ease), visibility 0s .3s; }
+  .fab-scrim.open { opacity: 1; visibility: visible; transition: opacity .3s var(--ease), visibility 0s; }
+}
+.fab-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: flex-end; gap: 10px; max-height: calc(100dvh - 140px); }
+.fab-list a { display: inline-flex; align-items: center; gap: 14px; min-height: 56px; padding: 0 26px 0 22px; border-radius: 999px; background: var(--pill, #fff); color: #1d221c;
+  font-size: 17px; font-weight: 500; letter-spacing: .005em; white-space: nowrap; box-shadow: 0 12px 28px -14px rgba(0, 0, 0, .55), 0 0 0 1px rgba(20, 24, 19, .06);
+  opacity: 0; visibility: hidden; transform: translateY(16px) scale(.9); transform-origin: 100% 50%;
+  transition: opacity .18s ease, transform .25s var(--ease), visibility 0s .25s; }
+.fab-list a .ic, .fab-list a svg { width: 22px; height: 22px; flex: none; }
+.fab-list a.talk { background: var(--deep); color: var(--mint); }
+.fab-list a[aria-current="page"] { box-shadow: inset 0 0 0 2px #1d221c, 0 12px 28px -14px rgba(0, 0, 0, .55); }
+.fab-list a.talk[aria-current="page"] { box-shadow: inset 0 0 0 2px var(--mint), 0 12px 28px -14px rgba(0, 0, 0, .55); }
+.fab-list a:active { scale: .97; }
+.fab.open .fab-list a { opacity: 1; visibility: visible; transform: none; transition: opacity .3s var(--ease), transform .45s var(--ease), visibility 0s; transition-delay: calc(var(--r) * 35ms); }
+.fab-btn { width: 64px; height: 64px; border-radius: 50%; border: 0; display: grid; place-items: center; cursor: pointer; background: var(--deep); color: var(--mint);
+  box-shadow: 0 14px 30px -12px rgba(0, 0, 0, .55); transition: background-color .3s var(--ease), color .3s var(--ease), scale .2s; }
+.fab-btn:active { scale: .94; }
+.fab-btn svg { grid-area: 1 / 1; width: 26px; height: 26px; transition: opacity .25s, transform .4s var(--ease); }
+.fab-btn .i-x { opacity: 0; transform: rotate(-90deg) scale(.6); }
+.fab.open .fab-btn { background: var(--tint-mint); color: var(--deep); }
+.fab.open .fab-btn .i-menu { opacity: 0; transform: rotate(90deg) scale(.6); }
+.fab.open .fab-btn .i-x { opacity: 1; transform: none; }
+.fab-btn:focus-visible { outline: 3px solid var(--mint); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { .fab-list a, .fab.open .fab-list a { transition: opacity .01s, visibility 0s; transform: none; } }
+
 /* Mobile sheet */
 .sheet {
   position: fixed; inset: 0; z-index: 70; background: var(--deep); color: var(--deep-ink);
@@ -2630,6 +2664,15 @@ body.lp .lp-head { display: flex; }
     <a class="btn btn-solid" href="#contact">Let's Talk</a>
   </div>
 </div>
+
+<div class="fab-scrim" id="fab-scrim" aria-hidden="true"></div>
+<nav class="fab" id="fab" aria-label="Menu">
+  <ul class="fab-list" id="fab-list"></ul>
+  <button class="fab-btn" id="fab-btn" type="button" aria-expanded="false" aria-controls="fab-list" aria-label="Open menu">
+    <svg class="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 8h16M4 16h11"/></svg>
+    <svg class="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+</nav>
 
 <main id="main" tabindex="-1"></main>
 
@@ -5464,6 +5507,11 @@ function renderNav(route) {
        <div class="sub" id="sub">${DETAIL_NAV.map(([kk, tt]) => `<a href="#${kk}">${tt}${I.arrow}</a>`).join('')}<a class="sub-all" href="#marketing">All marketing services${I.arrow}</a></div></div>`
     : `<a href="#${k}"${route === k || route.startsWith(k + '-') ? ' aria-current="page"' : ''}>${dot(tone)}${t}</a>`).join('');
   document.getElementById('sheet-nav').innerHTML = NAV.map(([k, t, tone]) => `<a href="#${k}">${t}${tone ? dot(tone) : ''}</a>` + (k === 'marketing' ? DETAIL_NAV.map(([kk, tt]) => `<a class="child" href="#${kk}">${tt}</a>`).join('') : '')).join('') + `<a href="#contact">Let's Talk</a>`;
+  const FAB_IC = { about: 'users', work: 'layout', edtech: 'cap', marketing: 'megaphone', gamification: 'trophy', blog: 'book' };
+  const CHAT = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9.5h8M8 12.5h5"/></svg>';
+  const fabItems = [...NAV.map(([k, t, tone]) => [k, t, tone, FAB_IC[k]]), ['contact', 'Let\'s Talk', 'talk', 'chat']];
+  const isHere = k => route === k || route.startsWith(k + '-') || (k === 'marketing' && MARKETING_KIDS.includes(route));
+  document.getElementById('fab-list').innerHTML = fabItems.map(([k, t, tone, icn], i) => `<li><a href="#${k}"${tone === 'talk' ? ' class="talk"' : ''} style="--r:${fabItems.length - 1 - i}${tone && tone !== 'talk' ? `;--pill:${TONES[tone].light}` : ''}"${isHere(k) ? ' aria-current="page"' : ''}>${icn === 'chat' ? CHAT : ic(icn)}<span>${t}</span></a></li>`).join('');
   const hs = document.getElementById('has-sub'), sb = hs.querySelector('.sub-btn');
   sb.addEventListener('click', () => { const o = !hs.classList.contains('open'); hs.classList.toggle('open', o); sb.setAttribute('aria-expanded', o); });
   hs.addEventListener('focusout', e => { if (!hs.contains(e.relatedTarget)) { hs.classList.remove('open'); sb.setAttribute('aria-expanded', 'false'); } });
@@ -5925,6 +5973,20 @@ function closeSheet() { if (!sheet.classList.contains('open')) return; sheet.cla
 menuBtn.addEventListener('click', () => { sheet.classList.add('open'); menuBtn.setAttribute('aria-expanded', 'true'); document.body.style.overflow = 'hidden'; document.getElementById('menu-close').focus(); });
 document.getElementById('menu-close').addEventListener('click', closeSheet);
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSheet(); });
+
+/* Phone menu */
+const fab = document.getElementById('fab'), fabBtn = document.getElementById('fab-btn'), fabScrim = document.getElementById('fab-scrim');
+function setFab(open) {
+  if (fab.classList.contains('open') === open) return;
+  fab.classList.toggle('open', open); fabScrim.classList.toggle('open', open);
+  fabBtn.setAttribute('aria-expanded', open); fabBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  document.body.style.overflow = open ? 'hidden' : '';
+}
+fabBtn.addEventListener('click', () => setFab(!fab.classList.contains('open')));
+fabScrim.addEventListener('click', () => setFab(false));
+fab.addEventListener('click', e => { if (e.target.closest('.fab-list a')) setFab(false); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && fab.classList.contains('open')) { setFab(false); fabBtn.focus(); } });
+addEventListener('resize', () => { if (innerWidth > 1080) setFab(false); });
 
 /* Copy buttons */
 document.addEventListener('click', e => {
