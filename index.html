@@ -13,7 +13,7 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62.5..125,300..700&family=Space+Grotesk:wght@300..700&family=EB+Garamond:wght@400..600&family=Montserrat:wght@300..700&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62.5..125,300..700&family=Space+Grotesk:wght@300..700&family=EB+Garamond:wght@400..600&family=Montserrat:wght@300..700&family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..500,0..100,0..1;1,9..144,300..500,0..100,0..1&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap">
 <style>
 /* Layout: a 12-column grid on a warm-green paper ground. Every page opens on a deep band
    whose climb device carries its business line's colour: Mint for marketing, Ice for EdTech,
@@ -2104,6 +2104,187 @@ fieldset.field { border: 0; margin: 0; padding: 0; }
   .dv-fac-stage .lk { transition: none; }
   .dv-read-art path, .dv-step, .dv-read-now .bar i { transition: none; }
 }
+/* ================= Case study: Miln Town =================
+   A heritage bungalow in Coonoor, documented in photographs and set into a table brochure.
+   The page is the brochure: it waits on a round tea table, the camera leans in until it is square
+   to the page, and scrolling turns it leaf by leaf. The photographs follow as a stack of prints.
+   Colours come from the brochure itself; Fraunces stands in for its display serif. */
+.mt { --m-night: #1d1e17; --m-olive: #22231b; --m-moss: #4b4f3e; --m-sage: #b3c595; --m-ochre: #c5b279;
+  --m-cream: #fbf4e6; --m-paper: #f3e6cb; --m-ink: #1e1c16; --m-teak: #4a2f1c;
+  --m-serif: 'Fraunces', Georgia, 'Times New Roman', serif; --m-gap: clamp(40px, 6vw, 96px);
+  background: var(--m-olive); color: var(--m-cream); overflow-x: clip; }
+.mt h1, .mt h2, .mt h3 { font-family: var(--m-serif); font-stretch: 100%; font-weight: 300; letter-spacing: -0.01em; font-variation-settings: 'SOFT' 100, 'WONK' 0; }
+.mt .label { color: rgba(251, 244, 230, .62); }
+.mt .crumbs { color: rgba(251, 244, 230, .7); }
+.mt .crumbs a:hover { color: var(--m-cream); }
+
+/* The stage: pinned under the header while the book section scrolls past */
+.mt-book { position: relative; height: var(--mt-len, 900svh); background: var(--m-night); }
+.mt-stage { position: sticky; top: var(--head-h); height: calc(100vh - var(--head-h)); height: calc(100svh - var(--head-h)); overflow: hidden; isolation: isolate; }
+.mt-room { position: absolute; inset: -6%; z-index: -2; background: url(img/milntown/room-blur.webp) center 40% / cover; transform-origin: 50% 70%; will-change: transform, opacity; }
+.mt-vign { position: absolute; inset: 0; z-index: 2; pointer-events: none; background: radial-gradient(120% 90% at 50% 55%, transparent 45%, rgba(10, 11, 8, .72) 100%); }
+.mt-cam { position: absolute; inset: 0; perspective: 2400px; perspective-origin: 50% 50%; }
+.mt-world { position: absolute; left: 50%; top: 50%; width: 0; height: 0; transform-style: preserve-3d; will-change: transform; }
+.mt-world > *, .mt-bk, .mt-bk > *, .mt-leaf, .mt-cup, .mt-cup > * { position: absolute; transform-style: preserve-3d; }
+
+/* The round tea table: a teak top with a turned rim, window light falling across it */
+.mt-tbl { left: -575px; top: -575px; width: 1150px; height: 1150px; border-radius: 50%; }
+.mt-tbl i { position: absolute; inset: 0; border-radius: 50%; }
+.mt-tbl .rim { background: #22150b; }
+.mt-tbl .top {
+  background:
+    radial-gradient(60% 55% at 38% 32%, rgba(255, 214, 160, .22), transparent 70%),
+    repeating-radial-gradient(circle at 46% 54%, rgba(0, 0, 0, .07) 0 2px, transparent 2px 11px, rgba(255, 220, 180, .035) 11px 13px, transparent 13px 23px),
+    radial-gradient(circle at 50% 50%, #6a4428 0%, #573620 55%, #3f2716 92%, #2b1a0d 100%);
+  box-shadow: inset 0 0 0 10px rgba(30, 18, 8, .55), inset 0 0 0 12px rgba(255, 220, 170, .12), inset 0 0 120px rgba(0, 0, 0, .45);
+}
+.mt-tbl .sun { background: repeating-linear-gradient(112deg, transparent 0 70px, rgba(255, 236, 196, .16) 70px 168px, transparent 168px 186px); mix-blend-mode: soft-light; -webkit-mask: radial-gradient(closest-side at 35% 40%, #000 30%, transparent 100%); mask: radial-gradient(closest-side at 35% 40%, #000 30%, transparent 100%); }
+.mt-shade { border-radius: 4px; background: rgba(8, 5, 2, .4); box-shadow: 0 0 26px 10px rgba(8, 5, 2, .38); }
+
+/* Tea cup on its saucer, built from stacked rings so it reads as round from any angle */
+.mt-cup .sau { left: -78px; top: -78px; width: 156px; height: 156px; border-radius: 50%; background: radial-gradient(circle, #e9e2d2 0 40%, #f7f2e6 41% 62%, #ddd3bf 64%, #f4eee1 72%, #cfc5b0 100%); box-shadow: 0 6px 18px rgba(0, 0, 0, .35); }
+.mt-cup .rg { left: -46px; top: -46px; width: 92px; height: 92px; border-radius: 50%; background: #efe8da; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .08); }
+.mt-cup .lip { left: -50px; top: -50px; width: 100px; height: 100px; border-radius: 50%; background: radial-gradient(circle, #6e3f17 0 40%, #4d2a0e 74%, #f8f3e8 76% 88%, #2f5a3c 89% 92%, #f8f3e8 93%); }
+.mt-cup .hd { left: 44px; top: -16px; width: 38px; height: 32px; border-radius: 50%; border: 7px solid #efe8da; }
+
+/* The book: leaves turn about the spine; each has a front and a back face */
+.mt-leaf { will-change: transform; }
+.mt-face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; background: var(--m-paper) center / cover no-repeat; box-shadow: 0 0 0 .5px rgba(0, 0, 0, .25); overflow: hidden; }
+.mt-face::after { content: ""; position: absolute; inset: 0; background: linear-gradient(var(--mt-dir, 90deg), rgba(0, 0, 0, .28), transparent 9%, transparent 92%, rgba(255, 255, 255, .06)); opacity: calc(.55 + var(--sh, 0)); pointer-events: none; }
+.mt-face.b::after { --mt-dir: 270deg; }
+
+/* Copy over the stage */
+.mt-copy { position: absolute; z-index: 3; left: 0; right: 0; top: 0; bottom: 0; pointer-events: none; }
+.mt-copy .wrap { height: 100%; display: grid; align-content: center; gap: 0; }
+.mt-copy .in { width: min(520px, 42%); pointer-events: auto; }
+.mt-copy .crumbs { position: absolute; top: clamp(20px, 3vw, 36px); }
+.mt-logo { width: 190px; height: auto; filter: invert(1); opacity: .9; margin-bottom: 26px; }
+.mt-copy h1 { font-size: clamp(40px, 5.4vw, 84px); line-height: 1; }
+.mt-copy h1 em { display: block; font-style: italic; color: var(--m-sage); font-weight: 300; }
+.mt-copy .lede { color: rgba(251, 244, 230, .78); margin-top: 22px; font-size: clamp(16.5px, 1.3vw, 19px); }
+.mt-cue { display: inline-flex; align-items: center; gap: 12px; margin-top: 32px; font-size: 13px; letter-spacing: .1em; text-transform: uppercase; font-stretch: 75%; color: rgba(251, 244, 230, .7); }
+.mt-cue i { width: 1px; height: 38px; background: linear-gradient(var(--m-sage), transparent); animation: mtCue 1.8s var(--ease) infinite; transform-origin: top; }
+@keyframes mtCue { 0% { transform: scaleY(0); } 60% { transform: scaleY(1); opacity: 1; } 100% { transform: scaleY(1); opacity: 0; } }
+
+/* Reading caption and page controls */
+.mt-cap { position: absolute; z-index: 3; left: 0; right: 0; bottom: clamp(18px, 3.5vh, 40px); display: flex; justify-content: center; pointer-events: none; opacity: 0; }
+.mt-cap .bar { pointer-events: auto; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 18px; width: min(720px, calc(100% - 32px)); padding: 12px 12px 12px 22px; border-radius: 999px; background: rgba(22, 23, 17, .72); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border: 1px solid rgba(251, 244, 230, .12); }
+.mt-cap .n { font-size: 12.5px; letter-spacing: .1em; font-stretch: 75%; text-transform: uppercase; color: rgba(251, 244, 230, .6); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.mt-cap .t { min-width: 0; display: flex; align-items: baseline; gap: 12px; overflow: hidden; white-space: nowrap; }
+.mt-cap .t b { font-family: var(--m-serif); font-weight: 300; font-size: clamp(19px, 1.7vw, 24px); font-variation-settings: 'SOFT' 100; color: var(--m-cream); }
+.mt-cap .t span { color: rgba(251, 244, 230, .6); font-size: 14.5px; overflow: hidden; text-overflow: ellipsis; }
+.mt-cap .t.swap { animation: mtSwap .6s var(--ease); }
+@keyframes mtSwap { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.mt-nav { display: flex; gap: 6px; }
+.mt-nav button { width: 42px; height: 42px; border-radius: 50%; border: 1px solid rgba(251, 244, 230, .25); background: transparent; display: grid; place-items: center; cursor: pointer; color: var(--m-cream); transition: background .3s, color .3s, opacity .3s; }
+.mt-nav button:hover { background: var(--m-cream); color: var(--m-ink); }
+.mt-nav button:disabled { opacity: .3; pointer-events: none; }
+.mt-nav svg { width: 16px; height: 16px; }
+.mt-ticks { position: absolute; z-index: 3; right: clamp(16px, 2.5vw, 36px); top: 50%; translate: 0 -50%; display: grid; gap: 8px; opacity: 0; }
+.mt-ticks i { width: 14px; height: 2px; background: rgba(251, 244, 230, .28); transition: width .4s var(--ease), background .4s; }
+.mt-ticks i.on { width: 26px; background: var(--m-sage); }
+
+/* Interlude between the book and the prints */
+.mt-lead { background: var(--m-olive); padding: var(--m-gap) 0; }
+.mt-lead-h { margin-bottom: clamp(32px, 4vw, 56px); display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 24px clamp(32px, 6vw, 96px); align-items: end; }
+.mt-lead h2 { font-size: clamp(34px, 4.4vw, 64px); line-height: 1.02; }
+.mt-lead h2 em { font-style: italic; color: var(--m-ochre); }
+.mt-lead p { color: rgba(251, 244, 230, .72); max-width: 46ch; }
+
+/* The prints: each card pins and the next one settles on top of it */
+.mt-stack { position: relative; padding-bottom: 12svh; }
+.mt-card { margin: 0; position: sticky; top: calc(var(--head-h) + 3svh + var(--i) * 10px); height: min(78svh, 820px); margin-bottom: 14svh; border-radius: 20px; overflow: hidden; background: #15160f; box-shadow: 0 -18px 50px rgba(0, 0, 0, .35); transform-origin: 50% 0; will-change: transform; }
+.mt-card:last-child { margin-bottom: 0; }
+.mt-card img { width: 100%; height: 100%; object-fit: cover; }
+.mt-card .dim { position: absolute; inset: 0; background: #0b0c08; opacity: 0; pointer-events: none; }
+.mt-card figcaption { position: absolute; left: 0; right: 0; bottom: 0; padding: clamp(60px, 8vw, 120px) clamp(20px, 3vw, 40px) clamp(20px, 3vw, 36px); display: flex; align-items: end; justify-content: space-between; gap: 16px; background: linear-gradient(transparent, rgba(12, 12, 9, .72)); }
+.mt-card h3 { font-size: clamp(26px, 3vw, 44px); line-height: 1; }
+.mt-card p { color: rgba(251, 244, 230, .75); margin-top: 10px; font-size: 15.5px; max-width: 44ch; }
+.mt-card .no { font-size: 12.5px; letter-spacing: .1em; font-stretch: 75%; text-transform: uppercase; color: rgba(251, 244, 230, .7); white-space: nowrap; font-variant-numeric: tabular-nums; }
+/* Portrait frames sit on a cream mount beside their caption */
+.mt-card.pt { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); background: var(--m-cream); color: var(--m-ink); }
+.mt-card.pt .ph { position: relative; min-height: 0; padding: clamp(16px, 2.4vw, 32px); display: grid; place-items: center; }
+.mt-card.pt img { width: auto; height: 100%; max-width: 100%; object-fit: contain; box-shadow: 0 18px 40px rgba(30, 24, 12, .25); }
+.mt-card.pt figcaption { position: static; background: none; display: grid; align-content: space-between; padding: clamp(28px, 4vw, 64px); }
+.mt-card.pt figcaption h3 { font-size: clamp(34px, 4.2vw, 64px); }
+.mt-card.pt figcaption p { color: #5d574a; font-size: 16.5px; }
+.mt-card.pt .no { color: #6f6858; }
+.mt-card:not(.pt) .no { order: 2; }
+.mt-card.pt.flip .ph { order: 2; }
+
+/* What we made */
+.mt-made { background: var(--m-cream); color: var(--m-ink); padding: var(--m-gap) 0; }
+.mt-made .label { color: #6f6858; }
+.mt-made h2 { font-size: clamp(34px, 4.4vw, 64px); line-height: 1.02; max-width: 16ch; }
+.mt-made h2 em { font-style: italic; color: #6f7c52; }
+.mt-made .lede { color: #4d483d; margin-top: 22px; }
+.mt-three { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; margin-top: clamp(40px, 5vw, 72px); border-top: 1px solid rgba(30, 28, 22, .16); }
+.mt-three > div { padding: 26px clamp(16px, 2vw, 28px) 0 0; min-width: 0; }
+.mt-three > div + div { border-left: 1px solid rgba(30, 28, 22, .16); padding-left: clamp(16px, 2vw, 28px); }
+.mt-three b { display: block; font-family: var(--m-serif); font-weight: 300; font-size: clamp(22px, 2vw, 28px); line-height: 1.1; font-variation-settings: 'SOFT' 100; }
+.mt-three p { color: #5d574a; margin-top: 10px; font-size: 15.5px; }
+.mt-three .k { font-size: 12.5px; letter-spacing: .1em; text-transform: uppercase; font-stretch: 75%; color: #8a826f; margin-bottom: 14px; display: block; }
+.mt-meta { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: clamp(40px, 5vw, 72px); background: var(--m-paper); border-radius: 18px; padding: 22px clamp(18px, 2.4vw, 32px); gap: 16px; }
+.mt-meta div { display: grid; gap: 4px; min-width: 0; }
+.mt-meta span { font-size: 12px; letter-spacing: .1em; text-transform: uppercase; font-stretch: 75%; color: #7d7562; }
+.mt-meta b { font-weight: 400; font-size: 15.5px; overflow-wrap: anywhere; }
+.mt-made .row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 40px; }
+.mt-made .btn-solid { background: var(--m-ink); border-color: var(--m-ink); color: var(--m-cream); --sweep: var(--m-moss); }
+.mt-made .btn-ghost { color: var(--m-ink); --sweep: var(--m-ink); }
+.mt-made .btn-ghost:hover { color: var(--m-cream); }
+
+/* Work tile */
+.tile .cover.mt-cover { background: #1d1e17; isolation: isolate; }
+.mt-cover img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .9s var(--ease); }
+.tile:hover .mt-cover img.bg { transform: scale(1.05); }
+.mt-cover::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(14, 14, 10, .55), transparent 45%, rgba(14, 14, 10, .55)); }
+.mt-cover img.lg { inset: 9% auto auto 50%; width: 46%; height: auto; translate: -50% 0; filter: invert(1); opacity: .92; z-index: 1; }
+.mt-cover .cap { position: absolute; z-index: 1; left: 18px; bottom: 16px; right: 18px; display: flex; justify-content: space-between; color: rgba(251, 244, 230, .88); font-size: 13.5px; }
+
+/* Without motion the book is shown open on the table and turned with the buttons */
+.mt.still .mt-book { height: auto; }
+.mt.still .mt-stage { position: relative; top: 0; height: min(86svh, 860px); }
+.mt.still .mt-copy { display: none; }
+.mt.still .mt-cap, .mt.still .mt-ticks { opacity: 1; }
+.mt.still .mt-card { position: relative; top: 0; margin-bottom: 24px; }
+.mt-still-intro { display: none; }
+.mt.still .mt-still-intro { display: block; padding: clamp(40px, 6vw, 80px) 0; background: var(--m-olive); }
+.mt.still .mt-still-intro .in { max-width: 640px; }
+.mt.still .mt-still-intro h1 { font-size: clamp(40px, 5.4vw, 84px); line-height: 1; }
+.mt.still .mt-still-intro h1 em { display: block; font-style: italic; color: var(--m-sage); }
+.mt.still .mt-still-intro .lede { color: rgba(251, 244, 230, .78); margin-top: 22px; }
+
+@media (max-width: 900px) {
+  .mt-copy .wrap { align-content: start; padding-top: 64px; }
+  .mt-copy .crumbs { top: 18px; }
+  .mt-copy .in { width: 100%; }
+  .mt-copy .mt-more { display: none; }
+  .mt-logo { width: 132px; margin-bottom: 16px; }
+  .mt-copy h1 { font-size: clamp(34px, 9.6vw, 52px); }
+  .mt-copy .lede { margin-top: 14px; font-size: 15.5px; line-height: 1.55; }
+  .mt-cue { margin-top: 18px; }
+  .mt-cue i { height: 26px; }
+  .mt-cap .bar { gap: 12px; padding: 10px 10px 10px 16px; }
+  .mt-cap .t { display: grid; gap: 0; }
+  .mt-cap .t span { font-size: 13px; }
+  .mt-cap .n { display: none; }
+  .mt-nav button { width: 40px; height: 40px; }
+  .mt-ticks { display: none; }
+  .mt-lead-h { margin-bottom: clamp(32px, 4vw, 56px); grid-template-columns: minmax(0, 1fr); }
+  .mt-card { height: min(72svh, 640px); border-radius: 16px; top: calc(var(--head-h) + 2svh + var(--i) * 6px); }
+  .mt-card figcaption { flex-direction: column; align-items: start; gap: 8px; }
+  .mt-card p { font-size: 14.5px; }
+  .mt-card.pt { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto; }
+  .mt-card.pt.flip .ph { order: 0; }
+  .mt-card.pt .ph { padding: 16px 16px 0; }
+  .mt-card.pt figcaption { padding: 18px 20px 22px; gap: 6px; display: flex; flex-direction: column-reverse; align-items: start; }
+  .mt-card.pt figcaption h3 { font-size: 30px; }
+  .mt-card.pt figcaption p { font-size: 14.5px; margin-top: 4px; }
+  .mt-three, .mt-meta { grid-template-columns: minmax(0, 1fr); }
+  .mt-three > div + div { border-left: 0; padding-left: 0; border-top: 1px solid rgba(30, 28, 22, .16); margin-top: 24px; }
+  .mt-meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (prefers-reduced-motion: reduce) { .mt-cue i { animation: none; } .mt-cap .t.swap { animation: none; } }
 </style>
 
 <a class="skip" href="#main" id="skip">Skip to content</a>
@@ -2737,6 +2918,7 @@ const DETAIL = {
 };
 const DETAIL_NAV = [['branding', 'Branding'], ['advertising', 'Advertising'], ['web-app-development', 'Web & App Development'], ['digital-services', 'Digital Services']];
 const WORK = [
+  { t: 'Miln Town', sub: 'Photography, film and a table brochure for a heritage bungalow in Coonoor.', tags: ['PHOTOSHOOT', 'FILM', 'BROCHURE'], tone: 'mint', href: '#work-milntown', mt: true },
   { t: 'Dharmaram Vidya Kshetram', sub: 'A brand identity refresh and faculty system for a Pontifical Athenaeum in Bengaluru.', tags: ['BRAND IDENTITY', 'BRAND BOOK', 'EDUCATION'], tone: 'mint', href: '#work-dharmaram', dv: true },
   { t: 'Cube Audience Manager', sub: 'Product design and films for an AI audience-research platform by Cubera.', tags: ['PRODUCT DESIGN', 'UI/UX', 'FILM'], tone: 'ice', href: '#work-cube', cb: true },
   { t: 'Oli', sub: 'Brand, website and apps for a next-gen gig platform for live music.', tags: ['BRAND IDENTITY', 'APP', 'FILM'], tone: 'mint', href: '#work-oli', ol: true },
@@ -2744,7 +2926,6 @@ const WORK = [
   { t: 'Logo & Branding', tags: ['LOGO', 'DESIGN'], tone: 'mint', art: 'climb' },
   { t: 'Brand Typography', tags: ['TYPOGRAPHY', 'DESIGN'], tone: 'lilac', art: 'type' },
   { t: 'Photoshoot for Schools', tags: ['PHOTOGRAPHY', 'ASSETS'], tone: 'ice', art: 'nest' },
-  { t: 'HoReCa Brochure', tags: ['DESIGN', 'PHOTOSHOOT'], tone: 'mint', art: 'lines2' },
   { t: 'Fashion Branding', tags: ['DIGITAL', 'BANNERS'], tone: 'lilac', art: 'climb2' },
 ];
 const POSTS = [
@@ -2897,7 +3078,7 @@ P.work = () => `
   <section class="sec">
     <div class="wrap work">
       ${WORK.map((w, i) => w.href ? `<a class="tile" href="${w.href}" style="${toneVars(w.tone)}" data-cursor="View">
-        ${w.dv ? dvCover() : w.cb ? `<div class="cover cb-cover"><div class="cb-3d">${cbFr('s10', '', '', true)}</div>${cbMark()}<div class="cap"><span>Case study</span><span>2026</span></div></div>` : w.ol ? `<div class="cover ol-cover">${olField(360, 'f', '250 170 1500 1125')}<div class="cap"><span>Case study</span><span>2026</span></div></div>` : `<div class="cover ky-cover"><div class="ky-flow" aria-hidden="true"></div><div class="ky-flow b" aria-hidden="true"></div><div class="mk">${kyMark()}</div><div class="cap"><span>Case study</span><span>2026</span></div></div>`}
+        ${w.mt ? `<div class="cover mt-cover"><img class="bg" src="img/milntown/07533-s.webp" alt="" loading="lazy"><img class="lg" src="img/milntown/logo.webp" alt="" loading="lazy"><div class="cap"><span>Case study</span><span>2026</span></div></div>` : w.dv ? dvCover() : w.cb ? `<div class="cover cb-cover"><div class="cb-3d">${cbFr('s10', '', '', true)}</div>${cbMark()}<div class="cap"><span>Case study</span><span>2026</span></div></div>` : w.ol ? `<div class="cover ol-cover">${olField(360, 'f', '250 170 1500 1125')}<div class="cap"><span>Case study</span><span>2026</span></div></div>` : `<div class="cover ky-cover"><div class="ky-flow" aria-hidden="true"></div><div class="ky-flow b" aria-hidden="true"></div><div class="mk">${kyMark()}</div><div class="cap"><span>Case study</span><span>2026</span></div></div>`}
         <div class="tags">${w.tags.map(t => `<span>${t}</span>`).join('')}</div>
         <h3><span>${w.t}<small>${w.sub}</small></span><span aria-hidden="true" style="width:18px;flex:none">${I.arrow}</span></h3>
       </a>` : `<article class="tile" style="${toneVars(w.tone)}">
@@ -4097,6 +4278,245 @@ P.legal = () => `
   ${pageHero({ tone: 'mint', crumbs: [['#home', 'Home'], ['', 'Terms &amp; Privacy']], h: 'Terms &amp; Conditions, Privacy Policy' })}
   <section class="sec"><div class="wrap"><p class="proto-note"><b>Prototype note.</b> The live site links to Terms and Privacy Policy from every footer, but both pages return 404. This route is a placeholder for that text.</p></div></section>`;
 
+/* ================= Case study: Miln Town =================
+   The brochure is 18 pages: a cover, eight spreads and a back cover, printed as nine leaves.
+   Page images are the client's print PDF; photographs are from our shoot. */
+const MT_PAGES = 18;
+const MT_STEPS = [
+  ['Cover', 'Experience the British Era', 'The brochure, closed on the table'],
+  ['Spread 01', 'entering history', 'Not just arriving'],
+  ['Spread 02', 'embracing heritage', 'Not just booking a room'],
+  ['Spread 03', 'into timelessness', 'Not just visiting'],
+  ['Spread 04', 'returning to elegance', 'Not just checking in'],
+  ['Spread 05', 'choosing a story', 'Not just choosing a stay'],
+  ['Spread 06', 'touching the past', 'Not just taking a break'],
+  ['Spread 07', 'living a legacy', 'Not just staying'],
+  ['Spread 08', 'the rooms', 'Six frames from the shoot'],
+  ['Back cover', 'Miln Town', 'Experience the British Era'],
+];
+const MT_FRAMES = [
+  ['07163', 'The approach', 'The drive sweeps past the glass verandah to the lawns.', 0],
+  ['07458', 'The garden', 'A fountain, the bandstand and a white picket edge above the valley.', 0],
+  ['07322', 'The sunroom', 'Tables set along a wall of windows, in the light the house was planned for.', 0],
+  ['07302', 'The verandah', 'Carved benches and long shadows on the garden side.', 1],
+  ['07311', 'The corridor', 'Teak, glass and a bronze at the far end.', 0],
+  ['07462', 'The four-poster', 'Carved posts, muslin and a quiet bedroom.', 2],
+  ['07401', 'A bedroom', 'Timber panelling, high ceilings and a window onto the trees.', 0],
+  ['07448', 'The writing desk', 'A bureau by the window, as it might have been in 1900.', 1],
+  ['07433', 'The long verandah', 'One rug after another, all the way down.', 2],
+  ['07533', 'Dusk', 'The lamps come on across the lawn as the hills turn blue.', 0],
+];
+const mtHead = () => parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--head-h')) || 72;
+const mtPg = i => `img/milntown/pg${String(i).padStart(2, '0')}`;
+const mtImg = (n, alt, sizes = '100vw', lazy = true) => `<img src="img/milntown/${n}.webp" srcset="img/milntown/${n}-s.webp 1000w, img/milntown/${n}.webp 2000w" sizes="${sizes}" alt="${alt}"${lazy ? ' loading="lazy" decoding="async"' : ''}>`;
+const mtArrow = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="${d ? 'M5 12h14M13 6l6 6-6 6' : 'M19 12H5M11 6l-6 6 6 6'}"/></svg>`;
+const mtLede = 'Miln Town is a heritage bungalow in Coonoor, in the Nilgiris, built in the hill-station tradition of the late 1800s.<span class="mt-more"> We photographed and filmed the property, then set its story into a table brochure that waits for guests on its tea tables.</span>';
+
+P['work-milntown'] = () => `
+<div class="mt">
+  <div class="mt-still-intro"><div class="wrap"><div class="in">
+    <p class="label intro">Case study · Photography, film &amp; print</p>
+    <h1>Miln Town<em>in the British era</em></h1>
+    <p class="lede">${mtLede}</p>
+  </div></div></div>
+  <section class="mt-book" id="mt-book" aria-labelledby="mt-h">
+    <div class="mt-stage">
+      <div class="mt-room" aria-hidden="true"></div>
+      <div class="mt-cam" aria-hidden="true"><div class="mt-world" id="mt-world">
+        <div class="mt-tbl"><i class="rim"></i><i class="rim"></i><i class="rim"></i><i class="rim"></i><i class="top"></i><i class="sun"></i></div>
+        <div class="mt-shade" id="mt-sh-r"></div><div class="mt-shade" id="mt-sh-l"></div>
+        <div class="mt-cup" id="mt-cup"><i class="sau"></i>${Array.from({ length: 11 }, () => '<i class="rg"></i>').join('')}<i class="lip"></i><i class="hd"></i></div>
+        <div class="mt-bk" id="mt-bk">${Array.from({ length: MT_PAGES / 2 }, (_, i) => `<div class="mt-leaf"><div class="mt-face f" data-pg="${2 * i}"></div><div class="mt-face b" data-pg="${2 * i + 1}"></div></div>`).join('')}</div>
+      </div></div>
+      <div class="mt-vign" aria-hidden="true"></div>
+      <div class="mt-copy" id="mt-copy"><div class="wrap">
+        <nav class="crumbs" aria-label="Breadcrumb"><a href="#home">Home</a><span aria-hidden="true">/</span><a href="#work">Work</a><span aria-hidden="true">/</span><span aria-current="page">Miln Town</span></nav>
+        <div class="in">
+          <img class="mt-logo rise-in" src="img/milntown/logo.webp" alt="Miln Town, Experience the British Era" width="900" height="358">
+          <p class="label intro rise-in d1">Case study · Photography, film &amp; print</p>
+          <h1 id="mt-h" class="rise-in d1">A house that<em>tells its own story</em></h1>
+          <p class="lede rise-in d2">${mtLede}</p>
+          <p class="mt-cue rise-in d3"><i></i>Scroll to open the brochure</p>
+        </div>
+      </div></div>
+      <div class="mt-ticks" id="mt-ticks" aria-hidden="true">${MT_STEPS.map(() => '<i></i>').join('')}</div>
+      <div class="mt-cap" id="mt-cap">
+        <div class="bar">
+          <span class="n" id="mt-n">01 / 10</span>
+          <p class="t" id="mt-t" aria-live="polite"></p>
+          <div class="mt-nav"><button type="button" id="mt-prev" aria-label="Previous page">${mtArrow(0)}</button><button type="button" id="mt-next" aria-label="Next page">${mtArrow(1)}</button></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mt-lead" aria-labelledby="mt-frames-h">
+    <div class="wrap mt-lead-h">
+      <div><p class="label intro">The shoot</p><h2 id="mt-frames-h">Every room, <em>in its own light</em></h2></div>
+      <p>We worked through the house with the daylight, from the drive to the last lamp at dusk. Here are ten of the frames.</p>
+    </div>
+    <div class="wrap mt-stack" id="mt-stack">
+      ${MT_FRAMES.map(([n, t, d, pt], i) => `<figure class="mt-card${pt ? ' pt' : ''}${pt === 2 ? ' flip' : ''}" style="--i:${i}">
+        ${pt ? `<div class="ph">${mtImg(n, `${t}, Miln Town`, '(max-width: 900px) 92vw, 40vw')}</div>` : mtImg(n, `${t}, Miln Town`, '(max-width: 900px) 100vw, 1320px', i > 0)}
+        <figcaption><span class="no">${String(i + 1).padStart(2, '0')} / ${MT_FRAMES.length}</span><div><h3>${t}</h3><p>${d}</p></div></figcaption>
+        <i class="dim" aria-hidden="true"></i>
+      </figure>`).join('')}
+    </div>
+  </section>
+
+  <section class="mt-made" aria-labelledby="mt-made-h">
+    <div class="wrap">
+      <p class="label intro">What we made</p>
+      <h2 id="mt-made-h">One visit, <em>three ways to arrive</em></h2>
+      <p class="lede">Guests meet Miln Town long before they check in: online, in a film, and on the table when they sit down for tea. We made all three from the same shoot so the house looks and sounds like itself everywhere.</p>
+      <div class="mt-three">
+        <div><span class="k">01</span><b>Photography</b><p>The whole property, inside and out, from morning light to dusk.</p></div>
+        <div><span class="k">02</span><b>Film</b><p>Video that walks a guest through the estate before they arrive.</p></div>
+        <div><span class="k">03</span><b>Table brochure</b><p>Eighteen pages that tell the bungalow’s story, set out on the tables for visitors.</p></div>
+      </div>
+      <div class="mt-meta">
+        <div><span>Property</span><b>Miln Town</b></div>
+        <div><span>Location</span><b>Coonoor, Nilgiris</b></div>
+        <div><span>Scope</span><b>Photography, film, print</b></div>
+        <div><span>Year</span><b>2026</b></div>
+      </div>
+      <div class="row"><a class="btn btn-solid" href="https://thezari.co.in/milntown.php" target="_blank" rel="noopener">Visit the property${I.arrow}</a><a class="btn btn-ghost" href="#work">Back to all work</a></div>
+    </div>
+  </section>
+</div>
+  ${ctaBand('mint', 'Have a place with a story?', 'Let’s document it')}`;
+
+function setupMilntown(main) {
+  const root = main.querySelector('.mt'); if (!root) return;
+  const ok = motionOK();
+  root.classList.toggle('still', !ok);
+  const sec = root.querySelector('#mt-book'), stage = sec.querySelector('.mt-stage'), world = root.querySelector('#mt-world'), room = sec.querySelector('.mt-room');
+  const copy = root.querySelector('#mt-copy'), cap = root.querySelector('#mt-cap'), ticksEl = root.querySelector('#mt-ticks'), ticks = [...ticksEl.children];
+  const bk = root.querySelector('#mt-bk'), leaves = [...bk.children], cup = root.querySelector('#mt-cup');
+  const shR = root.querySelector('#mt-sh-r'), shL = root.querySelector('#mt-sh-l');
+  const tEl = root.querySelector('#mt-t'), nEl = root.querySelector('#mt-n'), prev = root.querySelector('#mt-prev'), next = root.querySelector('#mt-next');
+  const N = leaves.length, PW = 400, PH = 200;
+
+  /* Phases, in stage heights: a moment on the hero, the camera move, then one page turn per step */
+  const HOLD = .3, DOLLY = 1.2, READ = .25, STEP = .8, TURN = .55, TAIL = .5;
+  const flipStart = HOLD + DOLLY + READ, total = flipStart + N * STEP + TAIL;
+  const sm = t => t * t * (3 - 2 * t), lerp = (a, b, t) => a + (b - a) * t;
+
+  let narrow = false, W = 0, H = 0, step = -1, manual = null;
+  /* Lay the book out: wide screens open it side to side, narrow ones top to bottom */
+  const layout = () => {
+    W = stage.clientWidth; H = stage.clientHeight; narrow = W <= 900 && H > W;
+    const small = W <= 900;
+    leaves.forEach((lf, i) => {
+      Object.assign(lf.style, narrow ? { left: `${-PW / 2}px`, top: '0px', width: `${PW}px`, height: `${PH}px`, transformOrigin: '50% 0' } : { left: '0px', top: `${-PH / 2}px`, width: `${PW}px`, height: `${PH}px`, transformOrigin: '0 50%' });
+      lf.children[1].style.transform = narrow ? 'rotateX(180deg)' : 'rotateY(180deg)';
+      lf.children[0].style.setProperty('--mt-dir', narrow ? '180deg' : '90deg');
+      lf.children[1].style.setProperty('--mt-dir', narrow ? '0deg' : '270deg');
+      [...lf.children].forEach(f => { f.style.backgroundImage = `url(${mtPg(+f.dataset.pg)}${small ? '-s' : ''}.webp)`; });
+    });
+    const half = narrow ? { width: `${PW}px`, height: `${PH}px` } : { width: `${PW}px`, height: `${PH}px` };
+    Object.assign(shR.style, half, narrow ? { left: `${-PW / 2}px`, top: '0px' } : { left: '0px', top: `${-PH / 2}px` });
+    Object.assign(shL.style, half, narrow ? { left: `${-PW / 2}px`, top: `${-PH}px` } : { left: `${-PW}px`, top: `${-PH / 2}px` });
+    root.querySelectorAll('.mt-tbl .rim').forEach((r, k) => r.style.transform = `translateZ(${-6 - k * 7}px)`);
+    root.querySelector('.mt-tbl .sun').style.transform = 'translateZ(.4px)';
+    const cupAt = narrow ? [235, 330] : [505, -190];
+    cup.style.transform = `translate3d(${cupAt[0]}px, ${cupAt[1]}px, 0)`;
+    [...cup.children].forEach((c, k) => {
+      if (c.classList.contains('sau')) c.style.transform = 'translateZ(1px)';
+      else if (c.classList.contains('rg')) c.style.transform = `translateZ(${6 + k * 5}px) scale(${.82 + k * .02})`;
+      else if (c.classList.contains('lip')) c.style.transform = 'translateZ(62px)';
+      else c.style.transform = 'translateZ(36px) rotateX(-90deg)';
+    });
+    sec.style.setProperty('--mt-len', `calc(${(total + 1).toFixed(2)} * (100svh - var(--head-h)))`);
+  };
+
+  const setStep = k => {
+    if (k === step) return; step = k;
+    const [n, t, s] = MT_STEPS[k];
+    nEl.textContent = `${String(k + 1).padStart(2, '0')} / ${MT_STEPS.length}`; void n;
+    tEl.innerHTML = `<b>${t}</b><span>${s}</span>`;
+    tEl.classList.remove('swap'); void tEl.offsetWidth; tEl.classList.add('swap');
+    ticks.forEach((tk, j) => tk.classList.toggle('on', j === k));
+    prev.disabled = k === 0; next.disabled = k === MT_STEPS.length - 1;
+  };
+
+  /* Draw one frame. d: 0 = hero view, 1 = square to the page. f: turned leaves (fractional while turning). */
+  const draw = (d, f) => {
+    const e = sm(clamp(d));
+    const spreadW = narrow ? PW : 2 * PW, spreadH = narrow ? 2 * PH : PH;
+    const sB = Math.min((narrow ? .92 : .86) * W / spreadW, (H - (narrow ? 150 : 170)) / spreadH);
+    const sA = narrow ? Math.min(W / 700, H / 1100) : Math.min(W / 1000, H / 650);
+    const s = lerp(sA, sB, e);
+    /* Where the camera looks: the closed cover, the open spread, then the closed back cover */
+    const half = narrow ? PH / 2 : PW / 2;
+    const focus = (1 - clamp(f)) * half - clamp(f - (N - 1)) * half;
+    const fx = narrow ? 0 : focus, fy = narrow ? focus : 0;
+    const txA = narrow ? 0 : W * .16, tyA = narrow ? H * .3 : H * .1;
+    const tx = lerp(txA, 0, e), ty = lerp(tyA, narrow ? -28 : -30, e);
+    const pitch = lerp(narrow ? 50 : 56, 0, e), yaw = lerp(narrow ? -14 : -22, 0, e);
+    world.style.transform = `translate3d(${tx}px, ${ty}px, 0) scale(${s}) rotateX(${pitch}deg) rotateZ(${yaw}deg) translate3d(${-fx}px, ${-fy}px, 0)`;
+    stage.querySelector('.mt-cam').style.perspective = `${Math.round(lerp(1.3, 2.6, e) * Math.max(W, H))}px`;
+    room.style.transform = `scale(${1 + e * .18})`; room.style.opacity = 1 - e * .55;
+    copy.style.opacity = clamp(1 - d * 2.6); copy.style.transform = `translateY(${-d * 60}px)`; copy.style.visibility = d > .4 ? 'hidden' : '';
+    const capOn = clamp((d - .7) / .3); cap.style.opacity = capOn; ticksEl.style.opacity = capOn;
+    cap.style.visibility = capOn ? '' : 'hidden';
+    /* Leaves: unturned ones stack on the right (or bottom), turned ones on the left (or top) */
+    leaves.forEach((lf, i) => {
+      const p = sm(clamp(f - i)), z = lerp((N - i) * .7, (i + 1) * .7, p) + 1;
+      lf.style.transform = narrow ? `translateZ(${z}px) rotateX(${p * 180}deg)` : `translateZ(${z}px) rotateY(${-p * 180}deg)`;
+      const lit = Math.sin(Math.PI * p) * .35;
+      lf.children[0].style.setProperty('--sh', lit); lf.children[1].style.setProperty('--sh', lit);
+    });
+    shR.style.opacity = clamp(N - f); shL.style.opacity = clamp(f);
+    shR.style.transform = shL.style.transform = 'translate3d(6px, 9px, .6px)';
+  };
+
+  /* Scroll position (in stage heights) for a step, and the step for a position */
+  const stepAt = k => k === 0 ? HOLD + DOLLY + READ * .5 : flipStart + (k - 1) * STEP + TURN + (STEP - TURN) * .5;
+  const go = k => {
+    k = clamp(k, 0, MT_STEPS.length - 1);
+    if (!ok) { manual = k; setStep(k); draw(1, k); return; }
+    scrollTo({ top: sec.getBoundingClientRect().top + scrollY - mtHead() + stepAt(k) * H, behavior: 'smooth' });
+  };
+  prev.addEventListener('click', () => go(step - 1));
+  next.addEventListener('click', () => go(step + 1));
+
+  /* Prints: a card tilts in, settles, then sinks back as the next one lands on it */
+  const cards = [...root.querySelectorAll('.mt-card')];
+  const drawCards = () => {
+    const tops = cards.map(c => c.getBoundingClientRect());
+    cards.forEach((c, i) => {
+      const r = tops[i], st = parseFloat(getComputedStyle(c).top) || 0;
+      const enter = clamp((r.top - st) / (innerHeight * .9));
+      const nx = tops[i + 1], cover = nx ? clamp(1 - (nx.top - st) / r.height) : 0;
+      const sign = i % 2 ? 1 : -1;
+      const sc = 1 - cover * .06, rot = sign * enter * 3.5;
+      c.style.transform = enter > 0.001 || cover > 0.001 ? `rotate(${rot}deg) scale(${sc})` : 'none';
+      c.querySelector('.dim').style.opacity = cover * .55;
+    });
+  };
+
+  let raf = 0;
+  const tick = () => {
+    raf = 0;
+    if (!root.isConnected) { removeEventListener('scroll', onScroll); removeEventListener('resize', onResize); return; }
+    if (!ok) return;
+    const y = (stage.getBoundingClientRect().top - sec.getBoundingClientRect().top) / H;
+    const d = clamp((y - HOLD) / DOLLY);
+    const raw = (y - flipStart) / STEP, k = Math.floor(raw), frac = clamp((raw - k) / (TURN / STEP));
+    const f = clamp(raw < 0 ? 0 : k + frac, 0, N);
+    draw(d, f);
+    setStep(y < flipStart ? 0 : Math.min(MT_STEPS.length - 1, Math.round(f)));
+    drawCards();
+  };
+  const onScroll = () => { if (!raf) raf = requestAnimationFrame(tick); };
+  const onResize = () => { layout(); if (!ok) draw(1, manual ?? 0); onScroll(); };
+  addEventListener('scroll', onScroll, { passive: true }); addEventListener('resize', onResize);
+  layout();
+  if (!ok) { setStep(0); draw(1, 0); return; }
+  setStep(0); tick();
+}
+
 /* ================= Gamification: the page is played, not read =================
    Lobby → Join → Switch → Loadout → Players → Bonus → Arena → Start.
    A HUD tracks the level and a score that rises as the visitor plays. */
@@ -4361,6 +4781,7 @@ function setupPage(route) {
   if (route === 'work-oli') setupOli(document.getElementById('main'));
   if (route === 'work-cube') setupCube(document.getElementById('main'));
   if (route === 'work-dharmaram') setupDharmaram(document.getElementById('main'));
+  if (route === 'work-milntown') setupMilntown(document.getElementById('main'));
   document.querySelectorAll('.tabs').forEach(list => {
     const tabs = [...list.querySelectorAll('[role="tab"]')];
     const sel = i => tabs.forEach((t, j) => {
@@ -4433,7 +4854,7 @@ const motionOK = () => !RM.matches;
 const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 const easeIO = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 const PAGE_TONE = { edtech: 'ice', gamification: 'lilac' };
-const PAGE_NAME = { home: 'Latch Infinity', about: 'About', work: 'Work', 'work-kaynes': 'Kaynes Technology', 'work-oli': 'Oli', 'work-cube': 'Cube', 'work-dharmaram': 'Dharmaram', marketing: 'Marketing', branding: 'Branding', advertising: 'Advertising', 'digital-services': 'Digital Services', 'web-app-development': 'Website &amp; App Development', edtech: 'EdTech', gamification: 'Gamification', blog: 'Blogs', contact: 'Let\'s Talk', legal: 'Terms &amp; Privacy' };
+const PAGE_NAME = { home: 'Latch Infinity', about: 'About', work: 'Work', 'work-kaynes': 'Kaynes Technology', 'work-oli': 'Oli', 'work-cube': 'Cube', 'work-dharmaram': 'Dharmaram', 'work-milntown': 'Miln Town', marketing: 'Marketing', branding: 'Branding', advertising: 'Advertising', 'digital-services': 'Digital Services', 'web-app-development': 'Website &amp; App Development', edtech: 'EdTech', gamification: 'Gamification', blog: 'Blogs', contact: 'Let\'s Talk', legal: 'Terms &amp; Privacy' };
 const wipe = document.getElementById('wipe'), bars = [...wipe.querySelectorAll('i')], wipeMark = document.getElementById('wipe-mark');
 const EASE_IO = 'cubic-bezier(.76,0,.24,1)';
 const SKEW = x => `translateX(${x}) skewX(-33deg)`;
