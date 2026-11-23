@@ -13,7 +13,7 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62.5..125,300..700&family=Space+Grotesk:wght@300..700&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62.5..125,300..700&family=Space+Grotesk:wght@300..700&family=EB+Garamond:wght@400..600&family=Montserrat:wght@300..700&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap">
 <style>
 /* Layout: a 12-column grid on a warm-green paper ground. Every page opens on a deep band
    whose climb device carries its business line's colour: Mint for marketing, Ice for EdTech,
@@ -1897,6 +1897,260 @@ fieldset.field { border: 0; margin: 0; padding: 0; }
   .cb-arch { height: auto; }
   .cb-arch .pin { position: relative; height: auto; padding: clamp(72px, 10vw, 140px) 0; }
 }
+/* ================= Case study: Dharmaram Vidya Kshetram =================
+   One emblem, five houses. Latch frames the page (Archivo Wide headlines, grey intros);
+   Dharmaram's own system fills the panels that show their brand: Dark Red, Eggshell,
+   Garamond and Montserrat, and one colour for each faculty. Every emblem, lockup and
+   wordmark is the client's vector artwork, lifted from the brand book. */
+.dv { --dv-red: #8f0001; --dv-egg: #f2eed6; --dv-egg-2: #e8e2c0; --dv-ink: #1c0a0a; --dv-serif: 'EB Garamond', Garamond, Georgia, serif; --dv-sans: 'Montserrat', var(--font); }
+.dv-in { opacity: 0; transform: translateY(36px); transition: opacity 1s var(--ease), transform 1.1s var(--ease); transition-delay: calc(var(--k, 0) * 80ms); }
+.dv-in.on { opacity: 1; transform: none; }
+.dv-em { display: block; width: 100%; height: auto; overflow: visible; fill: currentColor; }
+.dv-src { margin-top: 18px; font-size: 12.5px; color: var(--ink-3); }
+
+/* Hero: the brand book's cover, with the emblem drawing itself line by line */
+.dv-hero { position: relative; overflow: hidden; background: var(--dv-egg); color: var(--ink); isolation: isolate; min-height: min(92vh, 980px); display: grid; }
+.dv-hero .bg { position: absolute; inset: -6%; z-index: -1; background: url(img/dharmaram/cover-bg.webp) center / cover; animation: dvBg 30s ease-in-out infinite alternate; }
+@keyframes dvBg { from { transform: scale(1.02) rotate(-.6deg); } to { transform: scale(1.1) rotate(.6deg); } }
+.dv-hero .wrap { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr); align-items: center; gap: 32px clamp(24px, 5vw, 80px); padding-block: clamp(40px, 7vw, 96px) clamp(40px, 6vw, 80px); }
+.dv-hero .crumbs { color: var(--ink-2); margin-bottom: clamp(28px, 4vw, 56px); }
+.dv-hero .label { color: #5d5340; }
+.dv-hero h1 { font-size: clamp(40px, 7vw, 112px); line-height: .98; max-width: 11ch; }
+.dv-hero h1 em { font-style: normal; display: block; color: var(--dv-red); }
+.dv-hero .lede { color: #3d3a30; margin-top: 26px; max-width: 54ch; }
+.dv-hero .row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
+.dv-hero .btn-solid { background: var(--dv-red); border-color: var(--dv-red); color: var(--dv-egg); --sweep: var(--ink); }
+.dv-hero .btn-solid:hover { border-color: var(--ink); }
+.dv-hero .btn-ghost { color: var(--ink); --sweep: var(--dv-red); }
+.dv-hero .btn-ghost:hover { color: var(--dv-egg); border-color: var(--dv-red); }
+.dv-hero-mark { justify-self: center; width: min(100%, 380px); color: var(--dv-red); }
+.dv-meta { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid rgba(143, 0, 1, .22); margin-top: clamp(12px, 3vw, 40px); }
+.dv-meta div { padding: 18px 16px 0 0; display: grid; gap: 4px; align-content: start; min-width: 0; }
+.dv-meta div + div { border-left: 1px solid rgba(143, 0, 1, .22); padding-left: clamp(12px, 2vw, 24px); }
+.dv-meta b { font-weight: 400; font-size: 15.5px; line-height: 1.4; }
+.dv-meta span { font-stretch: 75%; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: #6b604a; }
+
+/* The emblem draws itself: each filled outline is traced, then filled */
+.dv-draw path { fill: transparent; stroke: currentColor; stroke-width: .7; stroke-dasharray: var(--len, 0); stroke-dashoffset: var(--len, 0); animation: dvTrace 1.6s cubic-bezier(.65, 0, .35, 1) forwards, dvFill .7s ease forwards; animation-delay: calc(.4s + var(--k, 0) * 45ms), calc(1.7s + var(--k, 0) * 25ms); }
+@keyframes dvTrace { to { stroke-dashoffset: 0; } }
+@keyframes dvFill { to { fill: currentColor; stroke-width: 0; } }
+
+/* Client facts */
+.dv-split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 28px clamp(32px, 6vw, 96px); align-items: start; }
+.dv-split .lede { max-width: none; }
+.dv-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--line); margin-top: clamp(40px, 6vw, 80px); }
+.dv-stats > div { padding: 26px 16px 0 0; display: grid; gap: 8px; align-content: start; min-width: 0; }
+.dv-stats > div + div { border-left: 1px solid var(--line); padding-left: clamp(12px, 2.2vw, 30px); }
+.dv-stats b { font-family: var(--dv-serif); font-weight: 400; font-size: clamp(44px, 6vw, 92px); line-height: .95; color: var(--dv-red); font-variant-numeric: lining-nums tabular-nums; }
+.dv-stats span { color: var(--ink-2); font-size: var(--t-small); line-height: 1.4; }
+.dv-houses { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: clamp(32px, 5vw, 56px); }
+.dv-house { border-radius: var(--r); background: var(--surface); padding: 22px 20px 24px; display: grid; gap: 8px; align-content: start; min-width: 0; border-top: 4px solid var(--c); }
+.dv-house h3 { font-size: var(--t-3); line-height: 1.15; }
+.dv-house p { color: var(--ink-2); font-size: var(--t-small); }
+
+/* Brief */
+.dv-brief { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.dv-brief > div { border-radius: var(--r); padding: clamp(26px, 3.4vw, 48px); display: grid; gap: 16px; align-content: start; min-width: 0; }
+.dv-brief .q { background: var(--surface); }
+.dv-brief .a { background: var(--dv-red); color: var(--dv-egg); }
+.dv-brief .a .label { color: rgba(242, 238, 214, .72); }
+.dv-brief h3 { font-size: var(--t-2); }
+.dv-brief p { color: var(--ink-2); }
+.dv-brief ul { list-style: none; padding: 0; margin: 4px 0 0; display: grid; gap: 10px; }
+.dv-brief li { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 12px; color: rgba(242, 238, 214, .88); }
+.dv-brief li svg { width: 16px; height: 16px; margin-top: 5px; fill: currentColor; }
+
+/* Reading the emblem */
+.dv-read { background: var(--dv-red); color: var(--dv-egg); overflow: hidden; }
+.dv-read .wrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 40px clamp(32px, 6vw, 96px); align-items: center; padding-block: clamp(64px, 9vw, 128px); }
+.dv-read .label { color: rgba(242, 238, 214, .72); }
+.dv-read h2 { font-size: var(--t-1); max-width: 13ch; }
+.dv-read-art { width: min(100%, 480px); justify-self: center; }
+.dv-read-art path { transition: opacity .6s var(--ease); }
+.dv-read-art svg[data-on] path { opacity: .2; }
+.dv-read-art svg[data-on="lotus"] [data-g="lotus"], .dv-read-art svg[data-on="feather"] [data-g="feather"], .dv-read-art svg[data-on="cross"] [data-g="cross"],
+.dv-read-art svg[data-on="star"] [data-g="star"], .dv-read-art svg[data-on="star"] [data-g="waves"], .dv-read-art svg[data-on="star"] [data-g="ring"],
+.dv-read-art svg[data-on="motto"] [data-g="motto"], .dv-read-art svg[data-on="name"] [data-g="name"] { opacity: 1; }
+.dv-parts { list-style: none; margin: 32px 0 0; padding: 0; border-top: 1px solid rgba(242, 238, 214, .25); }
+.dv-parts li { border-bottom: 1px solid rgba(242, 238, 214, .25); }
+.dv-parts button { all: unset; box-sizing: border-box; width: 100%; cursor: pointer; display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 4px 12px; padding: 16px 0; }
+.dv-parts button:focus-visible { outline: 2px solid var(--dv-egg); outline-offset: 4px; border-radius: 4px; }
+.dv-parts .n { font-family: var(--dv-sans); font-size: 13px; opacity: .6; padding-top: 6px; }
+.dv-parts b { font-weight: 400; font-family: var(--dv-serif); font-size: clamp(22px, 2.2vw, 30px); line-height: 1.15; opacity: .62; transition: opacity .4s; }
+.dv-parts p { grid-column: 2; font-family: var(--dv-sans); font-size: 15px; line-height: 1.55; color: rgba(242, 238, 214, .86); display: grid; grid-template-rows: 0fr; transition: grid-template-rows .6s var(--ease); }
+.dv-parts p > span { overflow: hidden; }
+.dv-parts button[aria-pressed="true"] b, .dv-parts button:hover b { opacity: 1; }
+.dv-parts button[aria-pressed="true"] p { grid-template-rows: 1fr; }
+.dv-read .dv-src { color: rgba(242, 238, 214, .6); }
+
+/* Lockup and clear space */
+.dv-lockup { border-radius: var(--r); background: var(--dv-egg); color: var(--dv-red); position: relative; overflow: hidden; transition: background .6s var(--ease), color .6s var(--ease); }
+.dv-lockup svg { display: block; width: 100%; height: auto; fill: currentColor; }
+.dv-lockup.on-red { background: var(--dv-red); color: var(--dv-egg); }
+.dv-lockup.on-white { background: #fff; box-shadow: inset 0 0 0 1px var(--line); }
+.dv-lockup .cons { opacity: 0; transition: opacity .6s var(--ease); }
+.dv-lockup.show .cons { opacity: 1; }
+.dv-lockup .cons rect { fill: currentColor; opacity: .12; }
+.dv-lockup .cons line { stroke: currentColor; stroke-width: 1; stroke-dasharray: 3 4; vector-effect: non-scaling-stroke; opacity: .55; }
+.dv-lockup .tools { position: absolute; left: 16px; bottom: 16px; right: 16px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; align-items: center; }
+.dv-tog { display: inline-flex; gap: 4px; padding: 4px; border-radius: 999px; background: rgba(255, 255, 255, .7); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+.dv-tog button { border: 0; background: none; border-radius: 999px; padding: 7px 14px; font-size: 13.5px; cursor: pointer; color: var(--ink-2); font-family: inherit; }
+.dv-tog button[aria-pressed="true"] { background: var(--ink); color: #fff; }
+.dv-key { display: flex; align-items: center; gap: 10px; margin-top: 14px; font-size: 13.5px; color: var(--ink-2); }
+.dv-key svg { width: 22px; height: 22px; fill: var(--dv-red); }
+.dv-marks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 16px; }
+.dv-marks > div { border-radius: var(--r); aspect-ratio: 4 / 3; display: grid; place-items: center; }
+.dv-marks > div svg { width: 38%; }
+.dv-marks .a { background: var(--dv-red); color: var(--dv-egg); }
+.dv-marks .b { background: var(--dv-egg); color: var(--dv-red); }
+
+/* Colour */
+.dv-pal { display: grid; grid-template-columns: 1.5fr 1.5fr .6fr; border-radius: var(--r); overflow: hidden; min-height: clamp(300px, 34vw, 460px); }
+.dv-sw { border: 0; text-align: left; cursor: pointer; padding: clamp(18px, 2.6vw, 36px); display: grid; align-content: space-between; gap: 24px; font-family: var(--dv-sans); position: relative; min-width: 0; transition: filter .3s; }
+.dv-sw:hover { filter: brightness(1.05); }
+.dv-sw .hx { font-size: clamp(17px, 1.6vw, 22px); line-height: 1.3; }
+.dv-sw .hx b { display: block; font-weight: 400; font-family: var(--dv-serif); font-size: clamp(28px, 3vw, 44px); line-height: 1.05; margin-top: 4px; }
+.dv-sw p { font-size: 15px; line-height: 1.55; max-width: 34ch; }
+.dv-sw.r { background: var(--dv-red); color: var(--dv-egg); }
+.dv-sw.e { background: var(--dv-egg); color: #1a1a1a; }
+.dv-sw.k { background: #000; color: #fff; }
+.dv-sw .ok { position: absolute; inset: auto 0 0; text-align: center; font-size: 12.5px; padding: 6px; background: rgba(0, 0, 0, .25); color: #fff; transform: translateY(100%); transition: transform .4s var(--ease); }
+.dv-sw.copied .ok { transform: none; }
+.dv-exp { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; border-radius: var(--r); overflow: hidden; margin-top: 16px; }
+.dv-exp button { border: 0; cursor: pointer; text-align: left; padding: clamp(14px, 2vw, 24px); min-height: 112px; display: grid; align-content: space-between; gap: 12px; font-family: var(--dv-sans); font-size: 14.5px; color: #111; position: relative; min-width: 0; }
+.dv-exp button span { display: block; }
+.dv-exp .ok { position: absolute; inset: auto 0 0; text-align: center; font-size: 12.5px; padding: 6px; background: rgba(0, 0, 0, .25); color: #fff; transform: translateY(100%); transition: transform .4s var(--ease); }
+.dv-exp .copied .ok { transform: none; }
+
+/* Type */
+.dv-type { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.dv-face { border-radius: var(--r); padding: clamp(22px, 3vw, 44px); display: grid; gap: 22px; align-content: space-between; min-height: clamp(380px, 40vw, 560px); min-width: 0; overflow: hidden; }
+.dv-face.g { background: var(--dv-egg); color: var(--dv-red); font-family: var(--dv-serif); }
+.dv-face.m { background: var(--dv-red); color: var(--dv-egg); font-family: var(--dv-sans); }
+.dv-face .nm { font-size: 13px; letter-spacing: .14em; text-transform: uppercase; font-family: var(--dv-sans); opacity: .8; }
+.dv-face .aa { font-size: clamp(120px, 16vw, 240px); line-height: .8; letter-spacing: -.02em; }
+.dv-face.m .aa { font-weight: 700; letter-spacing: -.04em; }
+.dv-face .say { font-size: clamp(22px, 2.4vw, 34px); line-height: 1.2; }
+.dv-face.m .say { font-size: clamp(19px, 1.9vw, 26px); line-height: 1.35; }
+.dv-face .why { font-family: var(--dv-sans); font-size: 14.5px; line-height: 1.55; opacity: .85; max-width: 40ch; }
+.dv-face .gl { font-size: clamp(16px, 1.5vw, 21px); line-height: 1.5; overflow-wrap: anywhere; opacity: .8; }
+
+/* Faculty system */
+.dv-fac-stage { position: relative; border-radius: var(--r); overflow: hidden; background: var(--fc, #8f0001); color: var(--fi, #f2eed6); aspect-ratio: 16 / 7; transition: background-color .8s var(--ease), color .8s var(--ease); }
+.dv-fac-stage .lk { position: absolute; inset: 0; display: grid; place-items: center; padding: 6% 8%; opacity: 0; transform: translateY(14px); transition: opacity .6s var(--ease), transform .8s var(--ease); pointer-events: none; }
+.dv-fac-stage .lk.on { opacity: 1; transform: none; }
+.dv-fac-stage .lk svg { width: 100%; max-height: 100%; height: auto; fill: currentColor; }
+.dv-fac-stage .meter { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: rgba(255, 255, 255, .18); }
+.dv-fac-stage .meter i { display: block; height: 100%; background: currentColor; transform-origin: 0 50%; transform: scaleX(0); }
+.dv-fac-stage.run .meter i { animation: dvMeter var(--dur, 3.6s) linear forwards; }
+@keyframes dvMeter { to { transform: scaleX(1); } }
+.dv-fac-tabs { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; margin-top: 12px; }
+.dv-fac-tabs button { border: 1px solid var(--line); background: var(--paper); border-radius: 14px; padding: 14px 14px 16px; text-align: left; cursor: pointer; display: grid; gap: 6px; align-content: start; font-family: inherit; color: var(--ink); min-width: 0; transition: border-color .3s, background .3s; }
+.dv-fac-tabs button::before { content: ""; width: 18px; height: 18px; border-radius: 50%; background: var(--c); box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .08); }
+.dv-fac-tabs b { font-weight: 400; font-size: 15px; line-height: 1.25; }
+.dv-fac-tabs small { font-size: 12.5px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.dv-fac-tabs button[aria-selected="true"] { border-color: var(--ink); background: var(--surface); }
+.dv-fac-tabs button:hover { border-color: var(--ink-3); }
+.dv-fac-note { margin-top: 18px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px 40px; }
+.dv-fac-note p { color: var(--ink-2); }
+.dv-fac-note h3 { font-size: var(--t-3); }
+
+/* Patterns */
+.dv-pat { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.dv-tile { border-radius: var(--r); overflow: hidden; aspect-ratio: 4 / 3; position: relative; display: grid; align-content: end; padding: clamp(18px, 2.4vw, 30px); isolation: isolate; min-width: 0; }
+.dv-tile > svg.f { position: absolute; inset: -10% 0 0 -10%; width: 120%; height: 120%; z-index: -1; animation: dvDrift 40s linear infinite; }
+@keyframes dvDrift { to { transform: translate(8.33%, 8.33%); } }
+.dv-tile.cr { background: var(--dv-red); color: var(--dv-egg); }
+.dv-tile.st { background: var(--dv-egg); color: var(--ink); }
+.dv-tile .mk { position: absolute; inset: 0; display: grid; place-items: center; z-index: -1; color: var(--dv-red); }
+.dv-tile .mk svg { width: 30%; }
+.dv-tile .cap { justify-self: start; max-width: min(100%, 380px); border-radius: 12px; padding: 14px 18px 16px; background: var(--dv-red); color: var(--dv-egg); }
+.dv-tile.st .cap { background: var(--dv-egg); color: var(--ink); box-shadow: 0 0 0 1px rgba(143, 0, 1, .12); }
+.dv-tile h3 { font-size: clamp(20px, 2vw, 28px); line-height: 1.12; }
+.dv-tile p { font-size: 14px; margin-top: 6px; opacity: .85; }
+.dv-tile .mk { bottom: 22%; }
+
+/* Don'ts */
+.dv-donts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.dv-dont { border: 0; padding: 0; background: none; text-align: left; cursor: pointer; font-family: inherit; color: inherit; display: grid; gap: 12px; align-content: start; min-width: 0; }
+.dv-dont .pv { position: relative; aspect-ratio: 4 / 3; border-radius: var(--r); background: var(--dv-egg); display: grid; place-items: center; overflow: hidden; }
+.dv-dont .pv svg { width: 30%; color: var(--dv-red); transition: filter .6s var(--ease), transform .6s var(--ease), color .6s var(--ease); }
+.dv-dont .tag { position: absolute; top: 12px; left: 12px; display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; padding: 4px 10px 4px 8px; border-radius: 999px; background: #fff; color: var(--err); box-shadow: 0 1px 0 rgba(0, 0, 0, .06); }
+.dv-dont .tag::before { content: "✕"; font-size: 11px; }
+.dv-dont[aria-pressed="true"] .tag { color: var(--ok); }
+.dv-dont[aria-pressed="true"] .tag::before { content: "✓"; }
+.dv-dont b { font-weight: 400; font-size: var(--t-3); line-height: 1.25; }
+.dv-dont small { color: var(--ink-2); font-size: var(--t-small); display: block; margin-top: 4px; }
+.dv-dont:focus-visible .pv { outline: 2px solid var(--focus); outline-offset: 3px; }
+.dv-dont .box { width: 34%; aspect-ratio: 1; background: var(--dv-red); display: grid; place-items: center; border-radius: 4px; transition: width .6s var(--ease); }
+.dv-dont.cramp .pv svg { width: 96%; color: var(--dv-egg); transition: width .6s var(--ease); }
+.dv-dont.cramp[aria-pressed="true"] .box { width: 56%; }
+.dv-dont.cramp[aria-pressed="true"] .pv svg { width: 50%; }
+.dv-dont.shadow:not([aria-pressed="true"]) .pv svg { filter: drop-shadow(3px 5px 3px rgba(0, 0, 0, .55)); }
+.dv-dont.stretch:not([aria-pressed="true"]) .pv svg { transform: scale(1.45, .82); }
+.dv-dont.black .pv { background: var(--dv-red); }
+.dv-dont.black .pv svg { color: var(--dv-egg); }
+.dv-dont.black:not([aria-pressed="true"]) .pv svg { color: #000; }
+.dv-dont.blur:not([aria-pressed="true"]) .pv svg { filter: blur(3px); }
+.dv-dont.green:not([aria-pressed="true"]) .pv svg { color: #3ddc84; }
+
+/* Brand book strip: reuses the Kaynes lookbook strip and lightbox */
+.dv-book-sec { background: #170707; color: var(--dv-egg); }
+.dv-book-sec .label { color: rgba(242, 238, 214, .62); }
+.dv-book-sec :focus-visible { outline-color: #fff; }
+
+/* Deliverables */
+.dv-del { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--line); margin: 0; padding: 0; }
+.dv-del li { list-style: none; padding: 22px 18px 22px 0; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 10px; align-items: baseline; }
+.dv-del span { font-family: var(--dv-sans); color: var(--dv-red); font-size: 14px; }
+.dv-del b { font-weight: 400; font-size: var(--t-3); line-height: 1.25; display: block; }
+.dv-del p { color: var(--ink-2); font-size: var(--t-small); margin-top: 4px; }
+
+/* Work tile cover */
+.tile .cover.dv-cover { background: var(--dv-egg, #f2eed6); isolation: isolate; }
+.dv-cover svg.f { position: absolute; inset: 0; width: 100%; height: 100%; }
+.dv-cover .mk { position: absolute; inset: 0; display: grid; place-items: center; color: #8f0001; }
+.dv-cover .mk svg { position: static; width: 26%; height: auto; transition: transform .8s var(--ease); }
+.tile:hover .dv-cover .mk svg { transform: scale(1.06); }
+.dv-cover .cap { position: absolute; left: 18px; bottom: 16px; right: 18px; display: flex; justify-content: space-between; color: #5d1a14; font-family: 'Montserrat', var(--font); font-size: 13.5px; }
+
+@media (max-width: 900px) {
+  .dv-hero { min-height: 0; }
+  .dv-hero .wrap { grid-template-columns: minmax(0, 1fr); }
+  .dv-hero-mark { grid-row: 2; width: min(52%, 220px); justify-self: start; }
+  .dv-meta { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 18px; }
+  .dv-meta div:nth-child(3) { border-left: 0; padding-left: 0; }
+  .dv-split, .dv-brief, .dv-read .wrap, .dv-type, .dv-fac-note, .dv-pat { grid-template-columns: minmax(0, 1fr); }
+  .dv-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 28px; }
+  .dv-stats > div:nth-child(3) { border-left: 0; padding-left: 0; }
+  .dv-houses { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .dv-read-art { width: min(80%, 320px); justify-self: start; }
+  .dv-pal { grid-template-columns: minmax(0, 1fr); min-height: 0; }
+  .dv-sw { min-height: 220px; }
+  .dv-sw.k { min-height: 96px; }
+  .dv-exp { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .dv-fac-stage { aspect-ratio: 16 / 9; }
+  .dv-fac-stage .lk { padding: 6%; }
+  .dv-tile { aspect-ratio: 4 / 5; }
+  .dv-tile .mk svg { width: 44%; }
+  .dv-fac-tabs { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin: 12px calc(var(--gutter, 16px) * -1) 0; padding: 0 var(--gutter, 16px); }
+  .dv-fac-tabs::-webkit-scrollbar { display: none; }
+  .dv-fac-tabs button { flex: 0 0 auto; width: min(46vw, 190px); scroll-snap-align: start; }
+  .dv-donts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .dv-del { grid-template-columns: minmax(0, 1fr); }
+  .dv-face { min-height: 0; }
+}
+@media (max-width: 520px) {
+  .dv-houses, .dv-donts { grid-template-columns: minmax(0, 1fr); }
+  .dv-lockup .tools { position: static; padding: 0 12px 12px; }
+  .dv-marks { grid-template-columns: minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dv-hero .bg, .dv-tile > svg.f { animation: none; }
+  .dv-draw path { animation: none; fill: currentColor; stroke-width: 0; }
+  .dv-in { opacity: 1; transform: none; transition: none; }
+  .dv-fac-stage .lk { transition: none; }
+}
 </style>
 
 <a class="skip" href="#main" id="skip">Skip to content</a>
@@ -2486,7 +2740,7 @@ const QUOTES = [
   { q: 'The team at Latch Infinity truly understands branding. From logo design to social media management, every element aligned perfectly with our vision. They made us stand out!', by: 'Artist Management Firm', tone: 'lilac' },
 ];
 const CLIENTS = [
-  ['kayneslogonew', 'Kaynes Technology'], ['welingkar', 'Welingkar'], ['chanakya-university', 'Chanakya University'], ['kis-logo', 'KIS'], ['manipal', 'Manipal'],
+  ['kayneslogonew', 'Kaynes Technology'], ['welingkar', 'Welingkar'], ['chanakya-university', 'Chanakya University'], ['kis-logo', 'KIS'], ['manipal', 'Manipal'], ['dharmaram', 'Dharmaram Vidya Kshetram'],
   ['kilogo', 'Kumaraguru Institutions'], ['nu', 'NU Hospitals'], ['sherwood', 'Sherwood High'], ['cubera_logo', 'Cubera'], ['sleeklemon', 'Sleeklemon'],
 ];
 const DETAIL = {
@@ -2530,6 +2784,7 @@ const DETAIL = {
 };
 const DETAIL_NAV = [['branding', 'Branding'], ['advertising', 'Advertising'], ['web-app-development', 'Web & App Development'], ['digital-services', 'Digital Services']];
 const WORK = [
+  { t: 'Dharmaram Vidya Kshetram', sub: 'A brand identity refresh and faculty system for a Pontifical Athenaeum in Bengaluru.', tags: ['BRAND IDENTITY', 'BRAND BOOK', 'EDUCATION'], tone: 'mint', href: '#work-dharmaram', dv: true },
   { t: 'Cube Audience Manager', sub: 'Product design and films for an AI audience-research platform by Cubera.', tags: ['PRODUCT DESIGN', 'UI/UX', 'FILM'], tone: 'ice', href: '#work-cube', cb: true },
   { t: 'Oli', sub: 'Brand, website and apps for a next-gen gig platform for live music.', tags: ['BRAND IDENTITY', 'APP', 'FILM'], tone: 'mint', href: '#work-oli', ol: true },
   { t: 'Kaynes Technology', sub: 'A brand identity refresh for India’s electronics and semiconductor company.', tags: ['BRAND IDENTITY', 'LOOKBOOK', 'FILM'], tone: 'mint', href: '#work-kaynes', ky: true },
@@ -2689,7 +2944,7 @@ P.work = () => `
   <section class="sec">
     <div class="wrap work">
       ${WORK.map((w, i) => w.href ? `<a class="tile" href="${w.href}" style="${toneVars(w.tone)}" data-cursor="View">
-        ${w.cb ? `<div class="cover cb-cover"><div class="cb-3d">${cbFr('s10', '', '', true)}</div>${cbMark()}<div class="cap"><span>Case study</span><span>2026</span></div></div>` : w.ol ? `<div class="cover ol-cover">${olField(360, 'f', '250 170 1500 1125')}<div class="cap"><span>Case study</span><span>2026</span></div></div>` : `<div class="cover ky-cover"><div class="ky-flow" aria-hidden="true"></div><div class="ky-flow b" aria-hidden="true"></div><div class="mk">${kyMark()}</div><div class="cap"><span>Case study</span><span>2026</span></div></div>`}
+        ${w.dv ? dvCover() : w.cb ? `<div class="cover cb-cover"><div class="cb-3d">${cbFr('s10', '', '', true)}</div>${cbMark()}<div class="cap"><span>Case study</span><span>2026</span></div></div>` : w.ol ? `<div class="cover ol-cover">${olField(360, 'f', '250 170 1500 1125')}<div class="cap"><span>Case study</span><span>2026</span></div></div>` : `<div class="cover ky-cover"><div class="ky-flow" aria-hidden="true"></div><div class="ky-flow b" aria-hidden="true"></div><div class="mk">${kyMark()}</div><div class="cap"><span>Case study</span><span>2026</span></div></div>`}
         <div class="tags">${w.tags.map(t => `<span>${t}</span>`).join('')}</div>
         <h3><span>${w.t}<small>${w.sub}</small></span><span aria-hidden="true" style="width:18px;flex:none">${I.arrow}</span></h3>
       </a>` : `<article class="tile" style="${toneVars(w.tone)}">
@@ -2972,17 +3227,286 @@ function setupKaynes(main) {
   addEventListener('hashchange', () => setTimeout(stop, 1500));
   tick();
 }
-function kyLightbox(i, opener) {
-  const n = KY_PAGES.length, lb = document.createElement('div');
-  lb.className = 'ky-lb'; lb.setAttribute('role', 'dialog'); lb.setAttribute('aria-modal', 'true'); lb.setAttribute('aria-label', 'Lookbook page');
+function kyLightbox(i, opener, pages = KY_PAGES, dir = 'kaynes', name = 'Kaynes lookbook') {
+  const n = pages.length, lb = document.createElement('div');
+  lb.className = 'ky-lb'; lb.setAttribute('role', 'dialog'); lb.setAttribute('aria-modal', 'true'); lb.setAttribute('aria-label', `${name} page`);
   lb.innerHTML = `<img alt=""><button class="pv" type="button" aria-label="Previous page">‹</button><button class="nx" type="button" aria-label="Next page">›</button><button class="x" type="button" aria-label="Close">×</button><p></p>`;
   const img = lb.querySelector('img'), cap = lb.querySelector('p');
-  const show = k => { i = (k + n) % n; img.src = `img/kaynes/page-${String(i + 1).padStart(2, '0')}.webp`; img.alt = `Kaynes lookbook page ${i + 1}: ${KY_PAGES[i]}`; cap.textContent = `${i + 1} / ${n} · ${KY_PAGES[i]}`; };
+  const show = k => { i = (k + n) % n; img.src = `img/${dir}/page-${String(i + 1).padStart(2, '0')}.webp`; img.alt = `${name} page ${i + 1}: ${pages[i]}`; cap.textContent = `${i + 1} / ${n} · ${pages[i]}`; };
   const close = () => { lb.remove(); removeEventListener('keydown', key); document.body.style.overflow = ''; opener?.focus(); };
   const key = e => { if (e.key === 'Escape') close(); if (e.key === 'ArrowRight') show(i + 1); if (e.key === 'ArrowLeft') show(i - 1); };
   lb.addEventListener('click', e => { if (e.target === lb || e.target.closest('.x')) close(); else if (e.target.closest('.pv')) show(i - 1); else if (e.target.closest('.nx')) show(i + 1); });
   addEventListener('keydown', key); document.body.style.overflow = 'hidden';
   document.body.append(lb); show(i); lb.querySelector('.x').focus();
+}
+
+/* ================= Case study: Dharmaram Vidya Kshetram =================
+   The emblem, its six symbols, the cross and the star are the client's own vectors from the
+   brand book; the lockup and faculty wordmarks load from img/dharmaram/wordmarks.svg. */
+const DV = {"em":{"w":300.0,"h":280.0,"p":[["waves","M149.7 177C142.8 180.3 135.5 182.5 127.9 183.8C141.1 183.8 154.1 179 164.5 171.1C164.2 170.9 164 170.7 163.7 170.6L165.3 170.5C165 170.7 164.8 170.9 164.5 171.1C169.6 174.5 175.1 177.1 180.9 178.9C187 180.7 193.4 181.6 199.7 181.4C190.5 180.1 181.4 177.5 173.1 173.1C170.1 171.6 167.2 169.8 164.4 167.8C161.6 170 158.7 172.1 155.6 173.9C153.8 174.9 152 175.9 150.2 176.8C150.6 176.9 151.1 177 151.5 177.1C150.9 177.1 150.3 177.1 149.7 177"],["feather","M216.3 30.6L217.1 30.6C217.8 30.6 218.3 31.1 218.3 31.8L218.3 99.3C218.3 103 221.3 106 225 106L225.5 106C227 106 228.2 104.8 228.2 103.3C228.2 101.8 227 100.6 225.5 100.6L225 100.6C224.2 100.6 223.7 100.1 223.7 99.3L223.7 31.8C223.7 28.2 220.7 25.2 217.1 25.2L216.3 25.2C214.8 25.2 213.6 26.4 213.6 27.9C213.6 29.4 214.8 30.6 216.3 30.6"],["feather","M204 25.1L204.8 25.1C205.5 25.1 206 25.6 206 26.3L206 79.1C206 82.8 209 85.8 212.7 85.8L213.2 85.8C214.7 85.8 215.9 84.6 215.9 83.1C215.9 81.6 214.7 80.4 213.2 80.4L212.7 80.4C211.9 80.4 211.4 79.9 211.4 79.1L211.4 26.3C211.4 22.7 208.4 19.8 204.8 19.8L204 19.8C202.5 19.8 201.3 21 201.3 22.4C201.3 23.9 202.5 25.1 204 25.1"],["feather","M192 19.6L192.5 19.6C193.2 19.6 193.7 20.2 193.7 20.8L193.7 66.9C193.7 70.5 196.7 73.5 200.4 73.5L200.6 73.5C202.1 73.5 203.3 72.3 203.3 70.8C203.3 69.4 202.1 68.2 200.6 68.2L200.4 68.2C199.6 68.2 199.1 67.6 199.1 66.9L199.1 20.8C199.1 17.2 196.1 14.3 192.5 14.3L192 14.3C190.5 14.3 189.3 15.5 189.3 17C189.3 18.5 190.5 19.6 192 19.6"],["feather","M180.5 15.2L180.8 15.2C181.4 15.2 182 15.8 182 16.4L182 59.5C182 63.2 184.9 66.2 188.6 66.2C190.1 66.2 191.3 65 191.3 63.5C191.3 62 190.1 60.8 188.6 60.8C187.9 60.8 187.3 60.2 187.3 59.5L187.3 16.4C187.3 12.8 184.4 9.9 180.8 9.9L180.5 9.9C179 9.9 177.8 11.1 177.8 12.6C177.8 14 179 15.2 180.5 15.2"],["feather","M71.8 103.3C71.8 104.8 73 106 74.5 106L75 106C78.7 106 81.7 103 81.7 99.3L81.7 31.8C81.7 31.1 82.2 30.6 82.9 30.6L83.7 30.6C85.2 30.6 86.4 29.4 86.4 27.9C86.4 26.4 85.2 25.2 83.7 25.2L82.9 25.2C79.3 25.2 76.3 28.2 76.3 31.8L76.3 99.3C76.3 100.1 75.8 100.6 75 100.6L74.5 100.6C73 100.6 71.8 101.8 71.8 103.3"],["feather","M84.1 83.1C84.1 84.6 85.3 85.8 86.8 85.8L87.3 85.8C91 85.8 94 82.8 94 79.1L94 26.3C94 25.6 94.5 25.1 95.2 25.1L96 25.1C97.5 25.1 98.7 23.9 98.7 22.4C98.7 21 97.5 19.8 96 19.8L95.2 19.8C91.6 19.8 88.6 22.7 88.6 26.3L88.6 79.1C88.6 79.9 88.1 80.4 87.3 80.4L86.8 80.4C85.3 80.4 84.1 81.6 84.1 83.1"],["feather","M96.7 70.8C96.7 72.3 97.9 73.5 99.4 73.5L99.6 73.5C103.3 73.5 106.3 70.5 106.3 66.9L106.3 20.8C106.3 20.2 106.8 19.6 107.5 19.6C108.9 19.6 110.1 18.5 110.1 17C110.1 15.5 108.9 14.3 107.5 14.3C103.9 14.3 100.9 17.2 100.9 20.8L100.9 66.9C100.9 67.6 100.3 68.2 99.6 68.2L99.4 68.2C97.9 68.2 96.7 69.4 96.7 70.8"],["feather","M108.7 63.5C108.7 65 109.9 66.2 111.4 66.2C115.1 66.2 118 63.2 118 59.5L118 16.4C118 15.8 118.6 15.2 119.2 15.2L119.5 15.2C121 15.2 122.2 14 122.2 12.6C122.2 11.1 121 9.9 119.5 9.9L119.2 9.9C115.6 9.9 112.7 12.8 112.7 16.4L112.7 59.5C112.7 60.2 112.1 60.8 111.4 60.8C109.9 60.8 108.7 62 108.7 63.5"],["cross","M170.7 27.1C170.7 26 171.5 25.2 172.5 25.2C173.6 25.2 174.4 26 174.4 27.1C174.4 28.1 173.6 28.9 172.5 28.9C171.5 28.9 170.7 28.1 170.7 27.1M170.7 36.3C170.5 37.1 169.9 37.6 169 37.8C166.5 38.4 165 36.4 163.2 32.5C162.2 30.7 160.4 29.3 158.2 28.9C156.3 28.6 154.4 29.1 153.2 30.2L153.2 30.2C152 31.4 151.5 33.3 151.9 35.2C152.3 37.4 153.6 39.3 155.5 40.2C159.3 42.1 161.3 43.5 160.7 46C160.5 47 160 47.5 159.2 47.7C158 48.1 156.1 47.4 155.2 46.4C152.9 43.9 150.6 43.7 150 43.7C149.4 43.7 147.1 43.9 144.8 46.4C143.9 47.4 142 48.1 140.8 47.7C140 47.5 139.5 47 139.3 46C138.7 43.5 140.7 42.1 144.5 40.2C146.4 39.3 147.7 37.4 148.1 35.2C148.5 33.3 148 31.4 146.8 30.2L146.8 30.2C145.9 29.3 144.5 28.8 143 28.8C142.6 28.8 142.2 28.8 141.8 28.9C139.6 29.3 137.8 30.7 136.8 32.5C135 36.4 133.5 38.4 131 37.8C130.1 37.6 129.5 37.1 129.3 36.3C129 35 129.6 33.2 130.7 32.2C133.1 29.9 133.3 27.7 133.3 27C133.3 26.4 133.1 24.2 130.7 21.9C129.6 20.9 129 19 129.3 17.8C129.5 17 130.1 16.5 131 16.3C133.5 15.7 135 17.7 136.8 21.6C137.8 23.4 139.6 24.8 141.8 25.2C143.7 25.5 145.6 25 146.8 23.9L146.8 23.8C148 22.6 148.5 20.8 148.1 18.8C147.7 16.6 146.4 14.8 144.5 13.9C140.7 12 138.7 10.5 139.3 8C139.5 7.1 140 6.6 140.8 6.4C142 6 143.9 6.6 144.8 7.7C147.1 10.2 149.4 10.4 150 10.4C150.6 10.4 152.9 10.2 155.2 7.7C156.1 6.6 158 6 159.2 6.4C160 6.6 160.5 7.1 160.7 8C161.3 10.5 159.3 12 155.5 13.9C153.6 14.8 152.3 16.6 151.9 18.8C151.5 20.8 152 22.6 153.2 23.8L153.2 23.9C154.4 25 156.3 25.5 158.2 25.2C160.4 24.8 162.2 23.4 163.2 21.6C165 17.7 166.5 15.7 169 16.3C169.9 16.5 170.5 17 170.7 17.8C171 19 170.4 20.9 169.3 21.9C166.9 24.2 166.7 26.4 166.7 27C166.7 27.7 166.9 29.9 169.3 32.2C170.4 33.2 171 35 170.7 36.3M150 51.4C149 51.4 148.1 50.6 148.1 49.6C148.1 48.6 149 47.7 150 47.7C151 47.7 151.9 48.6 151.9 49.6C151.9 50.6 151 51.4 150 51.4M127.5 28.9C126.4 28.9 125.6 28.1 125.6 27.1C125.6 26 126.4 25.2 127.5 25.2C128.5 25.2 129.3 26 129.3 27.1C129.3 28.1 128.5 28.9 127.5 28.9M150 2.7C151 2.7 151.9 3.5 151.9 4.5C151.9 5.6 151 6.4 150 6.4C149 6.4 148.1 5.6 148.1 4.5C148.1 3.5 149 2.7 150 2.7M177.1 27.1C177.1 24.6 175 22.5 172.5 22.5C172.4 22.5 172.3 22.5 172.2 22.5C173.3 20.9 173.7 18.8 173.3 17.1C172.8 15.4 171.5 14.1 169.6 13.7C164.6 12.5 162.1 17.6 160.8 20.4C160.2 21.5 159.1 22.3 157.7 22.5C156.7 22.7 155.7 22.5 155.1 22C154.5 21.4 154.3 20.4 154.5 19.3C154.8 17.9 155.6 16.8 156.7 16.3C159.4 14.9 164.5 12.5 163.3 7.4C162.9 5.5 161.7 4.2 159.9 3.8C158.2 3.3 156.1 3.8 154.5 4.8C154.5 4.7 154.5 4.6 154.5 4.5C154.5 2 152.5 0 150 0C147.5 0 145.5 2 145.5 4.5C145.5 4.6 145.5 4.7 145.5 4.8C143.9 3.8 141.8 3.3 140.1 3.8C138.3 4.2 137.1 5.5 136.7 7.4C135.5 12.5 140.6 14.9 143.3 16.3C144.4 16.8 145.2 17.9 145.5 19.3C145.7 20.4 145.5 21.4 144.9 22C144.3 22.5 143.3 22.7 142.3 22.5C140.9 22.3 139.8 21.5 139.2 20.4C137.9 17.6 135.4 12.5 130.4 13.7C128.5 14.1 127.2 15.4 126.7 17.1C126.3 18.8 126.7 20.9 127.8 22.5C127.7 22.5 127.6 22.5 127.5 22.5C125 22.5 122.9 24.6 122.9 27.1C122.9 29.6 125 31.6 127.5 31.6C127.6 31.6 127.6 31.6 127.7 31.6C126.7 33.2 126.3 35.3 126.7 37C127.2 38.7 128.5 39.9 130.4 40.4C135.4 41.6 137.9 36.4 139.2 33.7C139.8 32.6 140.9 31.8 142.3 31.6C143.3 31.4 144.3 31.6 144.9 32.1C145.5 32.7 145.7 33.7 145.5 34.8C145.2 36.1 144.4 37.3 143.3 37.8C140.6 39.1 135.5 41.6 136.7 46.6C137.1 48.5 138.3 49.8 140.1 50.3C140.5 50.4 141 50.5 141.5 50.5C142.8 50.5 144.3 50 145.5 49.3C145.5 49.4 145.5 49.5 145.5 49.6C145.5 52.1 147.5 54.1 150 54.1C152.5 54.1 154.5 52.1 154.5 49.6C154.5 49.5 154.5 49.4 154.5 49.3C156.1 50.3 158.2 50.8 159.9 50.3C161.7 49.8 162.9 48.5 163.3 46.6C164.5 41.6 159.4 39.1 156.7 37.8C155.6 37.3 154.8 36.1 154.5 34.8C154.3 33.7 154.5 32.7 155.1 32.1C155.7 31.6 156.7 31.4 157.7 31.6C159.1 31.8 160.2 32.6 160.8 33.7C162.1 36.4 164.6 41.6 169.6 40.4C171.5 39.9 172.8 38.7 173.3 37C173.7 35.3 173.3 33.2 172.3 31.6C172.4 31.6 172.4 31.6 172.5 31.6C175 31.6 177.1 29.6 177.1 27.1"],["name","M88.7 257.9C87.9 259.5 86.8 260.5 85.5 261C84.2 261.4 82.7 261.2 81.1 260.4L78.9 259.4L84 249.2L86.1 250.3C87.8 251.1 88.8 252.2 89.2 253.5C89.6 254.9 89.5 256.3 88.7 257.9M92.8 254.9C92.7 253.4 92.2 252.1 91.3 250.8C90.4 249.6 89.2 248.6 87.5 247.8L82.2 245.1L74.5 260.4L79.9 263.1C81.5 263.9 83.1 264.3 84.6 264.3C86.2 264.3 87.5 263.8 88.8 263C90 262.2 91 261 91.8 259.5C92.6 258 92.9 256.4 92.8 254.9"],["name","M107.5 256.1L105.1 262.7L98.2 260.2L100.5 253.6L97.3 252.5L91.6 268.6L94.8 269.8L97.3 262.9L104.2 265.3L101.8 272.2L105 273.4L110.7 257.2ZM107.5 256.1"],["name","M115.3 269.8L119.3 263.3L120.2 270.8ZM118.2 259L108.5 274.4L112 275.2L113.8 272.3L120.5 273.7L120.9 277.2L124.4 277.9L122.1 259.9ZM118.2 259"],["name","M138.2 267.6C138.1 268.4 137.8 269 137.3 269.4C136.8 269.8 136.1 269.9 135.2 269.8L132.3 269.5L132.8 264.5L135.7 264.8C136.6 264.9 137.3 265.2 137.7 265.7C138.1 266.1 138.3 266.8 138.2 267.6M139.4 263C138.5 262.5 137.4 262.1 136.1 262L129.7 261.3L127.9 278.4L131.4 278.7L132 272.1L133.7 272.3L136.7 279.3L140.7 279.7L137.3 272.4C138.6 272.1 139.7 271.6 140.4 270.8C141.2 269.9 141.6 269 141.7 267.8C141.8 266.9 141.7 266 141.3 265.1C140.9 264.3 140.3 263.6 139.4 263"],["name","M159.2 262.5L154.1 275.4L148.3 262.8L144.4 262.9L144.9 280L148.3 279.9L148 268.8L152.9 279.8L155.5 279.7L159.8 268.5L160.1 279.6L163.6 279.5L163.1 262.4ZM159.2 262.5"],["name","M172 272.2L173.2 264.7L176.8 271.4ZM170.6 261.1L167.3 279.1L170.9 278.5L171.5 275.1L178.2 274L179.9 277L183.4 276.4L174.6 260.5ZM170.6 261.1"],["name","M192.2 263.7C191.9 264.2 191.3 264.6 190.4 264.9L187.6 265.7L186.2 260.8L189 260.1C189.9 259.8 190.6 259.8 191.2 260.1C191.8 260.4 192.1 260.9 192.4 261.7C192.6 262.4 192.5 263.1 192.2 263.7M195.6 263.8C196 262.8 196.1 261.7 195.7 260.6C195.5 259.7 195 258.9 194.3 258.3C193.7 257.6 192.8 257.2 191.8 257C190.8 256.8 189.6 256.9 188.3 257.3L182.2 259.1L186.9 275.5L190.2 274.6L188.4 268.2L189.9 267.7L195.4 273.1L199.2 272L193.4 266.4C194.5 265.8 195.3 264.9 195.6 263.8"],["name","M205.1 263.3L204.6 255.7L209.7 261.4ZM201.2 252.8L202.2 271.1L205.5 269.7L205.3 266.2L211.6 263.6L213.9 266.2L217.2 264.8L204.9 251.3ZM201.2 252.8"],["name","M224.7 240.8L226.5 254.6L215.3 246.4L211.9 248.4L220.7 263.1L223.6 261.4L218 251.8L227.6 259L229.8 257.7L228.1 245.8L233.8 255.4L236.8 253.6L228 238.9ZM224.7 240.8"],["ring","M188.3 193.9C187.3 193.9 186.2 193.9 185.2 193.9C175 200.4 162.9 204.1 150 204.1C150 204.1 150 204.1 150 204.1C150 204.1 150 204.1 150 204.1C138.4 204.1 127.4 201.1 118 195.8C117.5 195.8 117 195.8 116.5 195.8C116.9 195.7 117.3 195.7 117.6 195.6C109.5 191 102.5 184.8 97 177.3C96.1 177.2 95.3 177.1 94.5 177C95.2 177 95.9 176.9 96.6 176.9C88.8 166 84.1 152.7 84.1 138.2C84.1 101.9 113.7 72.4 150 72.4C150 72.4 150 72.4 150 72.4C150 72.4 150 72.4 150 72.4C186.3 72.4 215.9 101.9 215.9 138.2C215.9 161.4 203.9 181.8 185.8 193.5C186.7 193.6 187.5 193.8 188.3 193.9M221.2 138.2C221.2 99 189.3 67 150 67C110.7 67 78.8 99 78.8 138.2C78.8 177.5 110.7 209.5 150 209.5C189.3 209.5 221.2 177.5 221.2 138.2"],["star","M143.3 112.8L146.4 112.8L142.1 105.5L140.6 108.1ZM143.3 112.8"],["star","M162.2 112.8L156.7 112.8L159.4 108.1ZM153.6 112.8L137.9 112.8L140.6 108.1L142.1 105.5L146.4 98.1L153.6 98.1L157.9 105.5ZM150 119.1L147.9 115.5L152.1 115.5ZM137.9 98.1L143.3 98.1L140.6 102.8ZM150 91.8L152.1 95.4L147.9 95.4ZM162.2 98.1L159.4 102.8L156.7 98.1ZM166.8 95.4L155.2 95.4L150 86.5L144.8 95.4L133.2 95.4L139 105.5L133.2 115.5L144.8 115.5L150 124.5L155.2 115.5L166.8 115.5L161 105.5ZM166.8 95.4"],["waves","M126.5 168.6C126.2 168.4 126 168.2 125.7 168L127.3 168C127.1 168.2 126.8 168.4 126.5 168.6C133.3 173.5 141.4 176.6 149.7 177C149.9 176.9 150 176.9 150.2 176.8C146.2 175.8 142.4 174.5 138.7 172.8C134.3 170.8 130.2 168.3 126.5 165.3C118.1 172.2 107.5 176.1 96.7 176.9C96.8 177 96.9 177.2 97 177.3C107.5 178.4 118.2 175 126.5 168.6"],["waves","M163.7 170.6C164 170.7 164.2 170.9 164.5 171.1C164.8 170.9 165 170.7 165.3 170.5ZM163.7 170.6"],["waves","M153.1 182.8C142.4 189.6 130.1 193.6 117.7 195.6C117.8 195.7 117.9 195.7 118 195.8C127.3 195.8 136.6 193.7 145.1 190.1C147.9 188.8 150.6 187.4 153.1 185.9C152.9 185.8 152.7 185.6 152.5 185.5L153.8 185.5C153.6 185.6 153.4 185.7 153.1 185.9C155.7 187.2 158.3 188.4 161 189.4C168.7 192.3 176.9 193.9 185.2 193.9C185.4 193.8 185.6 193.7 185.8 193.5C183.6 193.2 181.4 192.8 179.3 192.4C170.1 190.5 161.2 187.4 153.1 182.8"],["motto","M102 114.8C101.9 115 101.8 116 101.7 116L100.1 115.4C99.9 115.2 101.7 112 101.5 111.5C101.4 111.5 101 111.4 101 111.4C100.2 113.6 99.1 115.6 98.3 117.7C98.1 118.1 97.2 120.4 97.2 120.5C97.2 120.7 97.4 120.8 97.5 120.9C97.9 121 98.4 119.2 98.5 118.8C98.7 118.4 99.5 116.3 99.8 116.2C99.9 116.2 101.1 116.7 101.1 116.7C101 117.3 99.1 121.1 99.3 121.3C99.4 121.3 99.9 121.4 100 121.4C100 121.4 100.3 120.3 100.5 120.2L101.3 120.9C101.9 121.1 104.4 121.3 104.7 120.9C104.8 120.8 104.8 120.4 104.7 120.2C103.6 120.5 101.2 120.7 101 119.1C101 118.8 101.6 117.1 101.8 117.1C102.2 116.9 104.8 118.3 105.5 118.5C105.9 118.6 106 117.9 105.9 117.8C105.7 117.5 103.2 116.9 102.7 116.5C102.3 116.1 102.7 114.9 103 114.5C104 113.6 105.5 115.1 105.9 115.9C106.4 115.7 106.4 115.2 106.1 114.7C106 114.6 105.9 114.7 105.8 114.6C105.4 114.2 105.2 113.9 104.5 113.7C103.4 113.3 102.6 113.7 102 114.8"],["motto","M103 143C102.5 142.9 102.6 143.3 102.4 143.6L101.9 144.1C101.4 141.8 98.3 141.9 98.7 144.5C98.8 145.1 99.7 145.7 99 146.2C97.4 147.1 97.8 144.1 97.4 143.3L95.6 143.6L95.6 142.3C94.1 142.1 95.5 143.6 94.9 144.1C93.9 144.9 92.5 144.6 92.8 143.1C92.2 143 92.1 143.1 92.1 143.7C92.2 145.1 93.3 145.6 94.6 145.1C94.7 145 94.9 144.6 95.2 144.7C95.3 145.2 95.5 148.1 95.8 148.2C95.9 148.2 96.2 148.2 96.3 148.2C96.1 146.9 95.8 145.6 95.8 144.3C96.2 144.5 96.6 144.2 96.9 144.2C97.2 145.2 96.8 146.5 98 147C99.1 147.4 100.3 146.2 99.9 145.1C99.8 144.9 99.5 144.9 99.5 144.5C99.4 143.8 99.4 143.1 100.2 143.2C100.8 143.3 101.4 144.2 101.3 144.6C101.3 144.9 100.8 145.4 100.8 145.9C100.8 146.6 102 146.9 102.1 145.7C102.1 145.5 102 145.1 102.1 144.9C102.1 144.6 103.2 143.8 103.4 143.4C103.4 143.2 103.1 143 103 143"],["motto","M97.3 122.6C97.6 122.3 97.9 121 97.3 121.1C96.8 121.1 97.2 123.3 95.9 122.2C95.8 122.2 95.4 121.6 95.4 121.5C94.9 120.4 96.3 117.5 97.2 116.6C97.2 116.6 96.7 116.2 96.6 116.2C96.4 116.1 96.5 116.2 96.4 116.3C95 118.3 92.9 122.6 96.6 123.3C96.5 123.5 96.2 124.5 96.3 124.6C96.4 124.7 96.9 124.8 96.9 124.7C97 124.6 96.9 123.4 97.5 123.6L103.5 125.2L103.6 124.3L97.4 122.8ZM97.3 122.6"],["motto","M94.7 136.8C95.6 137 95.3 136.3 95.3 135.6C95.9 135.7 101.8 135.9 101.8 135.6C101.9 135.3 101.7 134.9 101.4 134.9C99.6 134.9 97.8 134.9 96 134.9C95.7 134.9 95.4 135.2 95.3 134.7C95.3 134.5 95.4 133.4 95.3 133.4C95.2 133.4 94.9 133.3 94.8 133.4C94.5 133.6 94.8 136.2 94.7 136.8"],["motto","M108.2 113.6C108.9 113.3 108.2 111.9 107.4 112.5C106.7 112.9 107.6 114 108.2 113.6"],["motto","M103.4 111.2C103.6 111.6 104.5 111.6 104.6 111.1C104.9 109.7 102.7 110.2 103.4 111.2"],["motto","M97.1 137.9C96.9 138.5 96.9 139.2 96.5 139.8C96.1 140.4 95.3 140.4 95.2 139.6C95.1 138.6 96.1 137.5 97.1 137.9M97.5 139.4C97.6 139.2 97.6 138.2 97.8 138.2C98.2 138.2 98.9 139.2 98.8 139.5C98.7 139.7 98.3 139.9 98.3 140C98 140.7 98.7 141 99.2 141.1C100.2 141.3 99.7 140 99.9 139.7C100 139.5 100.8 139 100.9 138.9C101 138.8 101.7 138 101.7 138C101.7 137.8 101.5 137.5 101.3 137.5C101.2 137.6 100.1 138.6 99.8 138.7C99.7 138.8 99.8 139 99.6 139C99.5 139.1 99.3 138.7 99.2 138.5C99.1 138.4 99 138.2 98.9 138.1C97.8 136.8 95.6 136.8 94.8 138.3C93.4 140.8 96.6 142.2 97.5 139.4"],["motto","M96.5 132C95.7 132.5 95 131.1 95.9 130.6C96.3 130.3 96.7 130.6 97.2 130.6C97.3 130.7 96.7 131.9 96.5 132M95.3 130C94.4 130.8 94.5 132.5 95.8 132.7C96.7 132.9 97.2 132.4 97.6 131.6C97.7 131.4 97.8 130.8 97.8 130.7C97.9 130.7 98.5 130.8 98.5 130.9C98.7 131.2 98.3 131.8 99 131.7C99.1 131.7 99.1 131.5 99.2 131.5C99.4 131.4 99.6 131.4 99.8 131.3C99.9 131.3 100.3 130.6 100.3 130.6C100.2 130 99.5 130.3 99.5 130.2C99.4 130.1 99.8 128 99.8 127.7L102.7 128.2C102.7 127.9 103 127.5 102.6 127.4L96.8 126.5C96.1 126.2 96.8 125.4 96.7 125C96.6 124.8 96.2 124.8 96.1 124.8C96 124.9 95.5 127.7 95.6 127.9C95.7 127.9 96 128.1 96.1 128.1C96.3 127.9 96.3 127.3 96.3 127.2C96.4 127.1 98.7 127.7 99.1 127.6L98.7 130C97.6 130 96.3 129.3 95.3 130"],["motto","M205.5 130.5C205.3 130.3 205.1 126.5 204.6 125.7C204 124.6 202.7 124.9 202.2 125.9C201.6 126.9 202.1 126.6 202.4 127.4C203.2 129.2 201.2 129.5 200.8 127.9C200.6 127.3 201.6 126 200.8 125.7C199.5 125.3 200 126.9 199.9 127.2C199.9 127.3 199.3 128.1 199.2 128.3C199 128.6 198.2 128.9 199.2 129.4L200.1 128.1C200.3 128.3 200.5 129.1 200.6 129.2C200.7 129.2 201.5 129.6 201.5 129.6C202.1 129.8 202.9 129.4 203.1 129C203.7 127.9 202.6 126.8 202.7 126.3C202.8 125.7 203.8 125.5 204.1 126.2C204.5 127.2 204.5 129.2 204.9 130.3C204.9 130.6 204.6 130.6 204.4 130.7C203.1 131.1 201.6 131 200.2 131.4C200.4 131.9 200.2 132.3 200.9 132.2C202.4 132.1 204.2 131.4 205.7 131.3C206.1 131.2 206.4 131.3 206.8 131.2C207.1 131.8 206.8 133 207.8 132.5L206.2 123.9L205.6 123.7C205.4 124.7 206.9 129.8 206.6 130.3C206.5 130.4 205.7 130.4 205.5 130.5"],["motto","M207.2 137.3L207.1 141.4C206.9 141.4 205.2 141.4 205.1 141.3C205 141.2 204.9 141.1 204.9 141C205 140.5 205.2 137.6 205 137.4C204.2 137.4 202.8 137.6 202.9 138.5L204.4 138.7L204.2 141.3C203.8 141.3 200.7 141 200.6 141.2C200.6 141.2 200.5 141.8 200.5 141.9C200.5 142.2 206.3 142 206.9 142.2C207.2 142.6 206.5 143.8 207.5 143.8L207.9 136.6C207.3 136.6 207.3 136.8 207.2 137.3"],["motto","M207 132.9C206.9 133.4 207.2 133.8 207 134.3L200.8 134.5C200.6 134.6 200.4 135.4 200.9 135.4L207.1 135C207.2 135.7 206.9 136.8 207.9 136.5C207.7 136.1 207.8 133 207.6 132.9C207.6 132.8 207.2 132.9 207 132.9"],["motto","M198.6 147.1C198.2 147.9 197.2 148.5 196.9 149.2C196.7 149.5 197.1 149.6 197.3 149.8C197.6 149.4 198 148.9 198.4 148.5C198.8 148 199.9 147.2 198.6 147.1"],["motto","M206.1 148.8L203.3 148.3L203.7 145.8L206.5 146.3ZM206.6 145.5C206.1 145.4 204.1 145.2 203.9 144.9C203.9 144.9 204 144.6 204 144.5C203.9 143.5 201.4 145.2 202.4 145.6C202.5 145.7 203 145.6 203.1 145.9C203.1 146.2 202.5 147.7 202.6 148.2L199.6 147.7L199.6 148.6L205.7 149.7C206.2 149.9 205.8 150 205.8 150.3C205.7 150.8 205.7 151.2 206.2 151.3L207.5 144.1C206.4 144 207.1 145 206.6 145.5"],["motto","M202.6 115.7C202.6 115.8 202.8 115.8 202.9 115.9C202.9 116 202.8 116.2 202.9 116.3C203 116.6 203.7 118.1 203.6 118.2C202.8 118.5 201.3 119.2 200.6 118.4C200.2 117.8 201.5 117.2 201.1 116.6C200.8 116.2 200.6 116.6 200.4 116.8C199.9 117.4 199 118.8 198.6 119.5C198.2 120.1 197.3 121.3 198.5 121.3C198.7 120.4 199.4 119.8 199.8 118.9C200.2 119 200.4 119.3 200.9 119.5C202 119.9 202.9 119.3 204 118.9C204.1 119.2 204.2 120 204.2 120.1C204.3 120.1 204.8 119.9 205 119.9L203.1 115C202.8 115.3 202.5 115.3 202.6 115.7"],["motto","M206 118.7C207.2 118.7 206.8 117.4 206 117.6C205.5 117.7 205.5 118.7 206 118.7"],["motto","M197.4 113C197.4 112.5 197.8 112.2 198.1 111.9L200.3 110.8L200.9 112.1C201.2 112.2 201.1 112.6 201.2 112.8C201.3 113 201.5 112.9 201.5 113C201.3 113.3 199.2 114.1 198.8 114.4C198.3 114.6 197.5 113.4 197.4 113M201.8 113.8C202.1 113.9 202.3 115 202.4 115C202.5 115.1 202.9 114.9 203.1 114.9L200.1 108.9L199.5 109C199.4 109.1 200 109.9 199.8 110.2C199.7 110.3 198.7 110.6 198.4 110.8C198.3 110.9 197.8 111.1 197.8 111.1C196.3 112.2 196.5 113.8 197.8 114.9L195.7 116.1L196.1 116.8ZM201.8 113.8"],["lotus","M269.2 143.7L269.2 143.8C267.1 158.3 262.5 172.2 255.4 185C234.2 223.4 193.8 247.2 150 247.2C106.3 247.2 65.9 223.3 44.7 185L42.2 186.4L40 187.6C62.2 227.6 104.3 252.5 150 252.5C195.7 252.5 237.9 227.6 260 187.6C267.5 174.2 272.3 159.7 274.5 144.5L274.5 144.2C274.5 144.1 274.5 144 274.5 143.9L269.3 143C269.2 143.2 269.2 143.4 269.2 143.5ZM269.2 143.7"],["lotus","M295.2 110.9C289.1 107.9 282.6 106.4 275.9 106.4C274.4 106.4 273 106.5 271.5 106.6C257.2 108 244.9 116.3 238.1 128.3L238.1 37.6C238.1 34 235.2 31 231.6 31L228.2 31C226.8 31 225.6 32.2 225.6 33.7C225.6 35.2 226.8 36.4 228.2 36.4L231.6 36.4C232.2 36.4 232.8 36.9 232.8 37.6L232.8 145.6C232.8 145.7 232.8 145.7 232.8 145.7C232.7 146.7 232.6 147.6 232.5 148.5C228 184.7 200.5 213.1 165.8 219.8C164.5 220 163.2 220.3 162 220.4C158.1 221.5 154.7 223.7 152.2 226.6C151.4 227.6 150.6 228.6 150 229.6C149.4 228.6 148.6 227.6 147.8 226.6C145.3 223.6 141.8 221.4 137.9 220.4C136.7 220.2 135.5 220 134.4 219.8C119.3 216.9 105.4 210 93.9 199.5C78.7 185.5 69.2 166.5 67.3 145.9L67.3 145.8C67.3 145.6 67.3 145.4 67.3 145.2L67.3 145.2C67.3 145.2 67.3 145.1 67.3 145.1L67.3 37.6C67.3 36.9 67.8 36.4 68.4 36.4L70.7 36.4C72.2 36.4 73.4 35.2 73.4 33.7C73.4 32.2 72.2 31 70.7 31L68.4 31C64.8 31 61.9 34 61.9 37.6L61.9 128.6C55.1 116.6 42.9 108.1 28.6 106.6C27.1 106.5 25.6 106.4 24.1 106.4C17.3 106.4 10.9 107.9 4.8 110.9L0 113.3L4.8 115.7C15.9 121.2 23.6 131.7 25.5 143.8C25.5 143.8 25.5 143.8 25.5 143.8C25.6 144 25.6 144.2 25.6 144.4L25.7 144.7L25.7 144.7C27.8 159.8 32.6 174.2 40 187.6L42.2 186.4L44.7 185C37.6 172.2 33 158.4 30.9 143.9L30.9 143.7C30.9 143.5 30.9 143.2 30.8 143C28.9 131 22 120.4 12 113.7C15.9 112.4 19.9 111.8 24.1 111.8C25.4 111.8 26.7 111.8 28 112L28.3 109L28 112C45.7 113.8 59.9 127.8 61.9 145.4L61.9 145.6C61.9 145.9 62 146.1 62 146.3L62 146.4C64 168.3 74.1 188.5 90.3 203.4C102.4 214.5 117.1 221.9 132.9 225C133.1 225 133.4 225.1 133.6 225.1C134.7 225.3 135.7 225.5 136.8 225.7C142.1 227.2 146.2 231.6 147.1 237.1C147.4 238.5 148.6 239.6 150 239.6C151.4 239.6 152.6 238.5 152.9 237.1C153.8 231.7 157.8 227.2 163.1 225.7C164.2 225.5 165.3 225.3 166.5 225.1C166.7 225.1 166.9 225 167.1 225C203.9 217.7 233.1 187.6 237.8 149.2C237.9 147.9 238.1 146.6 238.2 145.3C238.2 144.3 238.4 143 238.7 141.7C242.2 125.5 255.6 113.6 272 111.9L272 111.5L272 111.9C277.6 111.4 283 112 288 113.7C278 120.4 271.1 131 269.3 143L269.3 143L274.5 143.9C274.5 143.9 274.5 143.9 274.6 143.9L274.6 143.9C276.5 131.7 284.2 121.2 295.2 115.7L300 113.3ZM295.2 110.9"]]},"star":{"w":33.5,"h":38.0,"d":"M10.1 26.4L13.1 26.4L8.9 19L7.3 21.7ZM10.1 26.4M28.9 26.4L23.5 26.4L26.2 21.7ZM20.4 26.4L4.6 26.4L7.3 21.7L8.9 19L13.1 11.6L20.4 11.6L24.7 19ZM16.8 32.7L14.7 29L18.9 29ZM4.6 11.6L10.1 11.6L7.3 16.3ZM16.8 5.3L18.9 9L14.7 9ZM28.9 11.6L26.2 16.3L23.5 11.6ZM33.5 9L22 9L16.8 0L11.6 9L0 9L5.8 19L0 29L11.6 29L16.8 38L22 29L33.5 29L27.7 19ZM33.5 9"},"cross":{"w":54.1,"h":54.1,"d":"M47.7 27.1C47.7 26 48.6 25.2 49.6 25.2C50.6 25.2 51.4 26 51.4 27.1C51.4 28.1 50.6 28.9 49.6 28.9C48.6 28.9 47.7 28.1 47.7 27.1M47.7 36.3C47.5 37.1 47 37.6 46.1 37.8C43.6 38.4 42.1 36.4 40.2 32.5C39.3 30.7 37.5 29.3 35.3 28.9C33.3 28.6 31.5 29.1 30.3 30.2L30.2 30.2C29.1 31.4 28.6 33.3 28.9 35.2C29.3 37.4 30.7 39.3 32.5 40.2C36.4 42.1 38.4 43.5 37.8 46C37.6 47 37.1 47.5 36.3 47.7C35.1 48.1 33.2 47.4 32.2 46.4C29.9 43.9 27.7 43.7 27.1 43.7C26.4 43.7 24.2 43.9 21.9 46.4C20.9 47.4 19.1 48.1 17.8 47.7C17 47.5 16.5 47 16.3 46C15.7 43.5 17.7 42.1 21.6 40.2C23.4 39.3 24.8 37.4 25.2 35.2C25.5 33.3 25 31.4 23.9 30.2L23.9 30.2C22.9 29.3 21.6 28.8 20.1 28.8C19.7 28.8 19.3 28.8 18.8 28.9C16.7 29.3 14.8 30.7 13.9 32.5C12 36.4 10.5 38.4 8.1 37.8C7.1 37.6 6.6 37.1 6.4 36.3C6 35 6.7 33.2 7.7 32.2C10.2 29.9 10.4 27.7 10.4 27C10.4 26.4 10.2 24.2 7.7 21.9C6.7 20.9 6 19 6.4 17.8C6.6 17 7.1 16.5 8.1 16.3C10.5 15.7 12 17.7 13.9 21.6C14.8 23.4 16.7 24.8 18.8 25.2C20.8 25.5 22.7 25 23.9 23.9L23.9 23.8C25 22.6 25.5 20.8 25.2 18.8C24.8 16.6 23.4 14.8 21.6 13.9C17.7 12 15.7 10.5 16.3 8C16.5 7.1 17 6.6 17.8 6.4C19.1 6 20.9 6.6 21.9 7.7C24.2 10.2 26.4 10.4 27.1 10.4C27.7 10.4 29.9 10.2 32.2 7.7C33.2 6.6 35.1 6 36.3 6.4C37.1 6.6 37.6 7.1 37.8 8C38.4 10.5 36.4 12 32.5 13.9C30.7 14.8 29.3 16.6 28.9 18.8C28.6 20.8 29.1 22.6 30.2 23.8L30.3 23.9C31.5 25 33.3 25.5 35.3 25.2C37.5 24.8 39.3 23.4 40.2 21.6C42.1 17.7 43.6 15.7 46.1 16.3C47 16.5 47.5 17 47.7 17.8C48.1 19 47.5 20.9 46.4 21.9C43.9 24.2 43.7 26.4 43.7 27C43.7 27.7 43.9 29.9 46.4 32.2C47.5 33.2 48.1 35 47.7 36.3M27.1 51.4C26 51.4 25.2 50.6 25.2 49.6C25.2 48.6 26 47.7 27.1 47.7C28.1 47.7 28.9 48.6 28.9 49.6C28.9 50.6 28.1 51.4 27.1 51.4M4.5 28.9C3.5 28.9 2.7 28.1 2.7 27.1C2.7 26 3.5 25.2 4.5 25.2C5.6 25.2 6.4 26 6.4 27.1C6.4 28.1 5.6 28.9 4.5 28.9M27.1 2.7C28.1 2.7 28.9 3.5 28.9 4.5C28.9 5.6 28.1 6.4 27.1 6.4C26 6.4 25.2 5.6 25.2 4.5C25.2 3.5 26 2.7 27.1 2.7M54.1 27.1C54.1 24.6 52.1 22.5 49.6 22.5C49.5 22.5 49.4 22.5 49.3 22.5C50.3 20.9 50.8 18.8 50.3 17.1C49.9 15.4 48.6 14.1 46.7 13.7C41.6 12.5 39.1 17.6 37.8 20.4C37.3 21.5 36.1 22.3 34.8 22.5C33.7 22.7 32.7 22.5 32.1 22C31.6 21.4 31.4 20.4 31.6 19.3C31.8 17.9 32.6 16.8 33.7 16.3C36.5 14.9 41.6 12.5 40.4 7.4C40 5.5 38.7 4.2 37 3.8C35.3 3.3 33.2 3.8 31.6 4.8C31.6 4.7 31.6 4.6 31.6 4.5C31.6 2 29.6 0 27.1 0C24.6 0 22.5 2 22.5 4.5C22.5 4.6 22.5 4.7 22.5 4.8C20.9 3.8 18.8 3.3 17.1 3.8C15.4 4.2 14.2 5.5 13.7 7.4C12.5 12.5 17.7 14.9 20.4 16.3C21.5 16.8 22.3 17.9 22.5 19.3C22.7 20.4 22.5 21.4 22 22C21.4 22.5 20.4 22.7 19.3 22.5C18 22.3 16.8 21.5 16.3 20.4C15 17.6 12.5 12.5 7.5 13.7C5.6 14.1 4.2 15.4 3.8 17.1C3.3 18.8 3.8 20.9 4.8 22.5C4.7 22.5 4.6 22.5 4.5 22.5C2 22.5 0 24.6 0 27.1C0 29.6 2 31.6 4.5 31.6C4.6 31.6 4.7 31.6 4.8 31.6C3.8 33.2 3.3 35.3 3.8 37C4.2 38.7 5.6 39.9 7.5 40.4C12.5 41.6 15 36.4 16.3 33.7C16.8 32.6 18 31.8 19.3 31.6C20.4 31.4 21.4 31.6 22 32.1C22.5 32.7 22.7 33.7 22.5 34.8C22.3 36.1 21.5 37.3 20.4 37.8C17.7 39.1 12.5 41.6 13.7 46.6C14.2 48.5 15.4 49.8 17.1 50.3C17.6 50.4 18.1 50.5 18.5 50.5C19.9 50.5 21.3 50 22.5 49.3C22.5 49.4 22.5 49.5 22.5 49.6C22.5 52.1 24.6 54.1 27.1 54.1C29.6 54.1 31.6 52.1 31.6 49.6C31.6 49.5 31.6 49.4 31.6 49.3C33.2 50.3 35.3 50.8 37 50.3C38.7 49.8 40 48.5 40.4 46.6C41.6 41.6 36.5 39.1 33.7 37.8C32.6 37.3 31.8 36.1 31.6 34.8C31.4 33.7 31.6 32.7 32.1 32.1C32.7 31.6 33.7 31.4 34.8 31.6C36.1 31.8 37.3 32.6 37.8 33.7C39.1 36.4 41.6 41.6 46.7 40.4C48.6 39.9 49.9 38.7 50.3 37C50.8 35.3 50.3 33.2 49.3 31.6C49.4 31.6 49.5 31.6 49.6 31.6C52.1 31.6 54.1 29.6 54.1 27.1"},"lock":{"w":1352.8,"h":312.5,"em":[0.0,0.0,1.114],"rule":[394.9,0.0,2.4,311.7]},"fac":[{"k":"theology","w":1000.0,"h":313.7,"em":[0,0.0,1.12],"rule":[397.4,0.0,2.4,313.7]},{"k":"philosophy","w":1108.6,"h":313.7,"em":[0.0,0.1,1.12],"rule":[397.4,0.0,2.4,313.7]},{"k":"vinaya","w":1422.9,"h":313.7,"em":[0.0,0.1,1.12],"rule":[397.4,0.0,2.4,313.7]},{"k":"canon","w":1579.7,"h":313.7,"em":[0.0,0.1,1.12],"rule":[397.4,0.0,2.4,313.7]}]};
+const DV_PAGES = ['Cover', 'Hello', 'The emblem and its meaning', 'Brandmark', 'Brand logo', 'Clear space', 'Logo elements: the star', 'Logo elements: the cross', 'Unacceptable use', 'Colours', 'Expanded palette', 'Typography', 'Faculty of Theology', 'Faculty of Philosophy', 'Vinayasadhana', 'Institute of Oriental Canon Law', 'The emblem on pattern'];
+const DV_ORDER = ['lotus', 'ring', 'feather', 'cross', 'star', 'waves', 'motto', 'name'];
+const DV_PARTS = [
+  ['lotus', 'The lotus', 'India’s national flower and a sign of the divine. It makes Dharmaram a “Garden of Virtues”, under the patronage of the Sacred Heart of Jesus.'],
+  ['feather', 'The peacock feather', 'The central petal of the lotus rises as a peacock feather, a symbol of eternal life.'],
+  ['cross', 'The Persian cross', 'It crowns the feather and recalls India’s Christian heritage, which goes back to St Thomas.'],
+  ['star', 'The star', 'The guiding light of Brahmavidya Jnana. It also recalls the Virgin Mary, the Star of the Sea.'],
+  ['waves', 'The waves', 'Samsara, the sea of life. The star shines above it and shows the way across.'],
+  ['motto', 'Isabhakti Param Jnana', 'Sanskrit for “devotion to God is the highest knowledge”, fulfilled through the mystery of the Cross.'],
+];
+/* [key, short name, full name, colour, ink, degrees] */
+const DV_HOUSES = [
+  ['lock', 'Athenaeum', 'Dharmaram Vidya Kshetram', '#8F0001', '#F2EED6', 'The Pontifical Athenaeum itself. Dark Red and Eggshell belong to the whole institution.'],
+  ['theology', 'Theology', 'Faculty of Theology', '#EA9000', '#FFFFFF', 'Licentiate and Doctorate in Theology.'],
+  ['philosophy', 'Philosophy', 'Faculty of Philosophy', '#0092FF', '#FFFFFF', 'Licentiate and Doctorate in Philosophy.'],
+  ['vinaya', 'Vinayasadhana', 'Vinayasadhana, Incorporated Institute of Formative Spirituality and Counselling', '#00B581', '#FFFFFF', 'Licentiate and Master’s in Formative Spirituality and Counselling.'],
+  ['canon', 'Canon Law', 'Institute of Oriental Canon Law', '#8C52FF', '#FFFFFF', 'Licentiate in Oriental Canon Law.'],
+];
+const dvPaths = () => DV.em.p.map(([g, d]) => `<path data-g="${g}" d="${d}"/>`).join('');
+const dvEm = (cls = '', label = '') => `<svg class="dv-em ${cls}" viewBox="0 0 ${DV.em.w} ${DV.em.h}" ${label ? `role="img" aria-label="${label}"` : 'aria-hidden="true"'}>${dvPaths()}</svg>`;
+const dvGlyph = (g, cls = '') => `<svg class="${cls}" viewBox="0 0 ${g.w} ${g.h}" aria-hidden="true"><path d="${g.d}"/></svg>`;
+/* A lockup: the emblem, the rule and the wordmark, placed exactly as in the brand book.
+   With cons, it also draws the clear space: x is the height of the cross. */
+const dvLock = (key, label, cons = false) => {
+  const f = key === 'lock' ? DV.lock : DV.fac.find(x => x.k === key), [ex, ey, k] = f.em, [rx, ry, rw, rh] = f.rule;
+  const X = DV.cross.h * k, pad = cons ? 2 * X : X;
+  let g = '';
+  if (cons) {
+    const eR = ex + DV.em.w * k, tL = rx + rw + X, L = -X, R = f.w + X, T = -X, B = f.h + X;
+    const ln = [[L, 0, R, 0], [L, f.h, R, f.h], [L, T, R, T], [L, B, R, B], [0, T, 0, B], [f.w, T, f.w, B], [L, T, L, B], [R, T, R, B], [eR, T, eR, B], [rx, T, rx, B], [rx + rw, T, rx + rw, B], [tL, T, tL, B]];
+    const sq = [[L, T], [f.w, T], [L, f.h], [f.w, f.h], [eR, T], [eR, f.h], [rx + rw, T], [rx + rw, f.h]];
+    g = `<g class="cons">${ln.map(([a, b, c, d]) => `<line x1="${a}" y1="${b}" x2="${c}" y2="${d}"/>`).join('')}${sq.map(([x, y]) => `<rect x="${x}" y="${y}" width="${X}" height="${X}"/>`).join('')}</g>`;
+  }
+  return `<svg viewBox="${-pad} ${-pad} ${f.w + 2 * pad} ${f.h + 2 * pad}" role="img" aria-label="${label}">${g}<g transform="translate(${ex} ${ey}) scale(${k})">${dvPaths()}</g><rect x="${rx}" y="${ry}" width="${rw}" height="${rh}"/><use href="img/dharmaram/wordmarks.svg#${key}" width="${f.w}" height="${f.h}"/></svg>`;
+};
+/* Patterns from the logo elements: rows offset by half a step, as in the brand book.
+   They drift one full step and loop, unless the visitor prefers less motion. */
+const dvPattern = (id, g, step, fill, op = 1) => {
+  const a = step, b = step * .9, s = (cx, cy) => `<path transform="translate(${(cx - g.w / 2).toFixed(1)} ${(cy - g.h / 2).toFixed(1)})" d="${g.d}"/>`;
+  return `<svg class="f" aria-hidden="true"><defs><pattern id="${id}" width="${2 * a}" height="${2 * b}" patternUnits="userSpaceOnUse">${motionOK() ? `<animateTransform attributeName="patternTransform" type="translate" from="0 0" to="${2 * a} ${2 * b}" dur="60s" repeatCount="indefinite"/>` : ''}<g fill="${fill}" opacity="${op}">${[[0, 0], [2 * a, 0], [0, 2 * b], [2 * a, 2 * b], [a, b]].map(([x, y]) => s(x, y)).join('')}</g></pattern></defs><rect width="100%" height="100%" fill="url(#${id})"/></svg>`;
+};
+const dvCover = () => `<div class="cover dv-cover">${dvPattern('dvp-cov', DV.cross, 46, '#8f0001', .07)}<div class="mk">${dvEm()}</div><div class="cap"><span>Case study</span><span>Brand book</span></div></div>`;
+
+P['work-dharmaram'] = () => `
+<div class="dv">
+  <section class="dv-hero" aria-labelledby="dv-h">
+    <div class="bg" aria-hidden="true"></div>
+    <div class="wrap">
+      <div style="min-width:0">
+        <nav class="crumbs" aria-label="Breadcrumb"><a href="#home">Home</a><span aria-hidden="true">/</span><a href="#work">Work</a><span aria-hidden="true">/</span><span aria-current="page">Dharmaram</span></nav>
+        <div class="rise-in">${intro('Case study · Brand identity refresh')}<h1 id="dv-h">Dharmaram, <em>rooted and renewed.</em></h1></div>
+        <p class="lede rise-in d1">A Pontifical Athenaeum in Bengaluru whose emblem has carried its faith and scholarship since 1976. We kept every symbol in it and built a system around them: one mark, two core colours, a colour for each faculty, and the rules that hold it together.</p>
+        <div class="row rise-in d2"><a class="btn btn-solid" href="#dv-read">Read the emblem${I.arrow}</a><a class="btn btn-ghost" href="#dv-fac">See the faculties</a></div>
+      </div>
+      <div class="dv-hero-mark rise-in d1">${dvEm('dv-draw', 'The Dharmaram emblem')}</div>
+      <div class="dv-meta rise-in d3">
+        <div><span>Client</span><b>Dharmaram Vidya Kshetram, Bengaluru</b></div>
+        <div><span>Sector</span><b>Higher education: philosophy, theology and canon law</b></div>
+        <div><span>Scope</span><b>Identity refresh, faculty system, brand book</b></div>
+        <div><span>Deliverable</span><b>Brand book, 23 pages</b></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="dv-about-h">
+    <div class="wrap">
+      <div class="dv-split">
+        <div class="sec-head" style="margin:0">${intro('The client')}<h2 id="dv-about-h">A Vatican-chartered home for faith and thought.</h2></div>
+        <div style="display:grid;gap:18px">
+          <p class="lede">Dharmaram Vidya Kshetram (DVK) is a Pontifical Athenaeum for higher learning and formation. The Congregation for Catholic Education in the Vatican set it up as an independent institute, empowered to grant its own degrees.</p>
+          <p style="color:var(--ink-2)">Its faculties and institutes teach philosophy, theology, Oriental canon law, and formative spirituality and counselling, from the Master’s to the Doctorate.</p>
+        </div>
+      </div>
+      <div class="dv-stats">
+        ${[['1976', 'The year Fr. Joy Elamkunnapuzha CMI drew the emblem'], ['4', 'Faculties and institutes under one emblem'], ['3', 'Degree levels: Master’s, Licentiate and Doctorate'], ['6', 'Symbols held inside a single mark']].map(([n, t], i) => `<div class="dv-in" style="--k:${i}"><b>${n}</b><span>${t}</span></div>`).join('')}
+      </div>
+      <div class="dv-houses">${DV_HOUSES.slice(1).map(([, s, t, c, , p], i) => `<div class="dv-house dv-in" style="--c:${c};--k:${i}"><h3>${t.split(',')[0]}</h3><p>${p}</p></div>`).join('')}</div>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:0" aria-labelledby="dv-brief-h">
+    <div class="wrap">
+      <div class="sec-head">${intro('The brief')}<h2 id="dv-brief-h">Keep every symbol. Give it a system.</h2></div>
+      <div class="dv-brief">
+        <div class="q dv-in">${intro('The challenge')}<h3>Fifty years of meaning in one emblem.</h3><p>Dharmaram’s emblem joins Indian and Christian symbols: a lotus, a peacock feather, the St Thomas cross, a star over the sea and a Sanskrit motto. It has to speak for the whole Athenaeum and for each of its faculties, on a seal, a certificate, a website and a phone screen, without losing any of that meaning.</p></div>
+        <div class="a dv-in" style="--k:1">${intro('Our answer')}<h3>One emblem, five houses.</h3>
+          <ul>${['The emblem stays whole, in one line weight and two colours.', 'A fixed lockup, spaced in multiples of the cross.', 'A colour for each faculty, so every house is distinct and still Dharmaram.', 'Garamond for scholarship, Montserrat for clarity.'].map(t => `<li>${dvGlyph(DV.cross)}<span>${t}</span></li>`).join('')}</ul></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="dv-read" id="dv-read" aria-labelledby="dv-read-h">
+    <div class="wrap">
+      <div class="dv-read-art" id="dv-read-art">${dvEm('', 'The Dharmaram emblem, with the selected symbol highlighted')}</div>
+      <div>
+        ${intro('Reading the emblem')}<h2 id="dv-read-h">Six symbols, one belief.</h2>
+        <ul class="dv-parts" id="dv-parts">${DV_PARTS.map(([g, t, p], i) => `<li><button type="button" data-g="${g}" aria-pressed="${i === 0}"><span class="n">${String(i + 1).padStart(2, '0')}</span><b>${t}</b><p><span>${p}</span></p></button></li>`).join('')}</ul>
+        <p class="dv-src">Symbolism as set out in the Dharmaram brand book. Together, these Indian and Christian symbols express Dharmaram’s mission: an Indian Church rooted in faith, wisdom and cultural harmony.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="dv-system" aria-labelledby="dv-lock-h">
+    <div class="wrap">
+      <div class="sec-head">${intro('The lockup')}<h2 id="dv-lock-h">Measured in crosses.</h2><p class="lede" style="margin-top:18px;max-width:56ch">The emblem, a hairline rule and the name in three lines. Every gap, inside the lockup and around it, is a multiple of x, the height of the cross that crowns the emblem.</p></div>
+      <div class="dv-lockup dv-in" id="dv-lockup">
+        ${dvLock('lock', 'Pontifical Athenaeum Dharmaram Vidya Kshetram logo', true)}
+        <div class="tools">
+          <div class="dv-tog" role="group" aria-label="Background"><button type="button" data-bg="" aria-pressed="true">Eggshell</button><button type="button" data-bg="on-red" aria-pressed="false">Dark Red</button><button type="button" data-bg="on-white" aria-pressed="false">White</button></div>
+          <div class="dv-tog"><button type="button" id="dv-cons" aria-pressed="false">Show clear space</button></div>
+        </div>
+      </div>
+      <p class="dv-key">${dvGlyph(DV.cross)}<span>x = the cross. Keep at least x clear on every side.</span></p>
+      <div class="dv-marks">
+        <div class="a dv-in">${dvEm('', 'Brandmark in Eggshell on Dark Red')}</div>
+        <div class="b dv-in" style="--k:1">${dvEm('', 'Brandmark in Dark Red on Eggshell')}</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:0" aria-labelledby="dv-col-h">
+    <div class="wrap">
+      <div class="sec-head">${intro('Colour')}<h2 id="dv-col-h">Dark Red for sacrifice. Eggshell for new beginnings.</h2></div>
+      <div class="dv-pal dv-in">
+        <button type="button" class="dv-sw r" data-hex="#8F0001" aria-label="Copy Dark Red #8F0001"><span class="hx">#8F0001<b>Dark Red</b></span><p>The colour of sacrifice. It echoes the boundless love of the Sacred Heart of Jesus: Dharmaram’s soul, rooted in faith, alive in wisdom and guided by dharma.</p><span class="ok" aria-hidden="true">Copied #8F0001</span></button>
+        <button type="button" class="dv-sw e" data-hex="#F2EED6" aria-label="Copy Eggshell #F2EED6"><span class="hx">#F2EED6<b>Eggshell</b></span><p>New beginnings. At Dharmaram you don’t just gain knowledge: you are quietly transformed, renewed from within and sent forth as a light to the world.</p><span class="ok" aria-hidden="true">Copied #F2EED6</span></button>
+        <button type="button" class="dv-sw k" data-hex="#000000" aria-label="Copy Black #000000"><span class="hx">#000000<b>Black</b></span><span class="ok" aria-hidden="true">Copied #000000</span></button>
+      </div>
+      <div class="dv-exp dv-in">${DV_HOUSES.slice(1).map(([, s, , c]) => `<button type="button" data-hex="${c}" style="background:${c};color:${c === '#8C52FF' ? '#fff' : '#111'}" aria-label="Copy ${s} ${c}"><span>${s}</span><span>${c}</span><span class="ok" aria-hidden="true">Copied ${c}</span></button>`).join('')}</div>
+      <p class="dv-src">The expanded palette gives each faculty its own colour. Click a colour to copy its hex code.</p>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:0" aria-labelledby="dv-type-h">
+    <div class="wrap">
+      <div class="sec-head">${intro('Typography')}<h2 id="dv-type-h">A scholar’s serif, a modern sans.</h2></div>
+      <div class="dv-type">
+        <div class="dv-face g dv-in"><span class="nm">Garamond · Headlines</span><span class="aa" aria-hidden="true">Aa</span><span class="say">Isabhakti Param Jnana<br><i>Devotion to God is the highest knowledge.</i></span><span class="why">Elegant, readable and full of legacy. Academic institutions have used it for centuries, and it suits a theological, scholarly voice.</span></div>
+        <div class="dv-face m dv-in" style="--k:1"><span class="nm">Montserrat · Text</span><span class="aa" aria-hidden="true">Aa</span><span class="say">Faculty of Philosophy<br>Faculty of Theology</span><span class="why">Modern, with a hint of classical structure. It works as well in print as on screen.</span></div>
+      </div>
+      <p class="dv-src">Shown here in EB Garamond and Montserrat from Google Fonts.</p>
+    </div>
+  </section>
+
+  <section class="sec" id="dv-fac" style="padding-top:0" aria-labelledby="dv-fac-h">
+    <div class="wrap">
+      <div class="sec-head">${intro('The faculty system')}<h2 id="dv-fac-h">One emblem, five houses.</h2><p class="lede" style="margin-top:18px;max-width:58ch">Each faculty and institute keeps the emblem and the rule, and takes its own colour and its own name. Nothing else changes, so a certificate from Theology and a poster from Canon Law still read as Dharmaram.</p></div>
+      <div class="dv-fac-stage dv-in" id="dv-fac-stage" role="tabpanel" aria-labelledby="dv-ft-0" style="--fc:${DV_HOUSES[0][3]};--fi:${DV_HOUSES[0][4]}">
+        ${DV_HOUSES.map(([k, , t], i) => `<div class="lk${i ? '' : ' on'}" data-i="${i}"${i ? ' aria-hidden="true"' : ''}>${dvLock(k, `${t} logo`)}</div>`).join('')}
+        <span class="meter" aria-hidden="true"><i></i></span>
+      </div>
+      <div class="dv-fac-tabs" role="tablist" aria-label="Faculties">${DV_HOUSES.map(([, s, , c], i) => `<button type="button" role="tab" id="dv-ft-${i}" aria-controls="dv-fac-stage" aria-selected="${i === 0}" tabindex="${i ? -1 : 0}" style="--c:${c}"><b>${s}</b><small>${c}</small></button>`).join('')}</div>
+      <div class="dv-fac-note" aria-live="polite"><h3 id="dv-fac-t">${DV_HOUSES[0][2]}</h3><p id="dv-fac-p">${DV_HOUSES[0][5]}</p></div>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:0" aria-labelledby="dv-pat-h">
+    <div class="wrap">
+      <div class="sec-head">${intro('Logo elements')}<h2 id="dv-pat-h">Patterns cut from the emblem.</h2></div>
+      <div class="dv-pat">
+        <div class="dv-tile cr dv-in">${dvPattern('dvp-cr', DV.cross, 64, '#F2EED6')}<div class="cap"><h3>The cross</h3><p>For covers, banners and backs of stationery.</p></div></div>
+        <div class="dv-tile st dv-in" style="--k:1">${dvPattern('dvp-st', DV.star, 46, '#8F0001', .09)}<div class="mk">${dvEm()}</div><div class="cap"><h3>The star, as a quiet ground</h3><p>Always faint, and always with the emblem, so it reads as the star of the emblem.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:0" aria-labelledby="dv-dont-h">
+    <div class="wrap">
+      <div class="sec-head">${intro('Don’ts')}<h2 id="dv-dont-h">Never change the emblem.</h2><p class="lede" style="margin-top:18px;max-width:56ch">Its proportions, colours, typefaces and language stay as drawn. Tap a mistake to see it put right.</p></div>
+      <div class="dv-donts">${[['cramp', 'Keep the clear space', 'Never crop the emblem tight inside a shape.'], ['shadow', 'No shadows or strokes', 'The emblem is flat, in one line weight.'], ['stretch', 'Never distort it', 'Scale it only in proportion.'], ['black', 'No black on colour', 'On Dark Red, the emblem is Eggshell.'], ['blur', 'Never blur or pixelate', 'Always use the vector artwork.'], ['green', 'Only brand colours', 'Dark Red, Eggshell, black or a faculty colour.']].map(([c, t, p], i) => `<button type="button" class="dv-dont ${c} dv-in" style="--k:${i % 3}" aria-pressed="false"><span class="pv">${c === 'cramp' ? `<span class="box">${dvEm()}</span>` : dvEm()}<span class="tag">${t}</span></span><span><b>${t}</b><small>${p}</small></span></button>`).join('')}</div>
+    </div>
+  </section>
+
+  <section class="dv-book-sec sec" aria-labelledby="dv-book-h">
+    <div class="wrap">
+      <div style="display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap;margin-bottom:clamp(28px,4vw,48px)">
+        <div>${intro('The brand book')}<h2 id="dv-book-h" style="font-size:var(--t-1)">Page by page.</h2></div>
+        <div class="ky-book-nav"><button type="button" data-dir="-1" aria-label="Previous pages"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 5l-7 7 7 7"/></svg></button><button type="button" data-dir="1" aria-label="Next pages"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 5l7 7-7 7"/></svg></button></div>
+      </div>
+      <div class="ky-book" id="dv-book">${DV_PAGES.map((t, i) => `<button type="button" data-i="${i}" aria-label="Open page ${i + 1}: ${t}"><img src="img/dharmaram/page-${String(i + 1).padStart(2, '0')}.webp" alt="" loading="lazy" width="1600" height="900"><small>${String(i + 1).padStart(2, '0')} · ${t}</small></button>`).join('')}</div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="dv-del-h">
+    <div class="wrap">
+      <div class="sec-head">${intro('What we delivered')}<h2 id="dv-del-h">Ready for every house at Dharmaram.</h2></div>
+      <ul class="dv-del">${[['Emblem artwork', 'Every symbol from 1976, as master vectors in Dark Red and Eggshell.'], ['Logo lockup and clear space', 'Emblem, rule and name, spaced in multiples of the cross.'], ['Colour system', 'Dark Red, Eggshell and black, plus a colour for each faculty.'], ['Typography', 'Garamond for headlines, Montserrat for text.'], ['Faculty lockups', 'Theology, Philosophy, Vinayasadhana and Oriental Canon Law.'], ['Patterns, rules and the brand book', 'Cross and star patterns, usage rules and the brand book itself.']].map(([t, p], i) => `<li class="dv-in" style="--k:${i % 3}"><span>${String(i + 1).padStart(2, '0')}</span><div><b>${t}</b><p>${p}</p></div></li>`).join('')}</ul>
+      <div class="row" style="display:flex;flex-wrap:wrap;gap:12px;margin-top:40px">${arrowBtn('#work', 'Back to all work', 'btn-ghost')}</div>
+    </div>
+  </section>
+</div>
+  ${ctaBand('mint', 'Does your institution’s brand carry its story?', 'Let’s refresh yours')}`;
+
+function setupDharmaram(main) {
+  const root = main.querySelector('.dv'); if (!root) return;
+  const ok = motionOK();
+  const io = new IntersectionObserver(es => es.forEach(e => { if (!e.isIntersecting) return; e.target.classList.add('on'); io.unobserve(e.target); }), { threshold: .2 });
+  root.querySelectorAll('.dv-in').forEach(el => io.observe(el));
+
+  /* Hero: trace each outline in reading order, then fill it */
+  const draw = root.querySelector('.dv-draw');
+  if (draw && ok) draw.querySelectorAll('path').forEach((p, i) => { p.style.setProperty('--len', Math.ceil(p.getTotalLength())); p.style.setProperty('--k', DV_ORDER.indexOf(p.dataset.g) * 3 + (i % 3)); });
+
+  /* Reading the emblem */
+  const art = root.querySelector('#dv-read-art svg'), parts = [...root.querySelectorAll('#dv-parts button')];
+  const pick = b => { art.dataset.on = b.dataset.g; parts.forEach(x => x.setAttribute('aria-pressed', x === b)); };
+  parts.forEach(b => { b.addEventListener('click', () => pick(b)); if (FINE.matches) b.addEventListener('mouseenter', () => pick(b)); });
+  pick(parts[0]);
+
+  /* Lockup: background and clear space */
+  const lk = root.querySelector('#dv-lockup');
+  lk.querySelectorAll('[data-bg]').forEach(b => b.addEventListener('click', () => {
+    lk.classList.remove('on-red', 'on-white'); if (b.dataset.bg) lk.classList.add(b.dataset.bg);
+    lk.querySelectorAll('[data-bg]').forEach(x => x.setAttribute('aria-pressed', x === b));
+  }));
+  const cb = root.querySelector('#dv-cons');
+  cb.addEventListener('click', () => { const on = !lk.classList.contains('show'); lk.classList.toggle('show', on); cb.setAttribute('aria-pressed', on); cb.textContent = on ? 'Hide clear space' : 'Show clear space'; });
+
+  /* Copy a colour */
+  root.querySelectorAll('[data-hex]').forEach(b => b.addEventListener('click', () => {
+    navigator.clipboard?.writeText(b.dataset.hex).catch(() => {});
+    b.classList.add('copied'); clearTimeout(b._t); b._t = setTimeout(() => b.classList.remove('copied'), 1400);
+  }));
+
+  /* Faculty system: tabs, and a slow tour while the stage is on screen until someone picks one */
+  const stage = root.querySelector('#dv-fac-stage'), tabs = [...root.querySelectorAll('.dv-fac-tabs [role="tab"]')], lks = [...stage.querySelectorAll('.lk')];
+  const ft = root.querySelector('#dv-fac-t'), fp = root.querySelector('#dv-fac-p');
+  let cur = 0, timer = 0, touched = false, seen = false;
+  const DUR = 3600;
+  const show = (i, focus) => {
+    cur = (i + tabs.length) % tabs.length; const h = DV_HOUSES[cur];
+    stage.style.setProperty('--fc', h[3]); stage.style.setProperty('--fi', h[4]); stage.setAttribute('aria-labelledby', tabs[cur].id);
+    lks.forEach((l, j) => { l.classList.toggle('on', j === cur); l.toggleAttribute('aria-hidden', j !== cur); });
+    tabs.forEach((t, j) => { t.setAttribute('aria-selected', j === cur); t.tabIndex = j === cur ? 0 : -1; });
+    ft.textContent = h[2]; fp.textContent = h[5];
+    if (focus) tabs[cur].focus();
+  };
+  const stop = () => { touched = true; clearTimeout(timer); stage.classList.remove('run'); };
+  const tour = () => {
+    clearTimeout(timer); if (touched || !seen || !ok || !root.isConnected) { stage.classList.remove('run'); return; }
+    stage.style.setProperty('--dur', DUR + 'ms'); stage.classList.remove('run'); void stage.offsetWidth; stage.classList.add('run');
+    timer = setTimeout(() => { show(cur + 1); tour(); }, DUR);
+  };
+  tabs.forEach((t, i) => {
+    t.addEventListener('click', () => { stop(); show(i); });
+    t.addEventListener('keydown', e => {
+      const d = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key];
+      if (d) { e.preventDefault(); stop(); show(cur + d, true); } else if (e.key === 'Home' || e.key === 'End') { e.preventDefault(); stop(); show(e.key === 'Home' ? 0 : tabs.length - 1, true); }
+    });
+  });
+  stage.addEventListener('pointerdown', stop);
+  new IntersectionObserver(es => es.forEach(e => { seen = e.isIntersecting; if (seen) tour(); else { clearTimeout(timer); stage.classList.remove('run'); } }), { threshold: .5 }).observe(stage);
+
+  /* Don'ts: tap to put it right */
+  root.querySelectorAll('.dv-dont').forEach(b => b.addEventListener('click', () => {
+    const on = b.getAttribute('aria-pressed') !== 'true'; b.setAttribute('aria-pressed', on);
+    b.querySelector('.tag').textContent = on ? 'Fixed' : b.querySelector('b').textContent;
+  }));
+
+  /* Brand book strip and lightbox */
+  const book = root.querySelector('#dv-book');
+  root.querySelectorAll('.ky-book-nav button').forEach(b => b.addEventListener('click', () => book.scrollBy({ left: +b.dataset.dir * book.clientWidth * .8, behavior: ok ? 'smooth' : 'auto' })));
+  book.addEventListener('click', e => { const b = e.target.closest('[data-i]'); if (b) kyLightbox(+b.dataset.i, b, DV_PAGES, 'dharmaram', 'Dharmaram brand book'); });
 }
 
 /* ================= Case study: Oli =================
@@ -3922,6 +4446,7 @@ function setupPage(route) {
   if (route === 'work-kaynes') setupKaynes(document.getElementById('main'));
   if (route === 'work-oli') setupOli(document.getElementById('main'));
   if (route === 'work-cube') setupCube(document.getElementById('main'));
+  if (route === 'work-dharmaram') setupDharmaram(document.getElementById('main'));
   document.querySelectorAll('.tabs').forEach(list => {
     const tabs = [...list.querySelectorAll('[role="tab"]')];
     const sel = i => tabs.forEach((t, j) => {
@@ -3994,7 +4519,7 @@ const motionOK = () => !RM.matches;
 const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 const easeIO = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 const PAGE_TONE = { edtech: 'ice', gamification: 'lilac' };
-const PAGE_NAME = { home: 'Latch Infinity', about: 'About', work: 'Work', 'work-kaynes': 'Kaynes Technology', 'work-oli': 'Oli', 'work-cube': 'Cube', marketing: 'Marketing', branding: 'Branding', advertising: 'Advertising', 'digital-services': 'Digital Services', 'web-app-development': 'Website &amp; App Development', edtech: 'EdTech', gamification: 'Gamification', blog: 'Blogs', contact: 'Let\'s Talk', legal: 'Terms &amp; Privacy' };
+const PAGE_NAME = { home: 'Latch Infinity', about: 'About', work: 'Work', 'work-kaynes': 'Kaynes Technology', 'work-oli': 'Oli', 'work-cube': 'Cube', 'work-dharmaram': 'Dharmaram', marketing: 'Marketing', branding: 'Branding', advertising: 'Advertising', 'digital-services': 'Digital Services', 'web-app-development': 'Website &amp; App Development', edtech: 'EdTech', gamification: 'Gamification', blog: 'Blogs', contact: 'Let\'s Talk', legal: 'Terms &amp; Privacy' };
 const wipe = document.getElementById('wipe'), bars = [...wipe.querySelectorAll('i')], wipeMark = document.getElementById('wipe-mark');
 const EASE_IO = 'cubic-bezier(.76,0,.24,1)';
 const SKEW = x => `translateX(${x}) skewX(-33deg)`;
@@ -4348,6 +4873,13 @@ const syncFoot = () => { const wide = innerWidth >= 834; if (wide === footWide) 
 syncFoot(); addEventListener('resize', syncFoot);
 document.querySelectorAll('[data-social]').forEach(el => (el.innerHTML = socials()));
 document.getElementById('skip').addEventListener('click', e => { e.preventDefault(); document.getElementById('main').focus(); });
+/* Links to a section on the current page (#ky-film, #dv-read) scroll to it instead of being read as a route */
+document.addEventListener('click', e => {
+  const a = e.target.closest('a[href^="#"]'); if (!a || e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey) return;
+  const id = a.getAttribute('href').slice(1), el = id && !P[id] && document.getElementById(id);
+  if (!el || !document.getElementById('main').contains(el)) return;
+  e.preventDefault(); el.scrollIntoView({ behavior: motionOK() ? 'smooth' : 'auto' });
+});
 if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { const a = document.getElementById('hero-art'); if (a) { a._w = 0; renderArt(a); } layoutPillars(); });
 addEventListener('hashchange', route);
 route();
