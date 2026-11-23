@@ -2339,6 +2339,263 @@ fieldset.field { border: 0; margin: 0; padding: 0; }
   .mt-meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (prefers-reduced-motion: reduce) { .mt-cue i { animation: none; } .mt-cap .t.swap { animation: none; } }
+/* Temporary footer link to the ads landing page; remove once ads link to it directly */
+.foot-lp { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border: 1px solid var(--deep-line); border-radius: 999px; color: var(--deep-ink); }
+.foot-lp:hover { background: var(--mint); color: #1d221c; border-color: var(--mint); }
+/* ================= Ads landing (#start): explore, build a plan, see the price, talk =================
+   Kept out of the main navigation; the footer links to it and ads point straight at it. */
+body.lp .nav, body.lp .head .btn-talk { display: none; }
+body.lp .menu-btn { display: inline-grid; }
+.lp-head { display: none; gap: 8px; align-items: center; }
+body.lp .lp-head { display: flex; }
+.lp-head .btn { min-height: 42px; padding: 0 18px; font-size: 15px; }
+.lp-head .btn svg { width: 15px; height: 15px; }
+.lp-head .ic { width: 17px; height: 17px; }
+@media (max-width: 560px) { .lp-head .lp-head-quote { display: none; } .lp-head .btn { padding: 0 14px; } }
+
+.lp-hero { --p: 0; }
+.lp-hero .band-inner { display: grid; gap: 40px; grid-template-columns: minmax(0, 1fr); padding-bottom: clamp(28px, 4vw, 56px); }
+@media (min-width: 1000px) { .lp-hero .band-inner { grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); align-items: center; gap: 56px; } }
+.lp-hero h1 { max-width: 13ch; }
+.lp-hero h1 em { font-style: normal; color: var(--tone, var(--mint)); }
+.lp-hero .lede { margin-top: 22px; max-width: 50ch; }
+.lp-hero .row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+.lp-trust { display: flex; flex-wrap: wrap; gap: 10px 28px; margin-top: 34px; padding-top: 22px; border-top: 1px solid var(--deep-line); max-width: 560px; }
+.lp-trust div { display: flex; align-items: baseline; gap: 8px; }
+.lp-trust b { font-stretch: 125%; font-weight: 400; font-size: 26px; line-height: 1; }
+.lp-trust span { font-size: 14px; color: var(--deep-ink-2); }
+
+/* A stack of real work that fans out as you scroll */
+.lp-stack { position: relative; height: clamp(320px, 42vw, 560px); perspective: 1400px; }
+.lp-card { position: absolute; left: calc(50% + var(--x) * (1 + 0.5 * var(--p))); top: calc(50% + var(--y) * (1 + 0.4 * var(--p))); width: var(--w); margin: 0; border-radius: 16px;
+  transform: translate(-50%, -50%) rotate(calc(var(--r) * (1 - 0.6 * var(--p)))); z-index: var(--z); }
+.lp-card .in { border-radius: inherit; overflow: hidden; box-shadow: 0 30px 60px -24px rgba(0, 0, 0, .55), 0 0 0 1px rgba(255, 255, 255, .08); background: #111; animation: lpin 1.1s var(--ease) both; animation-delay: calc(var(--k) * 110ms + 200ms); }
+.lp-card img { width: 100%; aspect-ratio: var(--ar, 16 / 10); object-fit: cover; }
+.lp-card figcaption { position: absolute; left: 10px; bottom: 10px; display: inline-flex; align-items: center; gap: 7px; padding: 5px 11px; border-radius: 999px; background: rgba(20, 24, 19, .72); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); color: #eef3ec; font-size: 12px; letter-spacing: .04em; }
+.lp-card figcaption .dot { width: 7px; height: 7px; }
+@keyframes lpin { from { transform: translateY(60px) scale(.94); opacity: 0; } to { transform: none; opacity: 1; } }
+@media (min-width: 1000px) { .lp-card .in { animation: lpin 1.1s var(--ease) both, lpfloat 7s ease-in-out infinite; animation-delay: calc(var(--k) * 110ms + 200ms), calc(var(--k) * -1.3s); } }
+@keyframes lpfloat { 0%, 100% { translate: 0 0; } 50% { translate: 0 -8px; } }
+.lp-hero .band-device { height: clamp(90px, 11vw, 160px); }
+
+/* Service ribbon under the hero */
+.lp-ribbon { border-bottom: 1px solid var(--line); background: var(--paper); }
+.lp-ribbon ul { list-style: none; margin: 0; padding: 18px 0; display: flex; gap: 10px 26px; flex-wrap: wrap; justify-content: center; }
+.lp-ribbon li { display: inline-flex; align-items: center; gap: 9px; font-size: 15px; color: var(--ink-2); }
+
+/* ---------- Explore: what we do ---------- */
+.lp-explore { display: grid; gap: 16px; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.lp-ex { position: relative; display: flex; flex-direction: column; border-radius: var(--r); overflow: hidden; background: var(--tone-deep); color: var(--deep-ink); min-height: 420px; text-align: left; border: 0; padding: 0; cursor: pointer; isolation: isolate; }
+.lp-ex:nth-child(1), .lp-ex:nth-child(6), .lp-ex:nth-child(7), .lp-ex:nth-child(8) { grid-column: span 2; }
+.lp-ex .m { position: absolute; inset: 0 0 auto; height: 58%; z-index: -1; }
+.lp-ex .m img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease); }
+.lp-ex .m svg { position: absolute; left: 50%; top: 8%; transform: translateX(-50%); width: min(84%, 380px); height: auto; }
+.lp-call .n { margin-left: -10px; }
+.lp-ex .m::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10, 12, 10, 0) 55%, var(--tone-deep) 100%); }
+.lp-ex:hover .m img, .lp-ex:focus-visible .m img { transform: scale(1.05); }
+.lp-ex .b { margin-top: auto; padding: 22px 22px 20px; display: grid; gap: 8px; }
+.lp-ex .k { display: inline-flex; align-items: center; gap: 8px; font-stretch: 75%; letter-spacing: .1em; text-transform: uppercase; font-size: 12px; color: var(--tone); }
+.lp-ex .h { display: block; font-stretch: 125%; line-height: 1.08; font-size: clamp(22px, 2vw, 28px); }
+.lp-ex .p { display: block; font-size: 15px; color: var(--deep-ink-2); line-height: 1.5; max-width: 46ch; }
+.lp-ex .go { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 8px; padding-top: 14px; border-top: 1px solid var(--deep-line); font-size: 14.5px; }
+.lp-ex .go b { font-weight: 500; }
+.lp-ex .go span { display: inline-flex; align-items: center; gap: 8px; color: var(--tone); }
+.lp-ex .go svg { width: 14px; height: 14px; transition: transform .3s var(--ease); }
+.lp-ex:hover .go svg { transform: translate(3px, -3px); }
+
+/* ---------- Builder ---------- */
+.lp-build-sec { background: var(--surface); }
+.lp-presets { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 18px; }
+.lp-preset { display: grid; gap: 2px; text-align: left; padding: 12px 18px 12px 16px; border-radius: 14px; border: 1px solid var(--line); background: var(--paper); cursor: pointer; transition: border-color .2s, background .2s, transform .2s var(--ease); }
+.lp-preset:hover { border-color: var(--ink); }
+.lp-preset b { font-weight: 500; font-size: 15.5px; display: flex; align-items: center; gap: 8px; }
+.lp-preset span { font-size: 13.5px; color: var(--ink-3); }
+.lp-preset[aria-pressed="true"] { background: var(--deep); color: var(--deep-ink); border-color: var(--deep); }
+.lp-preset[aria-pressed="true"] span { color: var(--deep-ink-2); }
+.lp-bar { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center; justify-content: space-between; margin: 26px 0 18px; }
+.lp-seg { display: inline-flex; padding: 4px; border-radius: 999px; background: var(--paper); border: 1px solid var(--line); gap: 2px; max-width: 100%; }
+.lp-seg button { border: 0; background: none; cursor: pointer; min-height: 38px; padding: 0 16px; border-radius: 999px; font-size: 14.5px; color: var(--ink-2); white-space: nowrap; transition: background .25s var(--ease), color .25s; }
+.lp-seg button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+.lp-bar .hint { font-size: 14px; color: var(--ink-3); }
+
+.lp-grid { display: grid; gap: 28px; grid-template-columns: minmax(0, 1fr); align-items: start; }
+@media (min-width: 1000px) { .lp-grid { grid-template-columns: minmax(0, 1fr) 400px; gap: 32px; } }
+.lp-list { display: grid; gap: 12px; }
+.lp-svc { background: var(--paper); border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; transition: border-color .3s, box-shadow .3s; }
+.lp-svc.has { border-color: color-mix(in srgb, var(--ink) 40%, var(--line)); }
+.lp-svc.open { box-shadow: 0 18px 40px -28px rgba(20, 24, 19, .35); }
+.lp-svc-h { width: 100%; display: grid; grid-template-columns: 76px minmax(0, 1fr) auto; gap: 16px; align-items: center; padding: 12px 18px 12px 12px; background: none; border: 0; cursor: pointer; text-align: left; }
+.lp-thumb { width: 76px; height: 60px; border-radius: 11px; overflow: hidden; background: var(--tone-deep); position: relative; }
+.lp-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.lp-thumb svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.lp-svc-h .h { display: block; font-stretch: 125%; font-size: 19px; line-height: 1.2; }
+.lp-svc-h .from { font-size: 14px; color: var(--ink-3); margin-top: 3px; display: block; }
+.lp-svc-h .end { display: flex; align-items: center; gap: 10px; }
+.lp-count { min-width: 26px; height: 26px; padding: 0 8px; border-radius: 999px; background: var(--mint); color: #1d221c; font-size: 13px; font-weight: 600; display: none; place-items: center; }
+.lp-svc.has .lp-count { display: inline-grid; }
+.lp-chev { width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--line); display: grid; place-items: center; transition: transform .35s var(--ease), background .3s; }
+.lp-chev svg { width: 12px; height: 12px; }
+.lp-svc.open .lp-chev { transform: rotate(180deg); background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.lp-svc-b { display: none; padding: 0 18px 10px; }
+.lp-svc.open .lp-svc-b { display: block; animation: lpopen .45s var(--ease); }
+@keyframes lpopen { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+.lp-item { border-top: 1px solid var(--line); padding: 16px 0; }
+.lp-item[hidden] { display: none; }
+.lp-item-h { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 14px; align-items: start; cursor: pointer; }
+.lp-item-h input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.lp-tick { width: 24px; height: 24px; border-radius: 7px; border: 1.5px solid var(--ink-3); margin-top: 1px; display: grid; place-items: center; transition: background .2s, border-color .2s; }
+.lp-tick::after { content: ""; width: 10px; height: 5px; border-left: 2px solid var(--mint); border-bottom: 2px solid var(--mint); transform: translateY(-1px) rotate(-45deg) scale(0); transition: transform .25s var(--ease); }
+.lp-item-h input:checked + .lp-tick { background: var(--ink); border-color: var(--ink); }
+.lp-item-h input:checked + .lp-tick::after { transform: translateY(-1px) rotate(-45deg) scale(1); }
+.lp-item-h input:focus-visible + .lp-tick { outline: 2px solid var(--focus); outline-offset: 3px; }
+.lp-item-h .t { display: grid; gap: 3px; min-width: 0; }
+.lp-item-h .t b { font-weight: 500; font-size: 16.5px; }
+.lp-item-h .t small { font-size: 14px; color: var(--ink-3); line-height: 1.45; }
+.lp-kind { display: inline-block; margin-left: 8px; padding: 2px 8px; border-radius: 999px; font-size: 11.5px; letter-spacing: .06em; text-transform: uppercase; font-stretch: 75%; font-weight: 500; vertical-align: 2px; background: var(--tint-mint); color: var(--ink-2); }
+.lp-kind.once { background: var(--tint-ice); }
+.lp-item-h .pr { font-size: 15px; text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; color: var(--ink-2); }
+.lp-item-h .pr small { display: block; font-size: 12.5px; color: var(--ink-3); }
+.lp-item.on .lp-item-h .pr { color: var(--ink); }
+.lp-ctl { display: none; margin: 14px 0 2px 38px; gap: 12px; }
+.lp-item.on .lp-ctl { display: grid; animation: lpopen .4s var(--ease); }
+.lp-opts { display: flex; flex-wrap: wrap; gap: 8px; }
+.lp-opt { display: grid; gap: 1px; text-align: left; padding: 9px 14px; border-radius: 12px; border: 1px solid var(--line); background: var(--surface); cursor: pointer; font-size: 14.5px; transition: border-color .2s, background .2s; }
+.lp-opt small { font-size: 12.5px; color: var(--ink-3); }
+.lp-opt[aria-pressed="true"] { border-color: var(--ink); background: var(--tint-mint); }
+.lp-qty { display: inline-flex; align-items: center; gap: 4px; border: 1px solid var(--line); border-radius: 999px; padding: 3px; width: max-content; background: var(--surface); }
+.lp-qty button { width: 34px; height: 34px; border-radius: 50%; border: 0; background: var(--paper); cursor: pointer; font-size: 18px; line-height: 1; }
+.lp-qty button:disabled { opacity: .35; cursor: default; }
+.lp-qty output { min-width: 110px; text-align: center; font-size: 14.5px; font-variant-numeric: tabular-nums; }
+.lp-ads { display: grid; gap: 12px; }
+.lp-ads .lbl { display: flex; justify-content: space-between; gap: 12px; font-size: 14px; color: var(--ink-2); }
+.lp-ads .lbl b { color: var(--ink); font-weight: 500; font-variant-numeric: tabular-nums; }
+.lp-range { width: 100%; accent-color: var(--deep); height: 28px; }
+.lp-pf { display: flex; flex-wrap: wrap; gap: 6px; }
+.lp-pf .chip { min-height: 34px; font-size: 14px; padding: 0 13px; }
+.lp-note { font-size: 13px; color: var(--ink-3); }
+
+/* Summary */
+.lp-sum { position: sticky; top: calc(var(--head-h) + 20px); background: var(--deep); color: var(--deep-ink); border-radius: calc(var(--r) + 4px); overflow: hidden; }
+.lp-sum-in { padding: 26px 26px 24px; display: grid; gap: 18px; position: relative; z-index: 1; }
+.lp-sum .art { position: absolute; inset: auto 0 0; height: 120px; opacity: .55; pointer-events: none; }
+.lp-sum h3 { font-size: 24px; }
+.lp-sum .label { color: var(--deep-ink-2); }
+.lp-tot { display: grid; gap: 14px; }
+.lp-tot > div { display: grid; gap: 2px; }
+.lp-tot .v { font-stretch: 125%; font-size: clamp(26px, 2.4vw, 32px); line-height: 1.05; font-variant-numeric: tabular-nums; letter-spacing: -.01em; }
+.lp-tot .v small { font-size: 15px; font-stretch: 100%; color: var(--deep-ink-2); margin-left: 4px; letter-spacing: 0; }
+.lp-tot .v.zero { color: var(--deep-ink-2); }
+.lp-tot .s { font-size: 13.5px; color: var(--deep-ink-2); }
+.lp-term { display: flex; gap: 4px; padding: 4px; border-radius: 999px; background: rgba(238, 243, 236, .08); }
+.lp-term button { flex: 1; border: 0; background: none; color: var(--deep-ink-2); min-height: 34px; border-radius: 999px; cursor: pointer; font-size: 13.5px; white-space: nowrap; }
+.lp-term button[aria-pressed="true"] { background: var(--mint); color: #1d221c; }
+.lp-lines { list-style: none; margin: 0; padding: 14px 0 0; border-top: 1px solid var(--deep-line); display: grid; gap: 10px; max-height: 260px; overflow: auto; font-size: 14.5px; }
+.lp-lines li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; }
+.lp-lines li span { color: var(--deep-ink-2); }
+.lp-lines li small { display: block; color: var(--deep-ink-2); font-size: 12.5px; }
+.lp-lines li em { font-style: normal; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.lp-empty { font-size: 14.5px; color: var(--deep-ink-2); padding-top: 14px; border-top: 1px solid var(--deep-line); }
+.lp-sum .acts { display: grid; gap: 10px; }
+.lp-sum .acts .btn { justify-content: center; }
+.lp-sum .acts .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.lp-sum .acts .duo .btn { padding: 0 12px; }
+.lp-fine { font-size: 12.5px; color: var(--deep-ink-2); line-height: 1.5; }
+.lp-sum .btn-solid { background: var(--mint); color: #1d221c; border-color: var(--mint); --sweep: var(--deep-ink); }
+.lp-sum .btn-ghost { color: var(--deep-ink); --sweep: var(--deep-ink); }
+.lp-sum .btn-ghost:hover { color: var(--deep); }
+.lp-sum .ic, .lp-call .ic, .lp-dock .ic { width: 18px; height: 18px; }
+.lp-sum.bump .lp-tot .v { animation: lpbump .5s var(--ease); }
+@keyframes lpbump { 30% { color: var(--mint); } }
+
+/* ---------- Proof ---------- */
+.lp-work { display: grid; gap: 16px; grid-template-columns: repeat(12, minmax(0, 1fr)); }
+.lp-w { position: relative; border-radius: var(--r); overflow: hidden; grid-column: span 6; aspect-ratio: 16 / 10; color: #fff; isolation: isolate; }
+.lp-w:nth-child(1) { grid-column: span 7; aspect-ratio: auto; }
+.lp-w:nth-child(2) { grid-column: span 5; aspect-ratio: auto; min-height: 420px; }
+.lp-w img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; transition: transform 1.2s var(--ease); }
+.lp-w::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(0, 0, 0, 0) 45%, rgba(0, 0, 0, .72)); }
+.lp-w:hover img { transform: scale(1.04); }
+.lp-w .c { position: absolute; left: 0; right: 0; bottom: 0; padding: 22px; display: grid; gap: 4px; }
+.lp-w .c span { font-stretch: 75%; letter-spacing: .1em; text-transform: uppercase; font-size: 12px; opacity: .8; }
+.lp-w .c b { font-stretch: 125%; font-weight: 400; font-size: clamp(20px, 1.8vw, 26px); line-height: 1.1; }
+
+.lp-steps { display: grid; gap: 16px; grid-template-columns: repeat(3, minmax(0, 1fr)); counter-reset: s; list-style: none; padding: 0; margin: 0; }
+.lp-steps li { border-top: 2px solid var(--ink); padding-top: 20px; display: grid; gap: 10px; }
+.lp-steps li::before { counter-increment: s; content: "0" counter(s); font-stretch: 75%; color: var(--ink-3); font-size: 13.5px; letter-spacing: .08em; }
+.lp-steps h3 { font-size: var(--t-3); }
+.lp-steps p { color: var(--ink-2); font-size: 16px; }
+
+/* ---------- Talk ---------- */
+.lp-talk { display: grid; gap: 40px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 1000px) { .lp-talk { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 64px; } }
+.lp-talk h2 { font-size: var(--t-1); max-width: 12ch; }
+.lp-talk .lede { margin-top: 18px; }
+.lp-ways { display: grid; gap: 10px; margin-top: 30px; }
+.lp-way { display: grid; grid-template-columns: 48px minmax(0, 1fr) auto; gap: 14px; align-items: center; padding: 14px 18px 14px 14px; border: 1px solid var(--line); border-radius: 16px; background: var(--paper); transition: border-color .2s, transform .3s var(--ease); }
+.lp-way:hover { border-color: var(--ink); }
+.lp-way .i { width: 48px; height: 48px; border-radius: 12px; background: var(--deep); color: var(--mint); display: grid; place-items: center; }
+.lp-way .i .ic { width: 22px; height: 22px; }
+.lp-way b { font-weight: 500; display: block; }
+.lp-way span { font-size: 14px; color: var(--ink-3); }
+.lp-way > svg { width: 16px; height: 16px; }
+.lp-form { background: var(--paper); border: 1px solid var(--line); border-radius: calc(var(--r) + 4px); padding: clamp(22px, 3vw, 36px); }
+.lp-attach { border-radius: 14px; background: var(--tint-mint); padding: 14px 16px; display: grid; gap: 4px; font-size: 14.5px; }
+.lp-attach b { font-weight: 500; }
+.lp-attach span { color: var(--ink-2); }
+.lp-attach.none { background: var(--surface); }
+.field select { width: 100%; border: 1px solid var(--line); background: var(--surface); border-radius: 12px; padding: 14px 16px; font-size: 16.5px; font: inherit; }
+
+/* ---------- Phone dock ---------- */
+.lp-dock { display: none; }
+@media (max-width: 1000px) {
+  .lp-dock { position: fixed; left: 10px; right: 10px; bottom: calc(env(safe-area-inset-bottom, 0px) + 10px); z-index: 45; display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 8px; align-items: center; padding: 8px 8px 8px 16px; border-radius: 20px; background: rgba(51, 58, 50, .94); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); color: var(--deep-ink); box-shadow: 0 18px 40px -16px rgba(0, 0, 0, .5); transform: translateY(140%); transition: transform .5s var(--ease); }
+  .lp-dock.show { transform: none; }
+  .lp-dock .t { min-width: 0; display: grid; font-size: 12px; color: var(--deep-ink-2); line-height: 1.3; background: none; border: 0; text-align: left; padding: 0; cursor: pointer; }
+  .lp-dock .t b { font-weight: 500; font-size: 15px; color: var(--deep-ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-variant-numeric: tabular-nums; }
+  .lp-dock .call { width: 46px; height: 46px; border-radius: 14px; display: grid; place-items: center; border: 1px solid var(--deep-line); color: var(--mint); }
+  .lp-dock .btn { min-height: 46px; padding: 0 16px; border-radius: 14px; background: var(--mint); color: #1d221c; border-color: var(--mint); font-size: 15px; }
+  body.lp .foot { padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 100px); }
+}
+
+@media (max-width: 1000px) {
+  .lp-stack { height: clamp(260px, 64vw, 420px); margin-inline: -8px; }
+  .lp-explore { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .lp-ex:nth-child(7), .lp-ex:nth-child(8) { grid-column: span 1; }
+  .lp-sum { position: relative; top: 0; }
+  .lp-work { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .lp-w, .lp-w:nth-child(1), .lp-w:nth-child(2) { grid-column: span 1; aspect-ratio: 4 / 5; min-height: 0; }
+}
+@media (max-width: 640px) {
+  .lp-explore { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; margin-inline: -24px; padding: 0 24px 6px; scroll-padding-inline: 24px; scrollbar-width: none; gap: 12px; }
+  .lp-explore::-webkit-scrollbar { display: none; }
+  .lp-ex, .lp-ex:nth-child(n) { flex: none; width: 82%; min-height: 400px; scroll-snap-align: start; }
+  .lp-hero .lp-call span.n { display: none; }
+  .lp-steps { grid-template-columns: minmax(0, 1fr); }
+  .lp-work { grid-template-columns: minmax(0, 1fr); }
+  .lp-w, .lp-w:nth-child(1), .lp-w:nth-child(2) { grid-column: auto; aspect-ratio: 16 / 11; }
+  .lp-svc-h { grid-template-columns: 56px minmax(0, 1fr) auto; gap: 12px; padding: 10px 12px 10px 10px; }
+  .lp-thumb { width: 56px; height: 48px; }
+  .lp-svc-h .h { font-size: 17px; }
+  .lp-svc-b { padding: 0 14px 8px; }
+  .lp-item-h { grid-template-columns: auto minmax(0, 1fr); }
+  .lp-item-h .pr { grid-column: 2; text-align: left; }
+  .lp-item-h .pr small { display: inline; margin-left: 6px; }
+  .lp-ctl { margin-left: 0; }
+  .lp-kind { margin-left: 0; margin-top: 4px; vertical-align: 0; width: max-content; }
+  .lp-item-h .t b { display: grid; }
+  .lp-bar { margin-top: 20px; }
+  .lp-seg { width: 100%; } .lp-seg button { flex: 1; padding: 0 8px; }
+  .lp-presets { flex-wrap: nowrap; overflow-x: auto; margin-inline: -24px; padding-inline: 24px; scrollbar-width: none; scroll-snap-type: x mandatory; }
+  .lp-presets::-webkit-scrollbar { display: none; }
+  .lp-preset { flex: none; scroll-snap-align: start; }
+  .lp-sum-in { padding: 22px 20px; }
+  .lp-trust b { font-size: 22px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lp-card .in { animation: none !important; }
+  .lp-svc.open .lp-svc-b, .lp-item.on .lp-ctl, .lp-sum.bump .lp-tot .v { animation: none; }
+  .lp-dock { transition: none; }
+}
 </style>
 
 <a class="skip" href="#main" id="skip">Skip to content</a>
@@ -2350,6 +2607,7 @@ fieldset.field { border: 0; margin: 0; padding: 0; }
     <nav class="nav" id="nav" aria-label="Main"></nav>
     <div class="head-actions">
       <a class="btn btn-solid btn-talk" href="#contact">Let's Talk</a>
+      <span class="lp-head" id="lp-head"></span>
       <button class="icon-btn menu-btn" id="menu" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="sheet">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 8h18M3 16h12"/></svg>
       </button>
@@ -2380,12 +2638,12 @@ fieldset.field { border: 0; margin: 0; padding: 0; }
     <div class="foot-top"><a class="foot-mark" href="#home" aria-label="Latch Infinity home"><span class="foot-sym"></span></a><span class="foot-crumb" id="foot-crumb"></span></div>
     <p class="foot-note">One Stop. All Things. Digital.</p>
     <div class="foot-cols">
-      <details class="fcol" open><summary>Company</summary><ul><li><a href="#about">About Us</a></li><li><a href="#contact">Let's Talk</a></li><li><a href="#work">Work</a></li><li><a href="#blog">Blogs</a></li></ul></details>
+      <details class="fcol" open><summary>Company</summary><ul><li><a href="#about">About Us</a></li><li><a href="#contact">Let's Talk</a></li><li><a href="#start">Plans &amp; Pricing</a></li><li><a href="#work">Work</a></li><li><a href="#blog">Blogs</a></li></ul></details>
       <details class="fcol" open><summary>Quick Links</summary><ul><li><a href="#branding">Branding</a></li><li><a href="#digital-services">Digital Services</a></li><li><a href="#web-app-development">Web &amp; App Development</a></li><li><a href="#advertising">Advertising</a></li></ul></details>
       <details class="fcol" open><summary>Get In Touch</summary><address>LATCH INFINITY PRIVATE LIMITED, Commercial Building, Unit 2, B Block, 4th Floor, Uma Shree Dream World, Hosur Rd, Behind Race Institute, Kudlu Gate, Bengaluru, Karnataka 560068</address><div class="copyline"><code>info@latchinfinity.com</code><button class="chip-btn" type="button" data-copy="info@latchinfinity.com">Copy</button></div></details>
       <details class="fcol" open><summary>Follow</summary><ul><li><a href="https://www.instagram.com/latchinfinity/" target="_blank" rel="noopener">Instagram</a></li><li><a href="https://www.linkedin.com/company/latchinfinity/" target="_blank" rel="noopener">LinkedIn</a></li><li><a href="https://www.behance.net/latchinfinity" target="_blank" rel="noopener">Behance</a></li></ul></details>
     </div>
-    <div class="foot-bottom"><span>©2026. All Rights Reserved by Latch Infinity.</span><nav aria-label="Legal"><a href="#legal">Terms &amp; Conditions</a><a href="#legal">Privacy Policy</a></nav></div>
+    <div class="foot-bottom"><span>©2026. All Rights Reserved by Latch Infinity.</span><a class="foot-lp" href="#start"><span class="dot"></span>Preview: ads landing page →</a><nav aria-label="Legal"><a href="#legal">Terms &amp; Conditions</a><a href="#legal">Privacy Policy</a></nav></div>
   </div>
 </footer>
 
@@ -2533,6 +2791,8 @@ const ICONS = {
   plug: '<path d="M9 3v5M15 3v5M6 8h12v3a6 6 0 0 1-12 0zM12 17v4"/>',
   calendar: '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M7.5 14h3M13.5 14h3M7.5 17.5h3"/>',
   tent: '<path d="M2.5 20L12 4l9.5 16z"/><path d="M8 20l4-6.5 4 6.5"/>',
+  chat: '<path d="M4.5 19.5l1.2-3.6A8 8 0 1 1 8.4 18.6z"/><path d="M9 9.5c.3 2.3 2.2 4.2 4.5 4.5l1-1.2 1.8.8-.3 1.4c-3.8.3-7.3-3.2-7-7l1.4-.3.8 1.8z"/>',
+  mail: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 6.5l8.5 6.5 8.5-6.5"/>',
   building: '<rect x="4" y="3" width="10" height="18"/><path d="M14 9h6v12h-6M7 7h4M7 11h4M7 15h4M2 21h20"/>',
   music: '<path d="M9 18V5l11-2v13"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/>',
   star: '<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/>',
@@ -4360,6 +4620,394 @@ P.legal = () => `
   ${pageHero({ tone: 'mint', crumbs: [['#home', 'Home'], ['', 'Terms &amp; Privacy']], h: 'Terms &amp; Conditions, Privacy Policy' })}
   <section class="sec"><div class="wrap"><p class="proto-note"><b>Prototype note.</b> The live site links to Terms and Privacy Policy from every footer, but both pages return 404. This route is a placeholder for that text.</p></div></section>`;
 
+/* ================= Ads landing (#start) =================
+   Reached from the footer (Plans & Pricing) and from ad links; it is not in the main nav.
+   Visitors explore the services, build a plan from monthly retainers and one-time projects,
+   see an approximate price, then call, WhatsApp or send the plan with the form.
+   PRICES ARE PLACEHOLDERS: indicative INR ranges before GST. Confirm every figure, and the
+   phone number below, before the page is used for ads. */
+const LP_PHONE = '+91 00000 00000'; // TODO: replace with the real sales number
+const LP_TEL = LP_PHONE.replace(/[^\d+]/g, ''), LP_WA = LP_TEL.replace('+', '');
+const LP_TERMS = [[3, 0, '3 months'], [6, 0.05, '6 months · 5% off'], [12, 0.1, '12 months · 10% off']];
+const LP_SPEND = [25000, 50000, 100000, 200000, 300000, 500000, 1000000];
+const LP_PLATFORMS = ['Google', 'Meta', 'LinkedIn', 'YouTube', 'Programmatic'];
+const LP_SVC = [
+  { id: 'brand', t: 'Branding', tone: 'mint', img: 'img/kaynes/page-01.webp', icon: 'pen', p: 'An identity people remember: strategy, a logo that means something and a brand book that keeps every channel consistent.', items: [
+    { id: 'logo', t: 'Logo & visual identity', d: 'Logo, colour, type and core stationery.', kind: 'once', opts: [['Essential', 40000, 60000, 'Logo + colours + type'], ['Complete', 75000, 120000, 'Full identity system']] },
+    { id: 'book', t: 'Brand guidelines book', d: 'A lookbook your team and vendors can follow.', kind: 'once', opts: [['Brand book', 50000, 90000]] },
+    { id: 'strat', t: 'Strategy & positioning', d: 'Workshop, audience, voice and key messages.', kind: 'once', opts: [['Workshop', 60000, 100000]] },
+  ] },
+  { id: 'social', t: 'Social media & content', tone: 'mint', img: 'img/oli/mic.webp', icon: 'megaphone', p: 'Always-on content that looks like you: planned, designed, posted and reported every month.', items: [
+    { id: 'smm', t: 'Social media management', d: 'Calendar, design, posting, replies and a monthly report.', kind: 'month', opts: [['Starter', 25000, 35000, '2 platforms · 12 posts'], ['Growth', 45000, 60000, '3 platforms · 16 posts + 4 reels'], ['Scale', 80000, 110000, '4 platforms · 24 posts + 8 reels']] },
+    { id: 'blog', t: 'Articles & blogs', d: 'Search-led long-form writing for your site.', kind: 'month', opts: [['4 a month', 16000, 24000], ['8 a month', 30000, 44000]] },
+    { id: 'reels', t: 'Reels production day', d: 'Six short videos, shot and edited in one day.', kind: 'once', opts: [['6 reels', 45000, 80000]] },
+  ] },
+  { id: 'ads', t: 'Performance ads', tone: 'mint', img: 'img/oli/app.webp', icon: 'target', p: 'Google, Meta, LinkedIn and programmatic campaigns built for leads and sales, tuned every week.', items: [
+    { id: 'ads', t: 'Ads management', d: 'Set-up, targeting, daily optimisation and weekly reports.', kind: 'month', ads: true },
+    { id: 'creat', t: 'Ad creative pack', d: '12 static and 4 motion ads for launch.', kind: 'once', opts: [['Launch pack', 25000, 45000]] },
+  ] },
+  { id: 'seo', t: 'SEO', tone: 'mint', img: 'img/blog/seo-ai-answers.webp', icon: 'search', p: 'Be found on Google and in AI answers: technical fixes, content and links, reported every month.', items: [
+    { id: 'seo', t: 'Search engine optimisation', d: 'On-page, technical and off-page SEO with ranking reports.', kind: 'month', opts: [['Local', 18000, 25000, 'Up to 10 keywords'], ['Growth', 30000, 45000, 'Up to 25 keywords'], ['Scale', 55000, 80000, '50+ keywords · links']] },
+    { id: 'audit', t: 'SEO & site audit', d: 'A prioritised fix list for speed, structure and content.', kind: 'once', opts: [['Audit', 15000, 25000]] },
+  ] },
+  { id: 'web', t: 'Website & app', tone: 'mint', img: 'img/cube/s00.webp', icon: 'code', p: 'Fast, good-looking websites and apps that turn visits into enquiries, from a landing page to a product.', items: [
+    { id: 'site', t: 'Website', d: 'Designed and built to load fast and convert.', kind: 'once', opts: [['Landing page', 35000, 60000, 'One page'], ['Business site', 120000, 250000, 'Up to 10 pages · CMS'], ['E-commerce', 250000, 500000, 'Catalogue · payments']] },
+    { id: 'app', t: 'Web or mobile app', d: 'Product design and build, starting with an MVP.', kind: 'once', opts: [['MVP', 600000, 1500000]] },
+    { id: 'care', t: 'Care & hosting', d: 'Updates, backups, security and speed checks.', kind: 'month', opts: [['Care plan', 8000, 15000]] },
+  ] },
+  { id: 'film', t: 'Film & photography', tone: 'mint', img: 'video/kaynes-brand-film-poster.webp', icon: 'play', p: 'Brand films, ad films and photoshoots, from script and direction to the final cut.', items: [
+    { id: 'shoot', t: 'Photoshoot', d: 'Direction, crew and edited photographs.', kind: 'once', qty: ['shoot day', 'shoot days', 1, 5], opts: [['Per day', 60000, 120000]] },
+    { id: 'bfilm', t: 'Brand or ad film', d: 'Script to final cut, 30 to 60 seconds.', kind: 'once', opts: [['Film', 150000, 400000]] },
+  ] },
+  { id: 'edtech', t: 'EdTech', tone: 'ice', art: 2, icon: 'cap', p: '4-Quadrant e-learning, compliance-led quality checks and LMS-ready delivery for institutions and teams.', items: [
+    { id: 'elearn', t: 'E-learning content', d: 'Academic content and e-learning assets, LMS-ready.', kind: 'once', qty: ['learning hour', 'learning hours', 1, 40], opts: [['Standard', 80000, 120000], ['Interactive', 120000, 180000]] },
+    { id: 'lms', t: 'LMS set-up', d: 'Platform, structure, users and launch.', kind: 'once', opts: [['Set-up', 100000, 250000]] },
+  ] },
+  { id: 'game', t: 'Gamified events', tone: 'lilac', art: 5, icon: 'multi', p: 'Live events turned into real-time games that attendees play from their phones.', items: [
+    { id: 'event', t: 'Live event game', d: 'Multiplayer rounds on a shared screen, with live results.', kind: 'once', opts: [['Up to 200', 150000, 250000, 'attendees'], ['Up to 1,000', 300000, 500000, 'attendees'], ['1,000+', 600000, 1000000, 'attendees']] },
+  ] },
+];
+const LP_ITEMS = {}; LP_SVC.forEach(s => s.items.forEach(it => { it.svc = s; LP_ITEMS[it.id] = it; }));
+const LP_PRESETS = [
+  { id: 'launch', t: 'Launch a brand', d: 'Identity, website, social', icon: 'rocket', sel: { logo: { o: 1 }, book: {}, site: { o: 1 }, smm: { o: 0 } } },
+  { id: 'leads', t: 'Get more leads', d: 'Ads, landing page, SEO', icon: 'target', sel: { ads: {}, creat: {}, site: { o: 0 }, seo: { o: 0 } }, ads: { s: 2, pf: ['Google', 'Meta'] } },
+  { id: 'always', t: 'Always-on growth', d: 'Social, SEO, ads, content', icon: 'chart', sel: { smm: { o: 1 }, seo: { o: 1 }, ads: {}, blog: { o: 0 } }, ads: { s: 1, pf: ['Meta'] } },
+  { id: 'learn', t: 'Training & events', d: 'E-learning and live games', icon: 'cap', sel: { elearn: { o: 0, q: 5 }, event: { o: 0 } } },
+];
+const LP_KEY = 'latch.plan.v1';
+const lpDefault = () => ({ sel: {}, term: 6, ads: { s: 1, pf: ['Google', 'Meta'] }, f: 'all', open: 'brand', preset: '' });
+let lp = (() => { try { const s = JSON.parse(localStorage.getItem(LP_KEY)); if (s && s.sel) return { ...lpDefault(), ...s }; } catch (e) {} return lpDefault(); })();
+const lpSave = () => { try { localStorage.setItem(LP_KEY, JSON.stringify(lp)); } catch (e) {} };
+
+const inr = n => n >= 1e7 ? `₹${+(n / 1e7).toFixed(2)} Cr` : n >= 1e5 ? `₹${+(n / 1e5).toFixed(n >= 1e6 ? 1 : 2)}L` : `₹${Math.round(n / 1000)}k`;
+const rng = (a, b) => a === b ? inr(a) : `${inr(a)} – ${inr(b)}`;
+const r1k = n => Math.round(n / 1000) * 1000;
+function lpAdsFee(a) {
+  const spend = LP_SPEND[a.s] || LP_SPEND[1], n = Math.max(1, a.pf.length);
+  return [r1k(Math.max(20000, spend * 0.12) + 6000 * (n - 1)), r1k(Math.max(30000, spend * 0.18) + 8000 * (n - 1))];
+}
+/* Price of one picked item: [lo, hi], before any term discount */
+function lpPrice(it, s = lp.sel[it.id] || {}) {
+  if (it.ads) return lpAdsFee(lp.ads);
+  const o = it.opts[s.o || 0] || it.opts[0], q = it.qty ? (s.q || it.qty[2]) : 1;
+  return [o[1] * q, o[2] * q];
+}
+const lpFrom = s => { const lo = Math.min(...s.items.map(it => it.ads ? lpAdsFee({ s: 0, pf: ['Google'] })[0] : Math.min(...it.opts.map(o => o[1])))); const m = s.items.every(it => it.kind === 'month'); return `From ${inr(lo)}${m ? ' a month' : ''}`; };
+function lpTotals() {
+  const disc = (LP_TERMS.find(t => t[0] === lp.term) || LP_TERMS[0])[1];
+  let m = [0, 0], o = [0, 0];
+  const lines = Object.keys(lp.sel).filter(id => LP_ITEMS[id]).map(id => {
+    const it = LP_ITEMS[id], s = lp.sel[id], [a, b] = lpPrice(it, s);
+    const t = it.kind === 'month' ? m : o; t[0] += a; t[1] += b;
+    const opt = it.ads ? `${inr(LP_SPEND[lp.ads.s])} ad budget · ${lp.ads.pf.join(', ') || 'Google'}` : [it.opts.length > 1 ? it.opts[s.o || 0][0] : '', it.qty ? `${s.q || it.qty[2]} ${(s.q || it.qty[2]) > 1 ? it.qty[1] : it.qty[0]}` : ''].filter(Boolean).join(' · ');
+    return { it, opt, a, b };
+  });
+  m = m.map(v => r1k(v * (1 - disc)));
+  return { m, o, disc, lines, term: [o[0] + m[0] * lp.term, o[1] + m[1] * lp.term] };
+}
+function lpText() {
+  const T = lpTotals();
+  if (!T.lines.length) return 'Hi Latch Infinity, I would like to talk about a project.';
+  return 'Hi Latch Infinity, I built this plan on your website:\n' + T.lines.map(l => `• ${l.it.t}${l.opt ? ` (${l.opt})` : ''}: ${rng(l.a, l.b)}${l.it.kind === 'month' ? ' a month' : ''}`).join('\n') +
+    `\nEstimate: ${T.m[1] ? `${rng(T.m[0], T.m[1])} a month for ${lp.term} months` : ''}${T.m[1] && T.o[1] ? ' + ' : ''}${T.o[1] ? `${rng(T.o[0], T.o[1])} one-time` : ''}, before GST.`;
+}
+
+const lpThumb = s => s.img ? `<img src="${s.img}" alt="" loading="lazy">` : svcArt(s.art, s.tone);
+const lpItem = it => {
+  const ctl = it.ads
+    ? `<div class="lp-ads"><div class="lbl"><span>Monthly ad budget, paid to the platforms</span><b data-spend>${inr(LP_SPEND[lp.ads.s])}</b></div>
+        <input class="lp-range" type="range" min="0" max="${LP_SPEND.length - 1}" step="1" value="${lp.ads.s}" data-spend-in aria-label="Monthly ad budget">
+        <div class="lp-pf" role="group" aria-label="Platforms">${LP_PLATFORMS.map(p => `<button class="chip" type="button" data-pf="${p}" aria-pressed="${lp.ads.pf.includes(p)}">${p}</button>`).join('')}</div>
+        <p class="lp-note">Our fee covers strategy, set-up and management. Ad spend is paid straight to Google, Meta and the others.</p></div>`
+    : (it.opts.length > 1 ? `<div class="lp-opts" role="group" aria-label="${it.t} options">${it.opts.map((o, i) => `<button class="lp-opt" type="button" data-opt="${i}" aria-pressed="${(lp.sel[it.id]?.o || 0) === i}">${o[0]}${o[3] ? `<small>${o[3]}</small>` : ''}</button>`).join('')}</div>` : '') +
+      (it.qty ? `<div class="lp-qty"><button type="button" data-q="-1" aria-label="Fewer">−</button><output data-qo></output><button type="button" data-q="1" aria-label="More">+</button></div>` : '');
+  return `<div class="lp-item" data-item="${it.id}" data-kind="${it.kind}">
+    <label class="lp-item-h"><input type="checkbox" data-pick${lp.sel[it.id] ? ' checked' : ''}><span class="lp-tick" aria-hidden="true"></span>
+      <span class="t"><b>${it.t}<span class="lp-kind${it.kind === 'once' ? ' once' : ''}">${it.kind === 'month' ? 'Monthly' : 'One-time'}</span></b><small>${it.d}</small></span>
+      <span class="pr" data-pr></span></label>
+    ${ctl ? `<div class="lp-ctl">${ctl}</div>` : ''}</div>`;
+};
+
+P.start = () => `
+  <section class="band page-hero lp-hero" id="lp-hero" style="${toneVars('mint')}">
+    <div class="wrap band-inner">
+      <div style="min-width:0">
+        <div class="rise-in">${intro('Branding · Marketing · Tech · Bengaluru')}<h1>Grow your brand. Know the price before we talk.</h1></div>
+        <p class="lede rise-in d1">Explore what we do, build a plan from monthly retainers and one-time projects, and see an approximate price in seconds. Then talk to the team that will do the work.</p>
+        <div class="row rise-in d2">
+          <button class="btn btn-solid" type="button" data-lp-go="lp-build">Build my plan${I.arrow}</button>
+          <a class="btn btn-ghost lp-call" href="tel:${LP_TEL}">${ic('phone')}Call<span class="n">&nbsp;${LP_PHONE}</span></a>
+        </div>
+        <div class="lp-trust rise-in d3"><div><b>50+</b><span>brands served</span></div><div><b>10+</b><span>industries</span></div><div><b>5+</b><span>time zones</span></div></div>
+      </div>
+      <div class="lp-stack" aria-hidden="true">
+        ${[['img/oli/stage.webp', 'Oli', '-21%', '-24%', '-6deg', '50%', 2, '4 / 3'], ['video/kaynes-brand-film-poster.webp', 'Kaynes', '22%', '-28%', '5deg', '48%', 3], ['img/cube/s05.webp', 'Cube', '-23%', '25%', '4deg', '46%', 4], ['img/milntown/07163-s.webp', 'Miln Town', '23%', '24%', '-4deg', '46%', 5, '3 / 2'], ['img/oli/app.webp', 'Oli app', '0%', '0%', '-2deg', '30%', 6, '1 / 1']]
+          .map(([src, cap, x, y, r, w, z, ar], k) => `<figure class="lp-card" style="--x:${x};--y:${y};--r:${r};--w:${w};--z:${z};--k:${k}${ar ? `;--ar:${ar}` : ''}"><div class="in"><img src="${src}" alt="" ${k > 1 ? 'loading="lazy"' : ''}></div><figcaption><span class="dot"></span>${cap}</figcaption></figure>`).join('')}
+      </div>
+    </div>
+    <div class="band-device">${fxSlot('climb', 'mint')}</div>
+  </section>
+
+  <div class="lp-ribbon"><div class="wrap"><ul>${LP_SVC.map(s => `<li><span class="dot" style="--tone:${TONES[s.tone].light}"></span>${s.t}</li>`).join('')}</ul></div></div>
+
+  <section class="sec" aria-labelledby="lp-ex-h">
+    <div class="wrap">
+      <div class="sec-head split">
+        <div>${intro('Explore')}<h2 id="lp-ex-h">Everything a brand needs, under one roof.</h2></div>
+        <p class="lede">Pick one service or combine several. Tap a card to add it to your plan and see what it costs.</p>
+      </div>
+      <div class="lp-explore">
+        ${LP_SVC.map(s => `<button class="lp-ex" type="button" data-lp-svc="${s.id}" style="${toneVars(s.tone)}">
+          <span class="m">${lpThumb(s)}</span>
+          <span class="b"><span class="k">${ic(s.icon)}${s.items.some(i => i.kind === 'month') ? (s.items.some(i => i.kind === 'once') ? 'Monthly or one-time' : 'Monthly') : 'One-time'}</span><span class="h">${s.t}</span><span class="p">${s.p}</span>
+          <span class="go"><b>${lpFrom(s)}</b><span>Add to plan${I.arrow}</span></span></span></button>`).join('')}
+      </div>
+    </div>
+  </section>
+
+  <section class="sec lp-build-sec" id="lp-build" aria-labelledby="lp-build-h">
+    <div class="wrap">
+      <div class="sec-head split">
+        <div>${intro('Build your plan')}<h2 id="lp-build-h">Pick what you need. Watch the price move.</h2></div>
+        <p class="lede">Start from a ready-made plan or add services one by one. Mix monthly retainers with one-time projects; longer retainers cost less a month.</p>
+      </div>
+      <div class="lp-presets" role="group" aria-label="Ready-made plans">${LP_PRESETS.map(p => `<button class="lp-preset" type="button" data-preset="${p.id}" aria-pressed="${lp.preset === p.id}"><b>${ic(p.icon)}${p.t}</b><span>${p.d}</span></button>`).join('')}</div>
+      <div class="lp-bar">
+        <div class="lp-seg" role="group" aria-label="Show">${[['all', 'All services'], ['month', 'Monthly'], ['once', 'One-time']].map(([k, t]) => `<button type="button" data-f="${k}" aria-pressed="${lp.f === k}">${t}</button>`).join('')}</div>
+        <button class="chip" type="button" data-lp-clear>Clear plan</button>
+      </div>
+      <div class="lp-grid">
+        <div class="lp-list">${LP_SVC.map(s => `
+          <article class="lp-svc${lp.open === s.id ? ' open' : ''}" data-svc="${s.id}" style="${toneVars(s.tone)}">
+            <button class="lp-svc-h" type="button" aria-expanded="${lp.open === s.id}" aria-controls="lp-b-${s.id}">
+              <span class="lp-thumb">${lpThumb(s)}</span>
+              <span><span class="h">${s.t}</span><span class="from">${lpFrom(s)}</span></span>
+              <span class="end"><span class="lp-count" data-count></span><span class="lp-chev">${I.down}</span></span>
+            </button>
+            <div class="lp-svc-b" id="lp-b-${s.id}">${s.items.map(lpItem).join('')}</div>
+          </article>`).join('')}
+        </div>
+        <aside class="lp-sum" id="lp-sum" aria-label="Your plan">
+          <div class="lp-sum-in">
+            <div><p class="label">Your estimate</p><h3>Your plan</h3></div>
+            <div class="lp-tot" aria-live="polite">
+              <div><span class="s">Monthly retainer</span><span class="v" data-tm></span></div>
+              <div><span class="s">One-time projects</span><span class="v" data-to></span></div>
+            </div>
+            <div><p class="s lp-fine" style="margin-bottom:8px">Retainer term</p><div class="lp-term" role="group" aria-label="Retainer term">${LP_TERMS.map(([m, d]) => `<button type="button" data-term="${m}" aria-pressed="${lp.term === m}">${m} mo${d ? ` · ${d * 100}% off` : ''}</button>`).join('')}</div></div>
+            <div data-lines></div>
+            <div class="acts">
+              <button class="btn btn-solid" type="button" data-lp-go="lp-talk">Get my exact quote${I.arrow}</button>
+              <div class="duo"><a class="btn btn-ghost" data-wa href="#" target="_blank" rel="noopener">${ic('chat')}WhatsApp</a><a class="btn btn-ghost" href="tel:${LP_TEL}">${ic('phone')}Call</a></div>
+            </div>
+            <p class="lp-fine">Approximate ranges before 18% GST, based on typical scope. Your exact quote comes after a short call.</p>
+          </div>
+          ${artSlot('rise', 'mint', 5)}
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="lp-proof-h">
+    <div class="wrap">
+      <div class="sec-head split">
+        <div>${intro('Proof')}<h2 id="lp-proof-h">Work that brands put their name on.</h2></div>
+        <div style="justify-self:start">${arrowBtn('#work', 'See all work', 'btn-ghost')}</div>
+      </div>
+      <div class="lp-work">
+        ${[['#work-oli', 'img/oli/stage.webp', 'Brand · App · Film', 'Oli, a gig platform for live music'], ['#work-kaynes', 'img/kaynes/page-01.webp', 'Brand identity · Film', 'Kaynes Technology'], ['#work-cube', 'img/cube/s00.webp', 'Product design · UI/UX', 'Cube Audience Manager'], ['#work-milntown', 'img/milntown/07533-s.webp', 'Photography · Film · Print', 'Miln Town, Coonoor']]
+          .map(([href, src, k, t]) => `<a class="lp-w" href="${href}" data-cursor="Open"><img src="${src}" alt="" loading="lazy"><span class="c"><span>${k}</span><b>${t}</b></span></a>`).join('')}
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:0">
+    <div class="wrap">
+      <div class="quotes-rail"><div class="quotes">
+        ${QUOTES.map(q => `<figure class="quote" style="${toneVars(q.tone)}">${I.quote}<blockquote>${q.q}</blockquote><footer><span class="dot"></span>${q.by}</footer></figure>`).join('')}
+      </div></div>
+    </div>
+  </section>
+
+  <section class="sec-tight" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head" style="margin-bottom:28px">${intro('Trusted by')}</div>
+      <div class="mq-wrap">${[CLIENTS.slice(0, 6), CLIENTS.slice(6)].map((row, ri) => `<div class="mq" data-dir="${ri ? 1 : -1}"><ul class="mq-track">${[0, 1, 2].map(k => row.map(([f, n]) => `<li${k ? ' aria-hidden="true"' : ''}><img src="img/logos/${f}.webp" alt="${k ? '' : n}" loading="lazy"></li>`).join('')).join('')}</ul></div>`).join('')}</div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="lp-how-h">
+    <div class="wrap">
+      <div class="sec-head">${intro('How it works')}<h2 id="lp-how-h">From plan to work in three steps.</h2></div>
+      <ol class="lp-steps">
+        <li><h3>Build your plan</h3><p>Choose services above and see an approximate price straight away. Nothing to sign.</p></li>
+        <li><h3>Talk to us</h3><p>A short call to understand your goals, audience and timeline. We tell you what you need and what you can skip.</p></li>
+        <li><h3>Get a fixed proposal</h3><p>A clear scope, timeline and price. Once you say yes, we start.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="sec lp-build-sec" id="lp-talk" aria-labelledby="lp-talk-h">
+    <div class="wrap lp-talk">
+      <div>
+        ${intro('Let’s talk')}<h2 id="lp-talk-h">Get your exact quote.</h2>
+        <p class="lede">Send your plan and we will come back with a fixed proposal. Prefer to talk? Call or WhatsApp us now.</p>
+        <div class="lp-ways">
+          <a class="lp-way" href="tel:${LP_TEL}"><span class="i">${ic('phone')}</span><span><b>Call us</b><span>${LP_PHONE}</span></span>${I.arrow}</a>
+          <a class="lp-way" data-wa href="#" target="_blank" rel="noopener"><span class="i">${ic('chat')}</span><span><b>WhatsApp your plan</b><span>Opens a chat with your plan typed in</span></span>${I.arrow}</a>
+          <a class="lp-way" href="mailto:info@latchinfinity.com" data-mail><span class="i">${ic('mail')}</span><span><b>Email</b><span>info@latchinfinity.com</span></span>${I.arrow}</a>
+        </div>
+      </div>
+      <form class="form lp-form" id="lp-form" novalidate>
+        <div class="lp-attach" data-attach></div>
+        <div class="fields">
+          ${field('lp-name', 'Name', 'text', true, 'name')}${field('lp-phone', 'Phone', 'tel', true, 'tel')}
+          ${field('lp-email', 'Email', 'email', false, 'email')}${field('lp-company', 'Company', 'text', false, 'organization')}
+        </div>
+        <fieldset class="field"><legend>Best way to reach you</legend><div class="svc">${['Call', 'WhatsApp', 'Email'].map((s, i) => `<label><input type="radio" name="lp-via" value="${s}"${i ? '' : ' checked'}><span>${s}</span></label>`).join('')}</div></fieldset>
+        <div class="field"><label for="lp-msg">Anything we should know?</label><textarea id="lp-msg" name="message" placeholder="Goals, timeline, budget, links"></textarea></div>
+        <div class="form-foot"><button class="btn btn-solid" type="submit" style="min-height:56px;padding:0 28px">Send my plan${I.arrow}</button><span class="lp-note">We only use your details to reply to you.</span></div>
+        <div id="lp-sent" hidden></div>
+      </form>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="lp-faq-h">
+    <div class="wrap">
+      <div class="sec-head">${intro('Questions')}<h2 id="lp-faq-h">Before you ask.</h2></div>
+      <div class="faq">${[
+        ['Are these prices final?', 'No. They are approximate ranges for typical scope, before 18% GST. After a short call we send a fixed proposal with the exact price.'],
+        ['Is ad spend included in the ads price?', 'No. The price shown is our management fee. Your ad budget is paid straight to Google, Meta, LinkedIn or the other platforms, so you always see where it goes.'],
+        ['How do monthly retainers work?', 'You pick a term of 3, 6 or 12 months. Longer terms cost less each month. Each month you get the work in your plan and a report on how it performed.'],
+        ['Can I mix monthly services and one-time projects?', 'Yes. Many clients start with a one-time project, such as a brand identity or a website, and then keep us on a monthly plan for social media, SEO or ads.'],
+        ['Do you work with businesses outside Bengaluru?', 'Yes. We are based in Bengaluru and work with brands across India and in more than five time zones.'],
+      ].map(([q, a]) => `<details><summary>${q}<span class="pm">${I.plus}</span></summary><p class="a">${a}</p></details>`).join('')}</div>
+    </div>
+  </section>
+
+  <div class="lp-dock" id="lp-dock">
+    <button class="t" type="button" data-lp-go="lp-sum"><span>Your estimate</span><b data-dock></b></button>
+    <a class="call" href="tel:${LP_TEL}" aria-label="Call ${LP_PHONE}">${ic('phone')}</a>
+    <button class="btn" type="button" data-lp-go="lp-talk">Get quote</button>
+  </div>`;
+
+function setupStart(main) {
+  const items = [...main.querySelectorAll('.lp-item')], svcs = [...main.querySelectorAll('.lp-svc')], sum = main.querySelector('#lp-sum');
+  const go = id => { const el = document.getElementById(id); if (el) el.scrollIntoView({ behavior: motionOK() ? 'smooth' : 'auto', block: 'start' }); };
+  let bumpT = 0;
+  const update = (bump = true) => {
+    const T = lpTotals();
+    items.forEach(el => {
+      const it = LP_ITEMS[el.dataset.item], s = lp.sel[it.id], on = !!s, [a, b] = lpPrice(it, s || {});
+      el.classList.toggle('on', on); el.querySelector('[data-pick]').checked = on;
+      el.querySelector('[data-pr]').innerHTML = `${rng(a, b)}<small>${it.kind === 'month' ? 'a month' : 'one-time'}</small>`;
+      el.hidden = lp.f !== 'all' && it.kind !== lp.f;
+      el.querySelectorAll('[data-opt]').forEach(o => o.setAttribute('aria-pressed', +o.dataset.opt === ((s && s.o) || 0)));
+      const qo = el.querySelector('[data-qo]');
+      if (qo) { const q = (s && s.q) || it.qty[2]; qo.textContent = `${q} ${q > 1 ? it.qty[1] : it.qty[0]}`; el.querySelector('[data-q="-1"]').disabled = q <= it.qty[2]; el.querySelector('[data-q="1"]').disabled = q >= it.qty[3]; }
+    });
+    svcs.forEach(el => {
+      const s = LP_SVC.find(x => x.id === el.dataset.svc), n = s.items.filter(it => lp.sel[it.id]).length;
+      el.classList.toggle('has', n > 0); el.querySelector('[data-count]').textContent = n;
+      el.hidden = lp.f !== 'all' && !s.items.some(it => it.kind === lp.f);
+    });
+    main.querySelectorAll('[data-spend]').forEach(e => (e.textContent = inr(LP_SPEND[lp.ads.s]) + ' a month'));
+    main.querySelectorAll('[data-pf]').forEach(b => b.setAttribute('aria-pressed', lp.ads.pf.includes(b.dataset.pf)));
+    main.querySelectorAll('[data-f]').forEach(b => b.setAttribute('aria-pressed', b.dataset.f === lp.f));
+    main.querySelectorAll('[data-term]').forEach(b => b.setAttribute('aria-pressed', +b.dataset.term === lp.term));
+    main.querySelectorAll('[data-preset]').forEach(b => b.setAttribute('aria-pressed', b.dataset.preset === lp.preset));
+    const tm = sum.querySelector('[data-tm]'), to = sum.querySelector('[data-to]');
+    tm.innerHTML = T.m[1] ? `${rng(T.m[0], T.m[1])}<small>/mo</small>` : '₹0'; tm.classList.toggle('zero', !T.m[1]);
+    to.innerHTML = T.o[1] ? rng(T.o[0], T.o[1]) : '₹0'; to.classList.toggle('zero', !T.o[1]);
+    sum.querySelector('[data-lines]').innerHTML = T.lines.length
+      ? `<ul class="lp-lines">${T.lines.map(l => `<li><span>${l.it.t}${l.opt ? `<small>${l.opt}</small>` : ''}</span><em>${rng(l.a, l.b)}${l.it.kind === 'month' ? '/mo' : ''}</em></li>`).join('')}</ul>${T.m[1] ? `<p class="lp-fine" style="margin-top:12px">Over ${lp.term} months, including one-time work: <b style="color:var(--deep-ink);font-weight:500">${rng(T.term[0], T.term[1])}</b>${T.disc ? `, with ${T.disc * 100}% off the retainer` : ''}.${lp.sel.ads ? ` Plus ${inr(LP_SPEND[lp.ads.s])} a month ad budget, paid to the platforms.` : ''}</p>` : ''}`
+      : `<p class="lp-empty">Nothing picked yet. Start with a ready-made plan, or open a service and tick what you need.</p>`;
+    const dock = main.querySelector('[data-dock]');
+    if (dock) dock.textContent = T.lines.length ? [T.m[1] ? `${inr(T.m[0])}+/mo` : '', T.o[1] ? `${inr(T.o[0])}+ one-time` : ''].filter(Boolean).join(' · ') : 'Build your plan';
+    const att = main.querySelector('[data-attach]');
+    att.classList.toggle('none', !T.lines.length);
+    att.innerHTML = T.lines.length ? `<b>Your plan is attached: ${T.lines.length} service${T.lines.length > 1 ? 's' : ''}</b><span>${[T.m[1] ? `${rng(T.m[0], T.m[1])} a month for ${lp.term} months` : '', T.o[1] ? `${rng(T.o[0], T.o[1])} one-time` : ''].filter(Boolean).join(' + ')}, before GST.</span>` : `<b>No plan attached</b><span>That’s fine. Tell us what you need, or <button class="link" type="button" data-lp-go="lp-build" style="background:none;border:0;padding:0;font:inherit;text-decoration:underline;cursor:pointer">build a plan</button> first.</span>`;
+    const txt = encodeURIComponent(lpText());
+    main.querySelectorAll('[data-wa]').forEach(a => (a.href = `https://wa.me/${LP_WA}?text=${txt}`));
+    main.querySelectorAll('[data-mail]').forEach(a => (a.href = `mailto:info@latchinfinity.com?subject=${encodeURIComponent('Quote request from the website')}&body=${txt}`));
+    if (bump && motionOK()) { sum.classList.remove('bump'); void sum.offsetWidth; sum.classList.add('bump'); clearTimeout(bumpT); bumpT = setTimeout(() => sum.classList.remove('bump'), 600); }
+    lpSave();
+  };
+  const openSvc = (id, scroll) => {
+    lp.open = id;
+    svcs.forEach(el => { const o = el.dataset.svc === id; el.classList.toggle('open', o); el.querySelector('.lp-svc-h').setAttribute('aria-expanded', o); });
+    if (scroll) { const el = svcs.find(e => e.dataset.svc === id); setTimeout(() => el && el.scrollIntoView({ behavior: motionOK() ? 'smooth' : 'auto', block: 'start' }), 30); }
+  };
+
+  main.addEventListener('click', e => {
+    const t = e.target;
+    const g = t.closest('[data-lp-go]'); if (g) { e.preventDefault(); go(g.dataset.lpGo); return; }
+    const ex = t.closest('[data-lp-svc]');
+    if (ex) { // Explore card: open that service in the builder and pick its first item
+      const s = LP_SVC.find(x => x.id === ex.dataset.lpSvc);
+      if (!s.items.some(it => lp.sel[it.id])) lp.sel[s.items[0].id] = {};
+      if (lp.f !== 'all' && !s.items.some(it => it.kind === lp.f)) lp.f = 'all';
+      lp.preset = ''; openSvc(s.id, true); update(); return;
+    }
+    const h = t.closest('.lp-svc-h'); if (h) { const id = h.closest('.lp-svc').dataset.svc; openSvc(lp.open === id ? '' : id); lpSave(); return; }
+    const pr = t.closest('[data-preset]');
+    if (pr) {
+      const p = LP_PRESETS.find(x => x.id === pr.dataset.preset);
+      lp.sel = JSON.parse(JSON.stringify(p.sel)); if (p.ads) lp.ads = { ...p.ads, pf: [...p.ads.pf] };
+      lp.preset = p.id; lp.f = 'all'; openSvc(LP_ITEMS[Object.keys(p.sel)[0]].svc.id); update(); return;
+    }
+    const f = t.closest('[data-f]'); if (f) { lp.f = f.dataset.f; update(false); return; }
+    const tm = t.closest('[data-term]'); if (tm) { lp.term = +tm.dataset.term; update(); return; }
+    if (t.closest('[data-lp-clear]')) { lp.sel = {}; lp.preset = ''; update(); return; }
+    const item = t.closest('.lp-item'); if (!item) return;
+    const id = item.dataset.item, it = LP_ITEMS[id];
+    const o = t.closest('[data-opt]'); if (o) { lp.sel[id] = { ...lp.sel[id], o: +o.dataset.opt }; lp.preset = ''; update(); return; }
+    const q = t.closest('[data-q]'); if (q) { const s = lp.sel[id] || {}; s.q = clamp((s.q || it.qty[2]) + +q.dataset.q, it.qty[2], it.qty[3]); lp.sel[id] = s; lp.preset = ''; update(); return; }
+    const pf = t.closest('[data-pf]'); if (pf) { const k = pf.dataset.pf, a = lp.ads.pf; lp.ads.pf = a.includes(k) ? (a.length > 1 ? a.filter(x => x !== k) : a) : [...a, k]; lp.preset = ''; update(); }
+  });
+  main.addEventListener('change', e => {
+    const c = e.target.closest('[data-pick]'); if (!c) return;
+    const id = c.closest('.lp-item').dataset.item;
+    if (c.checked) lp.sel[id] = lp.sel[id] || {}; else delete lp.sel[id];
+    lp.preset = ''; update();
+  });
+  main.addEventListener('input', e => { if (e.target.matches('[data-spend-in]')) { lp.ads.s = +e.target.value; lp.preset = ''; update(false); } });
+
+  // Hero stack fans out as the hero scrolls away; the phone dock shows once you are past the hero and hides at the form
+  const hero = main.querySelector('#lp-hero'), dock = main.querySelector('#lp-dock'), talk = main.querySelector('#lp-talk');
+  let raf = 0;
+  const tick = () => {
+    raf = 0; if (!hero.isConnected) return;
+    const r = hero.getBoundingClientRect(), vh = innerHeight;
+    if (motionOK()) hero.style.setProperty('--p', clamp(-r.top / (r.height * 0.7)).toFixed(3));
+    const tr = talk.getBoundingClientRect();
+    dock.classList.toggle('show', r.bottom < vh * 0.35 && tr.top > vh * 0.6);
+  };
+  const onScroll = () => { if (!raf) raf = requestAnimationFrame(tick); };
+  addEventListener('scroll', onScroll, { passive: true }); addEventListener('resize', onScroll);
+  const stop = () => { if (!hero.isConnected) { removeEventListener('scroll', onScroll); removeEventListener('resize', onScroll); } };
+  addEventListener('hashchange', () => setTimeout(stop, 1500), { once: true });
+
+  // Form: checks name and phone, attaches the plan and any ad tags from the URL
+  const form = main.querySelector('#lp-form');
+  const rules = { 'lp-name': v => v.trim() ? '' : 'Enter your name.', 'lp-phone': v => v.replace(/\D/g, '').length >= 7 ? '' : 'Enter a phone number with at least 7 digits.', 'lp-email': v => !v.trim() || /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v.trim()) ? '' : 'Enter an email address like name@company.com.' };
+  const check = id => { const el = document.getElementById(id), msg = rules[id](el.value); document.getElementById(id + '-err').textContent = msg; document.getElementById('f-' + id).classList.toggle('invalid', !!msg); el.setAttribute('aria-invalid', !!msg); return !msg; };
+  Object.keys(rules).forEach(id => document.getElementById(id).addEventListener('blur', () => { if (document.getElementById(id).value) check(id); }));
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const bad = Object.keys(rules).filter(id => !check(id)), out = document.getElementById('lp-sent');
+    if (bad.length) { document.getElementById(bad[0]).focus(); out.hidden = true; return; }
+    const utm = [...new URLSearchParams(location.search)].filter(([k]) => /^utm_|^gclid$|^fbclid$/.test(k));
+    const payload = { name: form['lp-name'].value.trim(), phone: form['lp-phone'].value.trim(), email: form['lp-email'].value.trim(), company: form['lp-company'].value.trim(), via: form.querySelector('[name="lp-via"]:checked').value, message: form['lp-msg'].value.trim(), plan: lpText(), source: Object.fromEntries(utm) };
+    console.info('Lead (prototype, not sent):', payload);
+    out.className = 'sent'; out.hidden = false;
+    out.innerHTML = `<b>Prototype: nothing was sent.</b><span>The form checked out with ${lpTotals().lines.length || 'no'} planned service${lpTotals().lines.length === 1 ? '' : 's'}. On the live site this goes to the team, who reply by ${payload.via.toLowerCase()}.</span>`;
+  });
+
+  if (!svcs.some(el => el.dataset.svc === lp.open)) lp.open = '';
+  update(false); tick();
+}
+
 /* ================= Case study: Miln Town =================
    The brochure is 18 pages: a cover, eight spreads and a back cover, printed as nine leaves.
    Page images are the client's print PDF; photographs are from our shoot. */
@@ -4859,6 +5507,7 @@ function setupPage(route) {
   if (route === 'work-cube') setupCube(document.getElementById('main'));
   if (route === 'work-dharmaram') setupDharmaram(document.getElementById('main'));
   if (route === 'work-milntown') setupMilntown(document.getElementById('main'));
+  if (route === 'start') setupStart(document.getElementById('main'));
   document.querySelectorAll('.tabs').forEach(list => {
     const tabs = [...list.querySelectorAll('[role="tab"]')];
     const sel = i => tabs.forEach((t, j) => {
@@ -4911,6 +5560,8 @@ function setupPage(route) {
 function render(r) {
   clearTimeout(heroTimer); heroTimer = null;
   document.getElementById('main').innerHTML = P[r]();
+  document.body.classList.toggle('lp', r === 'start');
+  document.getElementById('lp-head').innerHTML = r === 'start' ? `<a class="btn btn-ghost" href="tel:${LP_TEL}">${ic('phone')}Call</a><button class="btn btn-solid lp-head-quote" type="button" onclick="document.getElementById('lp-talk').scrollIntoView({behavior:'smooth'})">Get a quote</button>` : '';
   renderNav(r);
   setupPage(r);
   setupMotion(r);
@@ -4919,7 +5570,7 @@ function render(r) {
   const crumb = document.getElementById('foot-crumb');
   if (crumb) crumb.innerHTML = r === 'home' ? '' : `<span aria-hidden="true">›</span>${PAGE_NAME[r] || ''}`;
   const bp = r === 'blog-post' && POSTS.find(p => p.slug === blogSlug);
-  document.title = bp ? `${bp.title} | Latch Infinity` : 'Latch Infinity Redesign';
+  document.title = bp ? `${bp.title} | Latch Infinity` : r === 'start' ? 'Plans & Pricing | Latch Infinity' : 'Latch Infinity Redesign';
 }
 let firstRoute = true, routeToken = 0;
 function route() {
@@ -4941,7 +5592,7 @@ const motionOK = () => !RM.matches;
 const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 const easeIO = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 const PAGE_TONE = { edtech: 'ice', gamification: 'lilac' };
-const PAGE_NAME = { home: 'Latch Infinity', about: 'About', work: 'Work', 'work-kaynes': 'Kaynes Technology', 'work-oli': 'Oli', 'work-cube': 'Cube', 'work-dharmaram': 'Dharmaram', 'work-milntown': 'Miln Town', marketing: 'Marketing', branding: 'Branding', advertising: 'Advertising', 'digital-services': 'Digital Services', 'web-app-development': 'Website &amp; App Development', edtech: 'EdTech', gamification: 'Gamification', blog: 'Blogs', 'blog-post': 'Blogs', contact: 'Let\'s Talk', legal: 'Terms &amp; Privacy' };
+const PAGE_NAME = { home: 'Latch Infinity', about: 'About', work: 'Work', 'work-kaynes': 'Kaynes Technology', 'work-oli': 'Oli', 'work-cube': 'Cube', 'work-dharmaram': 'Dharmaram', 'work-milntown': 'Miln Town', marketing: 'Marketing', branding: 'Branding', advertising: 'Advertising', 'digital-services': 'Digital Services', 'web-app-development': 'Website &amp; App Development', edtech: 'EdTech', gamification: 'Gamification', blog: 'Blogs', 'blog-post': 'Blogs', contact: 'Let\'s Talk', start: 'Plans &amp; Pricing', legal: 'Terms &amp; Privacy' };
 const wipe = document.getElementById('wipe'), bars = [...wipe.querySelectorAll('i')], wipeMark = document.getElementById('wipe-mark');
 const EASE_IO = 'cubic-bezier(.76,0,.24,1)';
 const SKEW = x => `translateX(${x}) skewX(-33deg)`;
