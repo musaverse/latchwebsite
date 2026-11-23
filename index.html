@@ -1275,6 +1275,39 @@ fieldset.field { border: 0; margin: 0; padding: 0; }
 .gm .pic figcaption { left: 16px; bottom: 16px; border-radius: 0; font-stretch: 75%; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; font-size: 11.5px; background: rgba(31, 28, 37, .72); color: var(--g-l); }
 @media (max-width: 800px) { .gm .reel { grid-template-columns: minmax(0, 1fr); } .gm .reel .pic:first-child { aspect-ratio: 4 / 3 !important; } }
 
+/* Mockup frames */
+.mk { display: grid; place-items: center; background: var(--bg); }
+.mk img { transition: none; }
+.pic.mk:hover img { transform: none; }
+.lap { width: 80%; transition: transform .8s var(--ease); }
+.pic.mk:hover .lap, .pic.mk:hover .win, .pic.mk:hover .paper { transform: translateY(-4px); }
+.lap-scr { aspect-ratio: 16 / 10; background: #121412; border-radius: 12px 12px 0 0; padding: 2.4% 2.4% 3%; box-shadow: 0 0 0 1px #3a3d39; }
+.lap-scr img { width: 100%; height: 100%; object-fit: cover; border-radius: 2px; display: block; }
+.lap-base { height: 11px; width: 118%; margin-left: -9%; border-radius: 0 0 16px 16px; background: linear-gradient(#e4e6e0, #a7aaa3); position: relative; box-shadow: 0 18px 26px -16px rgba(0,0,0,.45); }
+.lap-base::before { content: ""; position: absolute; left: 42%; right: 42%; top: 0; height: 4px; border-radius: 0 0 6px 6px; background: #bfc2bb; }
+.win { width: 84%; border-radius: 10px; overflow: hidden; background: #121412; box-shadow: 0 24px 40px -20px rgba(0,0,0,.5), 0 0 0 1px rgba(0,0,0,.12); transition: transform .8s var(--ease); }
+.win-bar { display: flex; align-items: center; gap: 6px; height: 24px; padding: 0 10px; background: #f4f5f1; }
+.win-bar i { width: 8px; height: 8px; border-radius: 50%; background: #d4d7cd; }
+.win-bar i:first-child { background: #f1a29a; } .win-bar i:nth-child(2) { background: #f2d38a; } .win-bar i:nth-child(3) { background: #9fd8a5; }
+.win-bar span { flex: 1; height: 10px; margin: 0 18%; border-radius: 6px; background: #e2e4dc; }
+.win img { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
+.paper { width: 76%; transform: rotate(-2deg); box-shadow: 0 2px 3px rgba(0,0,0,.08), 0 26px 40px -18px rgba(0,0,0,.42); transition: transform .8s var(--ease); background: #fff; }
+.pic.mk:hover .paper { transform: rotate(-2deg) translateY(-4px); }
+.paper img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.posts-mk { display: flex; gap: 5%; justify-content: center; width: 100%; padding: 0 6%; }
+.ig { width: 38%; max-width: 230px; background: #fff; border-radius: 10px; padding: 0 0 6px; box-shadow: 0 22px 34px -18px rgba(0,0,0,.45); transform: rotate(-3deg); transition: transform .8s var(--ease); }
+.ig:nth-child(2) { transform: rotate(3deg) translateY(6%); }
+.pic.mk:hover .ig { transform: none; }
+.ig-h { display: flex; align-items: center; gap: 6px; padding: 7px 8px; }
+.ig-h b { width: 14px; height: 14px; border-radius: 50%; background: #e2463a; flex: none; }
+.ig-h span { height: 5px; width: 40%; border-radius: 3px; background: #2b2b2b; }
+.ig-h em { margin-left: auto; width: 3px; height: 9px; border-left: 3px dotted #777; }
+.ig img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; }
+.ig-f { display: flex; gap: 6px; padding: 7px 8px 2px; align-items: center; }
+.ig-f i { width: 10px; height: 10px; border: 1.6px solid #333; border-radius: 3px; }
+.ig-f i:first-child { border-radius: 50% 50% 40% 40%; }
+.ig-f u { margin-left: auto; width: 8px; height: 10px; border: 1.6px solid #333; border-bottom-width: 3px; text-decoration: none; }
+
 /* Client marquee */
 .mq-wrap { display: grid; gap: 12px; -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); }
 .mq { overflow: hidden; }
@@ -2874,20 +2907,36 @@ const icTile = (name, tone = 'mint') => `<span class="ic-tile" style="--tile:${T
 
 /* ---------- Image placeholder ---------- */
 /* A picture in a fixed frame; the caption names the project it comes from */
-const pic = (src, ratio, alt, cap = '', pos = '50% 50%') => `<figure class="pic" style="aspect-ratio:${ratio}"><img src="${src}" alt="${alt}" loading="lazy" decoding="async" style="object-position:${pos}">${cap ? `<figcaption>${cap}</figcaption>` : ''}</figure>`;
+const pic = (src, ratio, alt, cap = '', pos = '50% 50%') => `<figure class="pic" style="aspect-ratio:${ratio}"><img src="${src}" alt="${alt}" loading="lazy" decoding="async" style="object-position:${pos}"></figure>`;
+/* Mockups: flat screens and graphics are shown in a device, on paper or as posts */
+const img_ = (src, alt, pos = '50% 50%') => `<img src="${src}" alt="${alt}" loading="lazy" decoding="async" style="object-position:${pos}">`;
+function mock(sl, ratio) {
+  const [kind, o] = sl, bg = o.bg || '#e9ebe4';
+  if (kind === 'photo') return pic(o.src, ratio, o.alt, '', o.pos);
+  const wrap = inner => `<figure class="pic mk mk-${kind}" style="aspect-ratio:${ratio};--bg:${bg}">${inner}</figure>`;
+  if (kind === 'laptop') return wrap(`<div class="lap"><div class="lap-scr">${img_(o.src, o.alt, '0% 0%')}</div><div class="lap-base"></div></div>`);
+  if (kind === 'browser') return wrap(`<div class="win"><div class="win-bar"><i></i><i></i><i></i><span></span></div>${img_(o.src, o.alt, '0% 0%')}</div>`);
+  if (kind === 'print') return wrap(`<div class="paper" style="aspect-ratio:${o.ar || '16 / 9'}">${img_(o.src, o.alt)}</div>`);
+  if (kind === 'posts') return wrap(`<div class="posts-mk">${o.srcs.map(src => `<div class="ig"><div class="ig-h"><b></b><span></span><em></em></div>${img_(src, o.alt)}<div class="ig-f"><i></i><i></i><i></i><u></u></div></div>`).join('')}</div>`);
+  return '';
+}
 const MK_IMG = {
-  branding: { hero: ['img/kaynes/page-09.webp', 'Kaynes Technology brand identity: Touching Lives with Electronics', 'Kaynes Technology'],
-    goal: ['img/kaynes/page-02.webp', 'Kaynes Technology tagline page from the brand book', 'Kaynes Technology'],
-    proj: [['img/kaynes/page-05.webp', 'Kaynes Technology brand typography', 'Kaynes · Typography', '0% 50%'], ['img/kaynes/page-04.webp', 'Kaynes Technology colour palette', 'Kaynes · Colour']] },
-  advertising: { hero: ['img/marketing/wado-billboard.webp', 'WADO outdoor screen campaign: Waste the Oceans', 'WADO', '50% 62%'],
-    goal: ['img/oli/stage.webp', 'Oli brand on a stage screen', 'Oli'],
-    proj: [['img/marketing/androneo-social.webp', 'AndroNeo social media ads', 'AndroNeo · Social ads'], ['img/marketing/manipal-social.webp', 'Manipal GlobalNxt social media ads', 'Manipal GlobalNxt · Social ads']] },
-  'digital-services': { hero: ['img/cube/s00.webp', 'Cube app screen: Let’s Discover Your Audience', 'Cube', '0% 50%'],
-    goal: ['img/milntown/07533.webp', 'Miln Town heritage stay photographed at dusk', 'Miln Town · Photography'],
-    proj: [['img/oli/blog-creative.webp', 'Oli content series: Creative Processes', 'Oli · Content'], ['img/oli/blog-genres.webp', 'Oli content series: Genres & Trends', 'Oli · Content']] },
-  'web-app-development': { hero: ['img/oli/app.webp', 'Oli mobile app in hand', 'Oli app'],
-    goal: ['img/cube/s52.webp', 'Cube app screen while the audience model is built', 'Cube'],
-    proj: [['img/cube/s07.webp', 'Cube app: brand archetype screen', 'Cube · Archetypes', '0% 50%'], ['img/cube/s51.webp', 'Cube app: team workspace', 'Cube · Workspace', '0% 50%']] },
+  branding: {
+    hero: ['photo', { src: 'img/oli/mic.webp', alt: 'Oli brand on a branded microphone' }],
+    goal: ['print', { src: 'img/kaynes/page-03.webp', alt: 'Kaynes Technology logo page from the brand book', bg: '#efe6dc' }],
+    proj: [['print', { src: 'img/milntown/pg17.webp', alt: 'Miln Town logo card', bg: '#dfe3d6', ar: '2 / 1' }], ['posts', { srcs: ['img/oli/blog-society.webp', 'img/oli/blog-lifestyle.webp'], alt: 'Oli branded social posts', bg: '#2b2f2a' }]] },
+  advertising: {
+    hero: ['photo', { src: 'img/marketing/wado-billboard.webp', alt: 'WADO outdoor screen campaign: Waste the Oceans', pos: '50% 62%' }],
+    goal: ['photo', { src: 'img/oli/stage.webp', alt: 'Oli brand on a stage screen' }],
+    proj: [['photo', { src: 'img/marketing/androneo-social.webp', alt: 'AndroNeo social media ads' }], ['photo', { src: 'img/marketing/manipal-social.webp', alt: 'Manipal GlobalNxt social media ads' }]] },
+  'digital-services': {
+    hero: ['photo', { src: 'img/marketing/manipal-social.webp', alt: 'Manipal GlobalNxt social media posts' }],
+    goal: ['photo', { src: 'img/marketing/androneo-social.webp', alt: 'AndroNeo social media posts' }],
+    proj: [['posts', { srcs: ['img/oli/blog-creative.webp', 'img/oli/blog-genres.webp'], alt: 'Oli content series as social posts', bg: '#e7e1f7' }], ['posts', { srcs: ['img/oli/blog-business.webp', 'img/oli/blog-lifestyle.webp'], alt: 'Oli content series as social posts', bg: '#f3e3df' }]] },
+  'web-app-development': {
+    hero: ['photo', { src: 'img/oli/app.webp', alt: 'Oli mobile app in hand' }],
+    goal: ['laptop', { src: 'img/cube/s52.webp', alt: 'Cube app on a laptop while the audience model is built', bg: '#dcecf6' }],
+    proj: [['laptop', { src: 'img/cube/s07.webp', alt: 'Cube app brand archetype screen on a laptop', bg: '#e7e1f7' }], ['browser', { src: 'img/cube/s51.webp', alt: 'Cube team workspace in a browser window', bg: '#dff7e2' }]] },
 };
 const ph = (ratio = '4 / 3', note = '') => `<figure class="ph" style="aspect-ratio:${ratio}"><div class="ph-in">${ic('image')}<span>Image placeholder</span>${note ? `<small>${note}</small>` : ''}</div></figure>`;
 
@@ -4532,7 +4581,7 @@ const PROC_IC = { branding: ['search', 'users', 'refresh'], advertising: ['targe
 const detailPage = key => {
   const d = DETAIL[key];
   return `
-  ${pageHero({ tone: 'mint', crumbs: [['#home', 'Home'], ['#marketing', 'Marketing'], ['', d.crumb]], eyebrow: 'Marketing', h: d.title, lede: d.intro, side: pic(MK_IMG[key].hero[0], '4 / 3', MK_IMG[key].hero[1], MK_IMG[key].hero[2], MK_IMG[key].hero[3]) })}
+  ${pageHero({ tone: 'mint', crumbs: [['#home', 'Home'], ['#marketing', 'Marketing'], ['', d.crumb]], eyebrow: 'Marketing', h: d.title, lede: d.intro, side: mock(MK_IMG[key].hero, '4 / 3') })}
   <section class="sec">
     <div class="wrap aside-layout">
       <div style="display:grid;gap:clamp(56px,7vw,96px);min-width:0">
@@ -4540,12 +4589,12 @@ const detailPage = key => {
           <div class="sec-head" style="margin-bottom:28px"><h2 style="font-size:var(--t-2)">Services We Offer</h2></div>
           <div class="offer">${d.offer.map(([t, p], i) => `<div class="icard">${icTile(OFFER_IC[key][i])}<h3>${t}</h3><p>${p}</p></div>`).join('')}</div>
         </div>
-        <div class="goal2"><div class="goal">${intro('Our Goal')}<p>${d.goal}</p></div>${pic(MK_IMG[key].goal[0], '4 / 3', MK_IMG[key].goal[1], MK_IMG[key].goal[2])}</div>
+        <div class="goal2"><div class="goal">${intro('Our Goal')}<p>${d.goal}</p></div>${mock(MK_IMG[key].goal, '4 / 3')}</div>
         <div>
           <div class="sec-head" style="margin-bottom:28px"><h2 style="font-size:var(--t-2)">Work Process</h2></div>
           <ol class="proc">${d.process.map((p, i) => `<li>${icTile(PROC_IC[key][i])}<b>${String(i + 1).padStart(2, '0')}</b><p>${p}</p></li>`).join('')}</ol>
         </div>
-        <div class="grid g2">${MK_IMG[key].proj.map(([src, alt, cap, pos]) => pic(src, '16 / 10', alt, cap, pos)).join('')}</div>
+        <div class="grid g2">${MK_IMG[key].proj.map(sl => mock(sl, '16 / 10')).join('')}</div>
         ${d.faq ? `<div>
           <div class="sec-head" style="margin-bottom:20px"><h2 style="font-size:var(--t-2)">Frequently Asked Questions</h2></div>
           <div class="faq">${d.faq.map(([q, a]) => `<details><summary>${q}<span class="pm">${I.plus}</span></summary><p class="a">${a}</p></details>`).join('')}</div>
