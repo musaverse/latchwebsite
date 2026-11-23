@@ -28,7 +28,7 @@
     const out = [], toc = [];
     let para = [], list = null;
     const flushP = () => { if (para.length) { out.push(`<p>${inline(para.join(' '))}</p>`); para = []; } };
-    const flushL = () => { if (list) { out.push(`<${list.tag}>${list.items.map(i => `<li>${inline(i)}</li>`).join('')}</${list.tag}>`); list = null; } };
+    const flushL = () => { if (list) { out.push(`<${list.tag}${list.start > 1 ? ` start="${list.start}"` : ''}>${list.items.map(i => `<li>${inline(i)}</li>`).join('')}</${list.tag}>`); list = null; } };
     const flush = () => { flushP(); flushL(); };
     for (let i = 0; i < lines.length; i++) {
       const raw = lines[i], l = raw.trim();
@@ -54,7 +54,7 @@
       if ((m = l.match(/^([-*•]|\d+[.)])\s+(.*)$/))) {
         flushP();
         const tag = /\d/.test(m[1]) ? 'ol' : 'ul';
-        if (!list || list.tag !== tag) { flushL(); list = { tag, items: [] }; }
+        if (!list || list.tag !== tag) { flushL(); list = { tag, items: [], start: parseInt(m[1], 10) || 1 }; }
         list.items.push(m[2]); continue;
       }
       if (list && /^\s{2,}/.test(raw)) { list.items[list.items.length - 1] += ' ' + l; continue; }
