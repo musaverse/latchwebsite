@@ -1960,28 +1960,32 @@ fieldset.field { border: 0; margin: 0; padding: 0; }
 .dv-brief li { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 12px; color: rgba(242, 238, 214, .88); }
 .dv-brief li svg { width: 16px; height: 16px; margin-top: 5px; fill: currentColor; }
 
-/* Reading the emblem */
-.dv-read { background: var(--dv-red); color: var(--dv-egg); overflow: hidden; }
-.dv-read .wrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 40px clamp(32px, 6vw, 96px); align-items: center; padding-block: clamp(64px, 9vw, 128px); }
+/* Reading the emblem: the emblem stays pinned while the six symbols scroll past it.
+   Whichever symbol sits in the middle of the screen lights up in the emblem. */
+.dv-read { background: var(--dv-red); color: var(--dv-egg); overflow: clip; }
+.dv-read .wrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-areas: "art head" "art steps"; gap: 0 clamp(32px, 6vw, 96px); padding-block: clamp(64px, 9vw, 128px); }
 .dv-read .label { color: rgba(242, 238, 214, .72); }
 .dv-read h2 { font-size: var(--t-1); max-width: 13ch; }
-.dv-read-art { width: min(100%, 480px); justify-self: center; }
-.dv-read-art path { transition: opacity .6s var(--ease); }
-.dv-read-art svg[data-on] path { opacity: .2; }
+.dv-read-head { grid-area: head; padding-bottom: clamp(24px, 4vh, 48px); }
+.dv-read-art { grid-area: art; position: sticky; top: var(--head-h); align-self: start; height: calc(100vh - var(--head-h)); height: calc(100svh - var(--head-h)); display: grid; place-items: center; align-content: center; gap: 22px; }
+.dv-read-art svg { width: min(100%, 460px, 62vh); }
+.dv-read-art path { transition: opacity .7s var(--ease); }
+.dv-read-art svg[data-on] path { opacity: .18; }
+.dv-read-art svg[data-on] [data-g="ring"] { opacity: .32; }
 .dv-read-art svg[data-on="lotus"] [data-g="lotus"], .dv-read-art svg[data-on="feather"] [data-g="feather"], .dv-read-art svg[data-on="cross"] [data-g="cross"],
-.dv-read-art svg[data-on="star"] [data-g="star"], .dv-read-art svg[data-on="star"] [data-g="waves"], .dv-read-art svg[data-on="star"] [data-g="ring"],
-.dv-read-art svg[data-on="motto"] [data-g="motto"], .dv-read-art svg[data-on="name"] [data-g="name"] { opacity: 1; }
-.dv-parts { list-style: none; margin: 32px 0 0; padding: 0; border-top: 1px solid rgba(242, 238, 214, .25); }
-.dv-parts li { border-bottom: 1px solid rgba(242, 238, 214, .25); }
-.dv-parts button { all: unset; box-sizing: border-box; width: 100%; cursor: pointer; display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 4px 12px; padding: 16px 0; }
-.dv-parts button:focus-visible { outline: 2px solid var(--dv-egg); outline-offset: 4px; border-radius: 4px; }
-.dv-parts .n { font-family: var(--dv-sans); font-size: 13px; opacity: .6; padding-top: 6px; }
-.dv-parts b { font-weight: 400; font-family: var(--dv-serif); font-size: clamp(22px, 2.2vw, 30px); line-height: 1.15; opacity: .62; transition: opacity .4s; }
-.dv-parts p { grid-column: 2; font-family: var(--dv-sans); font-size: 15px; line-height: 1.55; color: rgba(242, 238, 214, .86); display: grid; grid-template-rows: 0fr; transition: grid-template-rows .6s var(--ease); }
-.dv-parts p > span { overflow: hidden; }
-.dv-parts button[aria-pressed="true"] b, .dv-parts button:hover b { opacity: 1; }
-.dv-parts button[aria-pressed="true"] p { grid-template-rows: 1fr; }
-.dv-read .dv-src { color: rgba(242, 238, 214, .6); }
+.dv-read-art svg[data-on="star"] [data-g="star"], .dv-read-art svg[data-on="waves"] [data-g="waves"], .dv-read-art svg[data-on="motto"] [data-g="motto"] { opacity: 1; }
+.dv-read-now { display: flex; align-items: center; gap: 14px; font-size: 13px; color: rgba(242, 238, 214, .72); font-variant-numeric: tabular-nums; }
+.dv-read-now .bar { width: 120px; height: 2px; background: rgba(242, 238, 214, .2); position: relative; overflow: hidden; }
+.dv-read-now .bar i { position: absolute; inset: 0; background: var(--dv-egg); transform-origin: 0 50%; transform: scaleX(var(--p, 0)); transition: transform .5s var(--ease); }
+.dv-steps { grid-area: steps; list-style: none; margin: 0; padding: 0 0 22vh; }
+.dv-step { min-height: 52vh; display: grid; align-content: center; border-top: 1px solid rgba(242, 238, 214, .2); opacity: .32; transition: opacity .6s var(--ease); }
+.dv-step.on { opacity: 1; }
+.dv-step button { all: unset; box-sizing: border-box; cursor: pointer; display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 4px 12px; padding: 22px 0 10px; }
+.dv-step button:focus-visible { outline: 2px solid var(--dv-egg); outline-offset: 4px; border-radius: 4px; }
+.dv-step .n { font-family: var(--dv-sans); font-size: 13px; opacity: .7; padding-top: 10px; }
+.dv-step b { font-weight: 400; font-family: var(--dv-serif); font-size: clamp(30px, 3.4vw, 50px); line-height: 1.08; }
+.dv-step p { margin-left: 52px; font-family: var(--dv-sans); font-size: clamp(15px, 1.2vw, 17px); line-height: 1.6; color: rgba(242, 238, 214, .88); max-width: 44ch; padding-bottom: 22px; }
+.dv-read .dv-src { grid-column: 2; color: rgba(242, 238, 214, .6); max-width: 52ch; }
 
 /* Lockup and clear space */
 .dv-lockup { border-radius: var(--r); background: var(--dv-egg); color: var(--dv-red); position: relative; overflow: hidden; transition: background .6s var(--ease), color .6s var(--ease); }
@@ -2063,11 +2067,17 @@ fieldset.field { border: 0; margin: 0; padding: 0; }
   .dv-hero-mark { grid-row: 2; width: min(52%, 220px); justify-self: start; }
   .dv-meta { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 18px; }
   .dv-meta div:nth-child(3) { border-left: 0; padding-left: 0; }
-  .dv-split, .dv-brief, .dv-read .wrap, .dv-fac-note { grid-template-columns: minmax(0, 1fr); }
+  .dv-split, .dv-brief, .dv-fac-note { grid-template-columns: minmax(0, 1fr); }
+  .dv-read .wrap { grid-template-columns: minmax(0, 1fr); grid-template-areas: "head" "art" "steps"; }
+  .dv-read-art { z-index: 1; height: auto; padding: 14px 0 16px; gap: 12px; background: var(--dv-red); margin-inline: calc(var(--gutter, 16px) * -1); box-shadow: 0 1px 0 rgba(242, 238, 214, .2); }
+  .dv-read-art svg { width: auto; height: min(30vh, 260px); }
+  .dv-step { min-height: 46vh; align-content: start; }
+  .dv-step b { font-size: clamp(28px, 8vw, 36px); }
+  .dv-step p { margin-left: 52px; }
+  .dv-read .dv-src { grid-column: 1; }
   .dv-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 28px; }
   .dv-stats > div:nth-child(3) { border-left: 0; padding-left: 0; }
   .dv-houses { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .dv-read-art { width: min(80%, 320px); justify-self: start; }
   .dv-fac-stage { aspect-ratio: 16 / 9; }
   .dv-fac-stage .lk { padding: 6%; }
   .dv-fac-tabs { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin: 18px calc(var(--gutter, 16px) * -1) 0; padding: 0 var(--gutter, 16px); border-top: 0; gap: 18px; }
@@ -2092,6 +2102,7 @@ fieldset.field { border: 0; margin: 0; padding: 0; }
   .dv-draw path { animation: none; fill: currentColor; stroke-width: 0; }
   .dv-in { opacity: 1; transform: none; transition: none; }
   .dv-fac-stage .lk { transition: none; }
+  .dv-read-art path, .dv-step, .dv-read-now .bar i { transition: none; }
 }
 </style>
 
@@ -3278,12 +3289,10 @@ P['work-dharmaram'] = () => `
 
   <section class="dv-read" id="dv-read" aria-labelledby="dv-read-h">
     <div class="wrap">
-      <div class="dv-read-art" id="dv-read-art">${dvEm('', 'The Dharmaram emblem, with the selected symbol highlighted')}</div>
-      <div>
-        ${intro('Reading the emblem')}<h2 id="dv-read-h">Six symbols, one belief.</h2>
-        <ul class="dv-parts" id="dv-parts">${DV_PARTS.map(([g, t, p], i) => `<li><button type="button" data-g="${g}" aria-pressed="${i === 0}"><span class="n">${String(i + 1).padStart(2, '0')}</span><b>${t}</b><p><span>${p}</span></p></button></li>`).join('')}</ul>
-        <p class="dv-src">Symbolism as set out in the Dharmaram brand book. Together, these Indian and Christian symbols express Dharmaram’s mission: an Indian Church rooted in faith, wisdom and cultural harmony.</p>
-      </div>
+      <div class="dv-read-head">${intro('Reading the emblem')}<h2 id="dv-read-h">Six symbols, one belief.</h2></div>
+      <div class="dv-read-art" id="dv-read-art">${dvEm('', 'The Dharmaram emblem, with the symbol being read highlighted')}<p class="dv-read-now" aria-hidden="true"><span id="dv-read-n">01 / 06</span><span class="bar"><i></i></span></p></div>
+      <ol class="dv-steps" id="dv-steps">${DV_PARTS.map(([g, t, p], i) => `<li class="dv-step${i ? '' : ' on'}" data-g="${g}"><button type="button" aria-describedby="dv-step-${i}"><span class="n">${String(i + 1).padStart(2, '0')}</span><b>${t}</b></button><p id="dv-step-${i}">${p}</p></li>`).join('')}</ol>
+      <p class="dv-src">Symbolism as set out in the Dharmaram brand book. Together, these Indian and Christian symbols express Dharmaram’s mission: an Indian Church rooted in faith, wisdom and cultural harmony.</p>
     </div>
   </section>
 
@@ -3348,11 +3357,32 @@ function setupDharmaram(main) {
   const draw = root.querySelector('.dv-draw');
   if (draw && ok) draw.querySelectorAll('path').forEach((p, i) => { p.style.setProperty('--len', Math.ceil(p.getTotalLength())); p.style.setProperty('--k', DV_ORDER.indexOf(p.dataset.g) * 3 + (i % 3)); });
 
-  /* Reading the emblem */
-  const art = root.querySelector('#dv-read-art svg'), parts = [...root.querySelectorAll('#dv-parts button')];
-  const pick = b => { art.dataset.on = b.dataset.g; parts.forEach(x => x.setAttribute('aria-pressed', x === b)); };
-  parts.forEach(b => { b.addEventListener('click', () => pick(b)); if (FINE.matches) b.addEventListener('mouseenter', () => pick(b)); });
-  pick(parts[0]);
+  /* Reading the emblem: scrolling drives it. The step nearest the middle of the reading area
+     lights up its symbol; clicking a step scrolls it there. */
+  const art = root.querySelector('#dv-read-art'), em = art.querySelector('svg'), steps = [...root.querySelectorAll('.dv-step')];
+  const nowN = root.querySelector('#dv-read-n'), bar = art.querySelector('.bar');
+  let on = -1, raf = 0;
+  const line = () => { const top = innerWidth <= 900 ? art.getBoundingClientRect().bottom : 0; return top + (innerHeight - top) * .5; };
+  const set = i => {
+    if (i === on) return; on = i;
+    em.dataset.on = steps[i].dataset.g;
+    steps.forEach((st, j) => st.classList.toggle('on', j === i));
+    nowN.textContent = `${String(i + 1).padStart(2, '0')} / ${String(steps.length).padStart(2, '0')}`;
+    bar.style.setProperty('--p', (i + 1) / steps.length);
+  };
+  const read = () => {
+    raf = 0; if (!root.isConnected) { removeEventListener('scroll', onScroll); removeEventListener('resize', onScroll); return; }
+    const y = line(); let k = 0;
+    steps.forEach((st, j) => { if (st.getBoundingClientRect().top <= y) k = j; });
+    set(k);
+  };
+  const onScroll = () => { if (!raf) raf = requestAnimationFrame(read); };
+  addEventListener('scroll', onScroll, { passive: true }); addEventListener('resize', onScroll);
+  steps.forEach((st, j) => st.querySelector('button').addEventListener('click', () => {
+    const r = st.getBoundingClientRect();
+    scrollTo({ top: scrollY + r.top - line() + 24, behavior: ok ? 'smooth' : 'auto' }); set(j);
+  }));
+  set(0); read();
 
   /* Lockup: background and clear space */
   const lk = root.querySelector('#dv-lockup');
