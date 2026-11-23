@@ -2467,11 +2467,10 @@ body.lp .lp-head { display: flex; }
 .lp-explore { display: grid; gap: 16px; grid-template-columns: repeat(4, minmax(0, 1fr)); }
 .lp-ex { position: relative; display: flex; flex-direction: column; border-radius: var(--r); overflow: hidden; background: var(--tone-deep); color: var(--deep-ink); min-height: 420px; text-align: left; border: 0; padding: 0; cursor: pointer; isolation: isolate; }
 .lp-ex:nth-child(1), .lp-ex:nth-child(6), .lp-ex:nth-child(7), .lp-ex:nth-child(8) { grid-column: span 2; }
-.lp-ex .m { position: absolute; inset: 0 0 auto; height: 58%; z-index: -1; }
+.lp-ex .m { position: absolute; inset: 0 0 auto; height: 52%; z-index: -1; }
 .lp-ex .m img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease); }
-.lp-ex .m svg { position: absolute; left: 50%; top: 8%; transform: translateX(-50%); width: min(84%, 380px); height: auto; }
+.lp-ex .m svg { position: absolute; left: 50%; top: 10%; transform: translateX(-50%); height: 84%; width: auto; max-width: 88%; }
 .lp-call .n { margin-left: -10px; }
-.lp-ex .m::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10, 12, 10, 0) 55%, var(--tone-deep) 100%); }
 .lp-ex:hover .m img, .lp-ex:focus-visible .m img { transform: scale(1.05); }
 .lp-ex .b { margin-top: auto; padding: 22px 22px 20px; display: grid; gap: 8px; }
 .lp-ex .k { display: inline-flex; align-items: center; gap: 8px; font-stretch: 75%; letter-spacing: .1em; text-transform: uppercase; font-size: 12px; color: var(--tone); }
@@ -2557,7 +2556,8 @@ body.lp .lp-head { display: flex; }
 /* Summary */
 .lp-sum { position: sticky; top: calc(var(--head-h) + 20px); background: var(--deep); color: var(--deep-ink); border-radius: calc(var(--r) + 4px); overflow: hidden; }
 .lp-sum-in { padding: 26px 26px 24px; display: grid; gap: 18px; position: relative; z-index: 1; }
-.lp-sum .art { position: absolute; inset: auto 0 0; height: 120px; opacity: .55; pointer-events: none; }
+.lp-sum .art { position: absolute; inset: auto 0 0; height: 84px; opacity: .45; pointer-events: none; }
+.lp-sum-in { padding-bottom: 96px !important; }
 .lp-sum h3 { font-size: 24px; }
 .lp-sum .label { color: var(--deep-ink-2); }
 .lp-tot { display: grid; gap: 14px; }
@@ -2671,6 +2671,26 @@ body.lp .lp-head { display: flex; }
   .lp-sum-in { padding: 22px 20px; }
   .lp-trust b { font-size: 22px; }
 }
+@media (prefers-reduced-motion: no-preference) {
+  .lp-ex.on .v-arc { animation: vDraw 1.2s var(--ease) both; animation-delay: calc(var(--k) * 110ms + 150ms); }
+  .lp-ex.on .v-run { animation: vRun 2.8s cubic-bezier(.45, 0, .2, 1) infinite; animation-delay: calc(var(--k) * 140ms + 1.6s); }
+  .lp-ex.on .v-ping { animation: vPing 2.6s ease-out infinite 1.2s; }
+  .lp-ex.on .v-lock { animation: vLock 1.1s var(--ease) both .25s; }
+  .lp-ex.on .v-echo { animation: vEcho .9s var(--ease) both; animation-delay: calc(var(--k) * 160ms + .9s); }
+  .lp-ex.on .v-q { animation: vQ 1s var(--ease) both, vQGlow 4.8s ease-in-out infinite; animation-delay: calc(var(--k) * 110ms + 150ms), calc(var(--k) * 1.2s + 1.6s); }
+  .lp-ex.on .v-frame { animation: vDraw 1.2s var(--ease) both; animation-delay: calc(var(--k) * 120ms + 150ms); }
+  .lp-ex.on .v-fill { animation: vFill 2.8s ease-in-out infinite 1.4s; }
+  .lp-ex.on .v-beam { animation: vDraw 1.1s var(--ease) both .5s; }
+  .lp-ex.on .v-wake { animation: vWake 3s ease-in-out infinite; animation-delay: calc(var(--k) * 180ms + 1.3s); }
+  .lp-ex.on .v-orb.a { animation: vSpin 12s linear infinite; }
+  .lp-ex.on .v-orb.b { animation: vSpin 20s linear infinite reverse; }
+  .lp-ex.on .v-head { animation: vHead 4s var(--ease) infinite 1.4s; }
+  .lp-ex.on .v-prog { animation: vProg 4s var(--ease) infinite 1.4s; }
+}
+.svc .v-head { transform-box: view-box; }
+.svc .v-prog { stroke-dasharray: 1 1; stroke-dashoffset: 0; }
+@keyframes vProg { 0% { stroke-dashoffset: 1; } 60%, 100% { stroke-dashoffset: 0; } }
+@keyframes vHead { 0% { transform: translateX(-144px); } 60%, 100% { transform: none; } }
 @media (prefers-reduced-motion: reduce) {
   .lp-card .in { animation: none !important; }
   .lp-svc.open .lp-svc-b, .lp-item.on .lp-ctl, .lp-sum.bump .lp-tot .v { animation: none; }
@@ -3022,6 +3042,24 @@ function svcArt(i, tone) {
     const top = 14, x0 = fx - (fy - top) / TAN57;
     return open + dots.join('') + `<path class="v-beam" d="M${x0 - 120} ${top}H${x0}L${fx} ${fy}" fill="none" stroke="${L}" stroke-width="6" stroke-linejoin="round" pathLength="1"/>` +
       `<circle cx="${fx}" cy="${fy}" r="9" fill="${L}"/><circle class="v-ping" cx="${fx}" cy="${fy}" r="9" fill="none" stroke="${L}" stroke-width="2"/></svg>`;
+  }
+  if (i === 6) { // Social media: a grid of posts; one lights up and its reach travels out at 57°
+    const tiles = [];
+    for (let r = 0; r < 2; r++) for (let c = 0; c < 3; c++) {
+      const x = 84 + c * 64, y = 70 + r * 64, lit = r === 1 && c === 1;
+      tiles.push(lit ? `<rect x="${x}" y="${y}" width="52" height="52" rx="10" fill="${S}"/><rect class="v-lock" x="${x}" y="${y}" width="52" height="52" rx="10" fill="${L}"/>`
+        : `<rect class="v-frame" style="--k:${r * 3 + c}" x="${x}" y="${y}" width="52" height="52" rx="10" fill="none" stroke="${c === 2 && r === 0 ? M : S}" stroke-width="4" pathLength="1"/>`);
+    }
+    const kx = 214 + (160 - 70) / TAN57;
+    return open + tiles.join('') + `<path class="v-beam" d="M174 160H214L${f2(kx)} 70H324" fill="none" stroke="${L}" stroke-width="6" stroke-linejoin="round" pathLength="1"/>` +
+      `<circle cx="324" cy="70" r="9" fill="${L}"/><circle class="v-ping" cx="324" cy="70" r="9" fill="none" stroke="${L}" stroke-width="2"/></svg>`;
+  }
+  if (i === 7) { // Film & photography: a frame, a play mark, and a timeline whose playhead runs
+    return open + `<rect class="v-frame" style="--k:0" x="92" y="34" width="216" height="128" rx="12" fill="none" stroke="${M}" stroke-width="5" pathLength="1"/>` +
+      `<path d="M92 66H308" stroke="${F}" stroke-width="2"/><path d="M128 34l-20 32M176 34l-20 32M224 34l-20 32M272 34l-20 32" stroke="${S}" stroke-width="4"/>` +
+      `<path class="v-fill" d="M186 92v48l40-24z" fill="${L}" stroke="${L}" stroke-width="4" stroke-linejoin="round"/>` +
+      `<path d="M92 204H308" stroke="${F}" stroke-width="6" stroke-linecap="round"/><path class="v-prog" d="M92 204H236" stroke="${L}" stroke-width="6" stroke-linecap="round" pathLength="1"/>` +
+      `<circle class="v-head" cx="236" cy="204" r="10" fill="${L}"/></svg>`;
   }
   // Gamified experience: players orbit one centre, in step
   const cx = 200, cy = 125, orbit = (r, n, c, phase) => Array.from({ length: n }, (_, k) => { const a = phase + k * 2 * Math.PI / n; return `<circle cx="${f2(cx + r * Math.cos(a))}" cy="${f2(cy + r * Math.sin(a))}" r="${r > 60 ? 8 : 10}" fill="${c}"/>`; }).join('');
@@ -4753,30 +4791,30 @@ const LP_TERMS = [[3, 0, '3 months'], [6, 0.05, '6 months · 5% off'], [12, 0.1,
 const LP_SPEND = [25000, 50000, 100000, 200000, 300000, 500000, 1000000];
 const LP_PLATFORMS = ['Google', 'Meta', 'LinkedIn', 'YouTube', 'Programmatic'];
 const LP_SVC = [
-  { id: 'brand', t: 'Branding', tone: 'mint', img: 'img/kaynes/page-01.webp', icon: 'pen', p: 'An identity people remember: strategy, a logo that means something and a brand book that keeps every channel consistent.', items: [
+  { id: 'brand', t: 'Branding', tone: 'mint', art: 1, icon: 'pen', p: 'An identity people remember: strategy, a logo that means something and a brand book that keeps every channel consistent.', items: [
     { id: 'logo', t: 'Logo & visual identity', d: 'Logo, colour, type and core stationery.', kind: 'once', opts: [['Essential', 40000, 60000, 'Logo + colours + type'], ['Complete', 75000, 120000, 'Full identity system']] },
     { id: 'book', t: 'Brand guidelines book', d: 'A lookbook your team and vendors can follow.', kind: 'once', opts: [['Brand book', 50000, 90000]] },
     { id: 'strat', t: 'Strategy & positioning', d: 'Workshop, audience, voice and key messages.', kind: 'once', opts: [['Workshop', 60000, 100000]] },
   ] },
-  { id: 'social', t: 'Social media & content', tone: 'mint', img: 'img/oli/mic.webp', icon: 'megaphone', p: 'Always-on content that looks like you: planned, designed, posted and reported every month.', items: [
+  { id: 'social', t: 'Social media & content', tone: 'mint', art: 6, icon: 'megaphone', p: 'Always-on content that looks like you: planned, designed, posted and reported every month.', items: [
     { id: 'smm', t: 'Social media management', d: 'Calendar, design, posting, replies and a monthly report.', kind: 'month', opts: [['Starter', 25000, 35000, '2 platforms · 12 posts'], ['Growth', 45000, 60000, '3 platforms · 16 posts + 4 reels'], ['Scale', 80000, 110000, '4 platforms · 24 posts + 8 reels']] },
     { id: 'blog', t: 'Articles & blogs', d: 'Search-led long-form writing for your site.', kind: 'month', opts: [['4 a month', 16000, 24000], ['8 a month', 30000, 44000]] },
     { id: 'reels', t: 'Reels production day', d: 'Six short videos, shot and edited in one day.', kind: 'once', opts: [['6 reels', 45000, 80000]] },
   ] },
-  { id: 'ads', t: 'Performance ads', tone: 'mint', img: 'img/oli/app.webp', icon: 'target', p: 'Google, Meta, LinkedIn and programmatic campaigns built for leads and sales, tuned every week.', items: [
+  { id: 'ads', t: 'Performance ads', tone: 'mint', art: 4, icon: 'target', p: 'Google, Meta, LinkedIn and programmatic campaigns built for leads and sales, tuned every week.', items: [
     { id: 'ads', t: 'Ads management', d: 'Set-up, targeting, daily optimisation and weekly reports.', kind: 'month', ads: true },
     { id: 'creat', t: 'Ad creative pack', d: '12 static and 4 motion ads for launch.', kind: 'once', opts: [['Launch pack', 25000, 45000]] },
   ] },
-  { id: 'seo', t: 'SEO', tone: 'mint', img: 'img/blog/seo-ai-answers.webp', icon: 'search', p: 'Be found on Google and in AI answers: technical fixes, content and links, reported every month.', items: [
+  { id: 'seo', t: 'SEO', tone: 'mint', art: 0, icon: 'search', p: 'Be found on Google and in AI answers: technical fixes, content and links, reported every month.', items: [
     { id: 'seo', t: 'Search engine optimisation', d: 'On-page, technical and off-page SEO with ranking reports.', kind: 'month', opts: [['Local', 18000, 25000, 'Up to 10 keywords'], ['Growth', 30000, 45000, 'Up to 25 keywords'], ['Scale', 55000, 80000, '50+ keywords · links']] },
     { id: 'audit', t: 'SEO & site audit', d: 'A prioritised fix list for speed, structure and content.', kind: 'once', opts: [['Audit', 15000, 25000]] },
   ] },
-  { id: 'web', t: 'Website & app', tone: 'mint', img: 'img/cube/s00.webp', icon: 'code', p: 'Fast, good-looking websites and apps that turn visits into enquiries, from a landing page to a product.', items: [
+  { id: 'web', t: 'Website & app', tone: 'mint', art: 3, icon: 'code', p: 'Fast, good-looking websites and apps that turn visits into enquiries, from a landing page to a product.', items: [
     { id: 'site', t: 'Website', d: 'Designed and built to load fast and convert.', kind: 'once', opts: [['Landing page', 35000, 60000, 'One page'], ['Business site', 120000, 250000, 'Up to 10 pages · CMS'], ['E-commerce', 250000, 500000, 'Catalogue · payments']] },
     { id: 'app', t: 'Web or mobile app', d: 'Product design and build, starting with an MVP.', kind: 'once', opts: [['MVP', 600000, 1500000]] },
     { id: 'care', t: 'Care & hosting', d: 'Updates, backups, security and speed checks.', kind: 'month', opts: [['Care plan', 8000, 15000]] },
   ] },
-  { id: 'film', t: 'Film & photography', tone: 'mint', img: 'video/kaynes-brand-film-poster.webp', icon: 'play', p: 'Brand films, ad films and photoshoots, from script and direction to the final cut.', items: [
+  { id: 'film', t: 'Film & photography', tone: 'mint', art: 7, icon: 'play', p: 'Brand films, ad films and photoshoots, from script and direction to the final cut.', items: [
     { id: 'shoot', t: 'Photoshoot', d: 'Direction, crew and edited photographs.', kind: 'once', qty: ['shoot day', 'shoot days', 1, 5], opts: [['Per day', 60000, 120000]] },
     { id: 'bfilm', t: 'Brand or ad film', d: 'Script to final cut, 30 to 60 seconds.', kind: 'once', opts: [['Film', 150000, 400000]] },
   ] },
@@ -5125,6 +5163,8 @@ function setupStart(main) {
     out.innerHTML = `<b>Prototype: nothing was sent.</b><span>The form checked out with ${lpTotals().lines.length || 'no'} planned service${lpTotals().lines.length === 1 ? '' : 's'}. On the live site this goes to the team, who reply by ${payload.via.toLowerCase()}.</span>`;
   });
 
+  const exIO = 'IntersectionObserver' in window ? new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); exIO.unobserve(e.target); } }), { threshold: 0.35 }) : null;
+  main.querySelectorAll('.lp-ex').forEach(el => exIO ? exIO.observe(el) : el.classList.add('on'));
   if (!svcs.some(el => el.dataset.svc === lp.open)) lp.open = '';
   update(false); tick();
 }
