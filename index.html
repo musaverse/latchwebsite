@@ -2338,6 +2338,9 @@ fieldset.field { border: 0; margin: 0; padding: 0; }
   .mt-meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (prefers-reduced-motion: reduce) { .mt-cue i { animation: none; } .mt-cap .t.swap { animation: none; } }
+/* Temporary footer link to the ads landing page; remove once ads link to it directly */
+.foot-lp { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border: 1px solid var(--deep-line); border-radius: 999px; color: var(--deep-ink); }
+.foot-lp:hover { background: var(--mint); color: #1d221c; border-color: var(--mint); }
 /* ================= Ads landing (#start): explore, build a plan, see the price, talk =================
    Kept out of the main navigation; the footer links to it and ads point straight at it. */
 body.lp .nav, body.lp .head .btn-talk { display: none; }
@@ -2639,7 +2642,7 @@ body.lp .lp-head { display: flex; }
       <details class="fcol" open><summary>Get In Touch</summary><address>LATCH INFINITY PRIVATE LIMITED, Commercial Building, Unit 2, B Block, 4th Floor, Uma Shree Dream World, Hosur Rd, Behind Race Institute, Kudlu Gate, Bengaluru, Karnataka 560068</address><div class="copyline"><code>info@latchinfinity.com</code><button class="chip-btn" type="button" data-copy="info@latchinfinity.com">Copy</button></div></details>
       <details class="fcol" open><summary>Follow</summary><ul><li><a href="https://www.instagram.com/latchinfinity/" target="_blank" rel="noopener">Instagram</a></li><li><a href="https://www.linkedin.com/company/latchinfinity/" target="_blank" rel="noopener">LinkedIn</a></li><li><a href="https://www.behance.net/latchinfinity" target="_blank" rel="noopener">Behance</a></li></ul></details>
     </div>
-    <div class="foot-bottom"><span>©2026. All Rights Reserved by Latch Infinity.</span><nav aria-label="Legal"><a href="#legal">Terms &amp; Conditions</a><a href="#legal">Privacy Policy</a></nav></div>
+    <div class="foot-bottom"><span>©2026. All Rights Reserved by Latch Infinity.</span><a class="foot-lp" href="#start"><span class="dot"></span>Preview: ads landing page →</a><nav aria-label="Legal"><a href="#legal">Terms &amp; Conditions</a><a href="#legal">Privacy Policy</a></nav></div>
   </div>
 </footer>
 
