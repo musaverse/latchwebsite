@@ -1802,7 +1802,6 @@ fieldset.field { border: 0; margin: 0; padding: 0; }
 .cb-filmwrap { position: relative; }
 .cb-filmwrap::after { content: ""; position: absolute; left: 6%; right: 6%; bottom: -12%; height: 24%; z-index: 0; border-radius: 50%; background: radial-gradient(closest-side, rgba(90, 100, 255, .38), rgba(120, 80, 220, .14) 60%, transparent); pointer-events: none; }
 .cb .ol-scr.wide { box-shadow: 0 0 0 1px rgba(150, 160, 255, .22), 0 50px 140px -50px rgba(68, 88, 255, .7); }
-.cb .ol-scr.tall { box-shadow: 0 0 0 8px #0b0d16, 0 0 0 9px rgba(150, 160, 255, .26), 0 60px 120px -40px rgba(68, 88, 255, .6); }
 .cb .ol-big i { background: rgba(10, 12, 40, .45); }
 .cb .ol-big:hover i { background: rgba(46, 75, 255, .7); }
 .cb .ol-hint { background: rgba(8, 10, 30, .55); }
@@ -1847,28 +1846,6 @@ fieldset.field { border: 0; margin: 0; padding: 0; }
 .cb-meter { height: 2px; background: rgba(255,255,255,.1); border-radius: 2px; margin-top: 24px; overflow: hidden; }
 .cb-meter i { display: block; height: 100%; width: calc(var(--p, 0) * 100%); background: linear-gradient(90deg, #4458FF, #9B7BFF); }
 
-/* Set-up: a staircase */
-.cb-stairs { position: relative; aspect-ratio: 16 / 8; transform-style: preserve-3d; margin-top: 8px; }
-.cb-stairs .cb-fr { position: absolute; width: 44%; --ry: -22deg; --rx: 6deg; opacity: var(--o, 1); }
-.cb-stairs figure { margin: 0; }
-.cb-stairs .k { position: absolute; font-size: 13px; color: rgba(226, 228, 245, .6); white-space: nowrap; }
-.cb-stairs .k b { color: #fff; font-weight: 500; display: block; font-size: 15px; }
-.cb-spaces { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); gap: clamp(32px, 5vw, 80px); align-items: center; margin-top: clamp(72px, 9vw, 128px); }
-.cb-explode { position: relative; aspect-ratio: 16 / 12; transform-style: preserve-3d; }
-.cb-explode .cb-fr { position: absolute; left: 10%; top: 14%; width: 76%; --rx: 52deg; --rz: -32deg; transition: none; }
-.cb-notes { display: grid; gap: 24px; }
-.cb-notes li { list-style: none; padding-left: 20px; border-left: 2px solid rgba(120, 135, 255, .45); }
-.cb-notes b { display: block; font-weight: 500; font-size: 18px; margin-bottom: 4px; }
-.cb-notes p { color: var(--c-txt); font-size: 15px; line-height: 1.55; }
-
-/* The form: a track that slides sideways as you scroll */
-.cb-form { height: 300vh; position: relative; }
-.cb-form .pin { position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
-.cb-track { display: flex; gap: clamp(24px, 3vw, 48px); padding: 0 var(--gutter, 24px); width: max-content; transform: translate3d(var(--x, 0px), 0, 0); will-change: transform; margin-top: var(--c-gap); }
-.cb-track figure { margin: 0; width: clamp(280px, 34vw, 520px); flex: none; }
-.cb-track .cb-fr { --ry: var(--tr, 0deg); transition: none; }
-.cb-track figcaption { margin-top: 16px; font-size: 14px; color: rgba(226, 228, 245, .6); display: flex; gap: 10px; }
-.cb-track figcaption b { color: #fff; font-weight: 500; }
 
 /* Cube AI */
 .cb-ai { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); gap: clamp(32px, 5vw, 80px); align-items: center; }
@@ -1881,8 +1858,6 @@ fieldset.field { border: 0; margin: 0; padding: 0; }
 .cb-flow li::before { counter-increment: f; content: counter(f, decimal-leading-zero); color: #8E98FF; font-size: 13px; padding-top: 3px; }
 .cb-flow b { display: block; font-weight: 500; font-size: 17px; }
 .cb-flow p { color: var(--c-txt); font-size: 15px; line-height: 1.5; margin-top: 4px; }
-.cb-reel { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(32px, 6vw, 96px); align-items: center; }
-.cb-phone { width: min(100%, 340px); justify-self: center; }
 
 /* Scroll reveal */
 .cb-in { opacity: 0; transform: translateY(28px); transition: opacity .8s var(--ease), transform .8s var(--ease); transition-delay: calc(var(--k, 0) * 80ms); }
@@ -1898,7 +1873,7 @@ fieldset.field { border: 0; margin: 0; padding: 0; }
 .cb-cover .cb-mark { position: absolute; top: 16px; left: 18px; width: 34px; font-size: 13px; z-index: 1; }
 
 @media (max-width: 900px) {
-  .cb-head, .cb-hero-grid, .cb-about, .cb-pick, .cb-arch-grid, .cb-spaces, .cb-ai, .cb-reel { grid-template-columns: minmax(0, 1fr); }
+  .cb-head, .cb-hero-grid, .cb-about, .cb-pick, .cb-arch-grid, .cb-ai { grid-template-columns: minmax(0, 1fr); }
   .cb-pr { grid-template-columns: minmax(0, 1fr); }
   .cb-stack { margin: 8px 4% 0; }
   .cb-meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -1914,26 +1889,13 @@ fieldset.field { border: 0; margin: 0; padding: 0; }
   .cb-ring::-webkit-scrollbar { display: none; }
   .cb-ring .cb-fr { position: relative; left: auto; top: auto; width: 84%; flex: none; scroll-snap-align: center; transform: none !important; opacity: 1 !important; filter: none !important; }
   .cb-meter { display: none; }
-  .cb-stairs { aspect-ratio: auto; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 12px; }
-  .cb-stairs figure { position: static !important; width: auto !important; }
-  .cb-stairs .cb-fr { position: relative; width: 100%; left: auto !important; top: auto !important; --ry: 0deg; --rx: 0deg; opacity: 1; }
-  .cb-stairs .k { position: static; margin-top: 8px; white-space: normal; }
-  .cb-explode .cb-fr { --rx: 46deg; --rz: -28deg; }
-  .cb-form { height: auto; }
-  .cb-form .pin { position: relative; height: auto; overflow: visible; padding: clamp(72px, 10vw, 140px) 0; }
-  .cb-track { width: auto; transform: none; overflow-x: auto; scroll-snap-type: x mandatory; padding: 8px var(--gutter, 16px) 24px; scrollbar-width: none; }
-  .cb-track::-webkit-scrollbar { display: none; }
-  .cb-track figure { width: 80%; scroll-snap-align: center; }
-  .cb-track .cb-fr { --ry: 0deg; }
-  .cb-phone { width: min(64vw, 280px); }
 }
 @media (prefers-reduced-motion: reduce) {
   .cb-in { opacity: 1; transform: none; transition: none; }
   .cb-fr, .cb-stack-wrap { transition: none; }
   .cb-pick .cb-fr.swap { animation: none; }
-  .cb-arch, .cb-form { height: auto; }
-  .cb-arch .pin, .cb-form .pin { position: relative; height: auto; padding: clamp(72px, 10vw, 140px) 0; }
-  .cb-track { width: auto; transform: none; overflow-x: auto; }
+  .cb-arch { height: auto; }
+  .cb-arch .pin { position: relative; height: auto; padding: clamp(72px, 10vw, 140px) 0; }
 }
 </style>
 
@@ -3365,7 +3327,6 @@ const CB_ARCH = [
   ['Ruler', '#E2B93B', 'Sets the pace for its industry and writes the rules others follow. Exclusivity and status.'],
   ['Creator', '#E2B93B', 'The builder: a nonconformist who values self-expression and helps its audience find their own.'],
 ];
-const CB_FORM = [['s34', 'Start', 'Fill a form or attach a brief'], ['s38', 'Gender', 'Tap an avatar'], ['s42', 'Age', 'Drag a range'], ['s43', 'Economic status', 'Pick a house'], ['s44', 'Monthly spend', 'Drag a range'], ['s45', 'Family size', 'Fill the circles'], ['s46', 'Internet use', 'Hours a day'], ['s47', 'Credit card', 'Thumbs up or down'], ['s48', 'Location', 'Rural to metro']];
 const CB_IC = {
   dash: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>',
   game: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 18V6M4 6h9l-1.5 3L13 12H4"/><circle cx="17" cy="17" r="3"/></svg>',
@@ -3382,7 +3343,7 @@ P['work-cube'] = () => `
         <div style="min-width:0">
           <div class="rise-in">${cbMark()}${intro('Case study · Product design')}</div>
           <div class="rise-in d1"><h1 id="cb-h" class="cb-grad"><span>Let’s discover</span><span>your audience.</span></h1></div>
-          <div class="row rise-in d2"><a class="btn btn-solid cb-btn" href="#cb-film">Watch the film${I.arrow}</a><a class="btn btn-ghost cb-ghost" href="#cb-reel">Play the reel</a></div>
+          <div class="row rise-in d2"><a class="btn btn-solid cb-btn" href="#cb-film">Watch the film${I.arrow}</a></div>
         </div>
         <div class="cb-3d rise-in d2" aria-hidden="true"><div class="cb-stack-wrap" id="cb-tilt"><div class="cb-stack">
           ${cbFr('s00', '', '', false)}${cbFr('s10', '', '', false)}${cbFr('s51', '', '', false)}
@@ -3403,10 +3364,10 @@ P['work-cube'] = () => `
   <section class="cb-sec" id="cb-film" aria-labelledby="cb-film-h">
     <div class="wrap">
       <div class="cb-head">
-        <div>${cbStep(1, 'The film')}<h2 id="cb-film-h" class="cb-grad">The whole flow, from every angle.</h2></div>
-        <p class="lede">A 36-second product film made from the real screens. The camera flies the flow: the cubes snap into the mark, twelve archetypes turn on a ring, the form cards stand up as it passes, and it ends inside the cube. Every cut lands on the beat of an original score.</p>
+        <div>${cbStep(1, 'The film')}<h2 id="cb-film-h">Forget you’re <span class="cb-grad">navigating.</span></h2></div>
+        <p class="lede">A good interface shows you where to go. A great one makes you forget you’re navigating. A 26-second film of the product, cut from the real screens: from the first “Let’s discover” to the cube that turns while the data is crunched.</p>
       </div>
-      <div class="cb-filmwrap">${olPlayer('cb-fv', 'wide', 'cube-film', 'cube-film-poster.webp', 'Cube product film, 36 seconds, with music')}</div>
+      <div class="cb-filmwrap">${olPlayer('cb-fv', 'wide', 'cube-film', 'cube-film-poster.webp', 'Cube product film, 26 seconds, with sound')}</div>
     </div>
   </section>
 
@@ -3452,46 +3413,10 @@ P['work-cube'] = () => `
     </div></div>
   </section>
 
-  <section class="cb-sec" aria-labelledby="cb-team-h">
+  <section class="cb-sec alt" aria-labelledby="cb-ai-h">
     <div class="wrap">
       <div class="cb-head">
-        <div>${cbStep(5, 'Team space')}<h2 id="cb-team-h">Set up in <span class="cb-grad">four steps.</span></h2></div>
-        <p class="lede">Personality, archetype, the brand’s name and industry, then the people. Members can be added later from the brand space settings, so nobody is stuck waiting.</p>
-      </div>
-      <div class="cb-3d"><div class="cb-stairs" id="cb-stairs">
-        ${[['s02', '01', 'Personality'], ['s07', '02', 'Archetype'], ['s19', '03', 'Your brand'], ['s27', '04', 'Your team']].map(([id, n, t], i) => `<figure style="position:absolute;left:${i * 18.5}%;top:${54 - i * 17}%;width:44%">${cbFr(id, `Set-up step ${n}: ${t}`, ' style="width:100%;position:relative"')}<figcaption class="k" style="left:0;top:-38px">${n}<b>${t}</b></figcaption></figure>`).join('')}
-      </div></div>
-      <div class="cb-spaces">
-        <div class="cb-3d" aria-hidden="true"><div class="cb-explode" id="cb-explode">${['s22', 's23', 's24', 's25'].map(id => cbFr(id, '')).join('')}</div></div>
-        <div>
-          <ul class="cb-notes">
-            <li class="cb-in"><b>A space for every brand</b><p>Switch spaces from the profile menu. Anyone who starts without one works in a guest space.</p></li>
-            <li class="cb-in" style="--k:1"><b>All spaces at a glance</b><p>A filterable grid of every team space you belong to.</p></li>
-            <li class="cb-in" style="--k:2"><b>People, managed in place</b><p>Search, add, edit and remove members without leaving the space.</p></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="cb-form alt" id="cb-form" aria-labelledby="cb-form-h">
-    <div class="pin">
-      <div class="wrap">
-        <div class="cb-head" style="margin-bottom:0">
-          <div>${cbStep(6, 'The form')}<h2 id="cb-form-h">A brief that <span class="cb-grad">feels like a game.</span></h2></div>
-          <p class="lede">Attach a campaign brief, or answer eight questions one at a time. Each answer is a tap or a drag, never a text box, and the answers land in the chat as a neat table.</p>
-        </div>
-      </div>
-      <div class="cb-track" id="cb-track">
-        ${CB_FORM.map(([id, t, d], i) => `<figure>${cbFr(id, `Form step: ${t}`)}<figcaption><b>${String(i).padStart(2, '0')}</b>${t} · ${d}</figcaption></figure>`).join('')}
-      </div>
-    </div>
-  </section>
-
-  <section class="cb-sec" aria-labelledby="cb-ai-h">
-    <div class="wrap">
-      <div class="cb-head">
-        <div>${cbStep(7, 'Cube AI')}<h2 id="cb-ai-h">The team talks. <span class="cb-grad">Cube AI listens.</span></h2></div>
+        <div>${cbStep(5, 'Cube AI')}<h2 id="cb-ai-h">The team talks. <span class="cb-grad">Cube AI listens.</span></h2></div>
         <p class="lede">Teammates brainstorm in the space and tag each other for files. Cube AI joins the thread, asks for the details it is missing, and when the team is ready one button turns it all into a cohort.</p>
       </div>
       <div class="cb-ai">
@@ -3503,17 +3428,10 @@ P['work-cube'] = () => `
           <li class="cb-in" style="--k:3"><div><b>Cohort out</b><p>A turning cube while the data is fine-tuned into an audience.</p></div></li>
         </ol>
       </div>
+      <div style="margin-top:64px">${arrowBtn('#work', 'Back to all work', 'btn-ghost cb-ghost')}</div>
     </div>
   </section>
 
-  <section class="cb-sec alt" id="cb-reel" aria-labelledby="cb-reel-h">
-    <div class="wrap cb-reel">
-      <div>${cbStep(8, 'The reel')}<h2 id="cb-reel-h" style="font-size:var(--c-h2);line-height:1.1">Made for <span class="cb-grad">the vertical feed.</span></h2>
-        <p class="lede" style="margin-top:24px">An 18-second 9:16 cut of the same story for Reels, Shorts and LinkedIn, on the same score.</p>
-        <div style="margin-top:40px">${arrowBtn('#work', 'Back to all work', 'btn-ghost cb-ghost')}</div></div>
-      <div class="cb-phone">${olPlayer('cb-rv', 'tall', 'cube-reel', 'cube-reel-poster.webp', 'Cube vertical reel, 18 seconds, with music')}</div>
-    </div>
-  </section>
 </div>
   ${ctaBand('mint', 'Got a product to design?', 'Let’s build it together')}`;
 
@@ -3526,7 +3444,6 @@ function setupCube(main) {
 
   olPlayers.length = 0;
   olSetupPlayer(root.querySelector('#cb-fv'), ok);
-  olSetupPlayer(root.querySelector('#cb-rv'), ok);
 
   /* Hero: the stack leans towards the pointer */
   const tilt = root.querySelector('#cb-tilt'), hero = root.querySelector('.cb-hero');
@@ -3552,9 +3469,6 @@ function setupCube(main) {
 
   /* Scroll scenes */
   const arch = root.querySelector('#cb-arch'), ring = [...root.querySelectorAll('#cb-ring .cb-fr')], aList = [...root.querySelectorAll('#cb-arch-list li')], aD = root.querySelector('#cb-arch-d'), aM = root.querySelector('#cb-arch-m');
-  const stairs = root.querySelector('#cb-stairs'), steps = [...stairs.querySelectorAll('.cb-fr')];
-  const ex = root.querySelector('#cb-explode'), layers = [...ex.querySelectorAll('.cb-fr')];
-  const form = root.querySelector('#cb-form'), track = root.querySelector('#cb-track'), cards = [...track.querySelectorAll('figure')];
   let lastA = -1;
   const setArch = a => {
     if (a === lastA) return; lastA = a;
@@ -3566,30 +3480,15 @@ function setupCube(main) {
     const vh = innerHeight, big = wide.matches && ok;
     // Archetypes: a cover-flow that turns with the scroll
     if (big) {
-      const r = arch.getBoundingClientRect(), p = clamp(-r.top / (r.height - vh)), f = p * 11.999;
+      const r = arch.getBoundingClientRect(), p = clamp(-r.top / (r.height - vh)), f = p * 11;
       setArch(Math.round(clamp(f, 0, 11))); aM.parentElement && aM.style.setProperty('--p', p.toFixed(3));
       ring.forEach((el, i) => {
         const d = i - f, a = Math.abs(d);
         el.style.transform = `translateX(${(d * 46).toFixed(2)}%) translateZ(${(-a * 240).toFixed(1)}px) rotateY(${(-clamp(d, -2.5, 2.5) * 30).toFixed(2)}deg)`;
-        el.style.opacity = clamp(d < 0 ? 1 - a * 1.6 : 1.2 - a * .5).toFixed(3); el.style.filter = `brightness(${clamp(1 - a * .45, .25, 1).toFixed(3)})`; el.style.zIndex = 20 - Math.round(a * 2);
+        el.style.opacity = clamp(d < 0 ? 1.8 - a * 1.8 : 1.2 - a * .5).toFixed(3); el.style.filter = `brightness(${clamp(1 - a * .45, .25, 1).toFixed(3)})`; el.style.zIndex = 20 - Math.round(a * 2);
       });
     } else if (lastA < 0) setArch(0);
-    // Staircase: each step rises in turn
-    if (big) {
-      const r = stairs.getBoundingClientRect(), q = clamp((vh * .95 - r.top) / (vh * .75));
-      steps.forEach((el, i) => { const k = easeIO(clamp(q * 1.6 - i * .2)); el.style.opacity = k.toFixed(3); el.style.transform = `rotateX(6deg) rotateY(-22deg) translateY(${((1 - k) * 90).toFixed(1)}px) translateZ(${((1 - k) * -120).toFixed(1)}px)`; });
-    } else steps.forEach(el => { el.style.opacity = ''; el.style.transform = ''; });
-    // Exploded stack: the layers lift apart
-    {
-      const r = ex.getBoundingClientRect(), q = ok ? easeIO(clamp((vh - r.top) / (vh * .9))) : 1, sep = (wide.matches ? 30 : 16) + q * (wide.matches ? 120 : 56);
-      layers.forEach((el, i) => { el.style.transform = `rotateX(var(--rx)) rotateZ(var(--rz)) translateZ(${(i * sep).toFixed(1)}px)`; el.style.filter = `brightness(${(.55 + .15 * i).toFixed(2)})`; });
-    }
-    // The form: the track slides sideways, each card turns to face you as it passes the middle
-    if (big) {
-      const r = form.getBoundingClientRect(), p = clamp(-r.top / (r.height - vh)), span = track.scrollWidth - innerWidth;
-      track.style.setProperty('--x', (-p * Math.max(0, span)).toFixed(1) + 'px');
-      cards.forEach(c => { const b = c.getBoundingClientRect(), d = clamp(((b.left + b.width / 2) / innerWidth - .5) * 2, -1, 1); c.firstElementChild.style.setProperty('--tr', (-d * 28).toFixed(2) + 'deg'); });
-    } else { track.style.removeProperty('--x'); cards.forEach(c => c.firstElementChild.style.removeProperty('--tr')); ring.forEach(el => { el.style.transform = ''; el.style.opacity = ''; el.style.filter = ''; }); }
+    if (!big) ring.forEach(el => { el.style.transform = ''; el.style.opacity = ''; el.style.filter = ''; });
   };
   const onScroll = () => { if (!cbRaf) cbRaf = requestAnimationFrame(tick); };
   addEventListener('scroll', onScroll, { passive: true }); addEventListener('resize', onScroll);
