@@ -2125,27 +2125,33 @@ fieldset.field { border: 0; margin: 0; padding: 0; }
 .mt-vign { position: absolute; inset: 0; z-index: 2; pointer-events: none; background: radial-gradient(120% 90% at 50% 55%, transparent 45%, rgba(10, 11, 8, .72) 100%); }
 .mt-cam { position: absolute; inset: 0; perspective: 2400px; perspective-origin: 50% 50%; }
 .mt-world { position: absolute; left: 50%; top: 50%; width: 0; height: 0; transform-style: preserve-3d; will-change: transform; }
-.mt-world > *, .mt-bk, .mt-bk > *, .mt-leaf, .mt-cup, .mt-cup > * { position: absolute; transform-style: preserve-3d; }
+.mt-world > *, .mt-bk, .mt-bk > *, .mt-leaf { position: absolute; transform-style: preserve-3d; }
 
-/* The round tea table: a teak top with a turned rim, window light falling across it */
+/* The round tea table: a polished teak top on a moulded edge, with an inlaid border, a carved bead
+   at the rim, window light across it and the window's reflection in the varnish */
 .mt-tbl { left: -575px; top: -575px; width: 1150px; height: 1150px; border-radius: 50%; }
 .mt-tbl i { position: absolute; inset: 0; border-radius: 50%; }
-.mt-tbl .rim { background: #22150b; }
+.mt-tbl .rim { box-shadow: inset 0 0 40px rgba(0, 0, 0, .35); }
 .mt-tbl .top {
   background:
-    radial-gradient(60% 55% at 38% 32%, rgba(255, 214, 160, .22), transparent 70%),
-    repeating-radial-gradient(circle at 46% 54%, rgba(0, 0, 0, .07) 0 2px, transparent 2px 11px, rgba(255, 220, 180, .035) 11px 13px, transparent 13px 23px),
-    radial-gradient(circle at 50% 50%, #6a4428 0%, #573620 55%, #3f2716 92%, #2b1a0d 100%);
-  box-shadow: inset 0 0 0 10px rgba(30, 18, 8, .55), inset 0 0 0 12px rgba(255, 220, 170, .12), inset 0 0 120px rgba(0, 0, 0, .45);
+    radial-gradient(70% 60% at 36% 30%, rgba(255, 210, 150, .16), transparent 70%),
+    radial-gradient(circle, transparent 58%, rgba(14, 7, 2, .38) 100%),
+    linear-gradient(rgba(40, 20, 6, .22), rgba(40, 20, 6, .22)),
+    url(img/milntown/teak.webp) center / cover, #4a2d17;
+  box-shadow: inset 0 0 0 2px rgba(255, 214, 160, .2), inset 0 0 0 9px rgba(28, 15, 6, .5), inset 0 0 0 10px rgba(255, 214, 160, .1), inset 0 -30px 60px rgba(0, 0, 0, .25);
 }
-.mt-tbl .sun { background: repeating-linear-gradient(112deg, transparent 0 70px, rgba(255, 236, 196, .16) 70px 168px, transparent 168px 186px); mix-blend-mode: soft-light; -webkit-mask: radial-gradient(closest-side at 35% 40%, #000 30%, transparent 100%); mask: radial-gradient(closest-side at 35% 40%, #000 30%, transparent 100%); }
+.mt-tbl .bead { background: radial-gradient(closest-side, transparent 96.4%, rgba(10, 5, 2, .55) 96.8%, rgba(255, 222, 176, .28) 97.9%, rgba(120, 76, 40, .2) 98.7%, rgba(10, 5, 2, .5) 99.5%, transparent 99.8%); }
+.mt-tbl .inlay { inset: 4.6%; border: 2px solid rgba(216, 178, 120, .5); box-shadow: 0 0 0 1px rgba(10, 5, 2, .45), inset 0 0 0 1px rgba(10, 5, 2, .45), 0 0 0 9px rgba(255, 214, 160, .035), 0 0 0 10px rgba(216, 178, 120, .28); }
+.mt-tbl .sun { background: repeating-linear-gradient(112deg, transparent 0 80px, rgba(255, 236, 196, .13) 80px 190px, transparent 190px 210px); mix-blend-mode: soft-light; -webkit-mask: radial-gradient(closest-side at 35% 40%, #000 30%, transparent 100%); mask: radial-gradient(closest-side at 35% 40%, #000 30%, transparent 100%); }
+.mt-tbl .gloss { --gx: 34%; --gy: 28%; mix-blend-mode: screen; opacity: .5;
+  background:
+    linear-gradient(90deg, transparent 0 calc(var(--gx) - 1.6%), rgba(12, 7, 3, 1) calc(var(--gx) - 1.6%) calc(var(--gx) - .9%), transparent 0),
+    linear-gradient(180deg, transparent 0 calc(var(--gy) - 2%), rgba(12, 7, 3, 1) calc(var(--gy) - 2%) calc(var(--gy) - 1.3%), transparent 0),
+    radial-gradient(22% 30% at var(--gx) var(--gy), rgba(255, 238, 210, .34), rgba(255, 230, 196, .12) 55%, transparent 100%);
+  -webkit-mask: radial-gradient(closest-side, #000 93%, transparent 95%); mask: radial-gradient(closest-side, #000 93%, transparent 95%); }
+@media (max-width: 900px) { .mt-tbl .top { background-image: radial-gradient(70% 60% at 36% 30%, rgba(255, 210, 150, .16), transparent 70%), radial-gradient(circle, transparent 58%, rgba(14, 7, 2, .38) 100%), linear-gradient(rgba(40, 20, 6, .22), rgba(40, 20, 6, .22)), url(img/milntown/teak-s.webp); } }
 .mt-shade { border-radius: 4px; background: rgba(8, 5, 2, .4); box-shadow: 0 0 26px 10px rgba(8, 5, 2, .38); }
 
-/* Tea cup on its saucer, built from stacked rings so it reads as round from any angle */
-.mt-cup .sau { left: -78px; top: -78px; width: 156px; height: 156px; border-radius: 50%; background: radial-gradient(circle, #e9e2d2 0 40%, #f7f2e6 41% 62%, #ddd3bf 64%, #f4eee1 72%, #cfc5b0 100%); box-shadow: 0 6px 18px rgba(0, 0, 0, .35); }
-.mt-cup .rg { left: -46px; top: -46px; width: 92px; height: 92px; border-radius: 50%; background: #efe8da; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .08); }
-.mt-cup .lip { left: -50px; top: -50px; width: 100px; height: 100px; border-radius: 50%; background: radial-gradient(circle, #6e3f17 0 40%, #4d2a0e 74%, #f8f3e8 76% 88%, #2f5a3c 89% 92%, #f8f3e8 93%); }
-.mt-cup .hd { left: 44px; top: -16px; width: 38px; height: 32px; border-radius: 50%; border: 7px solid #efe8da; }
 
 /* The book: leaves turn about the spine; each has a front and a back face */
 .mt-leaf { will-change: transform; }
@@ -4282,6 +4288,8 @@ P.legal = () => `
    The brochure is 18 pages: a cover, eight spreads and a back cover, printed as nine leaves.
    Page images are the client's print PDF; photographs are from our shoot. */
 const MT_PAGES = 18;
+/* The table's moulded edge, top to bottom: depth, scale and shade of each slice */
+const MT_RIM = [[-2, 1, '#6a4324'], [-5, 1.005, '#553419'], [-9, 1.006, '#432812'], [-13, 1.002, '#341e0d'], [-17, .993, '#26160a'], [-21, .988, '#1d1007'], [-25, .99, '#2b180b'], [-29, .99, '#21130a'], [-35, .955, '#140b05'], [-44, .955, '#0e0703']];
 const MT_STEPS = [
   ['Cover', 'Experience the British Era', 'The brochure, closed on the table'],
   ['Spread 01', 'entering history', 'Not just arriving'],
@@ -4323,9 +4331,8 @@ P['work-milntown'] = () => `
     <div class="mt-stage">
       <div class="mt-room" aria-hidden="true"></div>
       <div class="mt-cam" aria-hidden="true"><div class="mt-world" id="mt-world">
-        <div class="mt-tbl"><i class="rim"></i><i class="rim"></i><i class="rim"></i><i class="rim"></i><i class="top"></i><i class="sun"></i></div>
+        <div class="mt-tbl">${'<i class="rim"></i>'.repeat(MT_RIM.length)}<i class="top"></i><i class="sun"></i><i class="inlay"></i><i class="bead"></i><i class="gloss"></i></div>
         <div class="mt-shade" id="mt-sh-r"></div><div class="mt-shade" id="mt-sh-l"></div>
-        <div class="mt-cup" id="mt-cup"><i class="sau"></i>${Array.from({ length: 11 }, () => '<i class="rg"></i>').join('')}<i class="lip"></i><i class="hd"></i></div>
         <div class="mt-bk" id="mt-bk">${Array.from({ length: MT_PAGES / 2 }, (_, i) => `<div class="mt-leaf"><div class="mt-face f" data-pg="${2 * i}"></div><div class="mt-face b" data-pg="${2 * i + 1}"></div></div>`).join('')}</div>
       </div></div>
       <div class="mt-vign" aria-hidden="true"></div>
@@ -4392,7 +4399,8 @@ function setupMilntown(main) {
   root.classList.toggle('still', !ok);
   const sec = root.querySelector('#mt-book'), stage = sec.querySelector('.mt-stage'), world = root.querySelector('#mt-world'), room = sec.querySelector('.mt-room');
   const copy = root.querySelector('#mt-copy'), cap = root.querySelector('#mt-cap'), ticksEl = root.querySelector('#mt-ticks'), ticks = [...ticksEl.children];
-  const bk = root.querySelector('#mt-bk'), leaves = [...bk.children], cup = root.querySelector('#mt-cup');
+  const bk = root.querySelector('#mt-bk'), leaves = [...bk.children];
+  const gloss = root.querySelector('.mt-tbl .gloss');
   const shR = root.querySelector('#mt-sh-r'), shL = root.querySelector('#mt-sh-l');
   const tEl = root.querySelector('#mt-t'), nEl = root.querySelector('#mt-n'), prev = root.querySelector('#mt-prev'), next = root.querySelector('#mt-next');
   const N = leaves.length, PW = 400, PH = 200;
@@ -4417,16 +4425,8 @@ function setupMilntown(main) {
     const half = narrow ? { width: `${PW}px`, height: `${PH}px` } : { width: `${PW}px`, height: `${PH}px` };
     Object.assign(shR.style, half, narrow ? { left: `${-PW / 2}px`, top: '0px' } : { left: '0px', top: `${-PH / 2}px` });
     Object.assign(shL.style, half, narrow ? { left: `${-PW / 2}px`, top: `${-PH}px` } : { left: `${-PW}px`, top: `${-PH / 2}px` });
-    root.querySelectorAll('.mt-tbl .rim').forEach((r, k) => r.style.transform = `translateZ(${-6 - k * 7}px)`);
-    root.querySelector('.mt-tbl .sun').style.transform = 'translateZ(.4px)';
-    const cupAt = narrow ? [235, 330] : [505, -190];
-    cup.style.transform = `translate3d(${cupAt[0]}px, ${cupAt[1]}px, 0)`;
-    [...cup.children].forEach((c, k) => {
-      if (c.classList.contains('sau')) c.style.transform = 'translateZ(1px)';
-      else if (c.classList.contains('rg')) c.style.transform = `translateZ(${6 + k * 5}px) scale(${.82 + k * .02})`;
-      else if (c.classList.contains('lip')) c.style.transform = 'translateZ(62px)';
-      else c.style.transform = 'translateZ(36px) rotateX(-90deg)';
-    });
+    root.querySelectorAll('.mt-tbl .rim').forEach((r, k) => { const [z, sc, c] = MT_RIM[k]; r.style.transform = `translateZ(${z}px) scale(${sc})`; r.style.background = c; });
+    ['sun', 'inlay', 'bead', 'gloss'].forEach((c, k) => { root.querySelector(`.mt-tbl .${c}`).style.transform = `translateZ(${.2 + k * .1}px)`; });
     sec.style.setProperty('--mt-len', `calc(${(total + 1).toFixed(2)} * (100svh - var(--head-h)))`);
   };
 
@@ -4454,6 +4454,7 @@ function setupMilntown(main) {
     const txA = narrow ? 0 : W * .16, tyA = narrow ? H * .3 : H * .1;
     const tx = lerp(txA, 0, e), ty = lerp(tyA, narrow ? -28 : -30, e);
     const pitch = lerp(narrow ? 50 : 56, 0, e), yaw = lerp(narrow ? -14 : -22, 0, e);
+    gloss.style.setProperty('--gx', `${30 + yaw * .5 + e * 6}%`); gloss.style.setProperty('--gy', `${22 + pitch * .22}%`);
     world.style.transform = `translate3d(${tx}px, ${ty}px, 0) scale(${s}) rotateX(${pitch}deg) rotateZ(${yaw}deg) translate3d(${-fx}px, ${-fy}px, 0)`;
     stage.querySelector('.mt-cam').style.perspective = `${Math.round(lerp(1.3, 2.6, e) * Math.max(W, H))}px`;
     room.style.transform = `scale(${1 + e * .18})`; room.style.opacity = 1 - e * .55;
