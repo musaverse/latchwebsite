@@ -4692,7 +4692,7 @@ function lpPrice(it, s = lp.sel[it.id] || {}) {
   const o = it.opts[s.o || 0] || it.opts[0], q = it.qty ? (s.q || it.qty[2]) : 1;
   return [o[1] * q, o[2] * q];
 }
-const lpFrom = s => { const lo = Math.min(...s.items.map(it => it.ads ? lpAdsFee({ s: 0, pf: ['Google'] })[0] : Math.min(...it.opts.map(o => o[1])))); const m = s.items.every(it => it.kind === 'month'); return `From ${inr(lo)}${m ? ' a month' : ''}`; };
+const lpFrom = s => { const lo = Math.min(...s.items.map(it => it.ads ? lpAdsFee({ s: 0, pf: ['Google'] })[0] : Math.min(...it.opts.map(o => o[1])))); const m = s.items.every(it => it.kind === 'month'); return `From ~${inr(lo)}${m ? ' a month' : ''}`; };
 function lpTotals() {
   const disc = (LP_TERMS.find(t => t[0] === lp.term) || LP_TERMS[0])[1];
   let m = [0, 0], o = [0, 0];
@@ -4709,7 +4709,7 @@ function lpText() {
   const T = lpTotals();
   if (!T.lines.length) return 'Hi Latch Infinity, I would like to talk about a project.';
   return 'Hi Latch Infinity, I built this plan on your website:\n' + T.lines.map(l => `• ${l.it.t}${l.opt ? ` (${l.opt})` : ''}: ${rng(l.a, l.b)}${l.it.kind === 'month' ? ' a month' : ''}`).join('\n') +
-    `\nEstimate: ${T.m[1] ? `${rng(T.m[0], T.m[1])} a month for ${lp.term} months` : ''}${T.m[1] && T.o[1] ? ' + ' : ''}${T.o[1] ? `${rng(T.o[0], T.o[1])} one-time` : ''}, before GST.`;
+    `\nApproximate estimate: ${T.m[1] ? `${rng(T.m[0], T.m[1])} a month for ${lp.term} months` : ''}${T.m[1] && T.o[1] ? ' + ' : ''}${T.o[1] ? `${rng(T.o[0], T.o[1])} one-time` : ''}, before GST. I understand the final price depends on scope.`;
 }
 
 const lpThumb = s => s.img ? `<img src="${s.img}" alt="" loading="lazy">` : svcArt(s.art, s.tone);
@@ -4732,8 +4732,8 @@ P.start = () => `
   <section class="band page-hero lp-hero" id="lp-hero" style="${toneVars('mint')}">
     <div class="wrap band-inner">
       <div style="min-width:0">
-        <div class="rise-in">${intro('Branding · Marketing · Tech · Bengaluru')}<h1>Grow your brand. Know the price before we talk.</h1></div>
-        <p class="lede rise-in d1">Explore what we do, build a plan from monthly retainers and one-time projects, and see an approximate price in seconds. Then talk to the team that will do the work.</p>
+        <div class="rise-in">${intro('Branding · Marketing · Tech · Bengaluru')}<h1>Grow your brand. Know your budget before we talk.</h1></div>
+        <p class="lede rise-in d1">Explore what we do, build a plan from monthly retainers and one-time projects, and see an approximate budget in seconds. Then talk to the team that will do the work and get your final price.</p>
         <div class="row rise-in d2">
           <button class="btn btn-solid" type="button" data-lp-go="lp-build">Build my plan${I.arrow}</button>
           <a class="btn btn-ghost lp-call" href="tel:${LP_TEL}">${ic('phone')}Call<span class="n">&nbsp;${LP_PHONE}</span></a>
@@ -4754,7 +4754,7 @@ P.start = () => `
     <div class="wrap">
       <div class="sec-head split">
         <div>${intro('Explore')}<h2 id="lp-ex-h">Everything a brand needs, under one roof.</h2></div>
-        <p class="lede">Pick one service or combine several. Tap a card to add it to your plan and see what it costs.</p>
+        <p class="lede">Pick one service or combine several. Tap a card to add it to your plan and see an approximate cost.</p>
       </div>
       <div class="lp-explore">
         ${LP_SVC.map(s => `<button class="lp-ex" type="button" data-lp-svc="${s.id}" style="${toneVars(s.tone)}">
@@ -4768,8 +4768,8 @@ P.start = () => `
   <section class="sec lp-build-sec" id="lp-build" aria-labelledby="lp-build-h">
     <div class="wrap">
       <div class="sec-head split">
-        <div>${intro('Build your plan')}<h2 id="lp-build-h">Pick what you need. Watch the price move.</h2></div>
-        <p class="lede">Start from a ready-made plan or add services one by one. Mix monthly retainers with one-time projects; longer retainers cost less a month.</p>
+        <div>${intro('Build your plan')}<h2 id="lp-build-h">Pick what you need. Watch your estimate move.</h2></div>
+        <p class="lede">Start from a ready-made plan or add services one by one. Mix monthly retainers with one-time projects. Every figure is an approximate range to help you plan a budget, not a final price.</p>
       </div>
       <div class="lp-presets" role="group" aria-label="Ready-made plans">${LP_PRESETS.map(p => `<button class="lp-preset" type="button" data-preset="${p.id}" aria-pressed="${lp.preset === p.id}"><b>${ic(p.icon)}${p.t}</b><span>${p.d}</span></button>`).join('')}</div>
       <div class="lp-bar">
@@ -4789,18 +4789,18 @@ P.start = () => `
         </div>
         <aside class="lp-sum" id="lp-sum" aria-label="Your plan">
           <div class="lp-sum-in">
-            <div><p class="label">Your estimate</p><h3>Your plan</h3></div>
+            <div><p class="label">Approximate estimate</p><h3>Your plan</h3></div>
             <div class="lp-tot" aria-live="polite">
-              <div><span class="s">Monthly retainer</span><span class="v" data-tm></span></div>
-              <div><span class="s">One-time projects</span><span class="v" data-to></span></div>
+              <div><span class="s">Monthly retainer · approx.</span><span class="v" data-tm></span></div>
+              <div><span class="s">One-time projects · approx.</span><span class="v" data-to></span></div>
             </div>
             <div><p class="s lp-fine" style="margin-bottom:8px">Retainer term</p><div class="lp-term" role="group" aria-label="Retainer term">${LP_TERMS.map(([m, d]) => `<button type="button" data-term="${m}" aria-pressed="${lp.term === m}">${m} mo${d ? ` · ${d * 100}% off` : ''}</button>`).join('')}</div></div>
             <div data-lines></div>
             <div class="acts">
-              <button class="btn btn-solid" type="button" data-lp-go="lp-talk">Get my exact quote${I.arrow}</button>
+              <button class="btn btn-solid" type="button" data-lp-go="lp-talk">Get my final quote${I.arrow}</button>
               <div class="duo"><a class="btn btn-ghost" data-wa href="#" target="_blank" rel="noopener">${ic('chat')}WhatsApp</a><a class="btn btn-ghost" href="tel:${LP_TEL}">${ic('phone')}Call</a></div>
             </div>
-            <p class="lp-fine">Approximate ranges before 18% GST, based on typical scope. Your exact quote comes after a short call.</p>
+            <p class="lp-fine"><b style="color:var(--deep-ink);font-weight:500">This is an estimate, not a quote.</b> Ranges are approximate, based on typical scope and before 18% GST. Your final price depends on your exact requirements and is confirmed in a written proposal after a short call.</p>
           </div>
           ${artSlot('rise', 'mint', 5)}
         </aside>
@@ -4840,9 +4840,9 @@ P.start = () => `
     <div class="wrap">
       <div class="sec-head">${intro('How it works')}<h2 id="lp-how-h">From plan to work in three steps.</h2></div>
       <ol class="lp-steps">
-        <li><h3>Build your plan</h3><p>Choose services above and see an approximate price straight away. Nothing to sign.</p></li>
+        <li><h3>Build your plan</h3><p>Choose services above and see an approximate budget straight away. Nothing to sign.</p></li>
         <li><h3>Talk to us</h3><p>A short call to understand your goals, audience and timeline. We tell you what you need and what you can skip.</p></li>
-        <li><h3>Get a fixed proposal</h3><p>A clear scope, timeline and price. Once you say yes, we start.</p></li>
+        <li><h3>Get your final price</h3><p>A written proposal with the exact scope, timeline and price. Once you say yes, we start.</p></li>
       </ol>
     </div>
   </section>
@@ -4850,8 +4850,8 @@ P.start = () => `
   <section class="sec lp-build-sec" id="lp-talk" aria-labelledby="lp-talk-h">
     <div class="wrap lp-talk">
       <div>
-        ${intro('Let’s talk')}<h2 id="lp-talk-h">Get your exact quote.</h2>
-        <p class="lede">Send your plan and we will come back with a fixed proposal. Prefer to talk? Call or WhatsApp us now.</p>
+        ${intro('Let’s talk')}<h2 id="lp-talk-h">Turn your estimate into a final quote.</h2>
+        <p class="lede">Send your plan and we will come back with a proposal and your final price, based on what you actually need. Prefer to talk? Call or WhatsApp us now.</p>
         <div class="lp-ways">
           <a class="lp-way" href="tel:${LP_TEL}"><span class="i">${ic('phone')}</span><span><b>Call us</b><span>${LP_PHONE}</span></span>${I.arrow}</a>
           <a class="lp-way" data-wa href="#" target="_blank" rel="noopener"><span class="i">${ic('chat')}</span><span><b>WhatsApp your plan</b><span>Opens a chat with your plan typed in</span></span>${I.arrow}</a>
@@ -4876,7 +4876,7 @@ P.start = () => `
     <div class="wrap">
       <div class="sec-head">${intro('Questions')}<h2 id="lp-faq-h">Before you ask.</h2></div>
       <div class="faq">${[
-        ['Are these prices final?', 'No. They are approximate ranges for typical scope, before 18% GST. After a short call we send a fixed proposal with the exact price.'],
+        ['Are these prices final?', 'No. They are approximate ranges to help you plan a budget, based on typical scope and before 18% GST. The final price depends on your requirements, such as the number of pages, platforms, posts or shoot days, and is confirmed in a written proposal after a short call.'],
         ['Is ad spend included in the ads price?', 'No. The price shown is our management fee. Your ad budget is paid straight to Google, Meta, LinkedIn or the other platforms, so you always see where it goes.'],
         ['How do monthly retainers work?', 'You pick a term of 3, 6 or 12 months. Longer terms cost less each month. Each month you get the work in your plan and a report on how it performed.'],
         ['Can I mix monthly services and one-time projects?', 'Yes. Many clients start with a one-time project, such as a brand identity or a website, and then keep us on a monthly plan for social media, SEO or ads.'],
@@ -4886,7 +4886,7 @@ P.start = () => `
   </section>
 
   <div class="lp-dock" id="lp-dock">
-    <button class="t" type="button" data-lp-go="lp-sum"><span>Your estimate</span><b data-dock></b></button>
+    <button class="t" type="button" data-lp-go="lp-sum"><span>Approx. estimate</span><b data-dock></b></button>
     <a class="call" href="tel:${LP_TEL}" aria-label="Call ${LP_PHONE}">${ic('phone')}</a>
     <button class="btn" type="button" data-lp-go="lp-talk">Get quote</button>
   </div>`;
@@ -4920,13 +4920,13 @@ function setupStart(main) {
     tm.innerHTML = T.m[1] ? `${rng(T.m[0], T.m[1])}<small>/mo</small>` : '₹0'; tm.classList.toggle('zero', !T.m[1]);
     to.innerHTML = T.o[1] ? rng(T.o[0], T.o[1]) : '₹0'; to.classList.toggle('zero', !T.o[1]);
     sum.querySelector('[data-lines]').innerHTML = T.lines.length
-      ? `<ul class="lp-lines">${T.lines.map(l => `<li><span>${l.it.t}${l.opt ? `<small>${l.opt}</small>` : ''}</span><em>${rng(l.a, l.b)}${l.it.kind === 'month' ? '/mo' : ''}</em></li>`).join('')}</ul>${T.m[1] ? `<p class="lp-fine" style="margin-top:12px">Over ${lp.term} months, including one-time work: <b style="color:var(--deep-ink);font-weight:500">${rng(T.term[0], T.term[1])}</b>${T.disc ? `, with ${T.disc * 100}% off the retainer` : ''}.${lp.sel.ads ? ` Plus ${inr(LP_SPEND[lp.ads.s])} a month ad budget, paid to the platforms.` : ''}</p>` : ''}`
+      ? `<ul class="lp-lines">${T.lines.map(l => `<li><span>${l.it.t}${l.opt ? `<small>${l.opt}</small>` : ''}</span><em>${rng(l.a, l.b)}${l.it.kind === 'month' ? '/mo' : ''}</em></li>`).join('')}</ul>${T.m[1] ? `<p class="lp-fine" style="margin-top:12px">Approximately, over ${lp.term} months including one-time work: <b style="color:var(--deep-ink);font-weight:500">${rng(T.term[0], T.term[1])}</b>${T.disc ? `, with ${T.disc * 100}% off the retainer` : ''}.${lp.sel.ads ? ` Plus ${inr(LP_SPEND[lp.ads.s])} a month ad budget, paid to the platforms.` : ''}</p>` : ''}`
       : `<p class="lp-empty">Nothing picked yet. Start with a ready-made plan, or open a service and tick what you need.</p>`;
     const dock = main.querySelector('[data-dock]');
     if (dock) dock.textContent = T.lines.length ? [T.m[1] ? `${inr(T.m[0])}+/mo` : '', T.o[1] ? `${inr(T.o[0])}+ one-time` : ''].filter(Boolean).join(' · ') : 'Build your plan';
     const att = main.querySelector('[data-attach]');
     att.classList.toggle('none', !T.lines.length);
-    att.innerHTML = T.lines.length ? `<b>Your plan is attached: ${T.lines.length} service${T.lines.length > 1 ? 's' : ''}</b><span>${[T.m[1] ? `${rng(T.m[0], T.m[1])} a month for ${lp.term} months` : '', T.o[1] ? `${rng(T.o[0], T.o[1])} one-time` : ''].filter(Boolean).join(' + ')}, before GST.</span>` : `<b>No plan attached</b><span>That’s fine. Tell us what you need, or <button class="link" type="button" data-lp-go="lp-build" style="background:none;border:0;padding:0;font:inherit;text-decoration:underline;cursor:pointer">build a plan</button> first.</span>`;
+    att.innerHTML = T.lines.length ? `<b>Your plan is attached: ${T.lines.length} service${T.lines.length > 1 ? 's' : ''}</b><span>Approx. ${[T.m[1] ? `${rng(T.m[0], T.m[1])} a month for ${lp.term} months` : '', T.o[1] ? `${rng(T.o[0], T.o[1])} one-time` : ''].filter(Boolean).join(' + ')}, before GST. We confirm the final price in a proposal.</span>` : `<b>No plan attached</b><span>That’s fine. Tell us what you need, or <button class="link" type="button" data-lp-go="lp-build" style="background:none;border:0;padding:0;font:inherit;text-decoration:underline;cursor:pointer">build a plan</button> first.</span>`;
     const txt = encodeURIComponent(lpText());
     main.querySelectorAll('[data-wa]').forEach(a => (a.href = `https://wa.me/${LP_WA}?text=${txt}`));
     main.querySelectorAll('[data-mail]').forEach(a => (a.href = `mailto:info@latchinfinity.com?subject=${encodeURIComponent('Quote request from the website')}&body=${txt}`));
