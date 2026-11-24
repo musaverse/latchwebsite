@@ -4,45 +4,42 @@ Redesign of [latchinfinity.com](https://www.latchinfinity.com/), built on the La
 
 ## How the site is organised
 
-Every page has its own address and its own file, using the same addresses as the live site:
+The site is a [Next.js](https://nextjs.org/) app (App Router) exported as a static website. Every page is its own
+route under `app/`, at the same address the live site uses:
 
 | Page | File |
 |---|---|
-| Home | `index.html` |
-| About | `about/index.html` |
-| Work | `work/index.html` |
-| Case studies | `work/kaynes/`, `work/oli/`, `work/cube/`, `work/dharmaram/`, `work/milntown/` |
-| Marketing | `marketing/index.html` |
-| Marketing services | `marketing/branding/`, `marketing/advertising/`, `marketing/digital-services/`, `marketing/web-app-development/` |
-| EdTech | `edtech/index.html` |
-| Gamification | `gamification/index.html` |
-| Blogs | `blog/index.html` (an article opens at `blog/?p=<slug>`) |
-| Let's Talk | `contact/index.html` |
-| Plans & Pricing (ads landing) | `start/index.html` |
-| Terms & Privacy | `legal/index.html` |
+| Home | `app/page.tsx` |
+| About, Work, EdTech, Gamification, Blogs, Let's Talk | `app/about/`, `app/work/`, `app/edtech/`, `app/gamification/`, `app/blog/`, `app/contact/` |
+| Case studies | `app/work/kaynes/`, `app/work/oli/`, `app/work/cube/`, `app/work/dharmaram/`, `app/work/milntown/` |
+| Marketing and its services | `app/marketing/`, `app/marketing/branding/`, `…/advertising/`, `…/digital-services/`, `…/web-app-development/` |
+| Plans & Pricing, Terms & Privacy | `app/start/`, `app/legal/` |
+| Blog articles | `app/blog/[slug]/`: one page per published article in `public/blog/posts.json` |
+| Unknown addresses | `app/not-found.tsx` |
 
-Each page file holds that page's title and description and names its page in `<html data-route="…">`.
-What they share lives in one place:
+- `lib/pages.ts`: every page's title and description, and the route name passed to the page script.
+- `app/layout.tsx`: the shared `<head>` (fonts, styles, icon) and the script loader.
+- `public/assets/site.css`, `public/assets/site.js`: the design, the header, menus and footer, every page's content and all motion. The script reads the page from `<meta name="li-route">`.
+- `public/img/`, `public/video/`: pictures and films. `public/blog/posts.json` holds the articles; `public/blog/md.js` renders them.
+- `public/admin.html`: the blog editor. Publishing commits `public/blog/posts.json` and images, which redeploys the site.
 
-- `assets/site.css`: all styles.
-- `assets/site.js`: the header, menus and footer, every page's content, and all motion. It reads `data-route` to know which page to show.
-- `img/`, `video/`: pictures and films. `blog/posts.json` holds the articles; `blog/md.js` renders them.
-- `admin.html`: the blog editor.
+Links inside the page code are written as `#about`, `#branding` and so on; the script turns them into page addresses.
+Old links such as `…/#work`, `…/#blog/<slug>` and `…/blog/?p=<slug>` still open the right page.
+To add a page: add `P['name']` in `public/assets/site.js` and its address in `PAGE_URL`, add it to `lib/pages.ts`,
+and create `app/<address>/page.tsx` that exports `pageMeta('name')`.
 
-Links inside the code are still written as `#about`, `#branding` and so on. The script turns them into the page addresses
-(`about/`, `marketing/branding/`) when the page loads, and old links such as `…/#work` still open the right page.
-To add a page, add its `P['name']` in `assets/site.js`, its address in `PAGE_URL`, and a page file with `data-route="name"`.
-
-No build step and no dependencies. Fonts load from Google Fonts.
-Pushing to `main` deploys a preview to GitHub Pages (`.github/workflows/pages.yml`).
+Pushing to `main` builds the site and deploys the preview to GitHub Pages (`.github/workflows/pages.yml`).
 
 ## Preview locally
 
+Needs Node.js 20.9 or later.
+
 ```bash
-python3 -m http.server 8000
+npm install
+npm run dev
 ```
 
-Then open http://localhost:8000.
+Then open http://localhost:3000. `npm run build` writes the finished static site to `out/`.
 
 ## Notes
 
