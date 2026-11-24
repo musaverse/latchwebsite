@@ -378,7 +378,7 @@ function library() {
   const resume = locals();
   $('#app').innerHTML = `
   ${topbar(`<a class="brand" href="#">${I.logo}<b>Blog Studio</b></a><span class="grow"></span>
-    <a class="btn btn-quiet" href="index.html#blog" target="_blank" rel="noopener">View blog ${I.ext}</a>
+    <a class="btn btn-quiet" href="blog/" target="_blank" rel="noopener">View blog ${I.ext}</a>
     ${online ? `<button class="btn btn-quiet" type="button" id="b-acct" aria-haspopup="menu" aria-expanded="false"><span class="dot live"></span>Connected</button>` : ''}`)}
   <main class="lib">
     ${online ? '' : `<div class="banner"><p><b>Connect once to publish.</b> You can write now; publishing needs a key from GitHub. It takes about two minutes.</p><button class="btn btn-primary" type="button" id="b-connect">Connect</button></div>`}
@@ -1072,14 +1072,14 @@ async function save(asDraft) {
     history.replaceState(null, '', '#edit/' + encodeURIComponent(post.slug));
     busy = false; refreshStatus();
     if (asDraft) toast('Draft saved. Only you can see it here.');
-    else toast('Published. The article is live in about a minute.', { ms: 8000, action: ['View', () => open('index.html#blog/' + encodeURIComponent(post.slug), '_blank', 'noopener')] });
+    else toast('Published. The article is live in about a minute.', { ms: 8000, action: ['View', () => open('blog/?p=' + encodeURIComponent(post.slug), '_blank', 'noopener')] });
   } catch (e) { busy = false; refreshStatus(); toast(esc(e.message), { err: true, ms: 8000 }); }
 }
 function moreMenu(anchor) {
   const live = ed.saved && !ed.saved.draft;
   menu(anchor, [
     ['', `${I.sliders.replace(/18/g, 16)} Article settings`, () => sheet('details')],
-    live && ['', `${I.ext} View on the site`, 'index.html#blog/' + encodeURIComponent(ed.saved.slug)],
+    live && ['', `${I.ext} View on the site`, 'blog/?p=' + encodeURIComponent(ed.saved.slug)],
     ed.saved && !live ? ['', `${I.draft} Save draft`, () => save(true)] : !ed.saved ? ['', `${I.draft} Save as draft`, () => save(true)] : null,
     live && ['', `${I.draft} Unpublish <small>Move to drafts</small>`, async () => { if (await ask({ title: 'Unpublish this article?', text: 'It disappears from the website and waits in your drafts.', ok: 'Unpublish' })) save(true); }],
     ed.local && ed.saved && ['', `${I.undo} Discard changes`, async () => { if (await ask({ title: 'Discard your changes?', text: 'The article goes back to the last version you published or saved.', ok: 'Discard', danger: true })) { store.del(localKey(ed.orig)); openEditor(ed.orig); } }],

@@ -1,0 +1,3491 @@
+/* The page shell (header, menus, footer) is shared by every page and inserted here, ahead of everything else. */
+document.body.insertAdjacentHTML('afterbegin', `<a class="skip" href="#main" id="skip">Skip to content</a>
+<header class="head" id="head">
+  <div class="wrap">
+    <a class="brand" href="#home" aria-label="Latch Infinity home">
+      <span id="brand-logo"></span>
+    </a>
+    <nav class="nav" id="nav" aria-label="Main"></nav>
+    <div class="head-actions">
+      <a class="btn btn-solid btn-talk" href="#contact">Let's Talk</a>
+      <span class="lp-head" id="lp-head"></span>
+      <button class="icon-btn menu-btn" id="menu" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="sheet">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 8h18M3 16h12"/></svg>
+      </button>
+    </div>
+  </div>
+  <span class="progress" id="progress" aria-hidden="true"></span>
+</header>
+<div class="wipe covering" id="wipe" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><div class="mark" id="wipe-mark"></div></div>
+<div class="cursor" id="cursor" aria-hidden="true"><div class="ring"><span class="lbl" id="cursor-lbl"></span></div></div>
+<div class="cursor-dot" id="cursor-dot" aria-hidden="true"><i></i></div>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="Menu">
+  <div class="sheet-top">
+    <a class="brand" href="#home"><span class="sheet-logo"></span></a>
+    <button class="icon-btn" id="menu-close" type="button" aria-label="Close menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </div>
+  <nav id="sheet-nav" aria-label="Main"></nav>
+  <div class="sheet-foot">
+    <a class="btn btn-solid" href="#contact">Let's Talk</a>
+  </div>
+</div>
+
+<div class="fab-scrim" id="fab-scrim" aria-hidden="true"></div>
+<nav class="fab" id="fab" aria-label="Menu">
+  <ul class="fab-list" id="fab-list"></ul>
+  <button class="fab-btn" id="fab-btn" type="button" aria-expanded="false" aria-controls="fab-list" aria-label="Open menu">
+    <svg class="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 8h16M4 16h11"/></svg>
+    <svg class="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+</nav>
+
+<main id="main" tabindex="-1"></main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-top"><a class="foot-mark" href="#home" aria-label="Latch Infinity home"><span class="foot-sym"></span></a><span class="foot-crumb" id="foot-crumb"></span></div>
+    <p class="foot-note">One Stop. All Things. Digital.</p>
+    <div class="foot-cols">
+      <details class="fcol" open><summary>Company</summary><ul><li><a href="#about">About Us</a></li><li><a href="#contact">Let's Talk</a></li><li><a href="#start">Plans &amp; Pricing</a></li><li><a href="#work">Work</a></li><li><a href="#blog">Blogs</a></li></ul></details>
+      <details class="fcol" open><summary>Quick Links</summary><ul><li><a href="#branding">Branding</a></li><li><a href="#digital-services">Digital Services</a></li><li><a href="#web-app-development">Web &amp; App Development</a></li><li><a href="#advertising">Advertising</a></li></ul></details>
+      <details class="fcol" open><summary>Get In Touch</summary><address>LATCH INFINITY PRIVATE LIMITED, Commercial Building, Unit 2, B Block, 4th Floor, Uma Shree Dream World, Hosur Rd, Behind Race Institute, Kudlu Gate, Bengaluru, Karnataka 560068</address><div class="copyline"><code>info@latchinfinity.com</code><button class="chip-btn" type="button" data-copy="info@latchinfinity.com">Copy</button></div></details>
+      <details class="fcol" open><summary>Follow</summary><ul><li><a href="https://www.instagram.com/latchinfinity/" target="_blank" rel="noopener">Instagram</a></li><li><a href="https://www.linkedin.com/company/latchinfinity/" target="_blank" rel="noopener">LinkedIn</a></li><li><a href="https://www.behance.net/latchinfinity" target="_blank" rel="noopener">Behance</a></li></ul></details>
+    </div>
+    <div class="foot-bottom"><span>©2026. All Rights Reserved by Latch Infinity.</span><a class="foot-lp" href="#start"><span class="dot"></span>Preview: ads landing page →</a><nav aria-label="Legal"><a href="#legal">Terms &amp; Conditions</a><a href="#legal">Privacy Policy</a></nav></div>
+  </div>
+</footer>`);
+
+(() => {
+/* ================= Brand devices (ported from Brand.tsx, Lookbook Edition 01) ================= */
+const DEEP = '#333A32', MINT = '#B1F7BB', ICE = ['#2E3542', '#B4E2FF'], LILAC = ['#37323F', '#D8CCFF'];
+const R = Math.PI / 180, TAN57 = Math.tan(57 * R), COS57 = Math.cos(57 * R), SIN57 = Math.sin(57 * R);
+const HALF57 = Math.tan(28.5 * R), SHIFT57 = (1 - COS57) / SIN57;
+const TONES = {
+  mint: { deep: DEEP, light: MINT, tint: 'var(--tint-mint)' },
+  ice: { deep: ICE[0], light: ICE[1], tint: 'var(--tint-ice)' },
+  lilac: { deep: LILAC[0], light: LILAC[1], tint: 'var(--tint-lilac)' },
+};
+const hex = c => { const n = parseInt(c.slice(1), 16); return [(n >> 16) & 255, (n >> 8) & 255, n & 255]; };
+const ramp = (from, to, steps) => { const a = hex(from), b = hex(to); return Array.from({ length: steps }, (_, i) => { const t = steps === 1 ? 1 : i / (steps - 1); return `rgb(${a.map((v, k) => Math.round(v + (b[k] - v) * t)).join(',')})`; }); };
+
+const SYMBOL = {
+  upper: 'M220.6 128.8A72 72 0 1 0 96.6 134.2L168 254',
+  lower: 'M93.4 225.2A72 72 0 1 0 217.4 219.8L140.2 101',
+  lock: 'M54 135H23.5V258A133 133 0 0 0 289.5 258V135H259',
+};
+const symbol = (size = 30, draw = false) =>
+  `<svg class="symbol${draw ? ' draw' : ''}" viewBox="8 4 298 410" width="${(size * 298 / 410).toFixed(1)}" height="${size}" aria-hidden="true">` +
+  `<path pathLength="1" style="--d:0ms" d="${SYMBOL.upper}"/><path pathLength="1" style="--d:180ms" d="${SYMBOL.lower}"/><path pathLength="1" style="--d:360ms" d="${SYMBOL.lock}"/></svg>`;
+
+/* Latch strands. A centreline of straight runs (0°, 57° or 90°) is offset into a bundle of
+   parallel strokes. Each corner of each stroke is an arc around the same centre, so the gap
+   between strokes is identical on the flats, on the diagonal and through the bends. */
+const f2 = n => n.toFixed(1);
+function bundle(P, R, count, sp) {
+  const N = P.length, dirs = [], norms = [];
+  for (let k = 0; k < N - 1; k++) { const dx = P[k + 1][0] - P[k][0], dy = P[k + 1][1] - P[k][1], L = Math.hypot(dx, dy) || 1; dirs.push([dx / L, dy / L]); norms.push([-dy / L, dx / L]); }
+  const out = [];
+  for (let i = 0; i < count; i++) {
+    const off = (i - (count - 1) / 2) * sp;
+    let d = `M${f2(P[0][0] + norms[0][0] * off)} ${f2(P[0][1] + norms[0][1] * off)}`;
+    for (let k = 1; k < N - 1; k++) {
+      const a = dirs[k - 1], b = dirs[k], na = norms[k - 1], nb = norms[k];
+      const dot = a[0] * b[0] + a[1] * b[1], cross = a[0] * b[1] - a[1] * b[0];
+      const vx = P[k][0] + off * (na[0] + nb[0]) / (1 + dot), vy = P[k][1] + off * (na[1] + nb[1]) / (1 + dot);
+      if (Math.abs(cross) < 1e-4) { d += `L${f2(vx)} ${f2(vy)}`; continue; }
+      const th = Math.acos(Math.max(-1, Math.min(1, dot))), r = R - Math.sign(cross) * off, t = r * Math.tan(th / 2);
+      d += `L${f2(vx - a[0] * t)} ${f2(vy - a[1] * t)}A${f2(r)} ${f2(r)} 0 0 ${cross > 0 ? 1 : 0} ${f2(vx + b[0] * t)} ${f2(vy + b[1] * t)}`;
+    }
+    const L = P[N - 1], nl = norms[N - 2];
+    out.push(d + `L${f2(L[0] + nl[0] * off)} ${f2(L[1] + nl[1] * off)}`);
+  }
+  return out;
+}
+const storyPts = (w, h, t) => { const m = h * .5, y1 = m + h * .2 * t, y2 = m - h * .2 * t, x1 = w * .28; return [[-60, y1], [x1, y1], [x1 + h * .4 / TAN57, y2], [w + 60, y2]]; };
+const RECIPES = {
+  hook: (w, h, R) => {
+    if (w >= 900 && h >= 420) { // full-band route behind the hero: low run under the CTAs, rise at 57° on the right, then drop away
+      const y1 = h - Math.max(64, h * .1), y2 = h * .3, x1 = w * .56, x2 = x1 + (y1 - y2) / TAN57, x3 = Math.max(x2 + R * 2.5, w * .9);
+      return [[-60, y1], [x1, y1], [x2, y2], [x3, y2], [x3, h + 80]];
+    }
+    const y1 = h * .78, y2 = h * .24, x1 = w * .42, x2 = x1 + (y1 - y2) / TAN57, x3 = Math.max(x2 + R * 2.5, w * .8); return [[-60, y1], [x1, y1], [x2, y2], [x3, y2], [x3, h + 80]]; },
+  rise: (w, h) => { const y1 = h * .76, y2 = h * .26, x1 = w * .48; return [[-60, y1], [x1, y1], [x1 + (y1 - y2) / TAN57, y2], [w + 60, y2]]; },
+  notch: (w, h, R) => { const y1 = h * .28, y2 = h * .72, dx = (y2 - y1) / TAN57, x1 = w * .5, fl = Math.max(w * .12, R * 2.5); return [[-60, y1], [x1, y1], [x1 + dx, y2], [x1 + dx + fl, y2], [x1 + 2 * dx + fl, y1], [w + 60, y1]]; },
+  steps: (w, h) => { const a = h * .8, b = h * .52, c = h * .24, d = (a - b) / TAN57; return [[-60, a], [w * .16, a], [w * .16 + d, b], [w * .5, b], [w * .5 + d, c], [w + 60, c]]; },
+  meander: (w, h) => [[-60, h * .18], [w * .74, h * .18], [w * .74, h * .5], [w * .26, h * .5], [w * .26, h * .82], [w + 60, h * .82]],
+  loop: (w, h) => [[-60, h * .7], [w * .66, h * .7], [w * .66, h * .24], [w * .38, h * .24], [w * .38, h + 80]],
+  gate: (w, h) => { const x = w * .2, y = h * .3, x2 = w * .6; return [[x, h + 80], [x, y], [x2, y], [x2 + (h + 80 - y) / TAN57, h + 80]]; },
+  story: (w, h) => storyPts(w, h, 0),
+  origin: (w, h, R, el) => {
+    if (w >= 900 && h >= 420) { const y1 = h - Math.max(70, h * .11), x1 = w * .8; return [[-60, y1], [x1, y1], [x1 + (y1 + 80) / TAN57, -80]]; }
+    // Phones: the line runs as a base rule just under the call to action, then turns down at 57° and leaves the banner.
+    const band = el && el.closest('.band'), cta = band && band.querySelector('.hero-cta');
+    const y1 = cta ? cta.getBoundingClientRect().bottom - band.getBoundingClientRect().top + 30 : h * .8, x1 = w * .64;
+    return [[-60, y1], [x1, y1], [x1 + (h + 80 - y1) / TAN57, h + 80]];
+  },
+};
+const mixHex = (a, b, t) => { const x = hex(a), y = hex(b); return '#' + x.map((v, k) => Math.round(v + (y[k] - v) * t).toString(16).padStart(2, '0')).join(''); };
+/* Symmetric ramp: the centre stroke is the light tone, the outer strokes step down toward the deep tone. */
+const strandColors = (tone, count) => { if (count === 1) return [TONES[tone].light]; const t = TONES[tone], c = (count - 1) / 2, steps = ramp(t.light, mixHex(t.deep, t.light, .3), Math.ceil(c) + 1); return Array.from({ length: count }, (_, i) => steps[Math.round(Math.abs(i - c))]); };
+const strandMetrics = (w, h, count) => { const sw = Math.max(2.5, Math.min(11, Math.min(w, h) * .017)), sp = sw * 2, R = sp * (count - 1) / 2 + sw * 1.6; return { sw, sp, R }; };
+const artSlot = (recipe, tone, count, attrs = '') => `<div class="art" data-art="${recipe}" data-tone="${tone}" data-count="${count}" ${attrs}></div>`;
+function renderArt(el) {
+  const w = el.clientWidth, h = el.clientHeight; if (!w || !h) return;
+  if (el._w === w && el._h === h) return;
+  el._w = w; el._h = h;
+  const count = +el.dataset.count || 5, { sw, sp, R } = count === 1 ? { sw: Math.max(6, Math.min(13, w * .008)), sp: 0, R: Math.max(36, Math.min(80, w * .045)) } : strandMetrics(w, h, count), cols = strandColors(el.dataset.tone || 'mint', count);
+  const ds = bundle(RECIPES[el.dataset.art](w, h, R, el), R, count, sp);
+  el.innerHTML = `<svg viewBox="0 0 ${w} ${h}" aria-hidden="true">${ds.map((d, i) => `<path class="b" d="${d}" stroke="${cols[i]}" stroke-width="${sw.toFixed(2)}" pathLength="1" style="--i:${i}"/>`).join('')}</svg>`;
+}
+function recolorArt(el, tone) { el.dataset.tone = tone; const ps = el.querySelectorAll('.b'), cols = strandColors(tone, ps.length); ps.forEach((p, i) => p.setAttribute('stroke', cols[i])); }
+const toneVars = t => `--tone:${TONES[t].light};--tone-deep:${TONES[t].deep};--tint:${TONES[t].tint}`;
+
+/* ================= Kit: logo, icons, brand devices, illustrations, scenes ================= */
+
+/* ---------- Logo: the symbol with the wordmark stacked, Latch over Infinity (Lookbook p.3) ---------- */
+const WM_LATCH = 'M108 1490V0H378V1264H1035V1490ZM1460 1513Q1353 1513 1268 1474Q1183 1436 1134 1361Q1085 1286 1085 1176Q1085 1082 1120 1020Q1155 958 1216 921Q1276 884 1352 864Q1428 845 1509 837Q1608 826 1669 818Q1730 810 1758 792Q1785 774 1785 736V731Q1785 650 1737 605Q1689 560 1597 560Q1500 560 1444 602Q1387 644 1367 701L1122 666Q1151 564 1218 496Q1285 427 1382 392Q1478 358 1595 358Q1675 358 1755 376Q1835 395 1902 439Q1969 483 2009 557Q2049 631 2049 742V1490H1796V1336H1788Q1764 1382 1721 1422Q1677 1463 1613 1488Q1548 1513 1460 1513ZM1527 1319Q1607 1319 1665 1288Q1723 1256 1755 1204Q1787 1151 1787 1089V958Q1774 968 1745 976Q1716 985 1679 992Q1642 999 1607 1004Q1571 1009 1545 1012Q1486 1020 1440 1038Q1393 1057 1366 1089Q1339 1121 1339 1172Q1339 1245 1392 1282Q1445 1319 1527 1319ZM2760 372V576H2119V372ZM2276 106H2539V1154Q2539 1220 2568 1252Q2597 1283 2660 1283Q2677 1283 2698 1280Q2719 1277 2736 1273L2781 1479Q2739 1492 2696 1498Q2653 1505 2610 1505Q2454 1505 2365 1422Q2276 1340 2276 1197ZM3340 1512Q3173 1512 3053 1438Q2933 1365 2869 1235Q2805 1105 2805 936Q2805 765 2870 635Q2935 505 3055 432Q3175 358 3338 358Q3475 358 3580 408Q3685 458 3748 548Q3810 639 3819 760H3567Q3557 706 3528 663Q3499 620 3453 595Q3406 570 3342 570Q3261 570 3201 614Q3140 657 3106 738Q3072 819 3072 932Q3072 1046 3105 1128Q3138 1211 3199 1256Q3260 1300 3342 1300Q3429 1300 3490 1249Q3550 1198 3567 1108H3819Q3810 1227 3749 1318Q3688 1409 3584 1460Q3480 1512 3340 1512ZM4183 836V1490H3920V0H4177V563H4191Q4230 468 4312 413Q4394 358 4523 358Q4639 358 4726 407Q4812 456 4860 550Q4908 644 4908 779V1490H4644V820Q4644 706 4586 644Q4528 581 4424 581Q4354 581 4300 611Q4245 641 4214 698Q4183 754 4183 836Z';
+const WM_INF = 'M5733 0V1490H5463V0ZM6160 836V1490H5897V372H6155V563H6168Q6206 469 6288 414Q6369 358 6495 358Q6611 358 6697 407Q6783 456 6831 550Q6878 645 6878 779V1490H6615V820Q6615 708 6557 644Q6499 581 6397 581Q6328 581 6275 611Q6221 641 6191 698Q6160 754 6160 836ZM7599 372V576H6940V372ZM7104 1490V267Q7104 154 7151 79Q7198 4 7278 -33Q7357 -70 7453 -70Q7522 -70 7576 -59Q7629 -48 7654 -39L7600 165Q7584 159 7559 154Q7534 148 7502 148Q7429 148 7398 184Q7366 220 7366 286V1490ZM7689 1490V372H7952V1490ZM8368 836V1490H8105V372H8363V563H8376Q8414 469 8496 414Q8577 358 8703 358Q8819 358 8905 407Q8991 456 9039 550Q9086 645 9086 779V1490H8823V820Q8823 708 8765 644Q8707 581 8605 581Q8536 581 8483 611Q8429 641 8399 698Q8368 754 8368 836ZM9239 1490V372H9502V1490ZM9371 215Q9308 215 9263 173Q9218 131 9218 72Q9218 12 9263 -30Q9308 -72 9371 -72Q9433 -72 9478 -30Q9523 12 9523 71Q9523 131 9478 173Q9433 215 9371 215ZM10212 372V576H9571V372ZM9728 106H9991V1154Q9991 1220 10020 1252Q10049 1283 10112 1283Q10129 1283 10150 1280Q10171 1277 10188 1273L10233 1479Q10191 1492 10148 1498Q10105 1505 10062 1505Q9906 1505 9817 1422Q9728 1340 9728 1197ZM10481 1908Q10427 1909 10381 1900Q10336 1892 10308 1881L10370 1676L10383 1680Q10463 1701 10519 1683Q10576 1665 10610 1574L10632 1514L10228 372H10507L10764 1217H10776L11034 372H11315L10867 1625Q10836 1714 10785 1778Q10734 1841 10659 1874Q10584 1908 10481 1908ZM6940 372H7952V576H6940Z';
+const WM_K = 1 / 15.17;
+const LOWER_FROM_BAR = 'M140.2 101L217.4 219.8A72 72 0 1 1 93.4 225.2';
+const UPPER_FROM_BAR = 'M168 254L96.6 134.2A72 72 0 1 1 220.6 128.8';
+const wordmarkG = (fill = 'currentColor') => `<g fill="${fill}" transform="translate(402.9 123) scale(${WM_K})"><path d="${WM_LATCH}"/><path transform="translate(-5355 1940)" d="${WM_INF}"/></g>`;
+function logoMarkup(draw = false) {
+  return `<svg class="logo${draw ? ' draw' : ''}" viewBox="4 0 802 418" role="img" aria-label="Latch Infinity">` +
+    `<g class="logo-sym symbol${draw ? ' draw' : ''}" fill="none" stroke="currentColor" stroke-width="28">` +
+    `<path pathLength="1" style="--d:0ms" d="${SYMBOL.upper}"/><path pathLength="1" style="--d:180ms" d="${SYMBOL.lower}"/><path pathLength="1" style="--d:360ms" d="${SYMBOL.lock}"/></g>` +
+    `<g class="logo-wm">${wordmarkG()}</g></svg>`;
+}
+
+/* ---------- Icons: 24-unit line icons, one stroke weight ---------- */
+const ICONS = {
+  cap: '<path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c3 2.4 9 2.4 12 0v-5M22 9v6"/>',
+  shield: '<path d="M12 3l8 3v6c0 4.5-3.4 8-8 9-4.6-1-8-4.5-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/>',
+  gear: '<circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/>',
+  search: '<circle cx="11" cy="11" r="6.5"/><path d="M16 16l5 5"/>',
+  map: '<circle cx="5" cy="6" r="2"/><circle cx="19" cy="6" r="2"/><circle cx="12" cy="18" r="2"/><path d="M7 6h10M6.1 7.8l4.8 8.4M17.9 7.8l-4.8 8.4"/>',
+  pen: '<path d="M4 20l1-5L16 4l4 4L9 19z"/><path d="M13.5 6.5l4 4"/>',
+  users: '<circle cx="8.5" cy="8" r="3"/><circle cx="16.5" cy="9" r="2.5"/><path d="M3 19.5c.6-3.2 2.8-5 5.5-5s4.9 1.8 5.5 5M14.5 14.6c2.6-.4 5 1 5.8 4.4"/>',
+  clip: '<rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V2.8h6V4M8.5 13l2.5 2.5 4.5-5"/>',
+  box: '<path d="M3 7.5L12 3l9 4.5v9L12 21l-9-4.5z"/><path d="M3 7.5l9 4.5 9-4.5M12 12v9"/>',
+  book: '<path d="M3.5 5.5c2.8-1.6 5.7-1.6 8.5 0v14c-2.8-1.6-5.7-1.6-8.5 0zM12 5.5c2.8-1.6 5.7-1.6 8.5 0v14c-2.8-1.6-5.7-1.6-8.5 0"/>',
+  slides: '<rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M12 16v4M8 20h8M7 12.5l3-3 2 2 4-4"/>',
+  play: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M10 9.3v5.4l4.6-2.7z"/>',
+  listcheck: '<path d="M3.5 6l1.5 1.5L7.5 5M3.5 12l1.5 1.5L7.5 11M3.5 18l1.5 1.5L7.5 17M11 6h9.5M11 12h9.5M11 18h9.5"/>',
+  folder: '<path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M8 13h8"/>',
+  cube: '<path d="M12 3.5l7.5 4.2v8.6L12 20.5l-7.5-4.2V7.7z"/><path d="M4.5 7.7L12 12l7.5-4.3M12 12v8.5"/><path d="M1.5 12.5c0 2.4 4.7 4.5 10.5 4.5s10.5-2.1 10.5-4.5" opacity=".6"/>',
+  pyramid: '<path d="M12 3l9.5 17h-19z"/><path d="M7.4 11.5h9.2M5 15.8h14"/>',
+  quad: '<rect x="3" y="3" width="18" height="18" rx="2.5"/><path d="M12 3v18M3 12h18"/>',
+  bulb: '<path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9V16h7v-2.1A6 6 0 0 0 12 3z"/>',
+  rocket: '<path d="M14 4.5c3-1.2 5.6-1.2 6-.8.4.4.4 3-.8 6L13 16l-5-5z"/><path d="M8 11l-4 .8 2.2-4H10M13 16l-.8 4 4-2.2V14"/><circle cx="15.6" cy="8.4" r="1.4"/>',
+  feather: '<path d="M20 4C11 4 6 9 6 18l-2 2"/><path d="M6 18c6 0 11-3 12-9M8.5 14H14"/>',
+  layers: '<path d="M12 3l9 4.5-9 4.5-9-4.5z"/><path d="M3 12l9 4.5 9-4.5M3 16.5L12 21l9-4.5"/>',
+  spark: '<path d="M12 2.5v4M12 17.5v4M2.5 12h4M17.5 12h4"/><path d="M12 8l1.4 2.6L16 12l-2.6 1.4L12 16l-1.4-2.6L8 12l2.6-1.4z"/>',
+  badge: '<circle cx="12" cy="9" r="6"/><path d="M9 14.4L8 21l4-2 4 2-1-6.6"/><path d="M9.6 9l1.7 1.7L14.6 7.4"/>',
+  briefcase: '<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5h6v2M3 12.5h18"/>',
+  coins: '<ellipse cx="12" cy="6" rx="7" ry="2.8"/><path d="M5 6v6c0 1.6 3.1 2.8 7 2.8s7-1.2 7-2.8V6M5 12v6c0 1.6 3.1 2.8 7 2.8s7-1.2 7-2.8v-6"/>',
+  code: '<path d="M8 7l-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/>',
+  mic: '<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3M9 21h6"/>',
+  health: '<rect x="3" y="3" width="18" height="18" rx="4.5"/><path d="M12 7.5v9M7.5 12h9"/>',
+  scales: '<path d="M12 3v17M7 20.5h10M5 7h14"/><path d="M5 7l-2.7 6a2.7 2.7 0 0 0 5.4 0zM19 7l-2.7 6a2.7 2.7 0 0 0 5.4 0z"/>',
+  scatter: '<path d="M4 3.5V20h16.5"/><circle cx="9" cy="14" r="1.3"/><circle cx="12.5" cy="10" r="1.3"/><circle cx="17" cy="7" r="1.3"/><circle cx="11" cy="16.5" r="1.3"/><circle cx="16" cy="13" r="1.3"/>',
+  chip: '<rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9.5 2.5V6M14.5 2.5V6M9.5 18v3.5M14.5 18v3.5M2.5 9.5H6M2.5 14.5H6M18 9.5h3.5M18 14.5h3.5"/><rect x="9.5" y="9.5" width="5" height="5" rx="1"/>',
+  megaphone: '<path d="M3 10v4h3l10 5V5L6 10z"/><path d="M19 9a4 4 0 0 1 0 6M7 14l1 6h3l-1-5"/>',
+  multi: '<circle cx="8" cy="8" r="3"/><path d="M2.5 20c.6-3.4 2.8-5.5 5.5-5.5s4.9 2.1 5.5 5.5"/><path d="M18 3l-2.5 5h4L17 13.5"/>',
+  phone: '<rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/>',
+  chart: '<path d="M3 20.5h18"/><path d="M4 15l5-5 4 3 7-7"/><path d="M16 6h4v4"/>',
+  server: '<rect x="4" y="3.5" width="16" height="7" rx="1.5"/><rect x="4" y="13.5" width="16" height="7" rx="1.5"/><path d="M8 7h.5M8 17h.5M12 7h4M12 17h4"/>',
+  plug: '<path d="M9 3v5M15 3v5M6 8h12v3a6 6 0 0 1-12 0zM12 17v4"/>',
+  calendar: '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M7.5 14h3M13.5 14h3M7.5 17.5h3"/>',
+  tent: '<path d="M2.5 20L12 4l9.5 16z"/><path d="M8 20l4-6.5 4 6.5"/>',
+  chat: '<path d="M4.5 19.5l1.2-3.6A8 8 0 1 1 8.4 18.6z"/><path d="M9 9.5c.3 2.3 2.2 4.2 4.5 4.5l1-1.2 1.8.8-.3 1.4c-3.8.3-7.3-3.2-7-7l1.4-.3.8 1.8z"/>',
+  mail: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 6.5l8.5 6.5 8.5-6.5"/>',
+  building: '<rect x="4" y="3" width="10" height="18"/><path d="M14 9h6v12h-6M7 7h4M7 11h4M7 15h4M2 21h20"/>',
+  music: '<path d="M9 18V5l11-2v13"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/>',
+  star: '<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/>',
+  booth: '<path d="M3 9h18l-2-5H5z"/><path d="M4 9v11h16V9M9 20v-6h6v6"/>',
+  bag: '<path d="M5 8h14l-1 12.5H6z"/><path d="M9 8a3 3 0 0 1 6 0"/>',
+  leaf: '<path d="M5 19C5 10 10 5 20 4c0 10-5 15-14 15z"/><path d="M5 19l8-8"/>',
+  compass: '<circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/>',
+  nib: '<path d="M12 3l6 8-6 10-6-10z"/><circle cx="12" cy="12.5" r="1.6"/><path d="M12 3v7.8"/>',
+  target: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.4"/>',
+  refresh: '<path d="M20 12a8 8 0 1 1-2.3-5.7"/><path d="M20 4v5h-5"/>',
+  share: '<circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8.2 10.8l7.6-3.6M8.2 13.2l7.6 3.6"/>',
+  layout: '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M9.5 9v11"/>',
+  browser: '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 8.5h18M6 6.3h.5M8.5 6.3h.5"/><path d="M10 12.5l-2 2 2 2M14 12.5l2 2-2 2"/>',
+  cart: '<path d="M3 4h2.5l2 11h11l2-8H7"/><circle cx="9.5" cy="19" r="1.5"/><circle cx="17" cy="19" r="1.5"/>',
+  gauge: '<path d="M4 17a8 8 0 1 1 16 0"/><path d="M12 17l4-5M7 17h.5M16.5 17h.5"/>',
+  bars: '<path d="M4 20.5h16M7 17v-5M12 17V7M17 17v-8"/>',
+  image: '<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="9.5" r="1.8"/><path d="M3 17l5-5 4 4 3-3 6 6"/>',
+  plus: '<path d="M12 5v14M5 12h14"/>',
+  trophy: '<path d="M8 4h8v5a4 4 0 0 1-8 0zM8 6H4.5a3 3 0 0 0 3.6 4M16 6h3.5a3 3 0 0 1-3.6 4M12 13v4M8.5 20.5h7M10 17h4v3.5h-4z"/>',
+};
+const ic = (name, cls = '') => `<svg class="ic ${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[name] || ''}</svg>`;
+const icTile = (name, tone = 'mint') => `<span class="ic-tile" style="--tile:${TONES[tone].tint};--tile-ink:${TONES[tone].deep}">${ic(name)}</span>`;
+
+/* ---------- Image placeholder ---------- */
+/* A picture in a fixed frame; the caption names the project it comes from */
+const pic = (src, ratio, alt, cap = '', pos = '50% 50%') => `<figure class="pic" style="aspect-ratio:${ratio}"><img src="${src}" alt="${alt}" loading="lazy" decoding="async" style="object-position:${pos}"></figure>`;
+/* Mockups: flat screens and graphics are shown in a device, on paper or as posts */
+const img_ = (src, alt, pos = '50% 50%') => `<img src="${src}" alt="${alt}" loading="lazy" decoding="async" style="object-position:${pos}">`;
+function mock(sl, ratio) {
+  const [kind, o] = sl, bg = o.bg || '#e9ebe4';
+  if (kind === 'photo') return pic(o.src, ratio, o.alt, '', o.pos);
+  const wrap = inner => `<figure class="pic mk mk-${kind}" style="aspect-ratio:${ratio};--bg:${bg}">${inner}</figure>`;
+  if (kind === 'laptop') return wrap(`<div class="lap"><div class="lap-scr">${img_(o.src, o.alt, '0% 0%')}</div><div class="lap-base"></div></div>`);
+  if (kind === 'browser') return wrap(`<div class="win"><div class="win-bar"><i></i><i></i><i></i><span></span></div>${img_(o.src, o.alt, '0% 0%')}</div>`);
+  if (kind === 'print') return wrap(`<div class="paper" style="aspect-ratio:${o.ar || '16 / 9'}">${img_(o.src, o.alt)}</div>`);
+  if (kind === 'posts') return wrap(`<div class="posts-mk">${o.srcs.map(src => `<div class="ig"><div class="ig-h"><b></b><span></span><em></em></div>${img_(src, o.alt)}<div class="ig-f"><i></i><i></i><i></i><u></u></div></div>`).join('')}</div>`);
+  return '';
+}
+const MK_IMG = {
+  branding: {
+    hero: ['photo', { src: 'img/oli/mic.webp', alt: 'Oli brand on a branded microphone' }],
+    goal: ['print', { src: 'img/kaynes/page-03.webp', alt: 'Kaynes Technology logo page from the brand book', bg: '#efe6dc' }],
+    proj: [['print', { src: 'img/milntown/pg17.webp', alt: 'Miln Town logo card', bg: '#dfe3d6', ar: '2 / 1' }], ['posts', { srcs: ['img/oli/blog-society.webp', 'img/oli/blog-lifestyle.webp'], alt: 'Oli branded social posts', bg: '#2b2f2a' }]] },
+  advertising: {
+    hero: ['photo', { src: 'img/marketing/wado-billboard.webp', alt: 'WADO outdoor screen campaign: Waste the Oceans', pos: '50% 62%' }],
+    goal: ['photo', { src: 'img/oli/stage.webp', alt: 'Oli brand on a stage screen' }],
+    proj: [['photo', { src: 'img/marketing/androneo-social.webp', alt: 'AndroNeo social media ads' }], ['photo', { src: 'img/marketing/manipal-social.webp', alt: 'Manipal GlobalNxt social media ads' }]] },
+  'digital-services': {
+    hero: ['photo', { src: 'img/marketing/manipal-social.webp', alt: 'Manipal GlobalNxt social media posts' }],
+    goal: ['photo', { src: 'img/marketing/androneo-social.webp', alt: 'AndroNeo social media posts' }],
+    proj: [['posts', { srcs: ['img/oli/blog-creative.webp', 'img/oli/blog-genres.webp'], alt: 'Oli content series as social posts', bg: '#e7e1f7' }], ['posts', { srcs: ['img/oli/blog-business.webp', 'img/oli/blog-lifestyle.webp'], alt: 'Oli content series as social posts', bg: '#f3e3df' }]] },
+  'web-app-development': {
+    hero: ['photo', { src: 'img/oli/app.webp', alt: 'Oli mobile app in hand' }],
+    goal: ['laptop', { src: 'img/cube/s52.webp', alt: 'Cube app on a laptop while the audience model is built', bg: '#dcecf6' }],
+    proj: [['laptop', { src: 'img/cube/s07.webp', alt: 'Cube app brand archetype screen on a laptop', bg: '#e7e1f7' }], ['browser', { src: 'img/cube/s51.webp', alt: 'Cube team workspace in a browser window', bg: '#dff7e2' }]] },
+};
+const ph = (ratio = '4 / 3', note = '') => `<figure class="ph" style="aspect-ratio:${ratio}"><div class="ph-in">${ic('image')}<span>Image placeholder</span>${note ? `<small>${note}</small>` : ''}</div></figure>`;
+
+/* ---------- Filled brand devices for page banners (Lookbook p.9): climb, latch tiles, tunnel ---------- */
+function fxSVG(kind, w, h, tone) {
+  const t = TONES[tone], open = `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" aria-hidden="true">`;
+  if (kind === 'climb') {
+    const bands = 9, step = h / (bands + 6), yHigh = step, yLow = h * 0.55, fills = ramp(t.deep, t.light, bands), x0 = w * 0.5, dx = (yLow - yHigh) / TAN57, rLow = step * 1.5, rHigh = step * (bands + 1.5);
+    const band = i => {
+      const d = i * step, lo = yLow + d, hi = yHigh + d, xs = x0 + d * SHIFT57, xh = xs + dx, r1 = rLow + d, r2 = rHigh - d, t1 = r1 * HALF57, t2 = r2 * HALF57;
+      return `M0 ${h}V${f2(lo)}H${f2(xs - t1)}A${f2(r1)} ${f2(r1)} 0 0 0 ${f2(xs + t1 * COS57)} ${f2(lo - t1 * SIN57)}L${f2(xh - t2 * COS57)} ${f2(hi + t2 * SIN57)}A${f2(r2)} ${f2(r2)} 0 0 1 ${f2(xh + t2)} ${f2(hi)}H${w}V${h}Z`;
+    };
+    return `<svg viewBox="0 0 ${w} ${h}" aria-hidden="true">${fills.map((f, i) => `<path class="fx-b" d="${band(i)}" fill="${f}" style="--i:${i}"/>`).join('')}</svg>`;
+  }
+  if (kind === 'tiles') {
+    const s = Math.max(28, h * 0.3), step = s * 1.22, dark = mixHex(t.deep, t.light, 0.3), out = [];
+    let k = 0;
+    for (let y = h * 0.12; y < h + s; y += step) for (let x = -s * 0.2; x < w + s; x += step) {
+      const delay = (x / w) * 9 + (y / h) * 3;
+      out.push(`<g class="fx-t" style="--i:${delay.toFixed(1)}"><rect x="${f2(x)}" y="${f2(y)}" width="${f2(s)}" height="${f2(s)}" fill="${dark}"/><rect x="${f2(x + s / 2)}" y="${f2(y + s / 2)}" width="${f2(s)}" height="${f2(s)}" fill="${t.light}"/></g>`); k++;
+    }
+    return `<svg viewBox="0 0 ${w} ${h}" aria-hidden="true">${out.join('')}</svg>`;
+  }
+  if (kind === 'nest') { // arches nested on one centre (Lookbook 04), bleeding off the right of the banner
+    const big = w >= 900 && h >= 360, n = big ? 8 : 7, cols = ramp(mixHex(t.deep, t.light, .2), t.light, n);
+    const W0 = big ? Math.min(h * 1.05, w * .4) : Math.min(h * 1.5, w * .46), cx = big ? w - W0 * .46 : w - W0 * .32, top = big ? h * .2 : h * .1, out = [];
+    for (let i = 0; i < n; i++) {
+      const half = W0 / 2 - i * (W0 / 2 / (n + .5)), y = top + i * (W0 / 2 / (n + .5)) * .55, cy = y + half * .45;
+      out.push(`<path class="fx-b" style="--i:${i}" d="M${f2(cx - half)} ${f2(y)}H${f2(cx + half)}V${f2(cy)}A${f2(half)} ${f2(half)} 0 0 1 ${f2(cx - half)} ${f2(cy)}Z" fill="${cols[i]}"/>`);
+    }
+    return `<svg viewBox="0 0 ${w} ${h}" aria-hidden="true">${out.join('')}</svg>`;
+  }
+  if (kind === 'tunnel') {
+    const n = 11, fills = ramp(t.light, t.deep, n), out = [];
+    for (let i = 0; i < n; i++) { const ix = i * (w * 0.5 / (n + 1)), iy = i * (h * 0.5 / (n + 1)); out.push(`<rect class="fx-b" style="--i:${i}" x="${f2(ix)}" y="${f2(iy)}" width="${f2(w - 2 * ix)}" height="${f2(h - 2 * iy)}" fill="${fills[i]}"/>`); }
+    return `<svg viewBox="0 0 ${w} ${h}" aria-hidden="true">${out.join('')}</svg>`;
+  }
+  return open + '</svg>';
+}
+function renderFx(el) {
+  const w = el.clientWidth, h = el.clientHeight; if (!w || !h) return;
+  if (el._w === w && el._h === h) return; el._w = w; el._h = h;
+  el.innerHTML = fxSVG(el.dataset.fx, w, h, el.dataset.tone || 'mint');
+}
+const fxSlot = (kind, tone) => `<div class="art fx" data-fx="${kind}" data-tone="${tone}"></div>`;
+
+/* ---------- Service illustrations for the home gallery (400 × 250) ---------- */
+function svcArt(i, tone) {
+  // Abstract, one idea per card, built from the lookbook devices. One stroke weight; 57° where a line turns.
+  const t = TONES[tone], L = t.light, D = t.deep, M = mixHex(D, L, .55), S = mixHex(D, L, .28), F = mixHex(D, L, .14);
+  const open = `<svg class="svc" viewBox="0 0 400 250" aria-hidden="true">`;
+  if (i === 0) { // Digital services: growth — five strands run flat, then rise at 57°; light travels up them
+    const ds = bundle([[-30, 196], [128, 196], [128 + 120 / TAN57, 76], [430, 76]], 52, 5, 15), cols = ramp(S, L, 5);
+    return open + ds.map((d, k) => `<path class="v-arc" style="--k:${k}" d="${d}" fill="none" stroke="${cols[k]}" stroke-width="7.5" pathLength="1"/>`).join('') +
+      ds.map((d, k) => `<path class="v-run" style="--k:${k}" d="${d}" fill="none" stroke="#F4F8F2" stroke-width="7.5" pathLength="1"/>`).join('') + `</svg>`;
+  }
+  if (i === 1) { // Branding: the latch tile — a mint square locks onto a deep one; smaller echoes keep the rhythm
+    const tile = (x, y, sz, k, solid) => solid
+      ? `<rect x="${x}" y="${y}" width="${sz}" height="${sz}" fill="${S}"/><rect class="v-lock" x="${x + sz / 2}" y="${y + sz / 2}" width="${sz}" height="${sz}" fill="${L}"/>`
+      : `<g class="v-echo" style="--k:${k}" fill="none" stroke="${M}" stroke-width="2"><rect x="${x}" y="${y}" width="${sz}" height="${sz}"/><rect x="${x + sz / 2}" y="${y + sz / 2}" width="${sz}" height="${sz}"/></g>`;
+    return open + tile(70, 58, 104, 0, true) + tile(250, 136, 52, 0) + tile(336, 169, 30, 1) + `</svg>`;
+  }
+  if (i === 2) { // EdTech: four quarters close into one circle
+    const cx = 200, cy = 126, r = 86, g = 5;
+    return open +
+      `<path class="v-q" style="--k:0;--dx:-16px;--dy:-16px" d="M${cx - g} ${cy - g}V${cy - g - r}A${r} ${r} 0 0 0 ${cx - g - r} ${cy - g}z" fill="${L}"/>` +
+      `<path class="v-q" style="--k:1;--dx:16px;--dy:-16px" d="M${cx + g} ${cy - g}V${cy - g - r}A${r} ${r} 0 0 1 ${cx + g + r} ${cy - g}z" fill="${M}"/>` +
+      `<path class="v-q" style="--k:3;--dx:-16px;--dy:16px" d="M${cx - g} ${cy + g}V${cy + g + r}A${r} ${r} 0 0 1 ${cx - g - r} ${cy + g}z" fill="${S}"/>` +
+      `<path class="v-q" style="--k:2;--dx:16px;--dy:16px" d="M${cx + g} ${cy + g}V${cy + g + r}A${r} ${r} 0 0 0 ${cx + g + r} ${cy + g}z" fill="${mixHex(D, L, .42)}"/></svg>`;
+  }
+  if (i === 3) { // Website & app: one layout, three frames on one baseline
+    const base = 206;
+    return open + [[200, 236, 150, S], [200, 128, 118, M], [200, 64, 96, L]].map(([cx, w, h, c], k) => `<rect class="v-frame" style="--k:${k}" x="${cx - w / 2}" y="${base - h}" width="${w}" height="${h}" rx="${10 - k * 2}" fill="none" stroke="${c}" stroke-width="5" pathLength="1"/>`).join('') +
+      `<rect class="v-fill" x="182" y="${base - 80}" width="36" height="26" rx="4" fill="${L}"/><path d="M60 ${base + 10}H340" stroke="${F}" stroke-width="5" stroke-linecap="round"/></svg>`;
+  }
+  if (i === 4) { // Advertising: a 57° line lands on one dot and wakes the field around it
+    const fx = 262, fy = 132, dots = [];
+    for (let r = 0; r < 5; r++) for (let c = 0; c < 9; c++) {
+      const x = 72 + c * 36, y = 60 + r * 36, d = Math.hypot(x - fx, y - fy);
+      if (d < 4) continue;
+      dots.push(`<circle class="${d < 60 ? 'v-wake' : ''}" style="--k:${(d / 36).toFixed(2)}" cx="${x}" cy="${y}" r="4" fill="${S}"/>`);
+    }
+    const top = 14, x0 = fx - (fy - top) / TAN57;
+    return open + dots.join('') + `<path class="v-beam" d="M${x0 - 120} ${top}H${x0}L${fx} ${fy}" fill="none" stroke="${L}" stroke-width="6" stroke-linejoin="round" pathLength="1"/>` +
+      `<circle cx="${fx}" cy="${fy}" r="9" fill="${L}"/><circle class="v-ping" cx="${fx}" cy="${fy}" r="9" fill="none" stroke="${L}" stroke-width="2"/></svg>`;
+  }
+  if (i === 6) { // Social media: a grid of posts; one lights up and its reach travels out at 57°
+    const tiles = [];
+    for (let r = 0; r < 2; r++) for (let c = 0; c < 3; c++) {
+      const x = 84 + c * 64, y = 70 + r * 64, lit = r === 1 && c === 1;
+      tiles.push(lit ? `<rect x="${x}" y="${y}" width="52" height="52" rx="10" fill="${S}"/><rect class="v-lock" x="${x}" y="${y}" width="52" height="52" rx="10" fill="${L}"/>`
+        : `<rect class="v-frame" style="--k:${r * 3 + c}" x="${x}" y="${y}" width="52" height="52" rx="10" fill="none" stroke="${c === 2 && r === 0 ? M : S}" stroke-width="4" pathLength="1"/>`);
+    }
+    const kx = 214 + (160 - 70) / TAN57;
+    return open + tiles.join('') + `<path class="v-beam" d="M174 160H214L${f2(kx)} 70H324" fill="none" stroke="${L}" stroke-width="6" stroke-linejoin="round" pathLength="1"/>` +
+      `<circle cx="324" cy="70" r="9" fill="${L}"/><circle class="v-ping" cx="324" cy="70" r="9" fill="none" stroke="${L}" stroke-width="2"/></svg>`;
+  }
+  if (i === 7) { // Film & photography: a frame, a play mark, and a timeline whose playhead runs
+    return open + `<rect class="v-frame" style="--k:0" x="92" y="34" width="216" height="128" rx="12" fill="none" stroke="${M}" stroke-width="5" pathLength="1"/>` +
+      `<path d="M92 66H308" stroke="${F}" stroke-width="2"/><path d="M128 34l-20 32M176 34l-20 32M224 34l-20 32M272 34l-20 32" stroke="${S}" stroke-width="4"/>` +
+      `<path class="v-fill" d="M186 92v48l40-24z" fill="${L}" stroke="${L}" stroke-width="4" stroke-linejoin="round"/>` +
+      `<path d="M92 204H308" stroke="${F}" stroke-width="6" stroke-linecap="round"/><path class="v-prog" d="M92 204H236" stroke="${L}" stroke-width="6" stroke-linecap="round" pathLength="1"/>` +
+      `<circle class="v-head" cx="236" cy="204" r="10" fill="${L}"/></svg>`;
+  }
+  // Gamified experience: players orbit one centre, in step
+  const cx = 200, cy = 125, orbit = (r, n, c, phase) => Array.from({ length: n }, (_, k) => { const a = phase + k * 2 * Math.PI / n; return `<circle cx="${f2(cx + r * Math.cos(a))}" cy="${f2(cy + r * Math.sin(a))}" r="${r > 60 ? 8 : 10}" fill="${c}"/>`; }).join('');
+  return open + `<circle cx="${cx}" cy="${cy}" r="56" fill="none" stroke="${S}" stroke-width="2"/><circle cx="${cx}" cy="${cy}" r="98" fill="none" stroke="${F}" stroke-width="2"/>` +
+    `<g class="v-orb a">${orbit(56, 3, L, -Math.PI / 2)}</g><g class="v-orb b">${orbit(98, 5, M, 0)}</g><circle cx="${cx}" cy="${cy}" r="20" fill="${L}"/></svg>`;
+}
+
+/* ---------- Scene: a globe that turns as you read (Crafting Brand Identities Globally) ---------- */
+const CITIES = [[12.97, 77.59], [25.2, 55.27], [51.5, -0.12], [40.7, -74], [1.35, 103.8], [-33.9, 151.2], [37.7, -122.4], [35.7, 139.7]];
+function globeScene(el, tone) {
+  const t = TONES[tone], L = t.light, M = mixHex(t.deep, L, .5), S = mixHex(t.deep, L, .3);
+  let w, h, R, cx, cy, svg, gGrid, gArcs, gDots, spin = 0, spinV = 0, lastP = 0;
+  const build = () => {
+    w = el.clientWidth; h = el.clientHeight; if (!w || !h) return;
+    R = w >= 600 ? Math.min(h * 0.38, w * 0.29) : Math.min(h * 0.46, w * 0.34); cx = w * 0.5; cy = w >= 600 ? h * 0.5 : h * 0.54;
+    el.innerHTML = `<svg viewBox="0 0 ${w} ${h}" aria-hidden="true"><defs><radialGradient id="gsh-${tone}" cx="38%" cy="32%" r="75%"><stop offset="0" stop-color="${mixHex(t.deep, L, .28)}"/><stop offset="1" stop-color="${t.deep}"/></radialGradient></defs>` +
+      `<ellipse cx="${cx}" cy="${cy}" rx="${R * 1.55}" ry="${R * .34}" fill="none" stroke="${S}" stroke-width="1.5" transform="rotate(-18 ${cx} ${cy})"/>` +
+      `<circle cx="${cx}" cy="${cy}" r="${R}" fill="url(#gsh-${tone})" stroke="${M}" stroke-width="1.5"/><g class="g-grid" fill="none" stroke="${S}" stroke-width="1.2"></g><g class="g-arcs" fill="none" stroke="${L}" stroke-width="2.2" stroke-linecap="round"></g><g class="g-dots"></g>` +
+      `<path d="M${cx - R * 1.55 * Math.cos(.314)} ${cy + R * 1.55 * Math.sin(.314)}A${R * 1.55} ${R * .34} -18 0 0 ${cx + R * 1.55 * Math.cos(.314)} ${cy - R * 1.55 * Math.sin(.314)}" fill="none" stroke="${M}" stroke-width="1.5" opacity=".9"/></svg>`;
+    svg = el.querySelector('svg'); gGrid = svg.querySelector('.g-grid'); gArcs = svg.querySelector('.g-arcs'); gDots = svg.querySelector('.g-dots');
+  };
+  const tilt = -22 * R0;
+  const vec = (lat, lon) => { const a = lat * R0, b = lon * R0; return [Math.cos(a) * Math.sin(b), Math.sin(a), Math.cos(a) * Math.cos(b)]; };
+  const proj = (v, rot, alt = 1) => {
+    const c = Math.cos(rot), s = Math.sin(rot);
+    let x = v[0] * c - v[2] * s, z = v[0] * s + v[2] * c, y = v[1];
+    const y2 = y * Math.cos(tilt) - z * Math.sin(tilt), z2 = y * Math.sin(tilt) + z * Math.cos(tilt);
+    return [cx + R * alt * x, cy - R * alt * y2, z2];
+  };
+  const line = (pts) => { let d = '', on = false; pts.forEach(p => { if (p[2] > 0) { d += `${on ? 'L' : 'M'}${f2(p[0])} ${f2(p[1])}`; on = true; } else on = false; }); return d; };
+  const update = (p, now) => {
+    if (!svg) build(); if (!svg) return;
+    spin += spinV; spinV *= 0.94;
+    const rot = (-10 + p * 150) * R0 + spin * R0;
+    let gd = '';
+    for (let lat = -60; lat <= 60; lat += 20) { const pts = []; for (let lon = -180; lon <= 180; lon += 6) pts.push(proj(vec(lat, lon), rot)); gd += line(pts); }
+    for (let lon = -180; lon < 180; lon += 30) { const pts = []; for (let lat = -90; lat <= 90; lat += 6) pts.push(proj(vec(lat, lon), rot)); gd += line(pts); }
+    gGrid.innerHTML = `<path d="${gd}"/>`;
+    const o = vec(CITIES[0][0], CITIES[0][1]);
+    let arcs = '', dots = '';
+    CITIES.slice(1).forEach((c, k) => {
+      const v = vec(c[0], c[1]), dot = o[0] * v[0] + o[1] * v[1] + o[2] * v[2], om = Math.acos(Math.max(-1, Math.min(1, dot))), so = Math.sin(om) || 1;
+      const f = clamp(p * 1.7 - k * 0.12), steps = 36, pts = [];
+      for (let j = 0; j <= steps * f; j++) {
+        const u = j / steps, a = Math.sin((1 - u) * om) / so, b = Math.sin(u * om) / so;
+        pts.push(proj([o[0] * a + v[0] * b, o[1] * a + v[1] * b, o[2] * a + v[2] * b], rot, 1 + 0.22 * Math.sin(Math.PI * u) * (om / Math.PI + .3)));
+      }
+      arcs += `<path d="${line(pts.map(q => [q[0], q[1], q[2] + 0.25]))}"/>`;
+      const head = pts[pts.length - 1];
+      if (head && f > 0 && f < 1 && head[2] > -0.25) dots += `<circle cx="${f2(head[0])}" cy="${f2(head[1])}" r="3.5" fill="#EEF3EC"/>`;
+      const cp = proj(v, rot); if (cp[2] > 0 && f >= 1) dots += `<circle class="g-city" cx="${f2(cp[0])}" cy="${f2(cp[1])}" r="4" fill="${L}"/>`;
+    });
+    const op = proj(o, rot);
+    if (op[2] > 0) dots += `<circle class="g-ring" cx="${f2(op[0])}" cy="${f2(op[1])}" r="14" fill="none" stroke="${L}" stroke-width="1.5"/><circle cx="${f2(op[0])}" cy="${f2(op[1])}" r="6" fill="${L}"/>`;
+    gArcs.innerHTML = arcs; gDots.innerHTML = dots; lastP = p;
+  };
+  return { build, update, click: () => { spinV = 6; }, rebuild: () => { svg = null; build(); update(lastP); } };
+}
+const R0 = Math.PI / 180;
+
+/* ---------- Scene: an interface assembling itself (Enhancing User Experience) ---------- */
+function uxScene(el, tone) {
+  const t = TONES[tone], L = t.light, M = mixHex(t.deep, L, .65), S = mixHex(t.deep, L, .22), W = '#EEF3EC';
+  let svg, blocks = [], journey, cursor, taps = [], lastP = 0, pathLen = 1;
+  const rnd = (k) => { const x = Math.sin(k * 99.13) * 43758.5453; return x - Math.floor(x); };
+  const build = () => {
+    const w = el.clientWidth, h = el.clientHeight; if (!w || !h) return;
+    taps = [];
+    const n = w > 760 ? 3 : 2, sh = Math.min(h * 0.86, 420), sw = Math.min(sh * 0.56, (w - 80) / n - 30), gap = (w - n * sw) / (n + 1), top = (h - sh) / 2 + 6;
+    let out = `<svg viewBox="0 0 ${w} ${h}" aria-hidden="true">`;
+    const screens = [];
+    for (let k = 0; k < n; k++) {
+      const x = gap + k * (sw + gap), y = top + (k % 2 ? 14 : 0); screens.push([x, y]);
+      out += `<rect x="${f2(x)}" y="${f2(y)}" width="${f2(sw)}" height="${f2(sh)}" rx="${f2(sw * .12)}" fill="${S}" stroke="${M}" stroke-width="1.5"/><rect x="${f2(x + sw * .38)}" y="${f2(y + 10)}" width="${f2(sw * .24)}" height="5" rx="2.5" fill="${M}"/>`;
+      const pad = sw * 0.1, iw = sw - pad * 2;
+      const rows = [[pad, 30, iw * .55, 10, M], [pad, 50, iw, sh * .26, k === 1 ? L : mixHex(t.deep, L, .55)], [pad, 62 + sh * .26, iw * .48, sh * .16, M], [pad + iw * .52, 62 + sh * .26, iw * .48, sh * .16, M], [pad, 74 + sh * .42, iw, 12, mixHex(t.deep, L, .45)], [pad, 94 + sh * .42, iw * .8, 12, mixHex(t.deep, L, .45)], [pad, sh - 30 - sh * .07, iw, sh * .08, L]];
+      rows.forEach((r, j) => { const id = `${k}-${j}`; out += `<rect class="ux-b" data-k="${k}" data-j="${j}" x="${f2(x + r[0])}" y="${f2(y + r[1])}" width="${f2(r[2])}" height="${f2(r[3])}" rx="${j === 6 ? f2(r[3] / 2) : 5}" fill="${r[4]}"/>`; });
+      taps.push([x + sw / 2, y + sh - 30 - sh * .03]);
+    }
+    let jd = `M${f2(screens[0][0] + sw / 2)} ${f2(taps[0][1])}`;
+    for (let k = 1; k < n; k++) { const a = taps[k - 1], b = taps[k], my = Math.max(a[1], b[1]) + sh * 0.12 + 20; jd += `L${f2(a[0])} ${f2(my - 20)}Q${f2(a[0])} ${f2(my)} ${f2(a[0] + 20)} ${f2(my)}L${f2(b[0] - 20)} ${f2(my)}Q${f2(b[0])} ${f2(my)} ${f2(b[0])} ${f2(my - 20)}L${f2(b[0])} ${f2(b[1])}`; }
+    out += `<path class="ux-j" d="${jd}" fill="none" stroke="${L}" stroke-width="2" stroke-dasharray="1 1" stroke-dashoffset="1" pathLength="1"/>`;
+    out += taps.map((p, k) => `<circle class="ux-tap" data-k="${k}" cx="${f2(p[0])}" cy="${f2(p[1])}" r="6" fill="none" stroke="${W}" stroke-width="2" opacity="0"/>`).join('');
+    out += `<path class="ux-cur" d="M0 0l0 22 6-6 5 11 4-2-5-11h9z" fill="${W}" stroke="${t.deep}" stroke-width="1.5" stroke-linejoin="round"/></svg>`;
+    el.innerHTML = out; svg = el.querySelector('svg');
+    blocks = [...svg.querySelectorAll('.ux-b')].map((b, i) => ({ el: b, k: +b.dataset.k, j: +b.dataset.j, dx: (rnd(i) - .5) * 160, dy: (rnd(i + 7) - .5) * 120, r: (rnd(i + 3) - .5) * 40 }));
+    journey = svg.querySelector('.ux-j'); cursor = svg.querySelector('.ux-cur'); pathLen = journey.getTotalLength(); taps = [...svg.querySelectorAll('.ux-tap')];
+  };
+  const update = (p) => {
+    if (!svg) build(); if (!svg) return; lastP = p;
+    const n = taps.length;
+    blocks.forEach(b => {
+      const e = easeIO(clamp(p * 2.2 - b.k * 0.32 - b.j * 0.04));
+      b.el.setAttribute('transform', e >= 1 ? '' : `translate(${f2((1 - e) * b.dx)} ${f2((1 - e) * b.dy)}) rotate(${f2((1 - e) * b.r)} ${b.el.getAttribute('x')} ${b.el.getAttribute('y')})`);
+      b.el.setAttribute('opacity', f2(0.4 + 0.6 * e));
+    });
+    const jp = clamp((p - 0.38) / 0.55);
+    journey.setAttribute('stroke-dashoffset', f2(1 - jp));
+    const pt = journey.getPointAtLength(pathLen * jp);
+    cursor.setAttribute('transform', `translate(${f2(pt.x - 2)} ${f2(pt.y - 2)})`);
+    cursor.setAttribute('opacity', p > 0.36 ? 1 : 0);
+    taps.forEach((c, k) => { const at = n > 1 ? k / (n - 1) : 0, d = Math.abs(jp - at); c.setAttribute('opacity', f2(clamp(1 - d * 9))); c.setAttribute('r', f2(6 + (1 - clamp(1 - d * 9)) * 14)); });
+  };
+  return { build, update, click: () => { el.classList.remove('ux-flash'); void el.offsetWidth; el.classList.add('ux-flash'); }, rebuild: () => { svg = null; build(); update(lastP); } };
+}
+
+/* ---------- Scene: an audience joining in, row by row (Creating Interactive Experiences) ---------- */
+function arenaScene(el, tone) {
+  const t = TONES[tone], L = t.light, M = mixHex(t.deep, L, .45), S = mixHex(t.deep, L, .2), W = '#EEF3EC';
+  let svg, seats = [], bars = [], beams, lastP = 0, sx, sy, sw2, sh2;
+  const build = () => {
+    const w = el.clientWidth, h = el.clientHeight; if (!w || !h) return;
+    // Screen and audience are sized together, kept inside the width and centred in the space.
+    const rows = 6, ocx = w / 2;
+    let ocy, r0, rs;
+    if (w >= 600) {
+      sw2 = Math.min(w * 0.4, 340); sh2 = Math.min(h * 0.26, sw2 * 0.5);
+      const maxR = Math.min(w * 0.45, (h * 0.86 - sh2 - 6) / 0.9), total = sh2 + 6 + maxR * 0.9 + 8;
+      sx = w / 2 - sw2 / 2; sy = Math.max(8, (h - total) / 2); ocy = sy + sh2 + 6; r0 = maxR * 0.34; rs = (maxR - r0) / rows;
+    } else { // phones keep the original, roomier layout
+      sw2 = Math.min(w * 0.36, 380); sh2 = Math.min(h * 0.3, sw2 * 0.5); sx = w / 2 - sw2 / 2; sy = h * 0.06;
+      ocy = sy + sh2 + 6; r0 = Math.min(h * 0.2, 90); rs = (h * 0.92 - ocy - r0) / rows;
+    }
+    let out = `<svg viewBox="0 0 ${w} ${h}" aria-hidden="true"><g class="ar-beams" stroke="${L}" stroke-width="1" fill="none"></g>`;
+    out += `<rect x="${f2(sx)}" y="${f2(sy)}" width="${f2(sw2)}" height="${f2(sh2)}" rx="10" fill="${S}" stroke="${M}" stroke-width="1.5"/>`;
+    const bw = sw2 / 9;
+    for (let b = 0; b < 4; b++) out += `<rect class="ar-bar" data-b="${b}" x="${f2(sx + bw * (1 + b * 2))}" y="${f2(sy + sh2 - 14)}" width="${f2(bw)}" height="0" rx="3" fill="${[L, M, mixHex(L, W, .4), M][b]}"/>`;
+    for (let r = 0; r < rows; r++) {
+      const rad = r0 + r * rs + rs / 2, count = Math.round((Math.PI * rad) / 26);
+      for (let s = 0; s < count; s++) {
+        const a = Math.PI * (0.06 + 0.88 * (s + .5) / count), x = ocx + Math.cos(a) * rad, y = ocy + Math.sin(a) * rad * 0.9;
+        if (y > h - 8 || x < 8 || x > w - 8) continue;
+        const rot = (a * 180 / Math.PI) - 90;
+        out += `<rect class="ar-s" data-r="${r}" data-q="${(s / count).toFixed(3)}" x="${f2(x - 5)}" y="${f2(y - 8)}" width="10" height="16" rx="2.5" fill="${S}" transform="rotate(${f2(rot)} ${f2(x)} ${f2(y)})"/>`;
+      }
+    }
+    el.innerHTML = out + '</svg>'; svg = el.querySelector('svg');
+    seats = [...svg.querySelectorAll('.ar-s')].map(s => ({ el: s, at: (+s.dataset.r) / 6 * 0.7 + (+s.dataset.q) * 0.18, lit: false, x: +s.getAttribute('x') + 5, y: +s.getAttribute('y') + 8 }));
+    bars = [...svg.querySelectorAll('.ar-bar')]; beams = svg.querySelector('.ar-beams');
+  };
+  const update = (p) => {
+    if (!svg) build(); if (!svg) return;
+    const q = clamp(p * 1.2);
+    seats.forEach(s => {
+      const on = q > s.at;
+      if (on !== s.lit) {
+        s.lit = on; s.el.setAttribute('fill', on ? L : S);
+        if (on && p > lastP && motionOK()) { const ln = document.createElementNS('http://www.w3.org/2000/svg', 'path'); ln.setAttribute('d', `M${f2(s.x)} ${f2(s.y)}L${f2(sx + sw2 / 2)} ${f2(sy + sh2)}`); ln.setAttribute('pathLength', 1); ln.setAttribute('class', 'ar-beam'); beams.append(ln); setTimeout(() => ln.remove(), 900); }
+      }
+    });
+    const lit = seats.filter(s => s.lit).length / (seats.length || 1);
+    bars.forEach((b, k) => { const hh = (sh2 - 30) * lit * [0.95, 0.6, 0.78, 0.4][k]; b.setAttribute('height', f2(hh)); b.setAttribute('y', f2(sy + sh2 - 14 - hh)); });
+    lastP = p;
+  };
+  const click = () => { seats.forEach(s => { s.el.style.animationDelay = `${(s.at * 900).toFixed(0)}ms`; s.el.classList.remove('ar-wave'); void s.el.getBBox(); s.el.classList.add('ar-wave'); }); };
+  return { build, update, click, rebuild: () => { svg = null; build(); update(lastP); } };
+}
+
+/* ---------- The latch: two lines enter from opposite edges, turn at 57° and become the logo ---------- */
+const LOCK_LEFT = 'M156.5 391A133 133 0 0 1 23.5 258V135H54';
+const LOCK_RIGHT = 'M156.5 391A133 133 0 0 0 289.5 258V135H259';
+function latchScene(el, tone) {
+  const t = TONES[tone];
+  let svg, parts = {}, lastP = -1;
+  const build = () => {
+    const w = el.clientWidth, h = el.clientHeight; if (!w || !h) return;
+    const wide = w >= 900;
+    const s = wide ? Math.min(h * 0.44 / 410, w * 0.15 / 298) : Math.min(h * 0.56 / 410, w * 0.36 / 298);
+    const cxs = wide ? w * 0.8 : w * 0.66, cys = wide ? h * 0.54 : h * 0.5;
+    const tx = cxs - 156.5 * s, ty = cys - 209 * s;
+    const bx = tx + 140.2 * s, by = ty + 101 * s, ax = tx + 168 * s, ay = ty + 254 * s;
+    const top = wide ? Math.min(Math.max(56, h * 0.13), by - 40) : Math.max(22, by - h * 0.26);
+    const bottom = wide ? Math.min(h - 56, ay + (by - top) * 0.6) : Math.min(h - 22, ay + h * 0.17);
+    const R = 30 * s + 12;
+    const l1 = bundle([[-40, top], [bx - (by - top) / TAN57, top], [bx, by]], R, 1, 0)[0];
+    const l2 = bundle([[w + 40, bottom], [ax + (bottom - ay) / TAN57, bottom], [ax, ay]], R, 1, 0)[0];
+    el.innerHTML = `<svg viewBox="0 0 ${w} ${h}" aria-hidden="true"><g class="lt-all" fill="none" stroke="${t.light}" style="color:${t.light}" stroke-width="${f2(28 * s)}">` +
+      `<path class="lt l1" d="${l1}" pathLength="1"/><path class="lt l2" d="${l2}" pathLength="1"/>` +
+      `<g transform="translate(${f2(tx)} ${f2(ty)}) scale(${s.toFixed(4)})" stroke-width="28"><path class="lt s1" d="${LOWER_FROM_BAR}" pathLength="1"/><path class="lt s2" d="${UPPER_FROM_BAR}" pathLength="1"/><path class="lt s3" d="${LOCK_LEFT}" pathLength="1"/><path class="lt s4" d="${LOCK_RIGHT}" pathLength="1"/></g></g></svg>`;
+    svg = el.querySelector('svg');
+    parts = { all: svg.querySelector('.lt-all'), l: [...svg.querySelectorAll('.l1, .l2')], s1: svg.querySelector('.s1'), s2: svg.querySelector('.s2'), lock: [...svg.querySelectorAll('.s3, .s4')] };
+    lastP = -1;
+  };
+  // p runs 0 → 1 over the sequence: the lines travel in (0–.46), turn into the loops (.4–.7), the lock closes (.64–.92), then it clicks.
+  const set = (p) => {
+    if (!svg) build(); if (!svg || Math.abs(p - lastP) < 0.0005) return;
+    const wasDone = lastP >= 0.95; lastP = p;
+    const a = easeIO(clamp(p / 0.46)), b = easeIO(clamp((p - 0.4) / 0.3)), c = easeIO(clamp((p - 0.64) / 0.28));
+    parts.l.forEach(l => (l.style.strokeDashoffset = f2(1 - a)));
+    parts.s1.style.strokeDashoffset = f2(1 - b);
+    parts.s2.style.strokeDashoffset = f2(1 - b);
+    parts.lock.forEach(l => (l.style.strokeDashoffset = f2(1 - c)));
+    if (p >= 0.95 && !wasDone && motionOK()) { parts.all.classList.remove('lt-click'); void parts.all.getBBox(); parts.all.classList.add('lt-click'); }
+    if (p < 0.95) parts.all.classList.remove('lt-click');
+  };
+  return { build, set, rebuild: () => { svg = null; build(); } };
+}
+
+/* ---------- EdTech hero: an exploded stack of learning layers in isometric view ---------- */
+function isoStack(tone) {
+  const t = TONES[tone], L = t.light, D = t.deep, M = mixHex(D, L, .5), S = mixHex(D, L, .25), W = '#EEF3EC';
+  const iso = 'matrix(0.866 0.5 -0.866 0.5 0 0)';
+  const plate = (y, fill, inner, k) => `<g transform="translate(260 ${y})"><g class="iso-layer" style="--k:${k}">` +
+    `<path d="M-173 100L0 200 173 100V112L0 212-173 112z" fill="${mixHex(D, '#000000', .15)}"/><path d="M0 200L173 100V112L0 212z" fill="${mixHex(D, L, .12)}"/>` +
+    `<g transform="${iso}"><rect x="0" y="0" width="200" height="200" rx="14" fill="${fill}" stroke="${L}" stroke-width="1.4"/>${inner}</g></g></g>`;
+  const lms = [0, 1].map(r => [0, 1].map(c => `<rect x="${22 + c * 82}" y="${22 + r * 82}" width="74" height="74" rx="8" fill="${r + c === 1 ? L : M}"/>`).join('')).join('');
+  const quiz = `<rect x="22" y="22" width="156" height="156" rx="10" fill="${W}"/>` + [0, 1, 2].map(k => `<rect x="38" y="${44 + k * 44}" width="20" height="20" rx="5" fill="none" stroke="${D}" stroke-width="3"/><path class="iso-check" style="--d:${k * 400}ms" d="M42 ${54 + k * 44}l5 5 9-10" fill="none" stroke="${D}" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" pathLength="1"/><rect x="70" y="${48 + k * 44}" width="${[90, 70, 84][k]}" height="10" rx="5" fill="${M}"/>`).join('');
+  const video = `<rect x="22" y="22" width="156" height="110" rx="10" fill="${S}"/><circle cx="100" cy="77" r="26" fill="${L}"/><path d="M92 63v28l22-14z" fill="${D}"/><rect x="22" y="146" width="156" height="10" rx="5" fill="${S}"/><rect class="iso-prog" x="22" y="146" width="156" height="10" rx="5" fill="${L}"/>`;
+  return `<svg class="iso" viewBox="0 0 520 520" aria-hidden="true">` +
+    `<ellipse cx="260" cy="470" rx="190" ry="34" fill="${mixHex(D, '#000000', .3)}" opacity=".5"/>` +
+    plate(250, S, lms, 2) + plate(140, mixHex(D, L, .18), quiz, 1) + plate(30, mixHex(D, L, .22), video, 0) +
+    `<g class="iso-orbit" fill="${L}"><rect x="40" y="120" width="16" height="16" rx="3" transform="rotate(30 48 128)"/><rect x="468" y="210" width="12" height="12" rx="2" fill="${M}" transform="rotate(30 474 216)"/><circle cx="452" cy="80" r="7" fill="${W}"/><circle cx="66" cy="320" r="5" fill="${M}"/></g></svg>`;
+}
+
+/* ---------- Gamification hero: a live round on the big screen, played from phones ---------- */
+function eventScene(tone) {
+  const t = TONES[tone], L = t.light, D = t.deep, M = mixHex(D, L, .5), S = mixHex(D, L, .22), W = '#EEF3EC';
+  const rows = [0, 1, 2, 3].map(k => `<g class="ev-row" data-k="${k}" style="transform:translateY(${k * 46}px)"><circle cx="64" cy="0" r="13" fill="${[L, M, mixHex(L, W, .4), S][k]}"/><rect class="ev-bar" x="88" y="-7" width="210" height="14" rx="7" fill="${k ? M : L}" style="transform:scaleX(${[1, .8, .62, .46][k]})"/><text class="ev-rank" x="34" y="6" fill="${W}" font-family="Archivo, sans-serif" font-size="15" text-anchor="middle">${k + 1}</text></g>`).join('');
+  const phone = (x, y, r, k) => `<g class="ev-phone" style="--k:${k}" transform="rotate(${r} ${x + 34} ${y + 62})"><rect x="${x}" y="${y}" width="68" height="124" rx="13" fill="${D}" stroke="${L}" stroke-width="2"/><rect x="${x + 24}" y="${y + 7}" width="20" height="4" rx="2" fill="${M}"/>` +
+    [0, 1, 2, 3].map(q => `<rect class="ev-opt${q === k % 4 ? ' pick' : ''}" x="${x + 9 + (q % 2) * 26}" y="${y + 24 + Math.floor(q / 2) * 44}" width="24" height="38" rx="5" fill="${[L, M, mixHex(L, W, .4), S][q]}"/>`).join('') + `</g>`;
+  return `<svg class="ev" viewBox="0 0 560 500" aria-hidden="true">` +
+    `<rect x="70" y="24" width="420" height="250" rx="18" fill="${S}" stroke="${M}" stroke-width="1.5"/><circle cx="102" cy="52" r="5" class="ev-live" fill="${L}"/><rect x="114" y="48" width="56" height="8" rx="4" fill="${M}"/>` +
+    `<circle cx="446" cy="56" r="18" fill="none" stroke="${S}" stroke-width="4"/><circle class="ev-timer" cx="446" cy="56" r="18" fill="none" stroke="${L}" stroke-width="4" pathLength="1" transform="rotate(-90 446 56)"/>` +
+    `<g class="ev-board" transform="translate(70 104)">${rows}</g>` +
+    `<g class="ev-beams" fill="none" stroke="${L}" stroke-width="2" stroke-dasharray="2 8" stroke-linecap="round"><path d="M118 382C140 320 190 300 250 276"/><path d="M280 362V276"/><path d="M442 382C420 320 370 300 310 276"/></g>` +
+    phone(66, 340, -10, 0) + phone(246, 328, 0, 1) + phone(426, 340, 10, 2) +
+    `<g class="ev-confetti"></g></svg>`;
+}
+
+/* A round of play: ranks shuffle, phones pick, confetti falls */
+function playEvent(stage) {
+  const svg = stage.querySelector('svg.ev'); if (!svg) return;
+  const t = TONES.lilac, L = t.light, M = mixHex(t.deep, L, .5), rows = [...svg.querySelectorAll('.ev-row')];
+  const order = rows.map((_, i) => i).sort(() => Math.random() - .5);
+  rows.forEach((r, i) => {
+    const rank = order[i]; r.style.transform = `translateY(${rank * 46}px)`;
+    r.querySelector('.ev-rank').textContent = rank + 1;
+    const b = r.querySelector('.ev-bar'); b.style.transform = `scaleX(${[1, .8, .62, .46][rank]})`; b.setAttribute('fill', rank ? M : L);
+  });
+  svg.querySelectorAll('.ev-phone').forEach(ph => { const pick = Math.floor(Math.random() * 4); ph.querySelectorAll('.ev-opt').forEach((o, q) => o.classList.toggle('pick', q === pick)); });
+  if (!motionOK()) return;
+  const g = svg.querySelector('.ev-confetti'), cols = [L, M, '#EEF3EC', mixHex(t.deep, L, .3)];
+  for (let k = 0; k < 24; k++) {
+    const r = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+    r.setAttribute('x', (170 + Math.random() * 220).toFixed(0)); r.setAttribute('y', '60'); r.setAttribute('width', '5'); r.setAttribute('height', '13'); r.setAttribute('rx', '1.5');
+    r.setAttribute('fill', cols[k % 4]); r.setAttribute('class', 'ev-c');
+    r.style.setProperty('--dx', ((Math.random() - .5) * 280).toFixed(0) + 'px'); r.style.setProperty('--dy', (110 + Math.random() * 170).toFixed(0) + 'px'); r.style.setProperty('--rot', ((Math.random() - .5) * 560).toFixed(0) + 'deg');
+    r.style.transformBox = 'fill-box'; r.style.transformOrigin = 'center';
+    g.append(r); setTimeout(() => r.remove(), 1700);
+  }
+}
+
+
+/* ================= Icons ================= */
+const I = {
+  arrow: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 12L12 4M5.5 4H12v6.5"/></svg>',
+  right: '<svg viewBox="0 0 44 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M2 12h38M32 5l8 7-8 7"/></svg>',
+  down: '<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M2.5 4.5L6 8l3.5-3.5"/></svg>',
+  plus: '<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 1v12M1 7h12"/></svg>',
+  quote: '<svg class="mark" viewBox="0 0 40 28" fill="currentColor" aria-hidden="true"><path d="M0 28V16Q0 3 13 0l2 4Q8 6 7.5 13H15v15zM23 28V16Q23 3 36 0l2 4q-7 2-7.5 9H38v15z"/></svg>',
+  sun: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg>',
+  moon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/></svg>',
+  ig: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none"/></svg>',
+  li: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5.2 8.6h3v10.2h-3zM6.7 4a1.75 1.75 0 1 1 0 3.5 1.75 1.75 0 0 1 0-3.5zM10.2 8.6h2.9V10c.4-.8 1.4-1.6 2.9-1.6 3.1 0 3.7 2 3.7 4.7v5.7h-3v-5c0-1.2 0-2.8-1.7-2.8s-2 1.3-2 2.7v5.1h-2.8z"/></svg>',
+  be: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8.6 11.3c.9-.4 1.4-1.1 1.4-2.1 0-2-1.5-2.6-3.3-2.6H2v10.8h4.9c1.8 0 3.6-.9 3.6-3 0-1.3-.6-2.3-1.9-2.6zM4.2 8.4h2.1c.8 0 1.5.2 1.5 1.1 0 .9-.6 1.2-1.4 1.2H4.2zm2.3 7.2H4.2v-2.9h2.4c1 0 1.6.4 1.6 1.5s-.7 1.4-1.7 1.4zM19.6 12.8c0-2.4-1.4-4.3-3.9-4.3-2.4 0-4.1 1.8-4.1 4.2 0 2.5 1.6 4.2 4.1 4.2 1.9 0 3.2-.9 3.8-2.7h-2c-.2.7-1 1-1.7 1-1.3 0-2-.7-2-2h5.8v-.4zm-5.8-.9c.1-1 .8-1.7 1.9-1.7s1.6.6 1.7 1.7zM13.9 6.9h4.2v1h-4.2z"/></svg>',
+};
+const socials = () => `<a href="https://www.instagram.com/latchinfinity/" target="_blank" rel="noopener" aria-label="Instagram">${I.ig}</a><a href="https://www.linkedin.com/company/latchinfinity/" target="_blank" rel="noopener" aria-label="LinkedIn">${I.li}</a><a href="https://www.behance.net/latchinfinity" target="_blank" rel="noopener" aria-label="Behance">${I.be}</a>`;
+
+/* ================= Content (verbatim from latchinfinity.com) ================= */
+const SERVICES = [
+  { n: '01', t: 'DIGITAL SERVICES', tone: 'mint', href: '#digital-services', p: 'Through strategic social media management, meticulous SEO (on-page and off-page), and thoughtful campaign planning, we harmonize every element to create a cohesive and impactful brand experience. Your message will resonate, rank, and engage, driving meaningful results' },
+  { n: '02', t: 'BRANDING', tone: 'mint', href: '#branding', p: "We understand the impact of a powerful brand. Our design approach aligns every visual element, ensuring your logo becomes a true reflection of your brand's core identity" },
+  { n: '03', t: 'EdTech', tone: 'ice', href: '#edtech', p: 'We create end-to-end 4-Quadrant learning solutions with academic content, engaging e-learning assets, compliance-led quality assurance, and LMS-ready deployment for seamless digital education delivery' },
+  { n: '04', t: 'WEBSITE & APP DEVELOPMENT', tone: 'mint', href: '#web-app-development', p: 'Our website and app development services focus on blending cutting-edge technology with intuitive design to create experiences that delight users.' },
+  { n: '05', t: 'ADVERTISING', tone: 'mint', href: '#advertising', p: 'Our Social Media, Google, and Programmatic Ads create quick, impactful results, while our social ads captivate with striking visuals.' },
+  { n: '06', t: 'GAMIFIED EXPERIENCE', tone: 'lilac', href: '#gamification', p: 'We turn live events into real-time games. Attendees join via mobile for synchronized multiplayer activities, live feedback, and dynamic engagement.' },
+];
+const HERO = [
+  { tab: 'Marketing', tone: 'mint', h: 'Ideas to Impact Build,Brand &amp; Innovate', href: '#marketing' },
+  { tab: 'EdTech', tone: 'ice', h: 'Compliance-Ready Learning Ecosystems', href: '#edtech' },
+  { tab: 'Gamification', tone: 'lilac', h: 'Gamified Experiences for the New World', href: '#gamification' },
+];
+const QUOTES = [
+  { q: 'Latch Infinity nailed our branding! Their creative team brought our vision to life with a sleek brand book. The results speak for themselves.', by: 'EMS Firm', tone: 'mint' },
+  { q: 'From strategy to execution, Latch Infinity delivered exceptional results. Their targeted campaigns boosted our online presence, and their design work was flawless.', by: 'AdTech Firm', tone: 'ice' },
+  { q: 'The team at Latch Infinity truly understands branding. From logo design to social media management, every element aligned perfectly with our vision. They made us stand out!', by: 'Artist Management Firm', tone: 'lilac' },
+];
+const CLIENTS = [
+  ['kayneslogonew', 'Kaynes Technology'], ['welingkar', 'Welingkar'], ['chanakya-university', 'Chanakya University'], ['kis-logo', 'KIS'], ['manipal', 'Manipal'], ['dharmaram', 'Dharmaram Vidya Kshetram'],
+  ['kilogo', 'Kumaraguru Institutions'], ['nu', 'NU Hospitals'], ['sherwood', 'Sherwood High'], ['cubera_logo', 'Cubera'], ['sleeklemon', 'Sleeklemon'],
+];
+const DETAIL = {
+  branding: {
+    title: 'Branding', crumb: 'Branding',
+    intro: "Branding is more than just a logo; it's the foundation of your company's identity. Every detail must tell a cohesive story that resonates with your audience, from your visual elements to your messaging. We craft brands that speak volumes, drive engagement, and establish trust.",
+    offer: [['Brand Strategy', "Defining your brand's mission, vision, and values to ensure consistency in messaging."], ['Logo & Identity Design', "Crafting unique, memorable logos and visual identities representing your brand's personality."], ['Brand Guidelines', 'Creating a comprehensive brand book to maintain consistency across all channels.'], ['Brand Positioning', 'Helping your brand stand out by highlighting what makes it unique.'], ['Rebranding', 'Refreshing and revamping existing brands to align with evolving market trends and audience expectations.']],
+    goal: 'To build a brand that not only looks good but also connects emotionally with your audience, creating loyalty and trust that lasts.',
+    process: ['Starting with research and analysis, we deeply understand your market, competition, and target audience.', "We collaborate with you to build a vision and identity that aligns with your brand's mission.", 'With constant iteration and feedback, we develop a solid brand identity that is consistent, compelling, and reflective of your values.'],
+    faq: [
+      ['What is branding, and why do I need it?', 'Branding is how your business looks, sounds and feels to customers. A strong brand makes you easy to recognise, builds trust and gives people a reason to choose you.'],
+      ['What does your branding service include?', 'Brand strategy, logo and identity design, brand guidelines, brand positioning and rebranding. You can take the full package or only what you need.'],
+      ['How long does a branding project take?', 'It depends on the scope. A logo and basic identity takes less time than a full strategy, identity and brand book. After we understand your goals, we share a clear timeline before work begins.'],
+      ['Can you refresh our existing brand?', 'Yes. Our rebranding service updates your brand so it keeps what already works and fits current market trends and audience expectations.'],
+      ['Where are you based?', 'We are based in Bangalore and work with brands across industries and time zones.'],
+      ['What will we receive at the end of the project?', 'You receive your final logo and visual identity, along with a brand guidelines book that shows how to use them, so your brand looks and sounds the same on every channel.'],
+      ['Do you work with startups as well as established companies?', 'Yes. We work with brands across industries, from new businesses that need a first identity to established companies that want a more consistent or modern look.'],
+    ],
+  },
+  advertising: {
+    title: 'Advertising', crumb: 'Advertising',
+    intro: "Effective advertising is all about telling the right story to the right people at the right time. We specialize in creating targeted, engaging ads that drive results. Whether it's through search engines, social media, or programmatic channels, our advertising strategies maximize your brand's visibility and ROI.",
+    offer: [['Search Engine Ads', 'Driving qualified traffic to your site with targeted ads on search engines.'], ['Social Media Advertising', 'Engaging audiences with creative ads on platforms like Facebook, Instagram, and LinkedIn.'], ['Programmatic Advertising', 'Using data to automate ad placement and maximize reach.'], ['Display Ads', 'Designing eye-catching, high-performing display ads that capture attention.'], ['Ad Analytics & Optimization', 'Continuously tracking and refining campaigns to ensure optimal performance.']],
+    goal: 'To craft compelling ads that connect with your target audience, drive traffic, and boost conversions, ensuring that your brand gets noticed.',
+    process: ['We begin by understanding your target audience and business goals.', 'Through data-driven strategies, we create customized ad campaigns across the right platforms, continuously optimizing them to maximize results.', 'With ongoing analysis and feedback, we ensure your campaigns deliver measurable success.'],
+  },
+  'digital-services': {
+    title: 'Digital Services', crumb: 'Digital Services',
+    intro: 'In today’s digital age, a strong online presence is crucial for business success. Our digital services combine innovation and strategy to enhance your visibility, engagement, and conversions. From developing dynamic websites to executing impactful campaigns, we ensure your brand thrives in the digital world.',
+    offer: [['Website Development', "Building responsive, user-friendly websites tailored to your brand's needs."], ['E-commerce Solutions', 'Creating seamless online shopping experiences with secure payment systems.'], ['Digital Marketing', 'Crafting targeted campaigns across search engines, social media, and email to drive conversions.'], ['Content Creation', "Producing engaging content that aligns with your brand's voice and resonates with your audience."], ['Analytics & Reporting', 'Tracking performance, analyzing results, and optimizing strategies for continuous growth.']],
+    goal: 'To help you leverage digital channels effectively, driving engagement, sales, and long-term business growth.',
+    process: ['We start with an in-depth audit of your existing digital presence and business goals.', 'After crafting a tailored digital strategy, we execute campaigns across relevant platforms, constantly tracking and optimizing for results.', 'Collaboration, innovation, and data-driven insights guide our approach, ensuring your digital presence is always ahead of the curve.'],
+  },
+  'web-app-development': {
+    title: 'Website & App Development', crumb: 'Web & App Development',
+    intro: 'Website and mobile app are often the first interactions customers have with your brand. We specialize in creating custom, high-performance websites and apps that offer seamless functionality and exceptional user experiences. Whether building from scratch or optimizing existing solutions, our goal is to deliver a digital platform that grows with your business.',
+    offer: [['Custom Website Development', 'Creating responsive, visually stunning websites tailored to your needs.'], ['Mobile App Development', 'Designing intuitive mobile applications that provide value and convenience.'], ['E-commerce Platforms', 'Developing secure, scalable online stores with easy navigation.'], ['Web & App Optimization', 'Improving speed, performance, and UX for existing sites and apps.'], ['Integration Solutions', 'Connecting your website or app with third-party tools and platforms for enhanced functionality.']],
+    goal: 'To develop innovative, user-friendly digital platforms that drive user engagement and business growth while ensuring seamless functionality across all devices.',
+    process: ['We begin by understanding your business needs and target audience.', 'Using agile development practices, we design and build your website or app, ensuring it’s responsive, fast, and user-centric.', 'Post-launch, we offer continuous support and optimization to ensure your platform stays relevant, secure, and efficient.'],
+  },
+};
+const DETAIL_NAV = [['branding', 'Branding'], ['advertising', 'Advertising'], ['web-app-development', 'Web & App Development'], ['digital-services', 'Digital Services']];
+const WORK = [
+  { t: 'Miln Town', sub: 'Photography, film and a table brochure for a heritage bungalow in Coonoor.', tags: ['PHOTOSHOOT', 'FILM', 'BROCHURE'], tone: 'mint', href: '#work-milntown', mt: true },
+  { t: 'Dharmaram Vidya Kshetram', sub: 'A brand identity refresh and faculty system for a Pontifical Athenaeum in Bengaluru.', tags: ['BRAND IDENTITY', 'BRAND BOOK', 'EDUCATION'], tone: 'mint', href: '#work-dharmaram', dv: true },
+  { t: 'Cube Audience Manager', sub: 'Product design and films for an AI audience-research platform by Cubera.', tags: ['PRODUCT DESIGN', 'UI/UX', 'FILM'], tone: 'ice', href: '#work-cube', cb: true },
+  { t: 'Oli', sub: 'Brand, website and apps for a next-gen gig platform for live music.', tags: ['BRAND IDENTITY', 'APP', 'FILM'], tone: 'mint', href: '#work-oli', ol: true },
+  { t: 'Kaynes Technology', sub: 'A brand identity refresh for India’s electronics and semiconductor company.', tags: ['BRAND IDENTITY', 'LOOKBOOK', 'FILM'], tone: 'mint', href: '#work-kaynes', ky: true },
+];
+/* Blog articles live in blog/posts.json and are edited in admin.html, which commits the file to the repository.
+   Drafts are kept out of the public list. */
+let POSTS = [], BLOG_CATS = [];
+const blogReady = fetch('blog/posts.json', { cache: 'no-cache' }).then(r => r.ok ? r.json() : Promise.reject(r.status)).then(d => {
+  BLOG_CATS = d.categories || [];
+  POSTS = (d.posts || []).filter(p => !p.draft).sort((x, y) => (y.date || '').localeCompare(x.date || ''));
+}).catch(err => { console.warn('Blog posts did not load', err); });
+
+/* ================= Shared blocks ================= */
+const arrowBtn = (href, label, cls = 'btn-solid') => `<a class="btn ${cls}" href="${href}">${label}${I.arrow}</a>`;
+const intro = t => `<p class="label intro">${t}</p>`;
+const ctaBand = (tone = 'mint', h = '"Latch your Dreams to Infinity and Beyond."', btn = 'Let’s Kickstart Your Vision!', introT = '', lede = '') => `
+  <section class="band cta" style="${toneVars(tone)}" aria-label="Get started" data-cursor="Replay">
+    <div class="latch-stage"><div class="scene" data-tone="${tone}"></div></div>
+    <div class="wrap band-inner cta-inner">
+      ${introT ? intro(introT) : ''}<h2>${h}</h2>${lede ? `<p class="lede">${lede}</p>` : ''}
+      <a class="btn btn-solid btn-big" href="#contact">${btn}${I.arrow}</a>
+    </div>
+  </section>`;
+const pageHero = ({ tone = 'mint', crumbs = [], eyebrow, h, lede = '', actions = '', side = '', fx = 'climb', cls = '' }) => `
+  <section class="band page-hero${fx === 'nest' ? ' hero-nest' : ''}${cls ? ' ' + cls : ''}" style="${toneVars(tone)}">
+    <div class="wrap band-inner${side ? ' has-side' : ''}">
+      <div style="display:grid;gap:26px;min-width:0">
+        ${crumbs.length ? `<nav class="crumbs" aria-label="Breadcrumb">${crumbs.map(([href, t], i) => i < crumbs.length - 1 ? `<a href="${href}">${t}</a><span aria-hidden="true">/</span>` : `<span aria-current="page">${t}</span>`).join('')}</nav>` : ''}
+        <div class="rise-in">${eyebrow ? intro(eyebrow) : ''}<h1>${h}</h1></div>
+        ${lede ? `<p class="lede rise-in d1">${lede}</p>` : ''}
+        ${actions ? `<div class="row rise-in d2">${actions}</div>` : ''}
+      </div>
+      ${side ? `<div class="hero-side rise-in d2">${side}</div>` : ''}
+    </div>
+    ${side || fx === 'none' ? '' : `<div class="band-device">${fxSlot(fx, tone)}</div>`}
+  </section>`;
+const statRow = rows => `<div class="stats">${rows.map(([b, s]) => `<div class="stat"><b>${b}</b><span>${s}</span></div>`).join('')}</div>`;
+
+/* ================= Pages ================= */
+const P = {};
+
+P.home = () => `
+  <section class="band hero" id="hero" data-cursor="Next" style="${toneVars('mint')}">
+    <div class="wrap band-inner">
+      <div class="hero-top">
+        <p class="label intro rise-in">One Stop. All Things. Digital.</p>
+        <div class="social rise-in" aria-label="Follow">${socials()}</div>
+      </div>
+      <h1 class="slides rise-in d1" aria-live="polite">
+        ${HERO.map((s, i) => `<span class="slide" id="slide-${i}" role="tabpanel" aria-labelledby="htab-${i}" aria-hidden="${i ? 'true' : 'false'}">${s.h}</span>`).join('')}
+      </h1>
+      <div class="hero-tabs rise-in d2" role="tablist" aria-label="What we do">
+        ${HERO.map((s, i) => `<button class="hero-tab" role="tab" id="htab-${i}" aria-controls="slide-${i}" aria-selected="${i === 0}" style="--tone-c:${TONES[s.tone].light}" type="button"><span class="bar"></span><span class="dot" style="--tone:${TONES[s.tone].light}"></span>${s.tab}</button>`).join('')}
+      </div>
+      <div class="hero-cta rise-in d3">
+        ${arrowBtn('#contact', 'Let\'s Connect')}
+        <div class="served"><b>50+</b><span>Brands<br>Served</span></div>
+      </div>
+    </div>
+    <div class="band-device" id="hero-device">${artSlot('origin', 'mint', 1, 'id="hero-art" data-retract data-draw')}</div>
+  </section>
+
+  <section class="sec" style="padding-bottom:0">
+    <div class="wrap">${statRow([['5+', 'Time zones'], ['10+', 'Industries'], ['50+', 'Brands Served']])}</div>
+  </section>
+
+  <section class="story" id="story" aria-label="About">
+    <div class="story-pin">
+      <div class="wrap story-grid">
+        <div class="story-text">
+          <p class="label intro">About</p>
+          <p class="statement" id="story-st">"We Help You <em>Create, Refine &amp;</em> Strengthen <em>Your Brand."</em></p>
+          <ol class="story-steps" aria-hidden="true"><li><span></span>Create</li><li><span></span>Refine</li><li><span></span>Strengthen</li></ol>
+          ${arrowBtn('#contact', 'Let\'s Kickstart Your Vision!', 'btn-ghost')}
+        </div>
+        <div class="story-art" data-cursor="Click">${artSlot('story', 'mint', 9, 'id="story-art" data-pulse')}</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="hs" id="hs" aria-labelledby="hs-title">
+    <div class="hs-pin">
+      <div class="wrap hs-head">
+        <h2 id="hs-title">Our Solution &amp; Services.</h2>
+        <div class="hs-meta"><span class="hs-count" aria-hidden="true"><b id="hs-n">01</b> / 06</span>${arrowBtn('#contact', 'Let\'s Talk', 'btn-ghost')}</div>
+      </div>
+      <div class="hs-viewport"><ul class="hs-track" id="hs-track">
+        ${SERVICES.map((s, i) => `<li class="hs-card" style="${toneVars(s.tone)}"><a href="${s.href}" data-cursor="Explore">
+          <div class="hs-art" style="--wake-off:${mixHex(TONES[s.tone].deep, TONES[s.tone].light, .28)};--wake-on:${TONES[s.tone].light}">${svcArt(i, s.tone)}</div>
+          <div class="hs-body"><span class="num">${s.n}</span><h3>${s.t}</h3><p>${s.p}</p></div></a></li>`).join('')}
+      </ul></div>
+      <div class="wrap"><div class="hs-rail"><span></span></div></div>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:0" aria-label="What we make">
+    <div class="wrap stack">
+      ${[['Crafting Brand Identities Globally', 'mint', 'Marketing', 'globe', 'Spin'], ['Enhancing User Experience', 'ice', 'EdTech', 'ux', 'Click'], ['Creating Interactive Experiences', 'lilac', 'Gamification', 'arena', 'Cheer']].map(([h, t, k, sc, cur]) => `
+      <article class="panel${sc === 'ux' ? '' : ' split'}" data-cursor="${cur}" style="${toneVars(t)}">
+        <div class="panel-text"><h2>${h}</h2><span class="k">${k}</span></div>
+        <div class="panel-art"><div class="scene" data-scene="${sc}" data-tone="${t}"></div></div>
+      </article>`).join('')}
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:clamp(24px,4vw,48px)">
+    <div class="wrap">
+      <div class="sec-head split">
+        <div>${intro('TESTIMONIALS')}<h2>We've been helping Brands globally</h2></div>
+        <div style="justify-self:start">${arrowBtn('#marketing', 'Explore our services', 'btn-ghost')}</div>
+      </div>
+      <div class="quotes-rail"><div class="quotes">
+        ${QUOTES.map(q => `<figure class="quote" style="${toneVars(q.tone)}">${I.quote}<blockquote>${q.q}</blockquote><footer><span class="dot"></span>${q.by}</footer></figure>`).join('')}
+      </div></div>
+    </div>
+  </section>
+
+  <section class="sec-tight">
+    <div class="wrap">
+      <div class="sec-head" style="margin-bottom:28px">${intro('Our Clients')}</div>
+      <div class="mq-wrap">${[CLIENTS.slice(0, 5), CLIENTS.slice(5)].map((row, ri) => `<div class="mq" data-dir="${ri ? 1 : -1}"><ul class="mq-track">${[0, 1, 2].map(k => row.map(([f, n]) => `<li${k ? ' aria-hidden="true"' : ''}><img src="img/logos/${f}.webp" alt="${k ? '' : n}"></li>`).join('')).join('')}</ul></div>`).join('')}</div>
+    </div>
+  </section>
+  ${ctaBand('mint')}`;
+
+P.about = () => `
+  ${pageHero({ tone: 'mint', fx: 'nest', crumbs: [['#home', 'Home'], ['', 'About']], eyebrow: 'About', h: '"We help you create, refine &amp; strengthen your brand."', lede: 'At Latch Infinity, we specialize in crafting impactful brands, innovative designs, and strategic solutions. With a global perspective and a creative mindset, we work closely with our clients to bring their ideas to life and ensure their success.', actions: arrowBtn('#contact', 'Let’s Kickstart Your Vision!') })}
+  <section class="sec-tight"><div class="wrap">${statRow([['5+', 'Time zones'], ['10+', 'Industries'], ['50+', 'Brands Served']])}</div></section>
+  <section class="sec" style="padding-top:clamp(24px,4vw,48px)">
+    <div class="wrap">
+      <div class="sec-head">${intro('WHY CHOOSE US')}<h2 class="fillme" style="max-width:22ch">We’re Not Just a Service Provider We’re Your Partner in Success.</h2></div>
+      <div class="pillars" id="pillars">
+        <svg class="pl-line" aria-hidden="true"><path class="pl-path" pathLength="1"/></svg>
+        <div class="grid g3">
+        ${[['One Stop', 'Offer services across the marketing spectrum in the known universe.', 'mint'], ['All Things', 'Offer services across the marketing spectrum in the known universe.', 'ice'], ['Digital', 'Comprehensive services tailored to every digital need.', 'lilac']].map(([t, p, tone], i) => `
+        <div class="card pillar" style="${toneVars(tone)}">
+          <span class="node">${i + 1}</span><h3>${t}</h3><p>${p}</p>
+        </div>`).join('')}
+        </div>
+      </div>
+    </div>
+  </section>
+  ${ctaBand('mint', '"Latch your Dreams to Infinity and Beyond."', 'Let’s Kickstart Your &amp; Vision')}`;
+
+P.work = () => `
+  ${pageHero({ tone: 'mint', crumbs: [['#home', 'Home'], ['', 'Work']], eyebrow: 'Work', h: 'Our Recent Work &amp; Portfolio' })}
+  <section class="sec">
+    <div class="wrap work">
+      ${WORK.filter(w => w.href).map((w, i) => w.href ? `<a class="tile" href="${w.href}" style="${toneVars(w.tone)}" data-cursor="View">
+        ${w.mt ? `<div class="cover mt-cover"><img class="bg" src="img/milntown/07533-s.webp" alt="" loading="lazy"><img class="lg" src="img/milntown/logo.webp" alt="" loading="lazy"><div class="cap"><span>Case study</span><span>2026</span></div></div>` : w.dv ? dvCover() : w.cb ? `<div class="cover cb-cover"><div class="cb-3d">${cbFr('s10', '', '', true)}</div>${cbMark()}<div class="cap"><span>Case study</span><span>2026</span></div></div>` : w.ol ? `<div class="cover ol-cover">${olField(360, 'f', '250 170 1500 1125')}<div class="cap"><span>Case study</span><span>2026</span></div></div>` : `<div class="cover ky-cover"><div class="ky-flow" aria-hidden="true"></div><div class="ky-flow b" aria-hidden="true"></div><div class="mk">${kyMark()}</div><div class="cap"><span>Case study</span><span>2026</span></div></div>`}
+        <div class="tags">${w.tags.map(t => `<span>${t}</span>`).join('')}</div>
+        <h3><span>${w.t}<small>${w.sub}</small></span><span aria-hidden="true" style="width:18px;flex:none">${I.arrow}</span></h3>
+      </a>` : '').join('')}
+    </div>
+  </section>
+  ${ctaBand('mint', 'So, you have a project. We can take make it awesome', 'Let\'s Discuss &amp; Start')}`;
+
+
+/* ================= Case study: Kaynes Technology =================
+   Vectors are traced from the Kaynes lookbook (logo lockup and the six icons). */
+const KY = {"logo": {"w": 1097.7, "h": 170.5, "p": [["r", "M 126.2 168.4 L 0 168.4 L 0 0.1 L 126.2 0.1Z M 126.2 168.4"], ["w", "M 57.5 149.7 C 54.7 152.2 52.9 155 49.6 157.1 L 87.9 99 L 42.4 73.4 L 102 11.4 L 70.9 63.5 L 117.9 88.7 L 94.1 112.8Z M 57.5 149.7"], ["w", "M 14.1 160.6 L 14 32.1 L 30.9 15 L 30.9 136.5Z M 14.1 160.6"], ["r", "M 801.5 168.2 L 760.8 168.3 L 700.3 80.6 L 700.1 168.3 L 650.4 168.3 L 650.4 0.1 L 691.8 0 L 751.6 86.2 L 751.8 0.1 L 801.5 0Z M 801.5 168.2"], ["r", "M 935.6 102.4 L 870.6 102.5 L 870.6 128.8 L 939.9 128.8 L 939.9 168.3 L 821.1 168.3 L 821.1 0.1 L 939.9 0 L 939.9 39.3 L 870.6 39.2 L 870.6 65.8 L 935.6 65.8Z M 935.6 102.4"], ["r", "M 1089.8 142.4 C 1071.1 169.6 1027.7 172.1 997.4 164.4 C 973.1 158.3 957.3 140.5 957.3 115.9 L 1001.2 115.9 C 1002.4 120.3 1004.6 124 1008.8 126.4 C 1025.9 136.2 1051.1 130.9 1050.7 117.2 C 1050.6 113 1047.4 108.8 1042.7 107.8 L 1011.7 101 C 1000.7 98.6 990.3 96.1 980.9 90.5 C 966.9 82.1 959.5 68.3 959.9 52.1 C 960.8 16.5 993.2 -0.2 1027 -0 C 1040.2 0.1 1052.7 1.6 1064.7 6.6 C 1083.4 14.4 1095.1 31.6 1094.5 52.3 L 1050.8 52.2 C 1050.1 46.6 1047 42.3 1041.7 39.8 C 1033 36 1022.5 35.5 1013.9 39.6 C 1009.5 41.8 1007.3 46.1 1007.5 50.5 C 1007.8 55 1011.3 58.6 1016.1 59.6 L 1047.2 66.4 C 1057.9 68.8 1068.1 71.2 1077.6 76.5 C 1089.8 83.4 1097.3 94.9 1098.1 109 C 1098.7 120.9 1096.6 132.5 1089.8 142.4"], ["r", "M 639 0.1 L 581.6 114.9 L 581.5 168.3 L 531.8 168.3 L 531.8 114.9 L 474.4 0.1 L 526.8 0 L 556.8 68.5 L 586.5 0.1Z M 639 0.1"], ["r", "M 314.1 168.3 L 315.4 166.6 C 332.1 166.7 348.8 166.8 365.4 166.9 L 366.5 168.6 C 366.2 169.1 365.8 169.5 364.7 169.5 L 256.8 169.3 L 220 107.7 L 207 125.3 L 207 169.2 L 157.3 169.3 L 157.3 1 L 207 1 L 207.3 72.6 L 259.6 1.1 L 311.8 1.1 L 256.5 75.6Z M 314.1 168.3"], ["r", "M 384.2 100.6 L 400.1 40.8 L 416 100.4Z M 431.3 1 L 368.9 1 L 314.1 168.3 L 366.5 168.6 L 375.1 135.8 L 425.2 135.8 L 434 169.3 L 486.2 169.1Z M 431.3 1"]]}, "icons": [{"s": 129.8, "p": [["w", "M 120.4 100.3 L 120.4 85.8 C 120.4 82.4 117.3 78.5 113.8 78.5 L 88.7 78.4 L 88.7 99.7 C 88.7 103.9 91.1 107.3 95.5 107.8 L 112.6 107.7 C 116.6 107.7 120.3 104.8 120.4 100.3 M 96.8 117.1 L 79.4 99.7 L 79.3 28.9 C 79.3 25.1 75.7 21.9 71.9 21.9 L 17.8 21.8 C 12.8 21.8 9.2 24.6 9.2 29.8 L 9.2 116.5 L 0 116.5 L 0 29.9 L 17.2 12.6 L 71.5 12.7 L 88.7 29.9 L 88.7 69.1 L 112.4 69.1 L 129.6 86.2 L 129.8 99.8 L 112.6 116.9Z M 96.8 117.1"], ["r", "M 64.9 60.2 L 28 60.3 L 20.6 52.4 L 64.8 52.2Z M 64.9 60.2"], ["r", "M 64.8 77.8 L 28.2 77.9 L 20.6 70 L 64.7 69.8Z M 64.8 77.8"], ["r", "M 65 95.5 L 43.5 95.6 L 35.6 87.6 L 64.7 87.5Z M 65 95.5"]]}, {"s": 104.5, "p": [["w", "M 93.6 85.4 L 93.6 40.4 L 104.3 40.4 L 104.4 84.7 L 84.5 104.5 L 20.2 104.5 L 0.1 84.4 L 0.1 20.2 L 20.3 0 L 64 0.1 L 64 10.9 L 20 10.9 C 15.6 10.9 10.9 13.6 10.9 18.7 L 10.9 85.9 C 10.9 90 15 93.6 18.8 93.6 L 86.1 93.6 C 90 93.6 93.6 89.6 93.6 85.4"], ["r", "M 50.1 62.2 L 39 64.5 L 40.7 53.3 L 93.7 0.3 L 102.9 9.3Z M 50.1 62.2"]]}, {"s": 148.7, "p": [["w", "M 131 113.4 L 87.5 113.3 C 83.2 113.3 78.8 116.3 78.7 121 L 78.6 134 L 68.1 134 L 68.5 121.6 L 87.1 103 L 129.6 102.9 L 148.3 121.6 L 148.7 134.2 L 138.3 134.3 L 138.2 121.1 C 138.2 118 135 113.4 131 113.4"], ["w", "M 127.1 71.1 C 129.2 69 128.6 65.5 126.9 63.8 L 111.4 48.3 C 110.2 47.1 106.2 46.8 104.9 48.1 L 86.9 66.9 L 106.1 86.9 C 107.1 87.9 111.2 87.1 112.2 86.1Z M 116.8 94.2 L 100.6 94.6 L 81.1 75.2 L 81.3 59.1 L 100.3 40.1 L 116.6 40.1 L 135.5 59 L 135.8 74.8Z M 116.8 94.2"], ["r", "M 69.6 65 L 61.7 56.4 L 61.5 33.8 C 61.5 28.8 57.3 24.9 52.5 24.8 L 21.7 24.7 C 17.5 24.6 10.7 27.7 10.6 32.8 L 10.4 54.9 C 10.3 61.4 15.9 65.2 21.9 65.2Z M 72.4 75.4 L 19.4 75.5 L 0.1 56.3 L 0 33.4 L 18.8 14.5 L 53.3 14.5 L 72.4 33.5Z M 72.4 75.4"]]}, {"s": 140.4, "p": [["w", "M 104.9 51.3 L 88.4 51.3 L 88.4 41.1 L 104.1 40.9 L 123.2 60 L 123.3 121.1 L 104.1 140.4 L 35.9 140.3 L 17.1 121.6 L 17.2 59.9 L 36 41.2 L 52 41.1 L 52 51.3 L 35.6 51.3 C 30.5 51.3 27.3 55.4 27.3 60.2 L 27.4 122.8 C 27.4 127.2 31.5 130.1 35.6 130.1 L 105.1 130 C 109.3 130 113 126.2 113 122.1 L 113 58.8 C 113 54.7 108.9 51.2 104.9 51.3"], ["r", "M 74.9 81.9 L 65.4 81.9 L 65.4 17.6 C 65.4 16.6 62 14.3 61 15.3 L 48.8 27.2 L 42 20.4 L 62.4 0 L 78.1 0.1 L 98 19.8 L 91.1 26.7 L 80.8 16.3 C 80.1 15.6 77.6 14.3 77.1 15.1 L 74.9 18.5Z M 74.9 81.9"]]}, {"s": 128.6, "p": [["w", "M 119.3 97.1 L 119.3 49 C 119.3 44.2 115.3 39.7 110.3 39.7 L 93.7 39.9 L 46.9 89.5 C 43.8 92.7 42.4 96.5 44.1 101 C 45.4 104.2 49.3 106.9 53.8 106.9 L 110.2 106.8 C 115.4 106.8 119.3 102.5 119.3 97.1 M 34.7 88.9 L 81.4 39.4 C 84.6 36.1 86.3 32 84.6 28 C 82.8 23.8 78.9 21.9 74.2 21.9 L 20 21.7 C 13.5 21.7 9.2 25.8 9.2 32.3 L 9.2 78.3 C 9.2 83 12.3 88.7 17.7 88.8Z M 111.7 116 L 53.8 116.1 L 36 98.2 L 16.8 97.9 L 0.1 81.3 L 0 29.9 L 16.9 12.6 L 74.4 12.6 L 92.5 30.6 L 111.5 30.6 L 128.6 47.7 L 128.6 98.8Z M 111.7 116"], ["r", "M 66.5 39.9 L 17.9 40.1 L 18 32.1 L 58.5 32Z M 66.5 39.9"], ["r", "M 44.2 54.4 L 17.9 54.8 L 17.9 46.8 L 37.2 46.5Z M 44.2 54.4"], ["r", "M 110.2 96.9 L 70 97.1 L 62.1 89.1 L 109.9 89Z M 110.2 96.9"], ["r", "M 110.2 82.3 L 90.9 82.2 L 83.6 74.4 L 109.9 74.3Z M 110.2 82.3"]]}, {"s": 110.3, "p": [["w", "M 64.2 69.5 C 67.1 68.5 70 65.4 70 62.7 L 70.1 17.6 C 70.1 13.4 67 9.7 62.5 9.7 L 18.5 9.7 C 13.5 9.7 10.5 12.8 10.5 17.6 L 10.5 61.6 C 10.5 66.5 13.7 69.5 18.4 69.5Z M 62 79.1 L 18.6 79.2 L 0.9 61.4 L 0.9 17.8 L 18.4 0.1 L 62.1 0 L 79.7 17.6 L 79.7 61.6Z M 62 79.1"], ["r", "M 82.2 75.1 L 109.5 102.3 L 101.4 110.3 L 74.2 83.2Z M 82.2 75.1"]]}]};
+const KY_LEN = 27.5;
+const KY_PAGES = ['The mark', 'Touching lives with electronics', 'Logo lockup and clear space', 'Palette and gradient map', 'Typeface: Space Grotesk', 'Iconography', 'Expression: ember', 'Expression: grid', 'Expression: orb', 'Close'];
+const kyPaths = (list, cls) => list.map(([c, d]) => `<path class="${cls ? cls(c) : c}" d="${d}"/>`).join('');
+const kyMark = (cls = '') => `<svg class="${cls}" viewBox="12 9 120 152" aria-hidden="true"><path class="bar" fill="#fff" d="${KY.logo.p[2][1]}"/><path class="spark" fill="#fff" d="${KY.logo.p[1][1]}"/></svg>`;
+const kyLogo = (cons = false) => {
+  const L = KY.logo, pad = 40, sqR = 126.2;
+  const g = cons ? `<g class="cons">${[[-pad, 0, L.w + pad, 0], [-pad, L.h, L.w + pad, L.h], [-pad, -pad, L.w + pad, -pad], [-pad, L.h + pad, L.w + pad, L.h + pad], [0, -pad, 0, L.h + pad], [L.w, -pad, L.w, L.h + pad], [-pad, -pad, -pad, L.h + pad], [L.w + pad, -pad, L.w + pad, L.h + pad], [sqR, -pad, sqR, L.h + pad], [sqR + 22, -pad, sqR + 22, L.h + pad]].map(([a, b, c, d]) => `<line x1="${a}" y1="${b}" x2="${c}" y2="${d}"/>`).join('')}${[[-pad, -pad], [L.w, -pad], [-pad, L.h], [L.w, L.h]].map(([x, y]) => `<rect x="${x}" y="${y}" width="${pad}" height="${pad}"/>`).join('')}</g>` : '';
+  return `<svg viewBox="${-pad - 90} ${-pad - 70} ${L.w + 2 * pad + 180} ${L.h + 2 * pad + 190}" role="img" aria-label="Kaynes logo lockup">${g}${L.p.map(([c, d], i) => `<path class="${i === 0 ? 'lg-sq' : c === 'w' ? 'lg-w' : 'lg-l'}" fill="${c === 'w' ? '#fff' : '#882A2E'}" d="${d}"/>`).join('')}</svg>`;
+};
+const kyIcon = ic => `<svg viewBox="0 0 ${ic.s} ${ic.s}" aria-hidden="true"><g class="wg">${kyPaths(ic.p.filter(p => p[0] === 'w'))}</g><g class="rg">${kyPaths(ic.p.filter(p => p[0] === 'r'))}</g></svg>`;
+const kyFmt = s => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+const kyPlayIc = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 4l15 8-15 8z"/></svg>', kyPauseIc = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>';
+
+P['work-kaynes'] = () => `
+<div class="ky">
+  <section class="ky-hero" aria-labelledby="ky-h">
+    <div class="ky-flow" aria-hidden="true"></div><div class="ky-flow b" aria-hidden="true"></div>
+    <div class="wrap">
+      <div style="min-width:0">
+        <nav class="crumbs" aria-label="Breadcrumb"><a href="#home">Home</a><span aria-hidden="true">/</span><a href="#work">Work</a><span aria-hidden="true">/</span><span aria-current="page">Kaynes Technology</span></nav>
+        <div class="rise-in">${intro('Case study · Brand identity refresh')}<h1 id="ky-h">Kaynes Technology <em>refreshed.</em></h1></div>
+        <p class="lede rise-in d1">India’s end-to-end electronics and semiconductor company had outgrown its identity. We kept the K and the red people already trust, and rebuilt everything around them into a system as precise as the boards Kaynes builds.</p>
+        <div class="row rise-in d2"><a class="btn btn-solid" href="#ky-film">Watch the film${I.arrow}</a><a class="btn btn-ghost" href="#ky-system">Explore the system</a></div>
+      </div>
+      <div class="ky-hero-mark rise-in d1">${kyMark()}</div>
+      <div class="ky-meta rise-in d3">
+        <div><span>Client</span><b>Kaynes Technology India Ltd.</b></div>
+        <div><span>Sector</span><b>Electronics manufacturing &amp; semiconductors</b></div>
+        <div><span>Scope</span><b>Identity refresh, lookbook, brand film</b></div>
+        <div><span>Year</span><b>2026</b></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ky-dark ky-film" id="ky-film" aria-labelledby="ky-film-h">
+    <div class="wrap">
+      <div class="ky-head">
+        <div>${intro('The film')}<h2 id="ky-film-h">Twenty-seven seconds of a sharper Kaynes.</h2></div>
+        <p>Cut to an original score: a single spark, the promise, Kaynes in numbers, then colour, type and icons, landing on the new mark. Turn the sound on.</p>
+      </div>
+      <div class="ky-screen" id="ky-screen">
+        <video id="ky-video" playsinline muted preload="metadata" poster="video/kaynes-brand-film-poster.webp" aria-label="Kaynes brand refresh film, 27 seconds, with music">
+          <source src="video/kaynes-brand-film-720.mp4" type="video/mp4" media="(max-width: 900px)">
+          <source src="video/kaynes-brand-film.mp4" type="video/mp4">
+        </video>
+        <button class="ky-play" id="ky-play" type="button" aria-label="Play the film with sound"><i>${kyPlayIc}</i></button>
+        <button class="ky-snd" id="ky-snd" type="button" aria-pressed="false"><span class="ky-eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span id="ky-snd-t">Sound on</span></button>
+        <div class="ky-bar">
+          <button type="button" id="ky-pp" aria-label="Play">${kyPlayIc}</button>
+          <div class="ky-track" id="ky-track" role="slider" tabindex="0" aria-label="Seek" aria-valuemin="0" aria-valuemax="28" aria-valuenow="0"><i></i></div>
+          <span class="ky-time" id="ky-time">0:00 / 0:27</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="ky-about-h">
+    <div class="wrap">
+      <div class="ky-split">
+        <div class="sec-head" style="margin:0">${intro('The client')}<h2 id="ky-about-h">From Mysuru to the world’s electronics supply chain.</h2></div>
+        <div style="display:grid;gap:20px">
+          <p class="lede">Kaynes began in 1988 as a small electronics manufacturer in Mysuru. Today it is a listed, end-to-end electronics company: it designs products, builds and tests boards, makes its own PCBs and packages semiconductors at its OSAT plant in Sanand, Gujarat.</p>
+          <p class="lede">Its electronics run inside cars and trains, aircraft and satellites, medical devices, smart meters and industrial plants, for customers in more than thirty countries.</p>
+        </div>
+      </div>
+      <div class="ky-stats" style="margin-top:clamp(40px,6vw,80px)" id="ky-stats">
+        <div class="ky-in"><b data-count="1988" data-plain="1">1988</b><span>Founded in Mysuru, Karnataka</span></div>
+        <div class="ky-in" style="--k:1"><b>₹<span data-count="3626">3,626</span><sup>Cr</sup></b><span>Revenue in FY26, up 33% on the year</span></div>
+        <div class="ky-in" style="--k:2"><b data-count="22">22</b><span>Manufacturing and design facilities</span></div>
+        <div class="ky-in" style="--k:3"><b><span data-count="30">30</span><sup>+</sup></b><span>Countries served, 500+ customers</span></div>
+      </div>
+      <div class="ky-caps">
+        ${[['EMS', 'Electronics manufacturing services', 'Box builds, cable harnesses and boards, built to automotive, aerospace and medical standards.'], ['ODM', 'Product design', 'Concept to production: hardware, firmware and the software around it.'], ['PCB', 'Bare boards', 'High-density interconnect boards made in-house, so design and build sit under one roof.'], ['OSAT', 'Semiconductors', 'Chip assembly and test in Sanand, including India’s first commercial multi-chip module.']].map(([n, t, p], i) => `<div class="ky-cap ky-in" style="--k:${i}"><span class="n">${n}</span><h3>${t}</h3><p>${p}</p></div>`).join('')}
+      </div>
+      <div class="ky-mq" aria-label="Industries Kaynes serves"><div class="ky-mq-track">${[0, 1].map(k => ['Automotive & EV', 'Industrial', 'Aerospace', 'Defence', 'Railways', 'Medical', 'Smart metering', 'Space', 'IoT', 'IT & Telecom', 'Power & Energy'].map(t => `<span${k ? ' aria-hidden="true"' : ''}>${t}</span>`).join('')).join('')}</div></div>
+      <p class="ky-src">Figures from Kaynes Technology’s FY26 results and public company profiles.</p>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:0" aria-labelledby="ky-brief-h">
+    <div class="wrap">
+      <div class="sec-head">${intro('The brief')}<h2 id="ky-brief-h">Keep the trust. Lose the noise.</h2></div>
+      <div class="ky-brief">
+        <div class="q ky-in">${intro('The challenge')}<h3>A semiconductor company, dressed like a contract manufacturer.</h3><p>Kaynes had moved far beyond assembly: design, PCBs, chip packaging and a listing on the stock exchange. The identity had not kept up. The mark was strong, but every brochure, slide and screen used it differently, and nothing carried the energy of what Kaynes now makes.</p></div>
+        <div class="a ky-in" style="--k:1">${intro('Our answer')}<h3>One sharper system, built around the K.</h3>
+          <ul><li>The K and its red stay, redrawn with a fixed lockup and clear space.</li><li>A gradient map from Brown red to Autumn leaf, the heat of current running through a circuit.</li><li>Space Grotesk: engineered, open and readable at every size.</li><li>Icons cut with the same chamfer as the mark.</li><li>Layouts that make one line, “Touching Lives with Electronics”, feel like a promise.</li></ul></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ky-mark" id="ky-system" aria-labelledby="ky-mark-h">
+    <div class="wrap">
+      <div>${intro('The mark')}<h2 id="ky-mark-h">A bar for stability. A spark for energy.</h2>
+        <p>The K is two strokes. A steady upright, and a stroke that breaks like a bolt of current. We kept both, tuned their angles and set the mark inside a solid square, so it reads at any size: on a chip tray, a factory wall or an app icon.</p></div>
+      <div class="ky-mark-art" id="ky-mark-art" aria-hidden="true">
+        <svg viewBox="-2 -2 130.2 172.3"><path class="sq" d="${KY.logo.p[0][1]}"/><path class="bar" d="${KY.logo.p[2][1]}"/><path class="spark" d="${KY.logo.p[1][1]}"/></svg>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="ky-lock-h">
+    <div class="wrap">
+      <div class="sec-head">${intro('The lockup')}<h2 id="ky-lock-h">Every placement, measured once.</h2></div>
+      <div class="ky-lockup ky-in" id="ky-lockup">
+        ${kyLogo(true)}
+        <div class="tools">
+          <div class="ky-tog" role="group" aria-label="Background"><button type="button" data-bg="" aria-pressed="true">White</button><button type="button" data-bg="on-dark" aria-pressed="false">Black</button><button type="button" data-bg="on-red" aria-pressed="false">Red</button></div>
+          <div class="ky-tog"><button type="button" id="ky-cons" aria-pressed="false">Show clear space</button></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:0" aria-labelledby="ky-col-h">
+    <div class="wrap">
+      <div class="sec-head">${intro('Colour')}<h2 id="ky-col-h">Brown red, warmed by an autumn leaf.</h2></div>
+      <div class="ky-gm flip ky-in" id="ky-gm" aria-label="Gradient map from White through Autumn leaf to Brown red">
+        <div class="top"><span>Gradient map</span><span>Palette design</span></div>
+        <div class="axis"><span class="stop s1">White<br>#FFFFFF</span><span class="stop s2">Autumn leaf<br>#DB5D04</span><span class="stop s3">Brown red<br>#AC212F</span></div>
+      </div>
+      <div class="ky-pal" style="margin-top:16px" id="ky-pal">
+        ${[['w1', '01', 'Brown red', '#AC212F', 'Primary'], ['w2', '02', 'Emerald', '#34C969', 'Secondary'], ['w3', '03', 'Autumn leaf', '#DB5D04', 'Tertiary'], ['w4', '04', 'White', '#FFFFFF', 'Tertiary'], ['w5', '05', 'Black', '#000000', 'Tertiary']].map(([c, n, t, h, r]) => `<button type="button" class="ky-sw ${c}" data-hex="${h}" aria-label="Copy ${t} ${h}"><span class="r"><span>${n}</span><span>${t}</span></span><span class="r"><span>${h}</span><small>${r}</small></span><span class="ok" aria-hidden="true">Copied ${h}</span></button>`).join('')}
+      </div>
+      <p class="ky-src">Click a colour to copy its hex code.</p>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:0" aria-labelledby="ky-type-h">
+    <div class="wrap">
+      <div class="sec-head">${intro('Typeface')}<h2 id="ky-type-h">Space Grotesk, in three weights.</h2></div>
+      <div class="ky-type ky-in" id="ky-type">
+        <div class="side"><div class="name">Space<br>Grotesk</div><div class="glyphs">ABCDEFGHIJKLMN<br>OPQRSTUVWXYZ<br>abcdefghijklmn<br>opqrstuvwxyz<br>1234567890 &amp;?/*%</div></div>
+        <div class="main">
+          <div class="ky-wts" role="group" aria-label="Weight">${[['Light', 300], ['Regular', 400], ['Medium', 500]].map(([t, w]) => `<button type="button" data-w="${w}" aria-pressed="${w === 400}">${t}</button>`).join('')}</div>
+          <div class="aa" aria-hidden="true">Aa</div>
+          <div><label class="label" for="ky-range" style="color:rgba(255,255,255,.7)">Weight <span id="ky-wv">400</span></label><input class="ky-range" id="ky-range" type="range" min="300" max="700" step="1" value="400"></div>
+          <div class="spec" contenteditable="true" spellcheck="false" aria-label="Type here to try the typeface">Touching Lives with Electronics</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:0" aria-labelledby="ky-ic-h">
+    <div class="wrap">
+      <div class="sec-head">${intro('Iconography')}<h2 id="ky-ic-h">Icons cut from the same chamfer.</h2></div>
+      <div class="ky-icons">${KY.icons.map((ic, i) => `<div class="ky-ic ky-in" style="--k:${i}">${kyIcon(ic)}<span>${['Document', 'Edit', 'Support', 'Share', 'Compare', 'Search'][i]}</span></div>`).join('')}</div>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:0" aria-labelledby="ky-ex-h">
+    <div class="wrap">
+      <div class="sec-head">${intro('Expressions')}<h2 id="ky-ex-h">One promise, three ways to say it.</h2></div>
+      <div class="ky-exp">
+        <div class="ky-x ember ky-in"><svg viewBox="0 0 100 125" preserveAspectRatio="none" aria-hidden="true"><line class="ln" x1="0" y1="34" x2="100" y2="82"/><line class="ln" x1="78" y1="0" x2="78" y2="125"/><circle cx="78" cy="71.5" r="1.6" fill="#fff"/></svg><h3>Built to power<br>what’s next.</h3><p>Ember: campaigns and covers. One line, one point of contact.</p></div>
+        <div class="ky-x grid ky-in" style="--k:1"><h3>Touching Lives<br>with Electronics</h3><p style="margin-top:auto">Grid: Emerald for engineering, data and reports.</p></div>
+        <div class="ky-x orb ky-in" style="--k:2"><span class="o" aria-hidden="true"></span><span class="c c1" aria-hidden="true"></span><span class="c c2" aria-hidden="true"></span><h3>Touching Lives<br>with Electronics</h3></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ky-dark sec" aria-labelledby="ky-book-h">
+    <div class="wrap">
+      <div class="ky-head" style="display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap;margin-bottom:clamp(28px,4vw,48px)">
+        <div>${intro('The lookbook')}<h2 id="ky-book-h" style="font-size:var(--t-1)">Edition 01, page by page.</h2></div>
+        <div class="ky-book-nav"><button type="button" data-dir="-1" aria-label="Previous pages"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 5l-7 7 7 7"/></svg></button><button type="button" data-dir="1" aria-label="Next pages"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 5l7 7-7 7"/></svg></button></div>
+      </div>
+      <div class="ky-book" id="ky-book">${KY_PAGES.map((t, i) => `<button type="button" data-i="${i}" aria-label="Open page ${i + 1}: ${t}"><img src="img/kaynes/page-${String(i + 1).padStart(2, '0')}.webp" alt="" loading="lazy" width="1600" height="900"><small>${String(i + 1).padStart(2, '0')} · ${t}</small></button>`).join('')}</div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="ky-del-h">
+    <div class="wrap">
+      <div class="sec-head">${intro('What we delivered')}<h2 id="ky-del-h">Ready for every surface Kaynes touches.</h2></div>
+      <ul class="ky-del">${[['Refined mark and lockup', 'Redrawn K, fixed proportions and clear space.'], ['Colour system', 'Five colours and a gradient map with exact values.'], ['Typography', 'Space Grotesk in Light, Regular and Medium.'], ['Icon set', 'Chamfered icons in two colours, built on the mark.'], ['Expression layouts', 'Ember, grid and orb layouts for decks, social and print.'], ['Lookbook and brand film', 'Edition 01 of the lookbook and a 27-second film with original music.']].map(([t, p], i) => `<li class="ky-in" style="--k:${i % 3}"><span>${String(i + 1).padStart(2, '0')}</span><div><b>${t}</b><p>${p}</p></div></li>`).join('')}</ul>
+      <div class="row" style="display:flex;flex-wrap:wrap;gap:12px;margin-top:40px">${arrowBtn('#work', 'Back to all work', 'btn-ghost')}</div>
+    </div>
+  </section>
+</div>
+  ${ctaBand('mint', 'Is your brand ready for what you’ve become?', 'Let’s refresh yours')}`;
+
+let kyRaf = 0;
+function setupKaynes(main) {
+  const root = main.querySelector('.ky'); if (!root) return;
+  const ok = motionOK();
+  /* Reveal and count-up */
+  const io = new IntersectionObserver(es => es.forEach(e => { if (!e.isIntersecting) return; e.target.classList.add('on'); io.unobserve(e.target); }), { threshold: .2 });
+  root.querySelectorAll('.ky-in').forEach(el => io.observe(el));
+  const counts = root.querySelectorAll('[data-count]');
+  const cio = new IntersectionObserver(es => es.forEach(e => {
+    if (!e.isIntersecting) return; cio.unobserve(e.target);
+    const el = e.target, to = +el.dataset.count, plain = el.dataset.plain, from = plain ? to - 38 : 0;
+    if (!ok) return;
+    const t0 = performance.now(), d = 1600;
+    const step = now => { const k = Math.min(1, (now - t0) / d), v = Math.round(from + (to - from) * (1 - Math.pow(1 - k, 4))); el.textContent = plain ? v : v.toLocaleString('en-IN'); if (k < 1) requestAnimationFrame(step); };
+    requestAnimationFrame(step);
+  }), { threshold: .6 });
+  counts.forEach(c => cio.observe(c));
+
+  /* Film */
+  const v = root.querySelector('#ky-video'), scr = root.querySelector('#ky-screen'), pp = root.querySelector('#ky-pp'), tr = root.querySelector('#ky-track'), tm = root.querySelector('#ky-time');
+  let userPaused = false;
+  const sync = () => {
+    const d = v.duration || KY_LEN, t = v.currentTime;
+    tr.style.setProperty('--t', t / d); tr.setAttribute('aria-valuenow', Math.round(t));
+    tm.textContent = `${kyFmt(t)} / ${kyFmt(d)}`;
+  };
+  const setState = () => { const p = !v.paused; scr.classList.toggle('playing', p); scr.classList.toggle('paused', !p && v.currentTime > 0); pp.innerHTML = p ? kyPauseIc : kyPlayIc; pp.setAttribute('aria-label', p ? 'Pause' : 'Play'); };
+  const play = () => { v.play().catch(() => {}); };
+  v.addEventListener('timeupdate', sync); v.addEventListener('loadedmetadata', sync);
+  v.addEventListener('play', setState); v.addEventListener('pause', setState);
+  v.addEventListener('ended', () => { v.currentTime = 0; play(); });
+  const snd = root.querySelector('#ky-snd'), sndT = root.querySelector('#ky-snd-t');
+  const setSound = on => { v.muted = !on; snd.setAttribute('aria-pressed', on); sndT.textContent = on ? 'Sound off' : 'Sound on'; scr.classList.toggle('loud', on); };
+  snd.addEventListener('click', () => { const on = v.muted; setSound(on); if (on && v.paused) { userPaused = false; play(); } });
+  root.querySelector('#ky-play').addEventListener('click', () => { setSound(true); if (v.currentTime > KY_LEN - 1) v.currentTime = 0; userPaused = false; play(); });
+  pp.addEventListener('click', () => { if (v.paused) { userPaused = false; play(); } else { userPaused = true; v.pause(); } });
+  v.addEventListener('click', () => { if (!v.paused) { userPaused = true; v.pause(); } });
+  const seekTo = t => { v.currentTime = Math.max(0, Math.min((v.duration || KY_LEN) - .05, t)); sync(); };
+  tr.addEventListener('click', e => { const r = tr.getBoundingClientRect(); seekTo((e.clientX - r.left) / r.width * (v.duration || KY_LEN)); });
+  tr.addEventListener('keydown', e => { if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { e.preventDefault(); seekTo(v.currentTime + (e.key === 'ArrowRight' ? 5 : -5)); } });
+  if (ok) new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting && !userPaused) play(); else if (!e.isIntersecting && !v.paused) v.pause(); }), { threshold: .55 }).observe(scr);
+
+  /* Lockup */
+  const lk = root.querySelector('#ky-lockup');
+  lk.querySelectorAll('[data-bg]').forEach(b => b.addEventListener('click', () => {
+    lk.classList.remove('on-dark', 'on-red'); if (b.dataset.bg) lk.classList.add(b.dataset.bg);
+    lk.querySelectorAll('[data-bg]').forEach(x => x.setAttribute('aria-pressed', x === b));
+  }));
+  const cb = root.querySelector('#ky-cons');
+  cb.addEventListener('click', () => { const on = !lk.classList.contains('show'); lk.classList.toggle('show', on); cb.setAttribute('aria-pressed', on); cb.textContent = on ? 'Hide clear space' : 'Show clear space'; });
+
+  /* Palette copy */
+  root.querySelectorAll('.ky-sw').forEach(b => b.addEventListener('click', () => {
+    navigator.clipboard?.writeText(b.dataset.hex).catch(() => {});
+    b.classList.add('copied'); clearTimeout(b._t); b._t = setTimeout(() => b.classList.remove('copied'), 1400);
+  }));
+
+  /* Type tester */
+  const ty = root.querySelector('#ky-type'), rg = root.querySelector('#ky-range'), wv = root.querySelector('#ky-wv'), wb = [...ty.querySelectorAll('[data-w]')];
+  const setW = w => { ty.style.setProperty('--wt', w); rg.value = w; wv.textContent = w; wb.forEach(b => b.setAttribute('aria-pressed', +b.dataset.w === +w)); };
+  rg.addEventListener('input', () => setW(rg.value));
+  wb.forEach(b => b.addEventListener('click', () => setW(b.dataset.w)));
+
+  /* Lookbook strip and lightbox */
+  const book = root.querySelector('#ky-book');
+  root.querySelectorAll('.ky-book-nav button').forEach(b => b.addEventListener('click', () => book.scrollBy({ left: +b.dataset.dir * book.clientWidth * .8, behavior: ok ? 'smooth' : 'auto' })));
+  book.addEventListener('click', e => { const b = e.target.closest('[data-i]'); if (b) kyLightbox(+b.dataset.i, b); });
+
+  /* Scroll scenes: the film grows into place, the mark draws itself, the gradient line runs */
+  const art = root.querySelector('#ky-mark-art'), gm = root.querySelector('#ky-gm');
+  const tick = () => {
+    kyRaf = 0; if (!root.isConnected) return;
+    const vh = innerHeight;
+    if (ok) {
+      const r = scr.getBoundingClientRect(), p = clamp((vh - r.top) / (vh * .9));
+      scr.style.setProperty('--s', (.88 + .12 * easeIO(p)).toFixed(4));
+      const a = art.getBoundingClientRect(), q = clamp((vh * .95 - a.top) / (vh * .75));
+      art.style.setProperty('--a', clamp(q / .45).toFixed(3)); art.style.setProperty('--b', clamp((q - .35) / .45).toFixed(3));
+      const g = gm.getBoundingClientRect(); gm.style.setProperty('--p', clamp((vh * .95 - g.top) / (vh * .6)).toFixed(3));
+    }
+  };
+  const onScroll = () => { if (!kyRaf) kyRaf = requestAnimationFrame(tick); };
+  addEventListener('scroll', onScroll, { passive: true }); addEventListener('resize', onScroll);
+  const stop = () => { if (!root.isConnected) { removeEventListener('scroll', onScroll); removeEventListener('resize', onScroll); removeEventListener('hashchange', stop); } };
+  addEventListener('hashchange', () => setTimeout(stop, 1500));
+  tick();
+}
+function kyLightbox(i, opener, pages = KY_PAGES, dir = 'kaynes', name = 'Kaynes lookbook') {
+  const n = pages.length, lb = document.createElement('div');
+  lb.className = 'ky-lb'; lb.setAttribute('role', 'dialog'); lb.setAttribute('aria-modal', 'true'); lb.setAttribute('aria-label', `${name} page`);
+  lb.innerHTML = `<img alt=""><button class="pv" type="button" aria-label="Previous page">‹</button><button class="nx" type="button" aria-label="Next page">›</button><button class="x" type="button" aria-label="Close">×</button><p></p>`;
+  const img = lb.querySelector('img'), cap = lb.querySelector('p');
+  const show = k => { i = (k + n) % n; img.src = `img/${dir}/page-${String(i + 1).padStart(2, '0')}.webp`; img.alt = `${name} page ${i + 1}: ${pages[i]}`; cap.textContent = `${i + 1} / ${n} · ${pages[i]}`; };
+  const close = () => { lb.remove(); removeEventListener('keydown', key); document.body.style.overflow = ''; opener?.focus(); };
+  const key = e => { if (e.key === 'Escape') close(); if (e.key === 'ArrowRight') show(i + 1); if (e.key === 'ArrowLeft') show(i - 1); };
+  lb.addEventListener('click', e => { if (e.target === lb || e.target.closest('.x')) close(); else if (e.target.closest('.pv')) show(i - 1); else if (e.target.closest('.nx')) show(i + 1); });
+  addEventListener('keydown', key); document.body.style.overflow = 'hidden';
+  document.body.append(lb); show(i); lb.querySelector('.x').focus();
+}
+
+/* ================= Case study: Dharmaram Vidya Kshetram =================
+   The emblem, its six symbols, the cross and the star are the client's own vectors from the
+   brand book; the lockup and faculty wordmarks load from img/dharmaram/wordmarks.svg. */
+const DV = {"em":{"w":300.0,"h":280.0,"p":[["waves","M149.7 177C142.8 180.3 135.5 182.5 127.9 183.8C141.1 183.8 154.1 179 164.5 171.1C164.2 170.9 164 170.7 163.7 170.6L165.3 170.5C165 170.7 164.8 170.9 164.5 171.1C169.6 174.5 175.1 177.1 180.9 178.9C187 180.7 193.4 181.6 199.7 181.4C190.5 180.1 181.4 177.5 173.1 173.1C170.1 171.6 167.2 169.8 164.4 167.8C161.6 170 158.7 172.1 155.6 173.9C153.8 174.9 152 175.9 150.2 176.8C150.6 176.9 151.1 177 151.5 177.1C150.9 177.1 150.3 177.1 149.7 177"],["feather","M216.3 30.6L217.1 30.6C217.8 30.6 218.3 31.1 218.3 31.8L218.3 99.3C218.3 103 221.3 106 225 106L225.5 106C227 106 228.2 104.8 228.2 103.3C228.2 101.8 227 100.6 225.5 100.6L225 100.6C224.2 100.6 223.7 100.1 223.7 99.3L223.7 31.8C223.7 28.2 220.7 25.2 217.1 25.2L216.3 25.2C214.8 25.2 213.6 26.4 213.6 27.9C213.6 29.4 214.8 30.6 216.3 30.6"],["feather","M204 25.1L204.8 25.1C205.5 25.1 206 25.6 206 26.3L206 79.1C206 82.8 209 85.8 212.7 85.8L213.2 85.8C214.7 85.8 215.9 84.6 215.9 83.1C215.9 81.6 214.7 80.4 213.2 80.4L212.7 80.4C211.9 80.4 211.4 79.9 211.4 79.1L211.4 26.3C211.4 22.7 208.4 19.8 204.8 19.8L204 19.8C202.5 19.8 201.3 21 201.3 22.4C201.3 23.9 202.5 25.1 204 25.1"],["feather","M192 19.6L192.5 19.6C193.2 19.6 193.7 20.2 193.7 20.8L193.7 66.9C193.7 70.5 196.7 73.5 200.4 73.5L200.6 73.5C202.1 73.5 203.3 72.3 203.3 70.8C203.3 69.4 202.1 68.2 200.6 68.2L200.4 68.2C199.6 68.2 199.1 67.6 199.1 66.9L199.1 20.8C199.1 17.2 196.1 14.3 192.5 14.3L192 14.3C190.5 14.3 189.3 15.5 189.3 17C189.3 18.5 190.5 19.6 192 19.6"],["feather","M180.5 15.2L180.8 15.2C181.4 15.2 182 15.8 182 16.4L182 59.5C182 63.2 184.9 66.2 188.6 66.2C190.1 66.2 191.3 65 191.3 63.5C191.3 62 190.1 60.8 188.6 60.8C187.9 60.8 187.3 60.2 187.3 59.5L187.3 16.4C187.3 12.8 184.4 9.9 180.8 9.9L180.5 9.9C179 9.9 177.8 11.1 177.8 12.6C177.8 14 179 15.2 180.5 15.2"],["feather","M71.8 103.3C71.8 104.8 73 106 74.5 106L75 106C78.7 106 81.7 103 81.7 99.3L81.7 31.8C81.7 31.1 82.2 30.6 82.9 30.6L83.7 30.6C85.2 30.6 86.4 29.4 86.4 27.9C86.4 26.4 85.2 25.2 83.7 25.2L82.9 25.2C79.3 25.2 76.3 28.2 76.3 31.8L76.3 99.3C76.3 100.1 75.8 100.6 75 100.6L74.5 100.6C73 100.6 71.8 101.8 71.8 103.3"],["feather","M84.1 83.1C84.1 84.6 85.3 85.8 86.8 85.8L87.3 85.8C91 85.8 94 82.8 94 79.1L94 26.3C94 25.6 94.5 25.1 95.2 25.1L96 25.1C97.5 25.1 98.7 23.9 98.7 22.4C98.7 21 97.5 19.8 96 19.8L95.2 19.8C91.6 19.8 88.6 22.7 88.6 26.3L88.6 79.1C88.6 79.9 88.1 80.4 87.3 80.4L86.8 80.4C85.3 80.4 84.1 81.6 84.1 83.1"],["feather","M96.7 70.8C96.7 72.3 97.9 73.5 99.4 73.5L99.6 73.5C103.3 73.5 106.3 70.5 106.3 66.9L106.3 20.8C106.3 20.2 106.8 19.6 107.5 19.6C108.9 19.6 110.1 18.5 110.1 17C110.1 15.5 108.9 14.3 107.5 14.3C103.9 14.3 100.9 17.2 100.9 20.8L100.9 66.9C100.9 67.6 100.3 68.2 99.6 68.2L99.4 68.2C97.9 68.2 96.7 69.4 96.7 70.8"],["feather","M108.7 63.5C108.7 65 109.9 66.2 111.4 66.2C115.1 66.2 118 63.2 118 59.5L118 16.4C118 15.8 118.6 15.2 119.2 15.2L119.5 15.2C121 15.2 122.2 14 122.2 12.6C122.2 11.1 121 9.9 119.5 9.9L119.2 9.9C115.6 9.9 112.7 12.8 112.7 16.4L112.7 59.5C112.7 60.2 112.1 60.8 111.4 60.8C109.9 60.8 108.7 62 108.7 63.5"],["cross","M170.7 27.1C170.7 26 171.5 25.2 172.5 25.2C173.6 25.2 174.4 26 174.4 27.1C174.4 28.1 173.6 28.9 172.5 28.9C171.5 28.9 170.7 28.1 170.7 27.1M170.7 36.3C170.5 37.1 169.9 37.6 169 37.8C166.5 38.4 165 36.4 163.2 32.5C162.2 30.7 160.4 29.3 158.2 28.9C156.3 28.6 154.4 29.1 153.2 30.2L153.2 30.2C152 31.4 151.5 33.3 151.9 35.2C152.3 37.4 153.6 39.3 155.5 40.2C159.3 42.1 161.3 43.5 160.7 46C160.5 47 160 47.5 159.2 47.7C158 48.1 156.1 47.4 155.2 46.4C152.9 43.9 150.6 43.7 150 43.7C149.4 43.7 147.1 43.9 144.8 46.4C143.9 47.4 142 48.1 140.8 47.7C140 47.5 139.5 47 139.3 46C138.7 43.5 140.7 42.1 144.5 40.2C146.4 39.3 147.7 37.4 148.1 35.2C148.5 33.3 148 31.4 146.8 30.2L146.8 30.2C145.9 29.3 144.5 28.8 143 28.8C142.6 28.8 142.2 28.8 141.8 28.9C139.6 29.3 137.8 30.7 136.8 32.5C135 36.4 133.5 38.4 131 37.8C130.1 37.6 129.5 37.1 129.3 36.3C129 35 129.6 33.2 130.7 32.2C133.1 29.9 133.3 27.7 133.3 27C133.3 26.4 133.1 24.2 130.7 21.9C129.6 20.9 129 19 129.3 17.8C129.5 17 130.1 16.5 131 16.3C133.5 15.7 135 17.7 136.8 21.6C137.8 23.4 139.6 24.8 141.8 25.2C143.7 25.5 145.6 25 146.8 23.9L146.8 23.8C148 22.6 148.5 20.8 148.1 18.8C147.7 16.6 146.4 14.8 144.5 13.9C140.7 12 138.7 10.5 139.3 8C139.5 7.1 140 6.6 140.8 6.4C142 6 143.9 6.6 144.8 7.7C147.1 10.2 149.4 10.4 150 10.4C150.6 10.4 152.9 10.2 155.2 7.7C156.1 6.6 158 6 159.2 6.4C160 6.6 160.5 7.1 160.7 8C161.3 10.5 159.3 12 155.5 13.9C153.6 14.8 152.3 16.6 151.9 18.8C151.5 20.8 152 22.6 153.2 23.8L153.2 23.9C154.4 25 156.3 25.5 158.2 25.2C160.4 24.8 162.2 23.4 163.2 21.6C165 17.7 166.5 15.7 169 16.3C169.9 16.5 170.5 17 170.7 17.8C171 19 170.4 20.9 169.3 21.9C166.9 24.2 166.7 26.4 166.7 27C166.7 27.7 166.9 29.9 169.3 32.2C170.4 33.2 171 35 170.7 36.3M150 51.4C149 51.4 148.1 50.6 148.1 49.6C148.1 48.6 149 47.7 150 47.7C151 47.7 151.9 48.6 151.9 49.6C151.9 50.6 151 51.4 150 51.4M127.5 28.9C126.4 28.9 125.6 28.1 125.6 27.1C125.6 26 126.4 25.2 127.5 25.2C128.5 25.2 129.3 26 129.3 27.1C129.3 28.1 128.5 28.9 127.5 28.9M150 2.7C151 2.7 151.9 3.5 151.9 4.5C151.9 5.6 151 6.4 150 6.4C149 6.4 148.1 5.6 148.1 4.5C148.1 3.5 149 2.7 150 2.7M177.1 27.1C177.1 24.6 175 22.5 172.5 22.5C172.4 22.5 172.3 22.5 172.2 22.5C173.3 20.9 173.7 18.8 173.3 17.1C172.8 15.4 171.5 14.1 169.6 13.7C164.6 12.5 162.1 17.6 160.8 20.4C160.2 21.5 159.1 22.3 157.7 22.5C156.7 22.7 155.7 22.5 155.1 22C154.5 21.4 154.3 20.4 154.5 19.3C154.8 17.9 155.6 16.8 156.7 16.3C159.4 14.9 164.5 12.5 163.3 7.4C162.9 5.5 161.7 4.2 159.9 3.8C158.2 3.3 156.1 3.8 154.5 4.8C154.5 4.7 154.5 4.6 154.5 4.5C154.5 2 152.5 0 150 0C147.5 0 145.5 2 145.5 4.5C145.5 4.6 145.5 4.7 145.5 4.8C143.9 3.8 141.8 3.3 140.1 3.8C138.3 4.2 137.1 5.5 136.7 7.4C135.5 12.5 140.6 14.9 143.3 16.3C144.4 16.8 145.2 17.9 145.5 19.3C145.7 20.4 145.5 21.4 144.9 22C144.3 22.5 143.3 22.7 142.3 22.5C140.9 22.3 139.8 21.5 139.2 20.4C137.9 17.6 135.4 12.5 130.4 13.7C128.5 14.1 127.2 15.4 126.7 17.1C126.3 18.8 126.7 20.9 127.8 22.5C127.7 22.5 127.6 22.5 127.5 22.5C125 22.5 122.9 24.6 122.9 27.1C122.9 29.6 125 31.6 127.5 31.6C127.6 31.6 127.6 31.6 127.7 31.6C126.7 33.2 126.3 35.3 126.7 37C127.2 38.7 128.5 39.9 130.4 40.4C135.4 41.6 137.9 36.4 139.2 33.7C139.8 32.6 140.9 31.8 142.3 31.6C143.3 31.4 144.3 31.6 144.9 32.1C145.5 32.7 145.7 33.7 145.5 34.8C145.2 36.1 144.4 37.3 143.3 37.8C140.6 39.1 135.5 41.6 136.7 46.6C137.1 48.5 138.3 49.8 140.1 50.3C140.5 50.4 141 50.5 141.5 50.5C142.8 50.5 144.3 50 145.5 49.3C145.5 49.4 145.5 49.5 145.5 49.6C145.5 52.1 147.5 54.1 150 54.1C152.5 54.1 154.5 52.1 154.5 49.6C154.5 49.5 154.5 49.4 154.5 49.3C156.1 50.3 158.2 50.8 159.9 50.3C161.7 49.8 162.9 48.5 163.3 46.6C164.5 41.6 159.4 39.1 156.7 37.8C155.6 37.3 154.8 36.1 154.5 34.8C154.3 33.7 154.5 32.7 155.1 32.1C155.7 31.6 156.7 31.4 157.7 31.6C159.1 31.8 160.2 32.6 160.8 33.7C162.1 36.4 164.6 41.6 169.6 40.4C171.5 39.9 172.8 38.7 173.3 37C173.7 35.3 173.3 33.2 172.3 31.6C172.4 31.6 172.4 31.6 172.5 31.6C175 31.6 177.1 29.6 177.1 27.1"],["name","M88.7 257.9C87.9 259.5 86.8 260.5 85.5 261C84.2 261.4 82.7 261.2 81.1 260.4L78.9 259.4L84 249.2L86.1 250.3C87.8 251.1 88.8 252.2 89.2 253.5C89.6 254.9 89.5 256.3 88.7 257.9M92.8 254.9C92.7 253.4 92.2 252.1 91.3 250.8C90.4 249.6 89.2 248.6 87.5 247.8L82.2 245.1L74.5 260.4L79.9 263.1C81.5 263.9 83.1 264.3 84.6 264.3C86.2 264.3 87.5 263.8 88.8 263C90 262.2 91 261 91.8 259.5C92.6 258 92.9 256.4 92.8 254.9"],["name","M107.5 256.1L105.1 262.7L98.2 260.2L100.5 253.6L97.3 252.5L91.6 268.6L94.8 269.8L97.3 262.9L104.2 265.3L101.8 272.2L105 273.4L110.7 257.2ZM107.5 256.1"],["name","M115.3 269.8L119.3 263.3L120.2 270.8ZM118.2 259L108.5 274.4L112 275.2L113.8 272.3L120.5 273.7L120.9 277.2L124.4 277.9L122.1 259.9ZM118.2 259"],["name","M138.2 267.6C138.1 268.4 137.8 269 137.3 269.4C136.8 269.8 136.1 269.9 135.2 269.8L132.3 269.5L132.8 264.5L135.7 264.8C136.6 264.9 137.3 265.2 137.7 265.7C138.1 266.1 138.3 266.8 138.2 267.6M139.4 263C138.5 262.5 137.4 262.1 136.1 262L129.7 261.3L127.9 278.4L131.4 278.7L132 272.1L133.7 272.3L136.7 279.3L140.7 279.7L137.3 272.4C138.6 272.1 139.7 271.6 140.4 270.8C141.2 269.9 141.6 269 141.7 267.8C141.8 266.9 141.7 266 141.3 265.1C140.9 264.3 140.3 263.6 139.4 263"],["name","M159.2 262.5L154.1 275.4L148.3 262.8L144.4 262.9L144.9 280L148.3 279.9L148 268.8L152.9 279.8L155.5 279.7L159.8 268.5L160.1 279.6L163.6 279.5L163.1 262.4ZM159.2 262.5"],["name","M172 272.2L173.2 264.7L176.8 271.4ZM170.6 261.1L167.3 279.1L170.9 278.5L171.5 275.1L178.2 274L179.9 277L183.4 276.4L174.6 260.5ZM170.6 261.1"],["name","M192.2 263.7C191.9 264.2 191.3 264.6 190.4 264.9L187.6 265.7L186.2 260.8L189 260.1C189.9 259.8 190.6 259.8 191.2 260.1C191.8 260.4 192.1 260.9 192.4 261.7C192.6 262.4 192.5 263.1 192.2 263.7M195.6 263.8C196 262.8 196.1 261.7 195.7 260.6C195.5 259.7 195 258.9 194.3 258.3C193.7 257.6 192.8 257.2 191.8 257C190.8 256.8 189.6 256.9 188.3 257.3L182.2 259.1L186.9 275.5L190.2 274.6L188.4 268.2L189.9 267.7L195.4 273.1L199.2 272L193.4 266.4C194.5 265.8 195.3 264.9 195.6 263.8"],["name","M205.1 263.3L204.6 255.7L209.7 261.4ZM201.2 252.8L202.2 271.1L205.5 269.7L205.3 266.2L211.6 263.6L213.9 266.2L217.2 264.8L204.9 251.3ZM201.2 252.8"],["name","M224.7 240.8L226.5 254.6L215.3 246.4L211.9 248.4L220.7 263.1L223.6 261.4L218 251.8L227.6 259L229.8 257.7L228.1 245.8L233.8 255.4L236.8 253.6L228 238.9ZM224.7 240.8"],["ring","M188.3 193.9C187.3 193.9 186.2 193.9 185.2 193.9C175 200.4 162.9 204.1 150 204.1C150 204.1 150 204.1 150 204.1C150 204.1 150 204.1 150 204.1C138.4 204.1 127.4 201.1 118 195.8C117.5 195.8 117 195.8 116.5 195.8C116.9 195.7 117.3 195.7 117.6 195.6C109.5 191 102.5 184.8 97 177.3C96.1 177.2 95.3 177.1 94.5 177C95.2 177 95.9 176.9 96.6 176.9C88.8 166 84.1 152.7 84.1 138.2C84.1 101.9 113.7 72.4 150 72.4C150 72.4 150 72.4 150 72.4C150 72.4 150 72.4 150 72.4C186.3 72.4 215.9 101.9 215.9 138.2C215.9 161.4 203.9 181.8 185.8 193.5C186.7 193.6 187.5 193.8 188.3 193.9M221.2 138.2C221.2 99 189.3 67 150 67C110.7 67 78.8 99 78.8 138.2C78.8 177.5 110.7 209.5 150 209.5C189.3 209.5 221.2 177.5 221.2 138.2"],["star","M143.3 112.8L146.4 112.8L142.1 105.5L140.6 108.1ZM143.3 112.8"],["star","M162.2 112.8L156.7 112.8L159.4 108.1ZM153.6 112.8L137.9 112.8L140.6 108.1L142.1 105.5L146.4 98.1L153.6 98.1L157.9 105.5ZM150 119.1L147.9 115.5L152.1 115.5ZM137.9 98.1L143.3 98.1L140.6 102.8ZM150 91.8L152.1 95.4L147.9 95.4ZM162.2 98.1L159.4 102.8L156.7 98.1ZM166.8 95.4L155.2 95.4L150 86.5L144.8 95.4L133.2 95.4L139 105.5L133.2 115.5L144.8 115.5L150 124.5L155.2 115.5L166.8 115.5L161 105.5ZM166.8 95.4"],["waves","M126.5 168.6C126.2 168.4 126 168.2 125.7 168L127.3 168C127.1 168.2 126.8 168.4 126.5 168.6C133.3 173.5 141.4 176.6 149.7 177C149.9 176.9 150 176.9 150.2 176.8C146.2 175.8 142.4 174.5 138.7 172.8C134.3 170.8 130.2 168.3 126.5 165.3C118.1 172.2 107.5 176.1 96.7 176.9C96.8 177 96.9 177.2 97 177.3C107.5 178.4 118.2 175 126.5 168.6"],["waves","M163.7 170.6C164 170.7 164.2 170.9 164.5 171.1C164.8 170.9 165 170.7 165.3 170.5ZM163.7 170.6"],["waves","M153.1 182.8C142.4 189.6 130.1 193.6 117.7 195.6C117.8 195.7 117.9 195.7 118 195.8C127.3 195.8 136.6 193.7 145.1 190.1C147.9 188.8 150.6 187.4 153.1 185.9C152.9 185.8 152.7 185.6 152.5 185.5L153.8 185.5C153.6 185.6 153.4 185.7 153.1 185.9C155.7 187.2 158.3 188.4 161 189.4C168.7 192.3 176.9 193.9 185.2 193.9C185.4 193.8 185.6 193.7 185.8 193.5C183.6 193.2 181.4 192.8 179.3 192.4C170.1 190.5 161.2 187.4 153.1 182.8"],["motto","M102 114.8C101.9 115 101.8 116 101.7 116L100.1 115.4C99.9 115.2 101.7 112 101.5 111.5C101.4 111.5 101 111.4 101 111.4C100.2 113.6 99.1 115.6 98.3 117.7C98.1 118.1 97.2 120.4 97.2 120.5C97.2 120.7 97.4 120.8 97.5 120.9C97.9 121 98.4 119.2 98.5 118.8C98.7 118.4 99.5 116.3 99.8 116.2C99.9 116.2 101.1 116.7 101.1 116.7C101 117.3 99.1 121.1 99.3 121.3C99.4 121.3 99.9 121.4 100 121.4C100 121.4 100.3 120.3 100.5 120.2L101.3 120.9C101.9 121.1 104.4 121.3 104.7 120.9C104.8 120.8 104.8 120.4 104.7 120.2C103.6 120.5 101.2 120.7 101 119.1C101 118.8 101.6 117.1 101.8 117.1C102.2 116.9 104.8 118.3 105.5 118.5C105.9 118.6 106 117.9 105.9 117.8C105.7 117.5 103.2 116.9 102.7 116.5C102.3 116.1 102.7 114.9 103 114.5C104 113.6 105.5 115.1 105.9 115.9C106.4 115.7 106.4 115.2 106.1 114.7C106 114.6 105.9 114.7 105.8 114.6C105.4 114.2 105.2 113.9 104.5 113.7C103.4 113.3 102.6 113.7 102 114.8"],["motto","M103 143C102.5 142.9 102.6 143.3 102.4 143.6L101.9 144.1C101.4 141.8 98.3 141.9 98.7 144.5C98.8 145.1 99.7 145.7 99 146.2C97.4 147.1 97.8 144.1 97.4 143.3L95.6 143.6L95.6 142.3C94.1 142.1 95.5 143.6 94.9 144.1C93.9 144.9 92.5 144.6 92.8 143.1C92.2 143 92.1 143.1 92.1 143.7C92.2 145.1 93.3 145.6 94.6 145.1C94.7 145 94.9 144.6 95.2 144.7C95.3 145.2 95.5 148.1 95.8 148.2C95.9 148.2 96.2 148.2 96.3 148.2C96.1 146.9 95.8 145.6 95.8 144.3C96.2 144.5 96.6 144.2 96.9 144.2C97.2 145.2 96.8 146.5 98 147C99.1 147.4 100.3 146.2 99.9 145.1C99.8 144.9 99.5 144.9 99.5 144.5C99.4 143.8 99.4 143.1 100.2 143.2C100.8 143.3 101.4 144.2 101.3 144.6C101.3 144.9 100.8 145.4 100.8 145.9C100.8 146.6 102 146.9 102.1 145.7C102.1 145.5 102 145.1 102.1 144.9C102.1 144.6 103.2 143.8 103.4 143.4C103.4 143.2 103.1 143 103 143"],["motto","M97.3 122.6C97.6 122.3 97.9 121 97.3 121.1C96.8 121.1 97.2 123.3 95.9 122.2C95.8 122.2 95.4 121.6 95.4 121.5C94.9 120.4 96.3 117.5 97.2 116.6C97.2 116.6 96.7 116.2 96.6 116.2C96.4 116.1 96.5 116.2 96.4 116.3C95 118.3 92.9 122.6 96.6 123.3C96.5 123.5 96.2 124.5 96.3 124.6C96.4 124.7 96.9 124.8 96.9 124.7C97 124.6 96.9 123.4 97.5 123.6L103.5 125.2L103.6 124.3L97.4 122.8ZM97.3 122.6"],["motto","M94.7 136.8C95.6 137 95.3 136.3 95.3 135.6C95.9 135.7 101.8 135.9 101.8 135.6C101.9 135.3 101.7 134.9 101.4 134.9C99.6 134.9 97.8 134.9 96 134.9C95.7 134.9 95.4 135.2 95.3 134.7C95.3 134.5 95.4 133.4 95.3 133.4C95.2 133.4 94.9 133.3 94.8 133.4C94.5 133.6 94.8 136.2 94.7 136.8"],["motto","M108.2 113.6C108.9 113.3 108.2 111.9 107.4 112.5C106.7 112.9 107.6 114 108.2 113.6"],["motto","M103.4 111.2C103.6 111.6 104.5 111.6 104.6 111.1C104.9 109.7 102.7 110.2 103.4 111.2"],["motto","M97.1 137.9C96.9 138.5 96.9 139.2 96.5 139.8C96.1 140.4 95.3 140.4 95.2 139.6C95.1 138.6 96.1 137.5 97.1 137.9M97.5 139.4C97.6 139.2 97.6 138.2 97.8 138.2C98.2 138.2 98.9 139.2 98.8 139.5C98.7 139.7 98.3 139.9 98.3 140C98 140.7 98.7 141 99.2 141.1C100.2 141.3 99.7 140 99.9 139.7C100 139.5 100.8 139 100.9 138.9C101 138.8 101.7 138 101.7 138C101.7 137.8 101.5 137.5 101.3 137.5C101.2 137.6 100.1 138.6 99.8 138.7C99.7 138.8 99.8 139 99.6 139C99.5 139.1 99.3 138.7 99.2 138.5C99.1 138.4 99 138.2 98.9 138.1C97.8 136.8 95.6 136.8 94.8 138.3C93.4 140.8 96.6 142.2 97.5 139.4"],["motto","M96.5 132C95.7 132.5 95 131.1 95.9 130.6C96.3 130.3 96.7 130.6 97.2 130.6C97.3 130.7 96.7 131.9 96.5 132M95.3 130C94.4 130.8 94.5 132.5 95.8 132.7C96.7 132.9 97.2 132.4 97.6 131.6C97.7 131.4 97.8 130.8 97.8 130.7C97.9 130.7 98.5 130.8 98.5 130.9C98.7 131.2 98.3 131.8 99 131.7C99.1 131.7 99.1 131.5 99.2 131.5C99.4 131.4 99.6 131.4 99.8 131.3C99.9 131.3 100.3 130.6 100.3 130.6C100.2 130 99.5 130.3 99.5 130.2C99.4 130.1 99.8 128 99.8 127.7L102.7 128.2C102.7 127.9 103 127.5 102.6 127.4L96.8 126.5C96.1 126.2 96.8 125.4 96.7 125C96.6 124.8 96.2 124.8 96.1 124.8C96 124.9 95.5 127.7 95.6 127.9C95.7 127.9 96 128.1 96.1 128.1C96.3 127.9 96.3 127.3 96.3 127.2C96.4 127.1 98.7 127.7 99.1 127.6L98.7 130C97.6 130 96.3 129.3 95.3 130"],["motto","M205.5 130.5C205.3 130.3 205.1 126.5 204.6 125.7C204 124.6 202.7 124.9 202.2 125.9C201.6 126.9 202.1 126.6 202.4 127.4C203.2 129.2 201.2 129.5 200.8 127.9C200.6 127.3 201.6 126 200.8 125.7C199.5 125.3 200 126.9 199.9 127.2C199.9 127.3 199.3 128.1 199.2 128.3C199 128.6 198.2 128.9 199.2 129.4L200.1 128.1C200.3 128.3 200.5 129.1 200.6 129.2C200.7 129.2 201.5 129.6 201.5 129.6C202.1 129.8 202.9 129.4 203.1 129C203.7 127.9 202.6 126.8 202.7 126.3C202.8 125.7 203.8 125.5 204.1 126.2C204.5 127.2 204.5 129.2 204.9 130.3C204.9 130.6 204.6 130.6 204.4 130.7C203.1 131.1 201.6 131 200.2 131.4C200.4 131.9 200.2 132.3 200.9 132.2C202.4 132.1 204.2 131.4 205.7 131.3C206.1 131.2 206.4 131.3 206.8 131.2C207.1 131.8 206.8 133 207.8 132.5L206.2 123.9L205.6 123.7C205.4 124.7 206.9 129.8 206.6 130.3C206.5 130.4 205.7 130.4 205.5 130.5"],["motto","M207.2 137.3L207.1 141.4C206.9 141.4 205.2 141.4 205.1 141.3C205 141.2 204.9 141.1 204.9 141C205 140.5 205.2 137.6 205 137.4C204.2 137.4 202.8 137.6 202.9 138.5L204.4 138.7L204.2 141.3C203.8 141.3 200.7 141 200.6 141.2C200.6 141.2 200.5 141.8 200.5 141.9C200.5 142.2 206.3 142 206.9 142.2C207.2 142.6 206.5 143.8 207.5 143.8L207.9 136.6C207.3 136.6 207.3 136.8 207.2 137.3"],["motto","M207 132.9C206.9 133.4 207.2 133.8 207 134.3L200.8 134.5C200.6 134.6 200.4 135.4 200.9 135.4L207.1 135C207.2 135.7 206.9 136.8 207.9 136.5C207.7 136.1 207.8 133 207.6 132.9C207.6 132.8 207.2 132.9 207 132.9"],["motto","M198.6 147.1C198.2 147.9 197.2 148.5 196.9 149.2C196.7 149.5 197.1 149.6 197.3 149.8C197.6 149.4 198 148.9 198.4 148.5C198.8 148 199.9 147.2 198.6 147.1"],["motto","M206.1 148.8L203.3 148.3L203.7 145.8L206.5 146.3ZM206.6 145.5C206.1 145.4 204.1 145.2 203.9 144.9C203.9 144.9 204 144.6 204 144.5C203.9 143.5 201.4 145.2 202.4 145.6C202.5 145.7 203 145.6 203.1 145.9C203.1 146.2 202.5 147.7 202.6 148.2L199.6 147.7L199.6 148.6L205.7 149.7C206.2 149.9 205.8 150 205.8 150.3C205.7 150.8 205.7 151.2 206.2 151.3L207.5 144.1C206.4 144 207.1 145 206.6 145.5"],["motto","M202.6 115.7C202.6 115.8 202.8 115.8 202.9 115.9C202.9 116 202.8 116.2 202.9 116.3C203 116.6 203.7 118.1 203.6 118.2C202.8 118.5 201.3 119.2 200.6 118.4C200.2 117.8 201.5 117.2 201.1 116.6C200.8 116.2 200.6 116.6 200.4 116.8C199.9 117.4 199 118.8 198.6 119.5C198.2 120.1 197.3 121.3 198.5 121.3C198.7 120.4 199.4 119.8 199.8 118.9C200.2 119 200.4 119.3 200.9 119.5C202 119.9 202.9 119.3 204 118.9C204.1 119.2 204.2 120 204.2 120.1C204.3 120.1 204.8 119.9 205 119.9L203.1 115C202.8 115.3 202.5 115.3 202.6 115.7"],["motto","M206 118.7C207.2 118.7 206.8 117.4 206 117.6C205.5 117.7 205.5 118.7 206 118.7"],["motto","M197.4 113C197.4 112.5 197.8 112.2 198.1 111.9L200.3 110.8L200.9 112.1C201.2 112.2 201.1 112.6 201.2 112.8C201.3 113 201.5 112.9 201.5 113C201.3 113.3 199.2 114.1 198.8 114.4C198.3 114.6 197.5 113.4 197.4 113M201.8 113.8C202.1 113.9 202.3 115 202.4 115C202.5 115.1 202.9 114.9 203.1 114.9L200.1 108.9L199.5 109C199.4 109.1 200 109.9 199.8 110.2C199.7 110.3 198.7 110.6 198.4 110.8C198.3 110.9 197.8 111.1 197.8 111.1C196.3 112.2 196.5 113.8 197.8 114.9L195.7 116.1L196.1 116.8ZM201.8 113.8"],["lotus","M269.2 143.7L269.2 143.8C267.1 158.3 262.5 172.2 255.4 185C234.2 223.4 193.8 247.2 150 247.2C106.3 247.2 65.9 223.3 44.7 185L42.2 186.4L40 187.6C62.2 227.6 104.3 252.5 150 252.5C195.7 252.5 237.9 227.6 260 187.6C267.5 174.2 272.3 159.7 274.5 144.5L274.5 144.2C274.5 144.1 274.5 144 274.5 143.9L269.3 143C269.2 143.2 269.2 143.4 269.2 143.5ZM269.2 143.7"],["lotus","M295.2 110.9C289.1 107.9 282.6 106.4 275.9 106.4C274.4 106.4 273 106.5 271.5 106.6C257.2 108 244.9 116.3 238.1 128.3L238.1 37.6C238.1 34 235.2 31 231.6 31L228.2 31C226.8 31 225.6 32.2 225.6 33.7C225.6 35.2 226.8 36.4 228.2 36.4L231.6 36.4C232.2 36.4 232.8 36.9 232.8 37.6L232.8 145.6C232.8 145.7 232.8 145.7 232.8 145.7C232.7 146.7 232.6 147.6 232.5 148.5C228 184.7 200.5 213.1 165.8 219.8C164.5 220 163.2 220.3 162 220.4C158.1 221.5 154.7 223.7 152.2 226.6C151.4 227.6 150.6 228.6 150 229.6C149.4 228.6 148.6 227.6 147.8 226.6C145.3 223.6 141.8 221.4 137.9 220.4C136.7 220.2 135.5 220 134.4 219.8C119.3 216.9 105.4 210 93.9 199.5C78.7 185.5 69.2 166.5 67.3 145.9L67.3 145.8C67.3 145.6 67.3 145.4 67.3 145.2L67.3 145.2C67.3 145.2 67.3 145.1 67.3 145.1L67.3 37.6C67.3 36.9 67.8 36.4 68.4 36.4L70.7 36.4C72.2 36.4 73.4 35.2 73.4 33.7C73.4 32.2 72.2 31 70.7 31L68.4 31C64.8 31 61.9 34 61.9 37.6L61.9 128.6C55.1 116.6 42.9 108.1 28.6 106.6C27.1 106.5 25.6 106.4 24.1 106.4C17.3 106.4 10.9 107.9 4.8 110.9L0 113.3L4.8 115.7C15.9 121.2 23.6 131.7 25.5 143.8C25.5 143.8 25.5 143.8 25.5 143.8C25.6 144 25.6 144.2 25.6 144.4L25.7 144.7L25.7 144.7C27.8 159.8 32.6 174.2 40 187.6L42.2 186.4L44.7 185C37.6 172.2 33 158.4 30.9 143.9L30.9 143.7C30.9 143.5 30.9 143.2 30.8 143C28.9 131 22 120.4 12 113.7C15.9 112.4 19.9 111.8 24.1 111.8C25.4 111.8 26.7 111.8 28 112L28.3 109L28 112C45.7 113.8 59.9 127.8 61.9 145.4L61.9 145.6C61.9 145.9 62 146.1 62 146.3L62 146.4C64 168.3 74.1 188.5 90.3 203.4C102.4 214.5 117.1 221.9 132.9 225C133.1 225 133.4 225.1 133.6 225.1C134.7 225.3 135.7 225.5 136.8 225.7C142.1 227.2 146.2 231.6 147.1 237.1C147.4 238.5 148.6 239.6 150 239.6C151.4 239.6 152.6 238.5 152.9 237.1C153.8 231.7 157.8 227.2 163.1 225.7C164.2 225.5 165.3 225.3 166.5 225.1C166.7 225.1 166.9 225 167.1 225C203.9 217.7 233.1 187.6 237.8 149.2C237.9 147.9 238.1 146.6 238.2 145.3C238.2 144.3 238.4 143 238.7 141.7C242.2 125.5 255.6 113.6 272 111.9L272 111.5L272 111.9C277.6 111.4 283 112 288 113.7C278 120.4 271.1 131 269.3 143L269.3 143L274.5 143.9C274.5 143.9 274.5 143.9 274.6 143.9L274.6 143.9C276.5 131.7 284.2 121.2 295.2 115.7L300 113.3ZM295.2 110.9"]]},"cross":{"w":54.1,"h":54.1,"d":"M47.7 27.1C47.7 26 48.6 25.2 49.6 25.2C50.6 25.2 51.4 26 51.4 27.1C51.4 28.1 50.6 28.9 49.6 28.9C48.6 28.9 47.7 28.1 47.7 27.1M47.7 36.3C47.5 37.1 47 37.6 46.1 37.8C43.6 38.4 42.1 36.4 40.2 32.5C39.3 30.7 37.5 29.3 35.3 28.9C33.3 28.6 31.5 29.1 30.3 30.2L30.2 30.2C29.1 31.4 28.6 33.3 28.9 35.2C29.3 37.4 30.7 39.3 32.5 40.2C36.4 42.1 38.4 43.5 37.8 46C37.6 47 37.1 47.5 36.3 47.7C35.1 48.1 33.2 47.4 32.2 46.4C29.9 43.9 27.7 43.7 27.1 43.7C26.4 43.7 24.2 43.9 21.9 46.4C20.9 47.4 19.1 48.1 17.8 47.7C17 47.5 16.5 47 16.3 46C15.7 43.5 17.7 42.1 21.6 40.2C23.4 39.3 24.8 37.4 25.2 35.2C25.5 33.3 25 31.4 23.9 30.2L23.9 30.2C22.9 29.3 21.6 28.8 20.1 28.8C19.7 28.8 19.3 28.8 18.8 28.9C16.7 29.3 14.8 30.7 13.9 32.5C12 36.4 10.5 38.4 8.1 37.8C7.1 37.6 6.6 37.1 6.4 36.3C6 35 6.7 33.2 7.7 32.2C10.2 29.9 10.4 27.7 10.4 27C10.4 26.4 10.2 24.2 7.7 21.9C6.7 20.9 6 19 6.4 17.8C6.6 17 7.1 16.5 8.1 16.3C10.5 15.7 12 17.7 13.9 21.6C14.8 23.4 16.7 24.8 18.8 25.2C20.8 25.5 22.7 25 23.9 23.9L23.9 23.8C25 22.6 25.5 20.8 25.2 18.8C24.8 16.6 23.4 14.8 21.6 13.9C17.7 12 15.7 10.5 16.3 8C16.5 7.1 17 6.6 17.8 6.4C19.1 6 20.9 6.6 21.9 7.7C24.2 10.2 26.4 10.4 27.1 10.4C27.7 10.4 29.9 10.2 32.2 7.7C33.2 6.6 35.1 6 36.3 6.4C37.1 6.6 37.6 7.1 37.8 8C38.4 10.5 36.4 12 32.5 13.9C30.7 14.8 29.3 16.6 28.9 18.8C28.6 20.8 29.1 22.6 30.2 23.8L30.3 23.9C31.5 25 33.3 25.5 35.3 25.2C37.5 24.8 39.3 23.4 40.2 21.6C42.1 17.7 43.6 15.7 46.1 16.3C47 16.5 47.5 17 47.7 17.8C48.1 19 47.5 20.9 46.4 21.9C43.9 24.2 43.7 26.4 43.7 27C43.7 27.7 43.9 29.9 46.4 32.2C47.5 33.2 48.1 35 47.7 36.3M27.1 51.4C26 51.4 25.2 50.6 25.2 49.6C25.2 48.6 26 47.7 27.1 47.7C28.1 47.7 28.9 48.6 28.9 49.6C28.9 50.6 28.1 51.4 27.1 51.4M4.5 28.9C3.5 28.9 2.7 28.1 2.7 27.1C2.7 26 3.5 25.2 4.5 25.2C5.6 25.2 6.4 26 6.4 27.1C6.4 28.1 5.6 28.9 4.5 28.9M27.1 2.7C28.1 2.7 28.9 3.5 28.9 4.5C28.9 5.6 28.1 6.4 27.1 6.4C26 6.4 25.2 5.6 25.2 4.5C25.2 3.5 26 2.7 27.1 2.7M54.1 27.1C54.1 24.6 52.1 22.5 49.6 22.5C49.5 22.5 49.4 22.5 49.3 22.5C50.3 20.9 50.8 18.8 50.3 17.1C49.9 15.4 48.6 14.1 46.7 13.7C41.6 12.5 39.1 17.6 37.8 20.4C37.3 21.5 36.1 22.3 34.8 22.5C33.7 22.7 32.7 22.5 32.1 22C31.6 21.4 31.4 20.4 31.6 19.3C31.8 17.9 32.6 16.8 33.7 16.3C36.5 14.9 41.6 12.5 40.4 7.4C40 5.5 38.7 4.2 37 3.8C35.3 3.3 33.2 3.8 31.6 4.8C31.6 4.7 31.6 4.6 31.6 4.5C31.6 2 29.6 0 27.1 0C24.6 0 22.5 2 22.5 4.5C22.5 4.6 22.5 4.7 22.5 4.8C20.9 3.8 18.8 3.3 17.1 3.8C15.4 4.2 14.2 5.5 13.7 7.4C12.5 12.5 17.7 14.9 20.4 16.3C21.5 16.8 22.3 17.9 22.5 19.3C22.7 20.4 22.5 21.4 22 22C21.4 22.5 20.4 22.7 19.3 22.5C18 22.3 16.8 21.5 16.3 20.4C15 17.6 12.5 12.5 7.5 13.7C5.6 14.1 4.2 15.4 3.8 17.1C3.3 18.8 3.8 20.9 4.8 22.5C4.7 22.5 4.6 22.5 4.5 22.5C2 22.5 0 24.6 0 27.1C0 29.6 2 31.6 4.5 31.6C4.6 31.6 4.7 31.6 4.8 31.6C3.8 33.2 3.3 35.3 3.8 37C4.2 38.7 5.6 39.9 7.5 40.4C12.5 41.6 15 36.4 16.3 33.7C16.8 32.6 18 31.8 19.3 31.6C20.4 31.4 21.4 31.6 22 32.1C22.5 32.7 22.7 33.7 22.5 34.8C22.3 36.1 21.5 37.3 20.4 37.8C17.7 39.1 12.5 41.6 13.7 46.6C14.2 48.5 15.4 49.8 17.1 50.3C17.6 50.4 18.1 50.5 18.5 50.5C19.9 50.5 21.3 50 22.5 49.3C22.5 49.4 22.5 49.5 22.5 49.6C22.5 52.1 24.6 54.1 27.1 54.1C29.6 54.1 31.6 52.1 31.6 49.6C31.6 49.5 31.6 49.4 31.6 49.3C33.2 50.3 35.3 50.8 37 50.3C38.7 49.8 40 48.5 40.4 46.6C41.6 41.6 36.5 39.1 33.7 37.8C32.6 37.3 31.8 36.1 31.6 34.8C31.4 33.7 31.6 32.7 32.1 32.1C32.7 31.6 33.7 31.4 34.8 31.6C36.1 31.8 37.3 32.6 37.8 33.7C39.1 36.4 41.6 41.6 46.7 40.4C48.6 39.9 49.9 38.7 50.3 37C50.8 35.3 50.3 33.2 49.3 31.6C49.4 31.6 49.5 31.6 49.6 31.6C52.1 31.6 54.1 29.6 54.1 27.1"},"lock":{"w":1352.8,"h":312.5,"em":[0.0,0.0,1.114],"rule":[394.9,0.0,2.4,311.7]},"fac":[{"k":"theology","w":1000.0,"h":313.7,"em":[0,0.0,1.12],"rule":[397.4,0.0,2.4,313.7]},{"k":"philosophy","w":1108.6,"h":313.7,"em":[0.0,0.1,1.12],"rule":[397.4,0.0,2.4,313.7]},{"k":"vinaya","w":1422.9,"h":313.7,"em":[0.0,0.1,1.12],"rule":[397.4,0.0,2.4,313.7]},{"k":"canon","w":1579.7,"h":313.7,"em":[0.0,0.1,1.12],"rule":[397.4,0.0,2.4,313.7]}]};
+const DV_ORDER = ['lotus', 'ring', 'feather', 'cross', 'star', 'waves', 'motto', 'name'];
+const DV_PARTS = [
+  ['lotus', 'The lotus', 'India’s national flower and a sign of the divine. It makes Dharmaram a “Garden of Virtues”, under the patronage of the Sacred Heart of Jesus.'],
+  ['feather', 'The peacock feather', 'The central petal of the lotus rises as a peacock feather, a symbol of eternal life.'],
+  ['cross', 'The Persian cross', 'It crowns the feather and recalls India’s Christian heritage, which goes back to St Thomas.'],
+  ['star', 'The star', 'The guiding light of Brahmavidya Jnana. It also recalls the Virgin Mary, the Star of the Sea.'],
+  ['waves', 'The waves', 'Samsara, the sea of life. The star shines above it and shows the way across.'],
+  ['motto', 'Isabhakti Param Jnana', 'Sanskrit for “devotion to God is the highest knowledge”, fulfilled through the mystery of the Cross.'],
+];
+/* [key, short name, full name, colour, ink, degrees, kind] */
+const DV_HOUSES = [
+  ['lock', 'Athenaeum', 'Dharmaram Vidya Kshetram', '#8F0001', '#F2EED6', 'The Pontifical Athenaeum itself. Dark Red and Eggshell belong to the whole institution.', 'Athenaeum'],
+  ['theology', 'Theology', 'Faculty of Theology', '#EA9000', '#FFFFFF', 'Licentiate and Doctorate in Theology.', 'Faculty'],
+  ['philosophy', 'Philosophy', 'Faculty of Philosophy', '#0092FF', '#FFFFFF', 'Licentiate and Doctorate in Philosophy.', 'Faculty'],
+  ['vinaya', 'Vinayasadhana', 'Vinayasadhana, Incorporated Institute of Formative Spirituality and Counselling', '#00B581', '#FFFFFF', 'Licentiate and Master’s in Formative Spirituality and Counselling.', 'Institute'],
+  ['canon', 'Canon Law', 'Institute of Oriental Canon Law', '#8C52FF', '#FFFFFF', 'Licentiate in Oriental Canon Law.', 'Institute'],
+];
+const dvPaths = () => DV.em.p.map(([g, d]) => `<path data-g="${g}" d="${d}"/>`).join('');
+const dvEm = (cls = '', label = '') => `<svg class="dv-em ${cls}" viewBox="0 0 ${DV.em.w} ${DV.em.h}" ${label ? `role="img" aria-label="${label}"` : 'aria-hidden="true"'}>${dvPaths()}</svg>`;
+const dvGlyph = (g, cls = '') => `<svg class="${cls}" viewBox="0 0 ${g.w} ${g.h}" aria-hidden="true"><path d="${g.d}"/></svg>`;
+/* A lockup: the emblem, the rule and the wordmark, placed exactly as in the brand book.
+   With cons, it also draws the clear space: x is the height of the cross. */
+const dvLock = (key, label, cons = false) => {
+  const f = key === 'lock' ? DV.lock : DV.fac.find(x => x.k === key), [ex, ey, k] = f.em, [rx, ry, rw, rh] = f.rule;
+  const X = DV.cross.h * k, pad = cons ? 2 * X : X;
+  let g = '';
+  if (cons) {
+    const eR = ex + DV.em.w * k, tL = rx + rw + X, L = -X, R = f.w + X, T = -X, B = f.h + X;
+    const ln = [[L, 0, R, 0], [L, f.h, R, f.h], [L, T, R, T], [L, B, R, B], [0, T, 0, B], [f.w, T, f.w, B], [L, T, L, B], [R, T, R, B], [eR, T, eR, B], [rx, T, rx, B], [rx + rw, T, rx + rw, B], [tL, T, tL, B]];
+    const sq = [[L, T], [f.w, T], [L, f.h], [f.w, f.h], [eR, T], [eR, f.h], [rx + rw, T], [rx + rw, f.h]];
+    g = `<g class="cons">${ln.map(([a, b, c, d]) => `<line x1="${a}" y1="${b}" x2="${c}" y2="${d}"/>`).join('')}${sq.map(([x, y]) => `<rect x="${x}" y="${y}" width="${X}" height="${X}"/>`).join('')}</g>`;
+  }
+  return `<svg viewBox="${-pad} ${-pad} ${f.w + 2 * pad} ${f.h + 2 * pad}" role="img" aria-label="${label}">${g}<g transform="translate(${ex} ${ey}) scale(${k})">${dvPaths()}</g><rect x="${rx}" y="${ry}" width="${rw}" height="${rh}"/><use href="img/dharmaram/wordmarks.svg#${key}" width="${f.w}" height="${f.h}"/></svg>`;
+};
+/* Patterns from the logo elements: rows offset by half a step, as in the brand book.
+   They drift one full step and loop, unless the visitor prefers less motion. */
+const dvPattern = (id, g, step, fill, op = 1) => {
+  const a = step, b = step * .9, s = (cx, cy) => `<path transform="translate(${(cx - g.w / 2).toFixed(1)} ${(cy - g.h / 2).toFixed(1)})" d="${g.d}"/>`;
+  return `<svg class="f" aria-hidden="true"><defs><pattern id="${id}" width="${2 * a}" height="${2 * b}" patternUnits="userSpaceOnUse">${motionOK() ? `<animateTransform attributeName="patternTransform" type="translate" from="0 0" to="${2 * a} ${2 * b}" dur="60s" repeatCount="indefinite"/>` : ''}<g fill="${fill}" opacity="${op}">${[[0, 0], [2 * a, 0], [0, 2 * b], [2 * a, 2 * b], [a, b]].map(([x, y]) => s(x, y)).join('')}</g></pattern></defs><rect width="100%" height="100%" fill="url(#${id})"/></svg>`;
+};
+const dvCover = () => `<div class="cover dv-cover">${dvPattern('dvp-cov', DV.cross, 46, '#8f0001', .07)}<div class="mk">${dvEm()}</div><div class="cap"><span>Case study</span><span>Brand book</span></div></div>`;
+
+P['work-dharmaram'] = () => `
+<div class="dv">
+  <section class="dv-hero" aria-labelledby="dv-h">
+    <div class="bg" aria-hidden="true"></div>
+    <div class="wrap">
+      <div style="min-width:0">
+        <nav class="crumbs" aria-label="Breadcrumb"><a href="#home">Home</a><span aria-hidden="true">/</span><a href="#work">Work</a><span aria-hidden="true">/</span><span aria-current="page">Dharmaram</span></nav>
+        <div class="rise-in">${intro('Case study · Brand identity refresh')}<h1 id="dv-h">Dharmaram, <em>rooted and renewed.</em></h1></div>
+        <p class="lede rise-in d1">A Pontifical Athenaeum in Bengaluru whose emblem has carried its faith and scholarship since 1976. We kept every symbol in it and built a system around them: one mark, two core colours, a colour for each faculty, and the rules that hold it together.</p>
+        <div class="row rise-in d2"><a class="btn btn-solid" href="#dv-read">Read the emblem${I.arrow}</a><a class="btn btn-ghost" href="#dv-fac">See the faculties</a></div>
+      </div>
+      <div class="dv-hero-mark rise-in d1">${dvEm('dv-draw', 'The Dharmaram emblem')}</div>
+      <div class="dv-meta rise-in d3">
+        <div><span>Client</span><b>Dharmaram Vidya Kshetram, Bengaluru</b></div>
+        <div><span>Sector</span><b>Higher education: philosophy, theology and canon law</b></div>
+        <div><span>Scope</span><b>Identity refresh, faculty system, brand book</b></div>
+        <div><span>Deliverable</span><b>Brand book, 23 pages</b></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="dv-about-h">
+    <div class="wrap">
+      <div class="dv-split">
+        <div class="sec-head" style="margin:0">${intro('The client')}<h2 id="dv-about-h">A Vatican-chartered home for faith and thought.</h2></div>
+        <div style="display:grid;gap:18px">
+          <p class="lede">Dharmaram Vidya Kshetram (DVK) is a Pontifical Athenaeum for higher learning and formation. The Congregation for Catholic Education in the Vatican set it up as an independent institute, empowered to grant its own degrees.</p>
+          <p style="color:var(--ink-2)">Its faculties and institutes teach philosophy, theology, Oriental canon law, and formative spirituality and counselling, from the Master’s to the Doctorate.</p>
+        </div>
+      </div>
+      <div class="dv-stats">
+        ${[['1976', 'The year Fr. Joy Elamkunnapuzha CMI drew the emblem'], ['4', 'Faculties and institutes under one emblem'], ['3', 'Degree levels: Master’s, Licentiate and Doctorate'], ['6', 'Symbols held inside a single mark']].map(([n, t], i) => `<div class="dv-in" style="--k:${i}"><b>${n}</b><span>${t}</span></div>`).join('')}
+      </div>
+      <div class="dv-houses">${DV_HOUSES.slice(1).map(([, s, t, c, , p], i) => `<div class="dv-house dv-in" style="--c:${c};--k:${i}"><h3>${t.split(',')[0]}</h3><p>${p}</p></div>`).join('')}</div>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:0" aria-labelledby="dv-brief-h">
+    <div class="wrap">
+      <div class="sec-head">${intro('The brief')}<h2 id="dv-brief-h">Keep every symbol. Give it a system.</h2></div>
+      <div class="dv-brief">
+        <div class="q dv-in">${intro('The challenge')}<h3>Fifty years of meaning in one emblem.</h3><p>Dharmaram’s emblem joins Indian and Christian symbols: a lotus, a peacock feather, the St Thomas cross, a star over the sea and a Sanskrit motto. It has to speak for the whole Athenaeum and for each of its faculties, on a seal, a certificate, a website and a phone screen, without losing any of that meaning.</p></div>
+        <div class="a dv-in" style="--k:1">${intro('Our answer')}<h3>One emblem, five houses.</h3>
+          <ul>${['The emblem stays whole, in one line weight and two colours.', 'A fixed lockup, spaced in multiples of the cross.', 'A colour for each faculty, so every house is distinct and still Dharmaram.', 'Garamond for scholarship, Montserrat for clarity.'].map(t => `<li>${dvGlyph(DV.cross)}<span>${t}</span></li>`).join('')}</ul></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="dv-read" id="dv-read" aria-labelledby="dv-read-h">
+    <div class="wrap">
+      <div class="dv-read-head">${intro('Reading the emblem')}<h2 id="dv-read-h">Six symbols, one belief.</h2></div>
+      <div class="dv-read-art" id="dv-read-art">${dvEm('', 'The Dharmaram emblem, with the symbol being read highlighted')}<p class="dv-read-now" aria-hidden="true"><span id="dv-read-n">01 / 06</span><span class="bar"><i></i></span></p></div>
+      <ol class="dv-steps" id="dv-steps">${DV_PARTS.map(([g, t, p], i) => `<li class="dv-step${i ? '' : ' on'}" data-g="${g}"><button type="button" aria-describedby="dv-step-${i}"><span class="n">${String(i + 1).padStart(2, '0')}</span><b>${t}</b></button><p id="dv-step-${i}">${p}</p></li>`).join('')}</ol>
+      <p class="dv-src">Symbolism as set out in the Dharmaram brand book. Together, these Indian and Christian symbols express Dharmaram’s mission: an Indian Church rooted in faith, wisdom and cultural harmony.</p>
+    </div>
+  </section>
+
+  <section class="sec" id="dv-system" aria-labelledby="dv-lock-h">
+    <div class="wrap">
+      <div class="sec-head">${intro('The lockup')}<h2 id="dv-lock-h">Measured in crosses.</h2><p class="lede" style="margin-top:18px;max-width:56ch">The emblem, a hairline rule and the name in three lines. Every gap, inside the lockup and around it, is a multiple of x, the height of the cross that crowns the emblem.</p></div>
+      <div class="dv-lockup dv-in" id="dv-lockup">
+        ${dvLock('lock', 'Pontifical Athenaeum Dharmaram Vidya Kshetram logo', true)}
+        <div class="tools">
+          <div class="dv-tog" role="group" aria-label="Background"><button type="button" data-bg="" aria-pressed="true">Eggshell</button><button type="button" data-bg="on-red" aria-pressed="false">Dark Red</button><button type="button" data-bg="on-white" aria-pressed="false">White</button></div>
+          <div class="dv-tog"><button type="button" id="dv-cons" aria-pressed="false">Show clear space</button></div>
+        </div>
+      </div>
+      <p class="dv-key">${dvGlyph(DV.cross)}<span>x = the cross. Keep at least x clear on every side.</span></p>
+      <div class="dv-marks">
+        <div class="a dv-in">${dvEm('', 'Brandmark in Eggshell on Dark Red')}</div>
+        <div class="b dv-in" style="--k:1">${dvEm('', 'Brandmark in Dark Red on Eggshell')}</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="dv-fac" style="padding-top:0" aria-labelledby="dv-fac-h">
+    <div class="wrap">
+      <div class="sec-head">${intro('The faculty system')}<h2 id="dv-fac-h">One emblem, five houses.</h2><p class="lede" style="margin-top:18px;max-width:58ch">Dark Red and Eggshell belong to the whole Athenaeum. Each faculty and institute keeps the emblem and the rule, and takes a colour and a name of its own, so every house is distinct and still unmistakably Dharmaram.</p></div>
+      <div class="dv-fac-stage dv-in" id="dv-fac-stage" role="tabpanel" aria-labelledby="dv-ft-0" style="--fc:${DV_HOUSES[0][3]};--fi:${DV_HOUSES[0][4]}">
+        ${DV_HOUSES.map(([k, , t], i) => `<div class="lk${i ? '' : ' on'}" data-i="${i}"${i ? ' aria-hidden="true"' : ''}>${dvLock(k, `${t} logo`)}</div>`).join('')}
+        <span class="meter" aria-hidden="true"><i></i></span>
+      </div>
+      <div class="dv-fac-tabs" role="tablist" aria-label="Faculties">${DV_HOUSES.map(([, s, , c, , , kind], i) => `<button type="button" role="tab" id="dv-ft-${i}" aria-controls="dv-fac-stage" aria-selected="${i === 0}" tabindex="${i ? -1 : 0}" style="--c:${c}"><b>${s}</b><small>${kind}</small></button>`).join('')}</div>
+      <div class="dv-fac-note" aria-live="polite"><h3 id="dv-fac-t">${DV_HOUSES[0][2]}</h3><p id="dv-fac-p">${DV_HOUSES[0][5]}</p></div>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:0" aria-labelledby="dv-gl-h">
+    <div class="wrap">
+      <div class="sec-head">${intro('At a glance')}<h2 id="dv-gl-h">Rooted in 1976. Ready for what comes next.</h2></div>
+      <div class="dv-glance">
+        <div class="dv-g em dv-in">${dvEm('', 'The Dharmaram emblem in Eggshell on Dark Red')}<span class="cap">The emblem</span></div>
+        <div class="dv-facs">${DV_HOUSES.slice(1).map(([k, , t, c], i) => `<div class="dv-g dv-in" style="background:${c};--k:${i + 1}">${dvLock(k, `${t} logo`)}</div>`).join('')}</div>
+        <div class="dv-g lock dv-in">${dvLock('lock', 'Pontifical Athenaeum Dharmaram Vidya Kshetram logo')}<span class="cap">The Athenaeum</span><span class="dv-strip" aria-hidden="true">${[['#8F0001', 5], ['#000000', 1], ['#EA9000', 1], ['#0092FF', 1], ['#00B581', 1], ['#8C52FF', 1]].map(([c, w]) => `<i style="--c:${c};--w:${w}"></i>`).join('')}</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="dv-del-h">
+    <div class="wrap">
+      <div class="sec-head">${intro('What we delivered')}<h2 id="dv-del-h">Ready for every house at Dharmaram.</h2></div>
+      <ul class="dv-del">${[['Emblem artwork', 'Every symbol from 1976, as master vectors in Dark Red and Eggshell.'], ['Logo lockup', 'Emblem, rule and name, spaced in multiples of the cross.'], ['Colour system', 'Dark Red and Eggshell, with a colour for each faculty.'], ['Faculty lockups', 'Theology, Philosophy, Vinayasadhana and Oriental Canon Law.'], ['Brand guidelines', 'The rules that keep the identity whole, in one book.']].map(([t, p], i) => `<li class="dv-in" style="--k:${i}"><span>${String(i + 1).padStart(2, '0')}</span><b>${t}</b><p>${p}</p></li>`).join('')}</ul>
+      <div class="row" style="display:flex;flex-wrap:wrap;gap:12px;margin-top:48px">${arrowBtn('#work', 'Back to all work', 'btn-ghost')}</div>
+    </div>
+  </section>
+</div>
+  ${ctaBand('mint', 'Does your institution’s brand carry its story?', 'Let’s refresh yours')}`;
+
+function setupDharmaram(main) {
+  const root = main.querySelector('.dv'); if (!root) return;
+  const ok = motionOK();
+  const io = new IntersectionObserver(es => es.forEach(e => { if (!e.isIntersecting) return; e.target.classList.add('on'); io.unobserve(e.target); }), { threshold: .2 });
+  root.querySelectorAll('.dv-in').forEach(el => io.observe(el));
+
+  /* Hero: trace each outline in reading order, then fill it */
+  const draw = root.querySelector('.dv-draw');
+  if (draw && ok) draw.querySelectorAll('path').forEach((p, i) => { p.style.setProperty('--len', Math.ceil(p.getTotalLength())); p.style.setProperty('--k', DV_ORDER.indexOf(p.dataset.g) * 3 + (i % 3)); });
+
+  /* Reading the emblem: scrolling drives it. The step nearest the middle of the reading area
+     lights up its symbol; clicking a step scrolls it there. */
+  const art = root.querySelector('#dv-read-art'), em = art.querySelector('svg'), steps = [...root.querySelectorAll('.dv-step')];
+  const nowN = root.querySelector('#dv-read-n'), bar = art.querySelector('.bar');
+  let on = -1, raf = 0;
+  const line = () => { const top = innerWidth <= 900 ? art.getBoundingClientRect().bottom : 0; return top + (innerHeight - top) * .5; };
+  const set = i => {
+    if (i === on) return; on = i;
+    em.dataset.on = steps[i].dataset.g;
+    steps.forEach((st, j) => st.classList.toggle('on', j === i));
+    nowN.textContent = `${String(i + 1).padStart(2, '0')} / ${String(steps.length).padStart(2, '0')}`;
+    bar.style.setProperty('--p', (i + 1) / steps.length);
+  };
+  const read = () => {
+    raf = 0; if (!root.isConnected) { removeEventListener('scroll', onScroll); removeEventListener('resize', onScroll); return; }
+    const y = line(); let k = 0;
+    steps.forEach((st, j) => { if (st.getBoundingClientRect().top <= y) k = j; });
+    set(k);
+  };
+  const onScroll = () => { if (!raf) raf = requestAnimationFrame(read); };
+  addEventListener('scroll', onScroll, { passive: true }); addEventListener('resize', onScroll);
+  steps.forEach((st, j) => st.querySelector('button').addEventListener('click', () => {
+    const r = st.getBoundingClientRect();
+    scrollTo({ top: scrollY + r.top - line() + 24, behavior: ok ? 'smooth' : 'auto' }); set(j);
+  }));
+  set(0); read();
+
+  /* Lockup: background and clear space */
+  const lk = root.querySelector('#dv-lockup');
+  lk.querySelectorAll('[data-bg]').forEach(b => b.addEventListener('click', () => {
+    lk.classList.remove('on-red', 'on-white'); if (b.dataset.bg) lk.classList.add(b.dataset.bg);
+    lk.querySelectorAll('[data-bg]').forEach(x => x.setAttribute('aria-pressed', x === b));
+  }));
+  const cb = root.querySelector('#dv-cons');
+  cb.addEventListener('click', () => { const on = !lk.classList.contains('show'); lk.classList.toggle('show', on); cb.setAttribute('aria-pressed', on); cb.textContent = on ? 'Hide clear space' : 'Show clear space'; });
+
+  /* Faculty system: tabs, and a slow tour while the stage is on screen until someone picks one */
+  const stage = root.querySelector('#dv-fac-stage'), tabs = [...root.querySelectorAll('.dv-fac-tabs [role="tab"]')], lks = [...stage.querySelectorAll('.lk')];
+  const ft = root.querySelector('#dv-fac-t'), fp = root.querySelector('#dv-fac-p');
+  let cur = 0, timer = 0, touched = false, seen = false;
+  const DUR = 3600;
+  const show = (i, focus) => {
+    cur = (i + tabs.length) % tabs.length; const h = DV_HOUSES[cur];
+    stage.style.setProperty('--fc', h[3]); stage.style.setProperty('--fi', h[4]); stage.setAttribute('aria-labelledby', tabs[cur].id);
+    lks.forEach((l, j) => { l.classList.toggle('on', j === cur); l.toggleAttribute('aria-hidden', j !== cur); });
+    tabs.forEach((t, j) => { t.setAttribute('aria-selected', j === cur); t.tabIndex = j === cur ? 0 : -1; });
+    ft.textContent = h[2]; fp.textContent = h[5];
+    if (focus) tabs[cur].focus();
+  };
+  const stop = () => { touched = true; clearTimeout(timer); stage.classList.remove('run'); };
+  const tour = () => {
+    clearTimeout(timer); if (touched || !seen || !ok || !root.isConnected) { stage.classList.remove('run'); return; }
+    stage.style.setProperty('--dur', DUR + 'ms'); stage.classList.remove('run'); void stage.offsetWidth; stage.classList.add('run');
+    timer = setTimeout(() => { show(cur + 1); tour(); }, DUR);
+  };
+  tabs.forEach((t, i) => {
+    t.addEventListener('click', () => { stop(); show(i); });
+    t.addEventListener('keydown', e => {
+      const d = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key];
+      if (d) { e.preventDefault(); stop(); show(cur + d, true); } else if (e.key === 'Home' || e.key === 'End') { e.preventDefault(); stop(); show(e.key === 'Home' ? 0 : tabs.length - 1, true); }
+    });
+  });
+  stage.addEventListener('pointerdown', stop);
+  new IntersectionObserver(es => es.forEach(e => { seen = e.isIntersecting; if (seen) tour(); else { clearTimeout(timer); stage.classList.remove('run'); } }), { threshold: .5 }).observe(stage);
+}
+
+/* ================= Case study: Oli =================
+   Vectors are the client's own logo file. The ripple geometry is measured from their key visuals. */
+const OL = {
+  O: 'M346.78,223.96c-89.22,0-173.34-9.77-236.86-27.5C36.98,176.1,0,148.15,0,113.41S36.98,50.72,109.92,30.36C173.44,12.62,257.56,2.86,346.78,2.86s173.34,9.77,236.86,27.5c72.94,20.36,109.92,48.31,109.92,83.05s-36.98,62.69-109.92,83.05c-63.52,17.73-147.64,27.5-236.86,27.5ZM346.78,40.97c-85.85,0-166.33,9.27-226.61,26.1-64.9,18.12-82.05,38.23-82.05,46.34s17.15,28.22,82.05,46.34c60.28,16.83,140.76,26.1,226.61,26.1s166.33-9.27,226.61-26.1c64.9-18.12,82.05-38.23,82.05-46.34s-17.15-28.22-82.05-46.34c-60.28-16.83-140.76-26.1-226.61-26.1Z',
+  stem: 'M818.74,224.89h-37.71l-8.93-137.4c-.67-10.27,7.48-18.97,17.78-18.97h20.02c10.29,0,18.45,8.7,17.78,18.97l-8.93,137.4Z',
+  ramp: ['#4E0705', '#670D0D', '#881616', '#A31E21', '#BB2B2A', '#D83232', '#ED5C5F'],
+};
+const olLogo = (label = 'Oli') => `<svg class="ol-logo" viewBox="0 0 827.71 224.89" role="img" aria-label="${label}"><path d="${OL.O}"/><rect x="712.74" width="38.12" height="224.89"/><path d="${OL.stem}"/><circle cx="799.89" cy="27.14" r="27.14"/></svg>`;
+/* The deck cover's stage floor: rings centred further down the further out they go. [cy, rx, ry] */
+const OL_FLOOR = [[915, 1140, 405], [795, 757, 280], [732, 600, 210], [668, 453, 138], [627, 306, 96], [612, 252, 58]];
+const olField = (logoW = 300, cls = '', vb = '-300 330 2600 1010') => `<svg class="${cls}" viewBox="${vb}" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+  <rect x="-1000" y="-1000" width="4600" height="3400" fill="${OL.ramp[0]}"/>
+  ${OL_FLOOR.map(([cy, rx, ry], i) => `<ellipse class="rg" style="--i:${5 - i}" cx="1000" cy="${cy}" rx="${rx}" ry="${ry}" fill="${OL.ramp[i + 1]}"/>`).join('')}
+  ${logoW ? `<g class="lg"><g transform="translate(${1000 - logoW / 2} ${612 - logoW * 224.89 / 827.71 / 2}) scale(${logoW / 827.71})" fill="#fff"><path d="${OL.O}"/><rect x="712.74" width="38.12" height="224.89"/><path d="${OL.stem}"/><circle cx="799.89" cy="27.14" r="27.14"/></g></g>` : ''}
+</svg>`;
+const OL_CH = [
+  ['Artists', 'For the ones on stage', 'Get found by venues that want your sound. Book gigs, studios and jam rooms, team up with other musicians, and grow fans who follow you from show to show.', ['Gigs', 'Studios &amp; jams', 'Collabs', 'Fans']],
+  ['Venues', 'For the rooms', 'Find the right act for your room and your crowd, book them in a few taps, and let the platform promote the night.', ['Discovery', 'Booking', 'Promotion']],
+  ['Crews', 'For sound, light, photo &amp; video', 'The people behind the show get booked all year round, not just in festival season.', ['Sound', 'Light', 'Photo &amp; video']],
+  ['Labels', 'For the scouts', 'Spot new talent early, across every genre, from real performances in front of real crowds.', ['Scouting', 'Every genre']],
+  ['Fans', 'For the front row', 'Find shows near you, book tickets, watch performances and back the artists you love.', ['Shows', 'Tickets', 'Watch']],
+];
+const OL_COL = [['Room', '#4E0705', 'The back of the room'], ['Step 6', '#670D0D', ''], ['Step 5', '#881616', ''], ['Step 4', '#A31E21', ''], ['Step 3', '#BB2B2A', ''], ['Oli Red', '#D83232', 'The core colour'], ['Spotlight', '#ED5C5F', 'Where the artist stands']];
+const OL_ROOMS = [['genres', 'Genres &amp; Trends', 'Ultramarine and yellow', '#F7EC29'], ['business', 'Business &amp; Careers', 'Red meets blue', '#D83232'], ['creative', 'Creative Processes', 'Violet loops', '#E04BE8'], ['society', 'Music &amp; Society', 'Forest and lime', '#E9E35A'], ['lifestyle', 'Music &amp; Lifestyle', 'The core red', '#ED5C5F']];
+const olIc = { play: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 4l15 8-15 8z"/></svg>', pause: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>' };
+const olFmt = s => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+const olTrk = (n, t) => `<p class="ol-trk"><i></i>Track ${String(n).padStart(2, '0')} · ${t}</p>`;
+const olPlayer = (id, shape, src, poster, label) => `
+      <div class="ol-scr ${shape}" id="${id}">
+        <video playsinline muted loop preload="metadata" poster="video/${poster}" aria-label="${label}">
+          <source src="video/${src}-720.mp4" type="video/mp4" media="(max-width: 900px)">
+          <source src="video/${src}.mp4" type="video/mp4">
+        </video>
+        <button class="ol-big" type="button" aria-label="Play"><i>${olIc.play}</i></button>
+        <span class="ol-hint" aria-hidden="true"><span class="ol-eq"><i></i><i></i><i></i><i></i></span>Tap for sound</span>
+      </div>`;
+
+P['work-oli'] = () => `
+<div class="ol">
+  <section class="ol-hero" aria-labelledby="ol-h">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="#home">Home</a><span aria-hidden="true">/</span><a href="#work">Work</a><span aria-hidden="true">/</span><span aria-current="page">Oli</span></nav>
+      <div class="ol-eyebrow">${intro('Case study · Brand, website &amp; apps')}</div>
+      <div class="ol-hlogo rise-in">${olLogo()}</div>
+      <div style="min-width:0">
+        <div class="rise-in"><h1 id="ol-h"><span>Next Gen</span><span>Gig Platform</span></h1></div>
+        <div class="row rise-in d2"><a class="btn btn-solid ol-btn" href="#ol-film">Watch the film${I.arrow}</a><a class="btn btn-ghost ol-btn" href="#ol-reel">Play the reel</a></div>
+      </div>
+      <blockquote class="ol-quote rise-in d2">No music no life,<br>know music know life.<cite>Thomas Carlyle</cite></blockquote>
+    </div>
+    <div class="ol-field">${olField(0)}</div>
+    <div class="wrap ol-about">
+      <p class="lede rise-in d1">Oli is a gig platform for live music. It puts artists, venues, crews, labels and fans on one stage. We built the brand it performs under: a mark drawn like a stage, a red that glows like stage light, and one system for everything from an LED wall to the phone in a musician’s pocket.</p>
+      <div class="ol-meta rise-in d3">
+        <div><span>Client</span><b>Oli</b></div>
+        <div><span>Sector</span><b>Live music &amp; gigs</b></div>
+        <div><span>Scope</span><b>Identity, website, apps, films</b></div>
+        <div><span>Year</span><b>2026</b></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ol-night ol-lyric" aria-labelledby="ol-ly-h">
+    <div class="wrap">
+      <div style="min-width:0">
+      ${olTrk(1, 'Intro')}
+      <h2 id="ol-ly-h" class="ol-lyrics fillme"><span class="ln">You learned three chords in your bedroom.</span><span class="ln">You played to six people and a barista.</span><span class="ln">You carried your own amp up the stairs.</span><span class="ln">You kept writing anyway.</span><span class="ln hi">Oli is for you.</span></h2>
+      <div class="ol-sign ol-in"><span>The brief, in one line:</span><b>make the stage come looking for the musician.</b></div>
+    
+      </div>
+      <div class="side" aria-hidden="true" id="ol-ly-side"><svg viewBox="0 0 400 400">${[0, 1, 2, 3, 4, 5].map(i => `<ellipse cx="200" cy="${250 - i * 6}" rx="${50 + i * 30}" ry="${12 + i * 8}" style="--lit:0" data-i="${i}"/>`).join('')}</svg></div>
+    </div>
+  </section>
+
+  <section class="ol-night ol-film" id="ol-film" aria-labelledby="ol-film-h">
+    <div class="wrap">
+      <div class="ol-head">
+        <div>${olTrk(2, 'The headliner')}<h2 id="ol-film-h">From an empty room <b>to a full house.</b></h2></div>
+        <p>A 26-second stage film. The camera flies the stage: it dollies into an empty room, cranes up as the rings land, whips round the crowd and dives into the drop where the mark lands. Every move has its own sound in an original score.</p>
+      </div>
+      <div class="ol-stagewrap">${olPlayer('ol-fv', 'wide', 'oli-stage-film', 'oli-stage-film-poster.webp', 'Oli stage film, 26 seconds, with music')}</div>
+    </div>
+  </section>
+
+  <section class="ol-cream sec" aria-labelledby="ol-mix-h">
+    <div class="wrap">
+      <div class="ol-head">
+        <div>${olTrk(3, 'The mix')}<h2 id="ol-mix-h">Five channels. <b>One stage.</b></h2></div>
+        <p class="lede">A gig needs more than a musician. Oli brings everyone who makes the night onto one platform. Solo a channel to hear who it is for.</p>
+      </div>
+      <div class="ol-desk">
+        <div class="ol-console" role="group" aria-label="Who Oli is for">
+          ${OL_CH.map(([t], i) => `<button type="button" class="ol-ch" data-i="${i}" aria-pressed="${i === 0}" aria-controls="ol-solo">
+            <span class="n">CH ${String(i + 1).padStart(2, '0')}</span><span class="solo" aria-hidden="true">S</span>
+            <span class="strip" aria-hidden="true"><span class="mtr" style="--sp:${(.55 + i * .13).toFixed(2)}s"></span><span class="fdr"><span class="cap"></span></span><span class="mtr" style="--sp:${(.68 + i * .09).toFixed(2)}s"></span></span>
+            <span class="nm">${t}</span></button>`).join('')}
+        </div>
+        <div class="ol-solo" id="ol-solo" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ol-red ol-mark" aria-labelledby="ol-mark-h">
+    <div class="wrap">
+      <div class="ol-head">
+        <div>${olTrk(4, 'The mark')}<h2 id="ol-mark-h">A stage, a mic stand <b>and a performer.</b></h2></div>
+        <p>Seen from the crowd, the O is a stage: a wide, flat ring of light. The l stands beside it like a mic stand, and the i is the performer. Everything is built from one stroke.</p>
+      </div>
+      <div class="ol-cons ol-draw" id="ol-draw">
+        <svg viewBox="-80 -70 987.71 364.89" role="img" aria-label="Construction drawing of the Oli logo">
+          <g class="grid">
+            ${[0, 40.97, 113.41, 185.85, 224.89].map(y => `<line x1="-80" x2="907.71" y1="${y}" y2="${y}"/>`).join('')}
+            ${[0, 38.12, 346.78, 655.44, 693.56, 712.74, 750.86, 799.89].map(x => `<line y1="-70" y2="294.89" x1="${x}" x2="${x}"/>`).join('')}
+            <line x1="760" x2="907.71" y1="54.28" y2="54.28"/><line x1="760" x2="907.71" y1="68.52" y2="68.52"/>
+          </g>
+          <g class="axes"><line x1="346.78" y1="113.41" x2="693.56" y2="113.41"/><line x1="346.78" y1="113.41" x2="346.78" y2="2.86"/><circle cx="799.89" cy="27.14" r="27.14"/></g>
+          <ellipse class="od" cx="346.78" cy="113.41" rx="327.72" ry="91.5" pathLength="1" transform="rotate(180 346.78 113.41)"/>
+          <path class="o" d="${OL.O}"/><rect class="l" x="712.74" width="38.12" height="224.89"/><path class="st" d="${OL.stem}"/><circle class="dt" cx="799.89" cy="27.14" r="27.14"/>
+          <g class="dims">
+            <path d="M0 140v-10M38.12 140v-10M0 135h38.12"/><path d="M-45 113.41h45"/>
+            <path d="M693.56 245v10M712.74 245v10M693.56 250h19.18"/>
+            <path d="M772.75 -25v10M827.03 -25v10M772.75 -20h54.28"/>
+            <path d="M855 54.28h10M855 68.52h10M860 54.28v14.24"/>
+          </g>
+        </svg>
+        ${[['A', -45, 113.41], ['B', 703.15, 272], ['C', 520, 113.41], ['D', 872, -20], ['E', 884, 61.4]].map(([k, x, y]) => `<span class="mk" style="left:${((x + 80) / 987.71 * 100).toFixed(2)}%;top:${((y + 70) / 364.89 * 100).toFixed(2)}%" aria-hidden="true">${k}</span>`).join('')}
+      </div>
+      <ol class="ol-rules">
+        ${[['A', 's = 38.12', 'One stroke. The ring of the O, the l and the foot of the i share it.'], ['B', '≈ ½ s', 'The gap between the O and the l.'], ['C', 'w ≈ π · h', 'The O is π times as wide as it is tall (346.78 ÷ 110.55): a stage, seen from the seats.'], ['D', '⌀ ≈ √2 · s', 'The dot of the i, as wide as the top of its body.'], ['E', '≈ ⅜ s', 'Head room between the dot and the body.']].map(([k, f, d], i) => `<li class="ol-in" style="--k:${i}"><span class="mk">${k}</span><div><b>${f}</b><p>${d}</p></div></li>`).join('')}
+      </ol>
+      <div class="ol-on">${[['a', 'On Oli Red'], ['b', 'On Room'], ['c', 'On Cream'], ['d', 'On White']].map(([c, t], i) => `<figure class="ol-in" style="--k:${i}"><div class="${c}">${olLogo()}</div><figcaption>${t}</figcaption></figure>`).join('')}</div>
+    </div>
+  </section>
+
+  <section class="ol-night sec" aria-labelledby="ol-col-h">
+    <div class="wrap">
+      <div class="ol-head">
+        <div>${olTrk(5, 'Colour')}<h2 id="ol-col-h">Seven steps from the back row <b>to the spotlight.</b></h2></div>
+        <p class="lede">One red, stepped like light falling off a stage. The steps are always flat, never a blur, so they hold up on an LED wall, a phone or a printed page.</p>
+      </div>
+      <div class="ol-pal">
+        <svg class="ol-rip" viewBox="0 0 1000 560" aria-hidden="true">
+          ${OL_COL.map(([n, h], i) => { const k = 6 - i; return `<ellipse class="rg" style="--i:${k}" cx="500" cy="${300 - k * 6}" rx="${(120 * Math.pow(1.26, k)).toFixed(1)}" ry="${(34 * Math.pow(1.36, k)).toFixed(1)}" fill="${h}"/>`; }).join('')}
+        </svg>
+        <ul class="ol-sws">${OL_COL.map(([n, h, d]) => `<li><i style="background:${h}"></i><span>${n}${d ? `<small>${d}</small>` : ''}</span><code>${h}</code></li>`).reverse().join('')}</ul>
+      </div>
+      <ul class="ol-sup">${[['Blush', '#FFB3B8', 'Headlines on red', '#FFB3B8', '#4E0705'], ['Cream', '#FEF1EC', 'Light pages', '#FEF1EC', '#231F20'], ['Ink', '#231F20', 'Text on light', '#231F20', '#fff'], ['White', '#FFFFFF', 'The mark on red', '#fff', '#D83232']].map(([n, h, d, bg, fg]) => `<li style="background:${bg};color:${fg}"><span>${n}<small>${d}</small></span><code>${h}</code></li>`).join('')}</ul>
+    </div>
+  </section>
+
+  
+
+  <section class="ol-night sec" id="ol-reel" aria-labelledby="ol-reel-h">
+    <div class="wrap ol-reel">
+      <div class="ol-reel-head">${olTrk(6, 'The reel')}<h2 id="ol-reel-h">Made for the phone in <b>every musician’s pocket.</b></h2>
+        <p class="lede">A 16-second vertical cut of the same story for Reels, Shorts and Stories. Same score, shorter fuse, and it ends inside the app.</p></div>
+      <div class="ol-phone">${olPlayer('ol-rv', 'tall', 'oli-reel', 'oli-reel-poster.webp', 'Oli vertical reel, 16 seconds, with music')}</div>
+    </div>
+  </section>
+
+  <section class="ol-venue" id="ol-venue" aria-labelledby="ol-venue-h">
+    <div class="pin">
+      <div class="ol-ph" id="ol-ph">
+        <img src="img/oli/stage.webp" alt="A dark venue with rows of chairs facing a stage. The LED wall shows Oli’s red rings and logo." width="2000" height="1500" loading="lazy">
+        <div class="ol-led" id="ol-led" aria-hidden="true"><svg viewBox="0 0 1000 290" preserveAspectRatio="none">
+          <rect width="1000" height="290" fill="#C93737"/>
+          <ellipse class="lr" style="--i:2" cx="500" cy="145" rx="560" ry="190" fill="#D93D40"/>
+          <ellipse class="lr" style="--i:1" cx="500" cy="145" rx="525" ry="160" fill="#E43E40"/>
+          <ellipse class="lr" style="--i:0" cx="500" cy="145" rx="458" ry="118" fill="#F86666"/>
+          <g class="lg"><g transform="translate(388 115) scale(.27)" fill="#fff"><path d="${OL.O}"/><rect x="712.74" width="38.12" height="224.89"/><path d="${OL.stem}"/><circle cx="799.89" cy="27.14" r="27.14"/></g></g>
+        </svg></div>
+      </div>
+      <div class="wrap cap">${olTrk(7, 'On stage')}<h2 id="ol-venue-h">Big enough for <b>the back row.</b></h2></div>
+      <p class="end">The rings on the wall keep time at 120 BPM.</p>
+    </div>
+    <div class="ol-venue-m" aria-hidden="true"><div class="wrap"><p class="ol-trk"><i></i>Track 07 · On stage</p><p class="h">Big enough for <b>the back row.</b></p></div></div>
+  </section>
+
+  <section class="ol-night sec" aria-label="Oli on the mic and in the app">
+    <div class="wrap">
+      <div class="ol-props">
+        <figure class="ol-in"><img src="img/oli/mic.webp" alt="A black microphone with a red Oli mic flag, on a red background." width="1600" height="1200" loading="lazy"><figcaption><b>Mic flag</b>The mark reads from any seat in the house.</figcaption></figure>
+        <figure class="ol-in" style="--k:1"><img src="img/oli/app.webp" alt="A hand holding a phone showing the Oli artist app: an exclusive invite reading Hey Arjun, with an Accept invitation button." width="1400" height="1401" loading="lazy"><figcaption><b>Artist app</b>The invite that starts it all.</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="ol-cream sec" aria-labelledby="ol-rooms-h">
+    <div class="wrap">
+      <div class="ol-head">
+        <div>${olTrk(8, 'The blog')}<h2 id="ol-rooms-h">Five rooms for <b>every conversation.</b></h2></div>
+        <p class="lede">The blog is split into five rooms, each with its own colour. Every cover is built from the same ellipse as the mark, so the whole crate still reads as Oli.</p>
+      </div>
+      <div class="ol-crate" id="ol-crate">${OL_ROOMS.map(([f, t, d, lb], i) => `<figure class="ol-rec" style="--lb:${lb};margin:0"><span class="vy" aria-hidden="true"></span><div class="sl"><img src="img/oli/blog-${f}.webp" alt="Blog cover: ${t}" width="900" height="900" loading="lazy"></div><p>${t}<small>${d}</small></p></figure>`).join('')}</div>
+      <div style="margin-top:64px">${arrowBtn('#work', 'Back to all work', 'btn-ghost')}</div>
+    </div>
+  </section>
+
+</div>
+  ${ctaBand('mint', 'Got a stage to fill?', 'Let’s build your brand')}`;
+
+let olRaf = 0;
+/* The film and the reel play on their own, with sound. Browsers only allow sound once the visitor
+   has clicked or tapped the page, so until then a video plays silently with a "Tap for sound" hint,
+   and the first click or tap anywhere turns the sound on. Only one video plays at a time. */
+let olSoundOK = false;
+const olPlayers = [];
+function olUnlock() {
+  if (olSoundOK) return; olSoundOK = true;
+  olPlayers.forEach(p => { p.v.muted = false; p.scr.classList.remove('silent'); });
+}
+document.addEventListener('pointerdown', olUnlock, { capture: true });
+document.addEventListener('keydown', olUnlock, { capture: true });
+function olSetupPlayer(scr, ok) {
+  const v = scr.querySelector('video'), st = { v, scr, userPaused: false };
+  const setState = () => { scr.classList.toggle('playing', !v.paused); scr.classList.toggle('silent', v.muted && !v.paused); };
+  st.play = () => {
+    st.userPaused = false;
+    olPlayers.forEach(p => { if (p !== st && !p.v.paused) p.v.pause(); });
+    v.muted = !olSoundOK;
+    v.play().catch(() => { v.muted = true; v.play().catch(() => {}); });
+  };
+  v.addEventListener('play', setState); v.addEventListener('pause', setState); v.addEventListener('volumechange', setState);
+  scr.querySelector('.ol-big').addEventListener('click', () => { olUnlock(); st.play(); });
+  v.addEventListener('click', () => { if (v.muted) { olUnlock(); setState(); return; } if (v.paused) st.play(); else { st.userPaused = true; v.pause(); } });
+  if (ok) new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting && !st.userPaused) st.play(); else if (!e.isIntersecting && !v.paused) v.pause(); }), { threshold: .5 }).observe(scr);
+  olPlayers.push(st);
+  return st;
+}
+/* Map a 1000 x 290 box onto the LED wall's four corners in the photo (a projective transform). */
+const OL_LED_Q = [[.119, .3473], [.8845, .292], [.8845, .6177], [.119, .6087]];
+function olQuad(w, h, q) {
+  const [[x0, y0], [x1, y1], [x2, y2], [x3, y3]] = q;
+  const dx1 = x1 - x2, dx2 = x3 - x2, dx3 = x0 - x1 + x2 - x3, dy1 = y1 - y2, dy2 = y3 - y2, dy3 = y0 - y1 + y2 - y3;
+  const den = dx1 * dy2 - dx2 * dy1, g = (dx3 * dy2 - dx2 * dy3) / den, hh = (dx1 * dy3 - dx3 * dy1) / den;
+  const a = x1 - x0 + g * x1, b = x3 - x0 + hh * x3, c = x0, d = y1 - y0 + g * y1, e = y3 - y0 + hh * y3, f = y0;
+  return `matrix3d(${a / w},${d / w},0,${g / w},${b / h},${e / h},0,${hh / h},0,0,1,0,${c},${f},0,1)`;
+}
+function setupOli(main) {
+  const root = main.querySelector('.ol'); if (!root) return;
+  const ok = motionOK();
+  const io = new IntersectionObserver(es => es.forEach(e => { if (!e.isIntersecting) return; e.target.classList.add('on', 'out'); io.unobserve(e.target); }), { threshold: .2 });
+  root.querySelectorAll('.ol-in, .ol-rec').forEach(el => io.observe(el));
+  if (!ok) root.querySelectorAll('.ol-rec').forEach(el => el.classList.add('out'));
+
+  /* Players */
+  olPlayers.length = 0;
+  olSetupPlayer(root.querySelector('#ol-fv'), ok);
+  olSetupPlayer(root.querySelector('#ol-rv'), ok);
+  const wide = matchMedia('(min-width: 901px)');
+
+  /* Mixing desk */
+  const solo = root.querySelector('#ol-solo'), chs = [...root.querySelectorAll('.ol-ch')];
+  const pick = (i, anim) => {
+    chs.forEach((c, j) => c.setAttribute('aria-pressed', i === j));
+    const [t, k, p, tags] = OL_CH[i];
+    solo.innerHTML = `<div><p class="k">CH ${String(i + 1).padStart(2, '0')} · ${k}</p><h3>${t}</h3><p>${p}</p></div><ul>${tags.map(x => `<li>${x}</li>`).join('')}</ul>`;
+    if (anim) { solo.classList.remove('swap'); void solo.offsetWidth; solo.classList.add('swap'); }
+  };
+  chs.forEach((c, i) => c.addEventListener('click', () => pick(i, ok)));
+  root.querySelector('.ol-console').addEventListener('keydown', e => {
+    if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+    const i = chs.indexOf(document.activeElement); if (i < 0) return; e.preventDefault();
+    const n = (i + (e.key === 'ArrowRight' ? 1 : -1) + chs.length) % chs.length; chs[n].focus(); pick(n, ok);
+  });
+  pick(0, false);
+
+  /* LED wall: fit the live screen onto the photo */
+  const ph = root.querySelector('#ol-ph'), led = root.querySelector('#ol-led');
+  const fitLed = () => { const w = ph.offsetWidth, h = ph.offsetHeight; led.style.transform = olQuad(1000, 290, OL_LED_Q.map(([x, y]) => [x * w, y * h])); };
+  fitLed();
+
+  /* Now playing */
+  const np = document.createElement('div'); np.className = 'ol-np'; np.setAttribute('aria-hidden', 'true');
+  np.innerHTML = '<span class="disc"><span class="ol-eq"><i></i><i></i><i></i><i></i></span></span><span><small>Now playing</small><b class="t"></b></span>';
+  document.body.append(np);
+  const npT = np.querySelector('.t'), tracks = [...root.querySelectorAll('.ol-trk')].map(el => ({ el: el.closest('section'), t: el.textContent.replace(/^Track \d+ · /, ''), n: el.textContent.match(/\d+/)[0] }));
+  let lastT = '';
+
+  /* Scroll scenes: the film rises into place, the mark draws, the venue pulls you towards the stage */
+  const fv = root.querySelector('#ol-fv'), draw = root.querySelector('#ol-draw'), venue = root.querySelector('#ol-venue'), lySide = root.querySelector('#ol-ly-side'), lyEl = [...lySide.querySelectorAll('ellipse')], lyr = root.querySelector('.ol-lyrics');
+  const tick = () => {
+    olRaf = 0; if (!root.isConnected) return;
+    const vh = innerHeight;
+    if (ok) {
+      const r = fv.getBoundingClientRect(); fv.style.setProperty('--s', (.9 + .1 * easeIO(clamp((vh - r.top) / (vh * .85)))).toFixed(4));
+      const a = draw.getBoundingClientRect(), q = clamp((vh * .92 - a.top) / (vh * .7));
+      draw.style.setProperty('--a', clamp(q / .5).toFixed(3)); draw.style.setProperty('--b', clamp((q - .4) / .2).toFixed(3));
+      draw.style.setProperty('--c', clamp((q - .5) / .2).toFixed(3)); draw.style.setProperty('--d', eo3(clamp((q - .62) / .25)).toFixed(3)); draw.style.setProperty('--g', clamp((q - .55) / .35).toFixed(3));
+      draw.querySelector('.o').style.opacity = q >= .5 ? 1 : 0; draw.querySelector('.od').style.opacity = q >= .5 ? 0 : 1;
+      if (wide.matches) {
+        const vr = venue.getBoundingClientRect(), p = clamp(-vr.top / (vr.height - vh));
+        ph.style.setProperty('--z', (1 + .55 * easeIO(p)).toFixed(4)); venue.style.setProperty('--z2', clamp((p - .35) / .4).toFixed(3));
+      } else ph.style.setProperty('--z', 1);
+      const lr = lyr.getBoundingClientRect(), lp = clamp((vh * .85 - lr.top) / (lr.height + vh * .3));
+      lyEl.forEach((e, i) => e.style.setProperty('--lit', lp * 6 > i ? 1 : 0));
+    } else lyEl.forEach(e => e.style.setProperty('--lit', 1));
+    // Now playing: the section under the middle of the screen
+    const mid = vh * .5, hero = root.querySelector('.ol-hero').getBoundingClientRect();
+    let cur = null; for (const tk of tracks) { const b = tk.el.getBoundingClientRect(); if (b.top <= mid) cur = tk; }
+    const show = hero.bottom < vh * .4 && root.getBoundingClientRect().bottom > vh * .7;
+    np.classList.toggle('show', !!cur && show); np.classList.toggle('on', ok && !!cur && show);
+    if (cur && cur.t !== lastT) { lastT = cur.t; npT.textContent = `${cur.n} · ${cur.t}`; }
+    const rb = root.getBoundingClientRect(); np.style.setProperty('--p', clamp(-rb.top / (rb.height - vh)).toFixed(3));
+  };
+  const onScroll = () => { if (!olRaf) olRaf = requestAnimationFrame(tick); };
+  const onResize = () => { fitLed(); onScroll(); };
+  addEventListener('scroll', onScroll, { passive: true }); addEventListener('resize', onResize);
+  const stop = () => { if (!root.isConnected) { np.remove(); removeEventListener('scroll', onScroll); removeEventListener('resize', onResize); removeEventListener('hashchange', later); } };
+  const later = () => { np.classList.remove('show'); setTimeout(stop, 1500); };
+  addEventListener('hashchange', later);
+  tick();
+}
+const eo3 = t => 1 - Math.pow(1 - t, 3);
+
+/* ================= Case study: Cube Audience Manager =================
+   Every screen is the client's own design, exported from their Figma flow. */
+const cbImg = (id, alt, lazy = true) => `<img src="img/cube/${id}.webp" alt="${alt}" width="1600" height="1039"${lazy ? ' loading="lazy"' : ''} decoding="async">`;
+const cbFr = (id, alt, attrs = '', lazy = true) => `<div class="cb-fr"${attrs}>${cbImg(id, alt, lazy)}</div>`;
+const cbMark = () => `<span class="cb-mark" role="img" aria-label="Cube">${'CUBE'.split('').map(l => `<span aria-hidden="true">${l}</span>`).join('')}</span>`;
+const cbStep = (n, t) => `<p class="cb-step"><i></i>Step ${String(n).padStart(2, '0')} · ${t}</p>`;
+const CB_PERS = [
+  ['s02', 'Sincerity', 'Down-to-earth, family-oriented, honest, wholesome, cheerful, friendly.'],
+  ['s03', 'Excitement', 'Daring, trendy, spirited, young, imaginative, independent.'],
+  ['s04', 'Competence', 'Reliable, hard-working, technical, successful, confident.'],
+  ['s05', 'Sophistication', 'Upper-class, glamorous, charming, smooth.'],
+  ['s06', 'Ruggedness', 'Outdoorsy, tough, bold, blue-collar.'],
+];
+const CB_ARCH = [
+  ['Innocent', '#6F86FF', 'Clarity, cheerfulness and warmth, for an audience looking for a break from the world’s harshness.'],
+  ['Sage', '#6F86FF', 'Always learning how everything fits together, and putting it to use. Its question: how can our work shape the future?'],
+  ['Explorer', '#6F86FF', 'Thrives on new adventures and hard challenges. A search for truth makes transparency central to the brand.'],
+  ['Outlaw', '#3CC184', 'The rule-breaker who knows the boundaries and defies them, to disrupt an industry and show what is authentic.'],
+  ['Magician', '#3CC184', 'Wit, cleverness and intelligence. The magician makes the impossible look effortless.'],
+  ['Hero', '#3CC184', 'Nobody starts as a hero. The change comes from meeting injustice or a challenge, and rising to it.'],
+  ['Lover', '#F0566E', 'Brands that bring people together: passion and deep, lasting connection.'],
+  ['Jester', '#F0566E', 'Irreverence, energy and impulse. It defies the rules, and the truths it tells are hard to resist.'],
+  ['Everyman', '#F0566E', 'The joy of being normal. Not every moment has to be extraordinary.'],
+  ['Caregiver', '#E2B93B', 'Altruism, compassion and generosity. A caregiver brand works from the heart, so it must be trusted.'],
+  ['Ruler', '#E2B93B', 'Sets the pace for its industry and writes the rules others follow. Exclusivity and status.'],
+  ['Creator', '#E2B93B', 'The builder: a nonconformist who values self-expression and helps its audience find their own.'],
+];
+const CB_IC = {
+  dash: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>',
+  game: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 18V6M4 6h9l-1.5 3L13 12H4"/><circle cx="17" cy="17" r="3"/></svg>',
+  team: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/></svg>',
+  clear: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 7h16M4 12h10M4 17h6"/></svg>',
+};
+
+P['work-cube'] = () => `
+<div class="cb">
+  <section class="cb-hero" aria-labelledby="cb-h">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="#home">Home</a><span aria-hidden="true">/</span><a href="#work">Work</a><span aria-hidden="true">/</span><span aria-current="page">Cube</span></nav>
+      <div class="cb-hero-grid">
+        <div style="min-width:0">
+          <div class="rise-in">${cbMark()}${intro('Case study · Product design')}</div>
+          <div class="rise-in d1"><h1 id="cb-h" class="cb-grad"><span>Let’s discover</span><span>your audience.</span></h1></div>
+          <div class="row rise-in d2"><a class="btn btn-solid cb-btn" href="#cb-film">Watch the film${I.arrow}</a></div>
+        </div>
+        <div class="cb-3d rise-in d2" aria-hidden="true"><div class="cb-stack-wrap" id="cb-tilt"><div class="cb-stack">
+          ${cbFr('s00', '', '', false)}${cbFr('s10', '', '', false)}${cbFr('s51', '', '', false)}
+        </div></div></div>
+      </div>
+      <div class="cb-about">
+        <p class="lede rise-in d1">Cube Audience Manager is a product from Cubera’s big data engine. A brand team describes who they are and who they sell to, talks it through with Cube AI, and gets back the audience cohort to plan a campaign around. We designed the product: every flow, from the first “Let’s discover” to the cube that turns while the data is crunched.</p>
+        <div class="cb-meta rise-in d3">
+          <div><span>Client</span><b>Cubera</b></div>
+          <div><span>Product</span><b>Cube Audience Manager</b></div>
+          <div><span>Scope</span><b>UX, UI, product flows, films</b></div>
+          <div><span>Year</span><b>2026</b></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cb-sec" id="cb-film" aria-labelledby="cb-film-h">
+    <div class="wrap">
+      <div class="cb-head">
+        <div>${cbStep(1, 'The film')}<h2 id="cb-film-h">Forget you’re <span class="cb-grad">navigating.</span></h2></div>
+        <p class="lede">A good interface shows you where to go. A great one makes you forget you’re navigating. A 26-second film of the product, cut from the real screens: from the first “Let’s discover” to the cube that turns while the data is crunched.</p>
+      </div>
+      <div class="cb-filmwrap">${olPlayer('cb-fv', 'wide', 'cube-navigating', 'cube-navigating-poster.webp', 'Cube product film, 26 seconds, with sound')}</div>
+    </div>
+  </section>
+
+  <section class="cb-sec alt" aria-labelledby="cb-idea-h">
+    <div class="wrap">
+      <div class="cb-head">
+        <div>${cbStep(2, 'The idea')}<h2 id="cb-idea-h">Big data, asked <span class="cb-grad">like a conversation.</span></h2></div>
+        <p class="lede">Audience research usually means spreadsheets and a long brief. Cube turns it into a few friendly questions, a team chat and one button. Four rules shaped every screen.</p>
+      </div>
+      <ul class="cb-pr">
+        ${[['dash', 'One home', 'A chat-style dashboard is the hub for campaigns and team spaces. The profile menu holds everything else.'], ['game', 'A form that plays', 'Audience questions become avatars, sliders and illustrations, one question per screen.'], ['team', 'Built for teams', 'Each brand gets a team space. Members brainstorm there, and Cube AI joins in with questions.'], ['clear', 'Nothing extra', 'Clean, dark and uncluttered. Hard jobs are split into small steps with clear instructions.']].map(([ic, t, p], i) => `<li class="cb-in" style="--k:${i}"><span class="ic">${CB_IC[ic]}</span><h3>${t}</h3><p>${p}</p></li>`).join('')}
+      </ul>
+    </div>
+  </section>
+
+  <section class="cb-sec" aria-labelledby="cb-pers-h">
+    <div class="wrap">
+      <div class="cb-head">
+        <div>${cbStep(3, 'Personality')}<h2 id="cb-pers-h">Five ways <span class="cb-grad">a brand can feel.</span></h2></div>
+        <p class="lede">Setting up a team space starts with the brand, not the data. Pick the personality that sounds most like your customers. Hover an option in the product to see its traits; here, tap one.</p>
+      </div>
+      <div class="cb-pick">
+        <div class="cb-tabs" role="group" aria-label="Brand personality">
+          ${CB_PERS.map(([, t, d], i) => `<button type="button" class="cb-tab" data-i="${i}" aria-pressed="${i === 0}" aria-controls="cb-pers-fr"><span class="n">0${i + 1}</span><span><b>${t}</b><small>${d}</small></span></button>`).join('')}
+        </div>
+        <div class="cb-3d"><div class="cb-fr" id="cb-pers-fr" aria-live="polite">${cbImg('s02', 'The personality step with Sincerity selected')}</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cb-arch alt" id="cb-arch" aria-labelledby="cb-arch-h">
+    <div class="pin"><div class="wrap">
+      <div class="cb-arch-grid">
+        <div style="min-width:0">
+          ${cbStep(4, 'Archetype')}
+          <h2 id="cb-arch-h">Twelve archetypes, <span class="cb-grad">one wheel.</span></h2>
+          <ol class="cb-arch-list" id="cb-arch-list">${CB_ARCH.map(([t, c]) => `<li style="--ac:${c}">${t}</li>`).join('')}</ol>
+          <p class="cb-arch-d" id="cb-arch-d" aria-live="polite"></p>
+          <div class="cb-meter" aria-hidden="true"><i id="cb-arch-m"></i></div>
+        </div>
+        <div class="cb-3d"><div class="cb-ring" id="cb-ring">${CB_ARCH.map(([t], i) => cbFr('s' + String(7 + i).padStart(2, '0'), `The archetype wheel with ${t} selected`)).join('')}</div></div>
+      </div>
+    </div></div>
+  </section>
+
+  <section class="cb-sec alt" aria-labelledby="cb-ai-h">
+    <div class="wrap">
+      <div class="cb-head">
+        <div>${cbStep(5, 'Cube AI')}<h2 id="cb-ai-h">The team talks. <span class="cb-grad">Cube AI listens.</span></h2></div>
+        <p class="lede">Teammates brainstorm in the space and tag each other for files. Cube AI joins the thread, asks for the details it is missing, and when the team is ready one button turns it all into a cohort.</p>
+      </div>
+      <div class="cb-ai">
+        <div class="cb-3d" aria-hidden="true"><div class="cb-ai-shots">${cbFr('s51', '')}${cbFr('s52', '')}</div></div>
+        <ol class="cb-flow">
+          <li class="cb-in"><div><b>Brief in</b><p>The form answers, or an attached document, appear in the chat.</p></div></li>
+          <li class="cb-in" style="--k:1"><div><b>Team talks</b><p>Members share ideas; Cube AI asks follow-up questions.</p></div></li>
+          <li class="cb-in" style="--k:2"><div><b>Summarise</b><p>One button sends everything to Cube.</p></div></li>
+          <li class="cb-in" style="--k:3"><div><b>Cohort out</b><p>A turning cube while the data is fine-tuned into an audience.</p></div></li>
+        </ol>
+      </div>
+      <div style="margin-top:64px">${arrowBtn('#work', 'Back to all work', 'btn-ghost cb-ghost')}</div>
+    </div>
+  </section>
+
+</div>
+  ${ctaBand('mint', 'Got a product to design?', 'Let’s build it together')}`;
+
+let cbRaf = 0;
+function setupCube(main) {
+  const root = main.querySelector('.cb'); if (!root) return;
+  const ok = motionOK(), wide = matchMedia('(min-width: 901px)');
+  const io = new IntersectionObserver(es => es.forEach(e => { if (!e.isIntersecting) return; e.target.classList.add('on'); io.unobserve(e.target); }), { threshold: .2 });
+  root.querySelectorAll('.cb-in').forEach(el => io.observe(el));
+
+  olPlayers.length = 0;
+  olSetupPlayer(root.querySelector('#cb-fv'), ok);
+
+  /* Hero: the stack leans towards the pointer */
+  const tilt = root.querySelector('#cb-tilt'), hero = root.querySelector('.cb-hero');
+  if (ok && matchMedia('(pointer: fine)').matches) hero.addEventListener('pointermove', e => {
+    const r = hero.getBoundingClientRect();
+    tilt.style.setProperty('--py', (((e.clientX - r.left) / r.width - .5) * 10).toFixed(2) + 'deg');
+    tilt.style.setProperty('--px', (((e.clientY - r.top) / r.height - .5) * -8).toFixed(2) + 'deg');
+  });
+
+  /* Personality picker */
+  const pf = root.querySelector('#cb-pers-fr'), tabs = [...root.querySelectorAll('.cb-tab')];
+  const pick = i => {
+    tabs.forEach((t, j) => t.setAttribute('aria-pressed', i === j));
+    const [id, t] = CB_PERS[i]; pf.innerHTML = cbImg(id, `The personality step with ${t} selected`, false);
+    if (ok) { pf.classList.remove('swap'); void pf.offsetWidth; pf.classList.add('swap'); }
+  };
+  tabs.forEach((b, i) => b.addEventListener('click', () => pick(i)));
+  root.querySelector('.cb-tabs').addEventListener('keydown', e => {
+    if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft' && e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+    const i = tabs.indexOf(document.activeElement); if (i < 0) return; e.preventDefault();
+    const n = (i + (e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : -1) + tabs.length) % tabs.length; tabs[n].focus(); pick(n);
+  });
+
+  /* Scroll scenes */
+  const arch = root.querySelector('#cb-arch'), ring = [...root.querySelectorAll('#cb-ring .cb-fr')], aList = [...root.querySelectorAll('#cb-arch-list li')], aD = root.querySelector('#cb-arch-d'), aM = root.querySelector('#cb-arch-m');
+  let lastA = -1;
+  const setArch = a => {
+    if (a === lastA) return; lastA = a;
+    aList.forEach((li, i) => li.classList.toggle('on', i === a));
+    aD.textContent = CB_ARCH[a][2];
+  };
+  const tick = () => {
+    cbRaf = 0; if (!root.isConnected) return;
+    const vh = innerHeight, big = wide.matches && ok;
+    // Archetypes: a cover-flow that turns with the scroll
+    if (big) {
+      const r = arch.getBoundingClientRect(), p = clamp(-r.top / (r.height - vh)), f = p * 11;
+      setArch(Math.round(clamp(f, 0, 11))); aM.parentElement && aM.style.setProperty('--p', p.toFixed(3));
+      ring.forEach((el, i) => {
+        const d = i - f, a = Math.abs(d);
+        el.style.transform = `translateX(${(d * 46).toFixed(2)}%) translateZ(${(-a * 240).toFixed(1)}px) rotateY(${(-clamp(d, -2.5, 2.5) * 30).toFixed(2)}deg)`;
+        el.style.opacity = clamp(d < 0 ? 1.8 - a * 1.8 : 1.2 - a * .5).toFixed(3); el.style.filter = `brightness(${clamp(1 - a * .45, .25, 1).toFixed(3)})`; el.style.zIndex = 20 - Math.round(a * 2);
+      });
+    } else if (lastA < 0) setArch(0);
+    if (!big) ring.forEach(el => { el.style.transform = ''; el.style.opacity = ''; el.style.filter = ''; });
+  };
+  const onScroll = () => { if (!cbRaf) cbRaf = requestAnimationFrame(tick); };
+  addEventListener('scroll', onScroll, { passive: true }); addEventListener('resize', onScroll);
+  const stop = () => { if (!root.isConnected) { removeEventListener('scroll', onScroll); removeEventListener('resize', onScroll); removeEventListener('hashchange', later); } };
+  const later = () => setTimeout(stop, 1500);
+  /* Phones swipe the archetypes instead: the list follows the swipe */
+  const ringEl = root.querySelector('#cb-ring');
+  ringEl.addEventListener('scroll', () => { if (wide.matches && ok) return; const w = ring[0].offsetWidth + 16; setArch(Math.round(clamp(ringEl.scrollLeft / w, 0, 11))); }, { passive: true });
+  addEventListener('hashchange', later);
+  pick(0); tick();
+}
+
+P.marketing = () => `
+  ${pageHero({ tone: 'mint', crumbs: [['#home', 'Home'], ['', 'Marketing']], eyebrow: 'Marketing', h: 'Digital Marketing Services in Bangalore.', lede: '50 years of combined experience in crafting timeless brands with passion and precision.' })}
+  <section class="sec">
+    <div class="wrap">
+      <div class="grid g4">
+        ${[['#branding', 'BRANDING'], ['#digital-services', 'DIGITAL SERVICES'], ['#web-app-development', 'WEBSITE &amp; APP DEVELOPMENT'], ['#advertising', 'ADVERTISING']].map(([href, t]) => `
+        <a class="card" href="${href}" style="min-height:240px">${icTile({ '#branding': 'nib', '#digital-services': 'megaphone', '#web-app-development': 'code', '#advertising': 'target' }[href])}<h3 style="font-size:var(--t-3)">${t}</h3><span class="more">Explore ${I.arrow}</span></a>`).join('')}
+      </div>
+    </div>
+  </section>
+  <section class="sec" style="padding-top:0">
+    <div class="wrap split" style="align-items:start">
+      <h2 style="font-size:var(--t-2)">Digital Marketing Services in Bangalore by Latch Infinity</h2>
+      <p class="lede">Take Your Business Digital with Latch Infinity, Bangalore. We help brands get found and remembered through branding, SEO, social media management, paid advertising, content and websites, all under one roof. Based in Bangalore, we work with brands across industries and time zones. Tell us your goals, and we will suggest a plan that fits.</p>
+    </div>
+  </section>
+  <section class="sec" style="padding-top:0">
+    <div class="wrap">
+      <ul class="index">
+        ${[['01', 'REBRANDING', 'We design your logo, brand book and visual identity, so your brand looks and sounds the same everywhere your customers meet it.', '#branding', 'mint'], ['02', 'SEO AND CONTENT', 'On-page and off-page SEO, plus content planned around the questions your customers search for, so your site is easier to find on Google and in AI answers.', '#digital-services', 'mint'], ['03', 'SOCIAL MEDIA MANAGEMENT', 'Strategic social media management and campaign planning that builds an audience and keeps your brand active on the platforms that matter to you.', '#digital-services', 'mint'], ['04', 'PAID ADVERTISING', 'Google, social media and programmatic ad campaigns, with striking visuals and clear goals for each campaign.', '#advertising', 'mint'], ['05', 'WEBSITES AND APPS', 'Intuitive websites and apps, designed to look right on every screen and to turn visitors into enquiries.', '#web-app-development', 'mint'], ['06', 'GAMIFICATION', 'Real-time multiplayer engagement that turns passive event attendees into active participants, with no downloads or extra devices needed.', '#gamification', 'lilac']].map(([n, t, p, href, tone]) => `<li style="${toneVars(tone)}"><a href="${href}"><span class="num">${n}</span><h3><span class="dot"></span>${t}</h3><p>${p}</p><span class="go">${I.arrow}</span></a></li>`).join('')}
+      </ul>
+    </div>
+  </section>
+  ${ctaBand('mint')}`;
+
+const OFFER_IC = { branding: ['compass', 'nib', 'book', 'target', 'refresh'], advertising: ['search', 'share', 'chip', 'layout', 'chart'], 'digital-services': ['browser', 'cart', 'megaphone', 'pen', 'bars'], 'web-app-development': ['browser', 'phone', 'bag', 'gauge', 'plug'] };
+const PROC_IC = { branding: ['search', 'users', 'refresh'], advertising: ['target', 'chip', 'chart'], 'digital-services': ['search', 'megaphone', 'bars'], 'web-app-development': ['users', 'code', 'gauge'] };
+const detailPage = key => {
+  const d = DETAIL[key];
+  return `
+  ${pageHero({ tone: 'mint', crumbs: [['#home', 'Home'], ['#marketing', 'Marketing'], ['', d.crumb]], eyebrow: 'Marketing', h: d.title, lede: d.intro, side: mock(MK_IMG[key].hero, '4 / 3') })}
+  <section class="sec">
+    <div class="wrap aside-layout">
+      <div style="display:grid;gap:clamp(56px,7vw,96px);min-width:0">
+        <div>
+          <div class="sec-head" style="margin-bottom:28px"><h2 style="font-size:var(--t-2)">Services We Offer</h2></div>
+          <div class="offer">${d.offer.map(([t, p], i) => `<div class="icard">${icTile(OFFER_IC[key][i])}<h3>${t}</h3><p>${p}</p></div>`).join('')}</div>
+        </div>
+        <div class="goal2"><div class="goal">${intro('Our Goal')}<p>${d.goal}</p></div>${mock(MK_IMG[key].goal, '4 / 3')}</div>
+        <div>
+          <div class="sec-head" style="margin-bottom:28px"><h2 style="font-size:var(--t-2)">Work Process</h2></div>
+          <ol class="proc">${d.process.map((p, i) => `<li>${icTile(PROC_IC[key][i])}<b>${String(i + 1).padStart(2, '0')}</b><p>${p}</p></li>`).join('')}</ol>
+        </div>
+        <div class="grid g2">${MK_IMG[key].proj.map(sl => mock(sl, '16 / 10')).join('')}</div>
+        ${d.faq ? `<div>
+          <div class="sec-head" style="margin-bottom:20px"><h2 style="font-size:var(--t-2)">Frequently Asked Questions</h2></div>
+          <div class="faq">${d.faq.map(([q, a]) => `<details><summary>${q}<span class="pm">${I.plus}</span></summary><p class="a">${a}</p></details>`).join('')}</div>
+        </div>` : ''}
+      </div>
+      <aside class="aside">
+        <p class="label">Services</p>
+        <nav aria-label="Marketing services">${DETAIL_NAV.map(([k, t]) => `<a href="#${k}"${k === key ? ' aria-current="page"' : ''}>${t}<span style="width:14px">${I.arrow}</span></a>`).join('')}</nav>
+        <div class="ask"><p>Any Questions? Let’s talk</p>${arrowBtn('#contact', 'Let’s Talk')}</div>
+      </aside>
+    </div>
+  </section>
+  ${ctaBand('mint')}`;
+};
+Object.keys(DETAIL).forEach(k => { P[k] = () => detailPage(k); });
+
+const EDTABS = [
+  ['Our Process', true, ['Discovery & Needs Analysis', 'Curriculum Mapping', 'SME & Content Creation', 'Academic Peer Review', 'Compliance Audit', 'LMS Packaging']],
+  ['Content Types', false, ['Self-Learning Materials', 'PPTs with Speaker Notes', 'Video Scripts', 'MCQs & Assessments', 'Case Studies', 'Immersive Learning Assets']],
+  ['Framework', false, ["Bloom's Taxonomy Integration", 'UGC 4-Quadrant Adherence', 'NEP-Aligned Digital Pedagogy']],
+];
+P.edtech = () => `
+  ${pageHero({ tone: 'ice', crumbs: [['#home', 'Home'], ['', 'EdTech']], eyebrow: 'EDTECH', h: 'Building UGC-Compliant Online LEARNING ECOSYSTEMS', actions: arrowBtn('#contact', 'Let\'s Talk'), side: isoStack('ice') })}
+  <div class="edu">
+  <section class="sec-tight" style="${toneVars('ice')}">
+    <div class="wrap">${statRow([['60+', 'Years of Team Experience'], ['500+', 'More than 40+ Institutions Served and have developed 500+ Courses'], ['60+', 'Subject Matter Experts']])}</div>
+  </section>
+  <section class="sec" style="padding-top:clamp(24px,4vw,48px)">
+    <div class="wrap">
+      <div class="sec-head"><h2>The Challenges that Institutions Face</h2></div>
+      <div class="grid g3">${[['Academic', 'Lack of structured digital pedagogy and instructional design frameworks within faculty teams.', 'cap'], ['Compliance', 'Meeting UGC 4-Quadrant requirements, NAAC standards, and NEP-aligned outcomes consistently.', 'shield'], ['Operational', 'Managing large syllabus volumes, coordinating SMEs, and maintaining production timelines.', 'gear']].map(([t, p, icn], i) => `<div class="icard">${icTile(icn, 'ice')}<span class="n" style="font-stretch:75%;color:var(--ink-3);font-size:13.5px">${i + 1}</span><h3 style="font-size:var(--t-2)">${t}</h3><p>${p}</p></div>`).join('')}</div>
+    </div>
+  </section>
+  <section class="sec" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head"><h2 style="max-width:20ch">We partner to enable your online education</h2></div>
+      <div class="tabs" role="tablist" aria-label="How we work">${EDTABS.map(([t], i) => `<button role="tab" type="button" id="et-${i}" aria-controls="ep-${i}" aria-selected="${i === 0}">${t}</button>`).join('')}</div>
+      ${EDTABS.map(([t, ordered, items], i) => { const icons = [['search', 'map', 'pen', 'users', 'clip', 'box'], ['book', 'slides', 'play', 'listcheck', 'folder', 'cube'], ['pyramid', 'quad', 'bulb']][i]; return `<div class="tabpanel" role="tabpanel" id="ep-${i}" aria-labelledby="et-${i}"${i ? ' hidden' : ''}>${ordered ? `<ol>${items.map((x, j) => `<li><span class="n">${String(j + 1).padStart(2, '0')}</span>${ic(icons[j])}${x}</li>`).join('')}</ol>` : `<ul>${items.map((x, j) => `<li>${ic(icons[j])}${x}</li>`).join('')}</ul>`}</div>`; }).join('')}
+    </div>
+  </section>
+  <section class="sec" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">${intro('WE OFFER')}<h2 style="max-width:22ch">End-to-End 4-Quadrant Content Development</h2></div>
+      <div class="quad">${['Academic Content Creation', 'Video & Learning Assets', 'Compliance & Quality Assurance', 'LMS Readiness'].map((t, i) => `<div><span class="n">0${i + 1}</span><h3>${t}</h3></div>`).join('')}</div>
+    </div>
+  </section>
+  <section class="sec" style="padding-top:0">
+    <div class="wrap split" style="align-items:start">
+      <h2 style="font-size:var(--t-2)">Domains we support</h2>
+      <div class="chips">${[['Management', 'briefcase'], ['Commerce', 'coins'], ['Computer Science', 'code'], ['Media & Communication', 'mic'], ['Healthcare Administration', 'health'], ['Law', 'scales'], ['Data Science', 'scatter'], ['Artificial Intelligence', 'chip'], ['Digital Marketing', 'megaphone']].map(([d, icn]) => `<span class="chip">${ic(icn)}${d}</span>`).join('')}</div>
+    </div>
+  </section>
+  <section class="sec" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head"><h2>The Value We Bring to Institutes</h2></div>
+      <ul class="value">${[['Faster Go-to-Market', 'Accelerated content pipelines get your programmes online sooner.', 'rocket'], ['Reduced Faculty Burden', 'Free up academic staff to focus on teaching, not content production.', 'feather'], ['Scalable Digital Systems', 'Build once, deploy across programmes with consistent quality.', 'layers'], ['Improved Engagement', 'Multimedia-rich, pedagogically sound content that learners value.', 'spark'], ['Compliance-Ready Delivery', 'Every deliverable meets UGC, NAAC, and NEP standards from day one.', 'badge']].map(([t, p, icn]) => `<li>${icTile(icn, 'ice')}<h3>${t}</h3><p>${p}</p></li>`).join('')}</ul>
+    </div>
+  </section>
+  </div>
+  ${ctaBand('ice', 'Let\'s Talk', 'CONTACT US', 'Anything in Mind?', 'Contact our amicable team for swift, informative responses to your inquiries. We\'re here to help with speedy and valuable answers.')}`;
+
+P.gamification = () => gmMarkup();
+
+let blogFilter = 'All articles', blogKw = null, blogSlug = '';
+const CATS = () => ['All articles', ...[...new Set([...BLOG_CATS, ...POSTS.map(p => p.category)])].filter(c => POSTS.some(p => p.category === c))];
+const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const postDate = d => { const m = /^(\d{4})-(\d{2})/.exec(d || ''); return m ? `${MONTHS[+m[2] - 1]} ${m[1]}` : ''; };
+const readMins = p => Math.max(1, Math.round(LatchMD.words(p.body) / 220));
+const e_ = s => LatchMD.esc(String(s || ''));
+const postCard = (p, lead) => `<a class="post${lead ? ' lead' : ''}" href="#blog/${p.slug}" data-cursor="Read">
+  <div class="img">${p.cover ? `<img src="${e_(p.cover)}" alt="" loading="${lead ? 'eager' : 'lazy'}">` : ''}</div>
+  <div style="display:grid;gap:12px;min-width:0"><div class="meta"><span>${postDate(p.date).toUpperCase()}</span><span aria-hidden="true">·</span><span>${e_(p.author || 'Latch Infinity')}</span><span aria-hidden="true">·</span><span>${e_(p.category)}</span></div><h3>${e_(p.title)}</h3><p>${e_(p.excerpt)}</p></div></a>`;
+const renderPosts = () => {
+  const list = POSTS.filter(p => (blogFilter === 'All articles' || p.category === blogFilter) && (!blogKw || (p.keywords || []).includes(blogKw)));
+  return list.length ? list.map((p, i) => postCard(p, i === 0 && list.length > 2)).join('') : `<p class="empty">${POSTS.length ? 'No articles match this filter.' : 'Articles are on their way. Check back soon.'}</p>`;
+};
+P.blog = () => `
+  ${pageHero({ tone: 'mint', fx: 'tunnel', crumbs: [['#home', 'Home'], ['', 'Blogs']], h: 'BLOGS' })}
+  <section class="sec">
+    <div class="wrap">
+      <div class="blog-bar">
+        <div class="chips" role="group" aria-label="Categories">${CATS().map(c => `<button class="chip" type="button" data-cat="${e_(c)}" aria-pressed="${c === blogFilter}">${e_(c)}<span class="c">${c === 'All articles' ? POSTS.length : POSTS.filter(p => p.category === c).length}</span></button>`).join('')}</div>
+        <details class="kw"><summary>Keywords</summary><div class="chips">${[...new Set(POSTS.flatMap(p => p.keywords || []))].map(k => `<button class="chip" type="button" data-kw="${e_(k)}" aria-pressed="${k === blogKw}">${e_(k)}</button>`).join('')}</div></details>
+      </div>
+      <div class="posts" id="posts">${renderPosts()}</div>
+    </div>
+  </section>`;
+P['blog-post'] = () => {
+  const i = POSTS.findIndex(p => p.slug === blogSlug), p = POSTS[i];
+  if (!p) return `
+  ${pageHero({ tone: 'mint', fx: 'none', crumbs: [['#home', 'Home'], ['#blog', 'Blogs'], ['', 'Not found']], h: 'Article not found', lede: 'This article may have moved or been unpublished.', actions: arrowBtn('#blog', 'All articles') })}`;
+  const { html, toc } = LatchMD.render(p.body, { toc: true, idPrefix: 'a-' });
+  const newer = POSTS[i - 1], older = POSTS[i + 1];
+  const more = POSTS.filter(q => q !== p && q.category === p.category).concat(POSTS.filter(q => q !== p && q.category !== p.category)).slice(0, 2);
+  return `
+  ${pageHero({ tone: 'mint', fx: 'none', cls: 'post-hero', crumbs: [['#home', 'Home'], ['#blog', 'Blogs'], ['', e_(p.category)]], eyebrow: e_(p.category).toUpperCase(), h: e_(p.title), lede: e_(p.excerpt),
+    actions: `<p class="art-meta"><span>${postDate(p.date)}</span><span aria-hidden="true">·</span><span>${e_(p.author || 'Latch Infinity')}</span><span aria-hidden="true">·</span><span>${readMins(p)} min read</span></p>` })}
+  <article class="sec article" aria-labelledby="art-h">
+    <div class="wrap">
+      ${p.cover ? `<figure class="art-cover"><img src="${e_(p.cover)}" alt="${e_(p.coverAlt || '')}" width="1600" height="900"></figure>` : ''}
+      <div class="art-grid">
+        <aside class="art-side" aria-label="In this article">
+          ${toc.length > 2 ? `<nav class="art-toc"><p class="label">In this article</p><ol>${toc.map(([id, t]) => `<li><a href="#${id}">${t}</a></li>`).join('')}</ol></nav>` : ''}
+        </aside>
+        <div class="art-body" id="art-h">${html}
+          ${p.cta ? `<aside class="art-cta"><p class="label intro">WORK WITH LATCH INFINITY</p><p>${LatchMD.inline(p.cta)}</p>${arrowBtn('#contact', 'Let’s Talk')}</aside>` : ''}
+          ${(p.keywords || []).length ? `<div class="art-tags"><span class="label">Topics</span><div class="chips">${p.keywords.map(k => `<a class="chip" href="#blog" data-kw-go="${e_(k)}">${e_(k)}</a>`).join('')}</div></div>` : ''}
+        </div>
+      </div>
+      <nav class="art-nav" aria-label="More articles">${[older && ['Previous', older], newer && ['Next', newer]].filter(Boolean).map(([l, q]) => `<a href="#blog/${q.slug}" class="${l === 'Next' ? 'next' : ''}"><span class="label">${l} article</span><b>${e_(q.title)}</b></a>`).join('')}</nav>
+    </div>
+  </article>
+  ${more.length ? `<section class="sec" style="padding-top:0"><div class="wrap"><div class="sec-head"><h2>Keep reading</h2></div><div class="posts">${more.map(q => postCard(q)).join('')}</div></div></section>` : ''}
+  ${ctaBand('mint')}`;
+};
+
+const SVC = ['Social Media Management', 'Content Development', 'Search Engine Optimisation (SEO)', 'Paid Advertising', 'Website Development & Management', 'Branding', 'Public Relations', 'Programmatic Advertising', 'Lead Generation', 'Marketing Strategy & Consulting'];
+const field = (id, label, type = 'text', req = false, auto = '') => `<div class="field" id="f-${id}"><label for="${id}">${label}${req ? '*' : ''}</label><input id="${id}" name="${id}" type="${type}"${req ? ' required' : ''}${auto ? ` autocomplete="${auto}"` : ''}><span class="err" id="${id}-err" aria-live="polite"></span></div>`;
+P.contact = () => `
+  ${pageHero({ tone: 'mint', crumbs: [['#home', 'Home'], ['', 'Let\'s Talk']], h: 'Got an Idea? Let’s Discuss', lede: 'Get in touch for prompt and detailed answers to all your questions.' })}
+  <section class="sec">
+    <div class="wrap contact">
+      <form class="form" id="form" novalidate>
+        <div class="fields">
+          ${field('name', 'Name', 'text', true, 'name')}${field('email', 'Email', 'email', true, 'email')}
+          ${field('phone', 'Phone', 'tel', true, 'tel')}${field('location', 'Location', 'text', true, 'address-level2')}
+          ${field('company', 'Company', 'text', false, 'organization')}${field('designation', 'Designation', 'text', false, 'organization-title')}
+        </div>
+        <fieldset class="field"><legend>Selected Services</legend><div class="svc">${SVC.map((s, i) => `<label><input type="checkbox" id="svc-${i}" name="svc" value="${s}"><span>${s}</span></label>`).join('')}</div></fieldset>
+        <div class="field"><label for="message">Message</label><textarea id="message" name="message"></textarea></div>
+        <div class="form-foot"><button class="btn btn-solid" type="submit" style="min-height:56px;padding:0 28px">SEND MESSAGE${I.arrow}</button></div>
+        <div id="sent" hidden></div>
+      </form>
+      <div class="info">
+        <div class="blk"><p class="label">Get In Touch</p><address>LATCH INFINITY PRIVATE LIMITED, Commercial Building, Unit 2, B Block, 4th Floor, Uma Shree Dream World, Hosur Rd, Behind Race Institute, Kudlu Gate, Bengaluru, Karnataka 560068</address>
+          <a class="link" href="https://www.google.com/maps/dir/?api=1&destination=Latch+Infinity+Private+Limited%2C+Bengaluru" target="_blank" rel="noopener">Get directions</a></div>
+        <div class="blk"><p class="label">Email</p><div class="copyline" style="margin:0"><code>info@latchinfinity.com</code><button class="chip-btn" type="button" data-copy="info@latchinfinity.com">Copy</button></div></div>
+        <div class="blk"><p class="label">Follow</p><div class="social">${socials()}</div></div>
+      </div>
+    </div>
+  </section>`;
+
+P.legal = () => `
+  ${pageHero({ tone: 'mint', crumbs: [['#home', 'Home'], ['', 'Terms &amp; Privacy']], h: 'Terms &amp; Conditions, Privacy Policy' })}
+  <section class="sec"><div class="wrap"><p class="proto-note"><b>Prototype note.</b> The live site links to Terms and Privacy Policy from every footer, but both pages return 404. This route is a placeholder for that text.</p></div></section>`;
+
+/* ================= Ads landing (#start) =================
+   Reached from the footer (Plans & Pricing) and from ad links; it is not in the main nav.
+   Visitors explore the services, build a plan from monthly retainers and one-time projects,
+   see an approximate price, then call, WhatsApp or send the plan with the form.
+   PRICES ARE PLACEHOLDERS: indicative INR ranges before GST. Confirm every figure, and the
+   phone number below, before the page is used for ads. */
+const LP_PHONE = '+91 00000 00000'; // TODO: replace with the real sales number
+const LP_TEL = LP_PHONE.replace(/[^\d+]/g, ''), LP_WA = LP_TEL.replace('+', '');
+const LP_TERMS = [[3, 0, '3 months'], [6, 0.05, '6 months · 5% off'], [12, 0.1, '12 months · 10% off']];
+const LP_SPEND = [25000, 50000, 100000, 200000, 300000, 500000, 1000000];
+const LP_PLATFORMS = ['Google', 'Meta', 'LinkedIn', 'YouTube', 'Programmatic'];
+const LP_SVC = [
+  { id: 'brand', t: 'Branding', tone: 'mint', art: 1, icon: 'pen', p: 'An identity people remember: strategy, a logo that means something and a brand book that keeps every channel consistent.', items: [
+    { id: 'logo', t: 'Logo & visual identity', d: 'Logo, colour, type and core stationery.', kind: 'once', opts: [['Essential', 40000, 60000, 'Logo + colours + type'], ['Complete', 75000, 120000, 'Full identity system']] },
+    { id: 'book', t: 'Brand guidelines book', d: 'A lookbook your team and vendors can follow.', kind: 'once', opts: [['Brand book', 50000, 90000]] },
+    { id: 'strat', t: 'Strategy & positioning', d: 'Workshop, audience, voice and key messages.', kind: 'once', opts: [['Workshop', 60000, 100000]] },
+  ] },
+  { id: 'social', t: 'Social media & content', tone: 'mint', art: 6, icon: 'megaphone', p: 'Always-on content that looks like you: planned, designed, posted and reported every month.', items: [
+    { id: 'smm', t: 'Social media management', d: 'Calendar, design, posting, replies and a monthly report.', kind: 'month', opts: [['Starter', 25000, 35000, '2 platforms · 12 posts'], ['Growth', 45000, 60000, '3 platforms · 16 posts + 4 reels'], ['Scale', 80000, 110000, '4 platforms · 24 posts + 8 reels']] },
+    { id: 'blog', t: 'Articles & blogs', d: 'Search-led long-form writing for your site.', kind: 'month', opts: [['4 a month', 16000, 24000], ['8 a month', 30000, 44000]] },
+    { id: 'reels', t: 'Reels production day', d: 'Six short videos, shot and edited in one day.', kind: 'once', opts: [['6 reels', 45000, 80000]] },
+  ] },
+  { id: 'ads', t: 'Performance ads', tone: 'mint', art: 4, icon: 'target', p: 'Google, Meta, LinkedIn and programmatic campaigns built for leads and sales, tuned every week.', items: [
+    { id: 'ads', t: 'Ads management', d: 'Set-up, targeting, daily optimisation and weekly reports.', kind: 'month', ads: true },
+    { id: 'creat', t: 'Ad creative pack', d: '12 static and 4 motion ads for launch.', kind: 'once', opts: [['Launch pack', 25000, 45000]] },
+  ] },
+  { id: 'seo', t: 'SEO', tone: 'mint', art: 0, icon: 'search', p: 'Be found on Google and in AI answers: technical fixes, content and links, reported every month.', items: [
+    { id: 'seo', t: 'Search engine optimisation', d: 'On-page, technical and off-page SEO with ranking reports.', kind: 'month', opts: [['Local', 18000, 25000, 'Up to 10 keywords'], ['Growth', 30000, 45000, 'Up to 25 keywords'], ['Scale', 55000, 80000, '50+ keywords · links']] },
+    { id: 'audit', t: 'SEO & site audit', d: 'A prioritised fix list for speed, structure and content.', kind: 'once', opts: [['Audit', 15000, 25000]] },
+  ] },
+  { id: 'web', t: 'Website & app', tone: 'mint', art: 3, icon: 'code', p: 'Fast, good-looking websites and apps that turn visits into enquiries, from a landing page to a product.', items: [
+    { id: 'site', t: 'Website', d: 'Designed and built to load fast and convert.', kind: 'once', opts: [['Landing page', 35000, 60000, 'One page'], ['Business site', 120000, 250000, 'Up to 10 pages · CMS'], ['E-commerce', 250000, 500000, 'Catalogue · payments']] },
+    { id: 'app', t: 'Web or mobile app', d: 'Product design and build, starting with an MVP.', kind: 'once', opts: [['MVP', 600000, 1500000]] },
+    { id: 'care', t: 'Care & hosting', d: 'Updates, backups, security and speed checks.', kind: 'month', opts: [['Care plan', 8000, 15000]] },
+  ] },
+  { id: 'film', t: 'Film & photography', tone: 'mint', art: 7, icon: 'play', p: 'Brand films, ad films and photoshoots, from script and direction to the final cut.', items: [
+    { id: 'shoot', t: 'Photoshoot', d: 'Direction, crew and edited photographs.', kind: 'once', qty: ['shoot day', 'shoot days', 1, 5], opts: [['Per day', 60000, 120000]] },
+    { id: 'bfilm', t: 'Brand or ad film', d: 'Script to final cut, 30 to 60 seconds.', kind: 'once', opts: [['Film', 150000, 400000]] },
+  ] },
+  { id: 'edtech', t: 'EdTech', tone: 'ice', art: 2, icon: 'cap', p: '4-Quadrant e-learning, compliance-led quality checks and LMS-ready delivery for institutions and teams.', items: [
+    { id: 'elearn', t: 'E-learning content', d: 'Academic content and e-learning assets, LMS-ready.', kind: 'once', qty: ['learning hour', 'learning hours', 1, 40], opts: [['Standard', 80000, 120000], ['Interactive', 120000, 180000]] },
+    { id: 'lms', t: 'LMS set-up', d: 'Platform, structure, users and launch.', kind: 'once', opts: [['Set-up', 100000, 250000]] },
+  ] },
+  { id: 'game', t: 'Gamified events', tone: 'lilac', art: 5, icon: 'multi', p: 'Live events turned into real-time games that attendees play from their phones.', items: [
+    { id: 'event', t: 'Live event game', d: 'Multiplayer rounds on a shared screen, with live results.', kind: 'once', opts: [['Up to 200', 150000, 250000, 'attendees'], ['Up to 1,000', 300000, 500000, 'attendees'], ['1,000+', 600000, 1000000, 'attendees']] },
+  ] },
+];
+const LP_ITEMS = {}; LP_SVC.forEach(s => s.items.forEach(it => { it.svc = s; LP_ITEMS[it.id] = it; }));
+const LP_PRESETS = [
+  { id: 'launch', t: 'Launch a brand', d: 'Identity, website, social', icon: 'rocket', sel: { logo: { o: 1 }, book: {}, site: { o: 1 }, smm: { o: 0 } } },
+  { id: 'leads', t: 'Get more leads', d: 'Ads, landing page, SEO', icon: 'target', sel: { ads: {}, creat: {}, site: { o: 0 }, seo: { o: 0 } }, ads: { s: 2, pf: ['Google', 'Meta'] } },
+  { id: 'always', t: 'Always-on growth', d: 'Social, SEO, ads, content', icon: 'chart', sel: { smm: { o: 1 }, seo: { o: 1 }, ads: {}, blog: { o: 0 } }, ads: { s: 1, pf: ['Meta'] } },
+  { id: 'learn', t: 'Training & events', d: 'E-learning and live games', icon: 'cap', sel: { elearn: { o: 0, q: 5 }, event: { o: 0 } } },
+];
+const LP_KEY = 'latch.plan.v1';
+const lpDefault = () => ({ sel: {}, term: 6, ads: { s: 1, pf: ['Google', 'Meta'] }, f: 'all', open: 'brand', preset: '' });
+let lp = (() => { try { const s = JSON.parse(localStorage.getItem(LP_KEY)); if (s && s.sel) return { ...lpDefault(), ...s }; } catch (e) {} return lpDefault(); })();
+const lpSave = () => { try { localStorage.setItem(LP_KEY, JSON.stringify(lp)); } catch (e) {} };
+
+const inr = n => n >= 1e7 ? `₹${+(n / 1e7).toFixed(2)} Cr` : n >= 1e5 ? `₹${+(n / 1e5).toFixed(n >= 1e6 ? 1 : 2)}L` : `₹${Math.round(n / 1000)}k`;
+const rng = (a, b) => a === b ? inr(a) : `${inr(a)} – ${inr(b)}`;
+const r1k = n => Math.round(n / 1000) * 1000;
+function lpAdsFee(a) {
+  const spend = LP_SPEND[a.s] || LP_SPEND[1], n = Math.max(1, a.pf.length);
+  return [r1k(Math.max(20000, spend * 0.12) + 6000 * (n - 1)), r1k(Math.max(30000, spend * 0.18) + 8000 * (n - 1))];
+}
+/* Price of one picked item: [lo, hi], before any term discount */
+function lpPrice(it, s = lp.sel[it.id] || {}) {
+  if (it.ads) return lpAdsFee(lp.ads);
+  const o = it.opts[s.o || 0] || it.opts[0], q = it.qty ? (s.q || it.qty[2]) : 1;
+  return [o[1] * q, o[2] * q];
+}
+const lpFrom = s => { const lo = Math.min(...s.items.map(it => it.ads ? lpAdsFee({ s: 0, pf: ['Google'] })[0] : Math.min(...it.opts.map(o => o[1])))); const m = s.items.every(it => it.kind === 'month'); return `From ~${inr(lo)}${m ? ' a month' : ''}`; };
+function lpTotals() {
+  const disc = (LP_TERMS.find(t => t[0] === lp.term) || LP_TERMS[0])[1];
+  let m = [0, 0], o = [0, 0];
+  const lines = Object.keys(lp.sel).filter(id => LP_ITEMS[id]).map(id => {
+    const it = LP_ITEMS[id], s = lp.sel[id], [a, b] = lpPrice(it, s);
+    const t = it.kind === 'month' ? m : o; t[0] += a; t[1] += b;
+    const opt = it.ads ? `${inr(LP_SPEND[lp.ads.s])} ad budget · ${lp.ads.pf.join(', ') || 'Google'}` : [it.opts.length > 1 ? it.opts[s.o || 0][0] : '', it.qty ? `${s.q || it.qty[2]} ${(s.q || it.qty[2]) > 1 ? it.qty[1] : it.qty[0]}` : ''].filter(Boolean).join(' · ');
+    return { it, opt, a, b };
+  });
+  m = m.map(v => r1k(v * (1 - disc)));
+  return { m, o, disc, lines, term: [o[0] + m[0] * lp.term, o[1] + m[1] * lp.term] };
+}
+function lpText() {
+  const T = lpTotals();
+  if (!T.lines.length) return 'Hi Latch Infinity, I would like to talk about a project.';
+  return 'Hi Latch Infinity, I built this plan on your website:\n' + T.lines.map(l => `• ${l.it.t}${l.opt ? ` (${l.opt})` : ''}: ${rng(l.a, l.b)}${l.it.kind === 'month' ? ' a month' : ''}`).join('\n') +
+    `\nApproximate estimate: ${T.m[1] ? `${rng(T.m[0], T.m[1])} a month for ${lp.term} months` : ''}${T.m[1] && T.o[1] ? ' + ' : ''}${T.o[1] ? `${rng(T.o[0], T.o[1])} one-time` : ''}, before GST. I understand the final price depends on scope.`;
+}
+
+const lpThumb = s => s.img ? `<img src="${s.img}" alt="" loading="lazy">` : svcArt(s.art, s.tone);
+const lpItem = it => {
+  const ctl = it.ads
+    ? `<div class="lp-ads"><div class="lbl"><span>Monthly ad budget, paid to the platforms</span><b data-spend>${inr(LP_SPEND[lp.ads.s])}</b></div>
+        <input class="lp-range" type="range" min="0" max="${LP_SPEND.length - 1}" step="1" value="${lp.ads.s}" data-spend-in aria-label="Monthly ad budget">
+        <div class="lp-pf" role="group" aria-label="Platforms">${LP_PLATFORMS.map(p => `<button class="chip" type="button" data-pf="${p}" aria-pressed="${lp.ads.pf.includes(p)}">${p}</button>`).join('')}</div>
+        <p class="lp-note">Our fee covers strategy, set-up and management. Ad spend is paid straight to Google, Meta and the others.</p></div>`
+    : (it.opts.length > 1 ? `<div class="lp-opts" role="group" aria-label="${it.t} options">${it.opts.map((o, i) => `<button class="lp-opt" type="button" data-opt="${i}" aria-pressed="${(lp.sel[it.id]?.o || 0) === i}">${o[0]}${o[3] ? `<small>${o[3]}</small>` : ''}</button>`).join('')}</div>` : '') +
+      (it.qty ? `<div class="lp-qty"><button type="button" data-q="-1" aria-label="Fewer">−</button><output data-qo></output><button type="button" data-q="1" aria-label="More">+</button></div>` : '');
+  return `<div class="lp-item" data-item="${it.id}" data-kind="${it.kind}">
+    <label class="lp-item-h"><input type="checkbox" data-pick${lp.sel[it.id] ? ' checked' : ''}><span class="lp-tick" aria-hidden="true"></span>
+      <span class="t"><b>${it.t}<span class="lp-kind${it.kind === 'once' ? ' once' : ''}">${it.kind === 'month' ? 'Monthly' : 'One-time'}</span></b><small>${it.d}</small></span>
+      <span class="pr" data-pr></span></label>
+    ${ctl ? `<div class="lp-ctl">${ctl}</div>` : ''}</div>`;
+};
+
+P.start = () => `
+  <section class="band page-hero lp-hero" id="lp-hero" style="${toneVars('mint')}">
+    <div class="wrap band-inner">
+      <div style="min-width:0">
+        <div class="rise-in">${intro('Branding · Marketing · Tech · Bengaluru')}<h1>Grow your brand. Know your budget before we talk.</h1></div>
+        <p class="lede rise-in d1">Explore what we do, build a plan from monthly retainers and one-time projects, and see an approximate budget in seconds. Then talk to the team that will do the work and get your final price.</p>
+        <div class="row rise-in d2">
+          <button class="btn btn-solid" type="button" data-lp-go="lp-build">Build my plan${I.arrow}</button>
+          <a class="btn btn-ghost lp-call" href="tel:${LP_TEL}">${ic('phone')}Call<span class="n">&nbsp;${LP_PHONE}</span></a>
+        </div>
+        <div class="lp-trust rise-in d3"><div><b>50+</b><span>brands served</span></div><div><b>10+</b><span>industries</span></div><div><b>5+</b><span>time zones</span></div></div>
+      </div>
+      <div class="lp-stack" aria-hidden="true">
+        ${[['img/oli/stage.webp', 'Oli', '-21%', '-24%', '-6deg', '50%', 2, '4 / 3'], ['video/kaynes-brand-film-poster.webp', 'Kaynes', '22%', '-28%', '5deg', '48%', 3], ['img/cube/s05.webp', 'Cube', '-23%', '25%', '4deg', '46%', 4], ['img/milntown/07163-s.webp', 'Miln Town', '23%', '24%', '-4deg', '46%', 5, '3 / 2'], ['img/oli/app.webp', 'Oli app', '0%', '0%', '-2deg', '30%', 6, '1 / 1']]
+          .map(([src, cap, x, y, r, w, z, ar], k) => `<figure class="lp-card" style="--x:${x};--y:${y};--r:${r};--w:${w};--z:${z};--k:${k}${ar ? `;--ar:${ar}` : ''}"><div class="in"><img src="${src}" alt="" ${k > 1 ? 'loading="lazy"' : ''}></div><figcaption><span class="dot"></span>${cap}</figcaption></figure>`).join('')}
+      </div>
+    </div>
+    <div class="band-device">${fxSlot('climb', 'mint')}</div>
+  </section>
+
+  <div class="lp-ribbon"><div class="wrap"><ul>${LP_SVC.map(s => `<li><span class="dot" style="--tone:${TONES[s.tone].light}"></span>${s.t}</li>`).join('')}</ul></div></div>
+
+  <section class="sec" aria-labelledby="lp-ex-h">
+    <div class="wrap">
+      <div class="sec-head split">
+        <div>${intro('Explore')}<h2 id="lp-ex-h">Everything a brand needs, under one roof.</h2></div>
+        <p class="lede">Pick one service or combine several. Tap a card to add it to your plan and see an approximate cost.</p>
+      </div>
+      <div class="lp-explore">
+        ${LP_SVC.map(s => `<button class="lp-ex" type="button" data-lp-svc="${s.id}" style="${toneVars(s.tone)}">
+          <span class="m">${lpThumb(s)}</span>
+          <span class="b"><span class="k">${ic(s.icon)}${s.items.some(i => i.kind === 'month') ? (s.items.some(i => i.kind === 'once') ? 'Monthly or one-time' : 'Monthly') : 'One-time'}</span><span class="h">${s.t}</span><span class="p">${s.p}</span>
+          <span class="go"><b>${lpFrom(s)}</b><span>Add to plan${I.arrow}</span></span></span></button>`).join('')}
+      </div>
+    </div>
+  </section>
+
+  <section class="sec lp-build-sec" id="lp-build" aria-labelledby="lp-build-h">
+    <div class="wrap">
+      <div class="sec-head split">
+        <div>${intro('Build your plan')}<h2 id="lp-build-h">Pick what you need. Watch your estimate move.</h2></div>
+        <p class="lede">Start from a ready-made plan or add services one by one. Mix monthly retainers with one-time projects. Every figure is an approximate range to help you plan a budget, not a final price.</p>
+      </div>
+      <div class="lp-presets" role="group" aria-label="Ready-made plans">${LP_PRESETS.map(p => `<button class="lp-preset" type="button" data-preset="${p.id}" aria-pressed="${lp.preset === p.id}"><b>${ic(p.icon)}${p.t}</b><span>${p.d}</span></button>`).join('')}</div>
+      <div class="lp-bar">
+        <div class="lp-seg" role="group" aria-label="Show">${[['all', 'All services'], ['month', 'Monthly'], ['once', 'One-time']].map(([k, t]) => `<button type="button" data-f="${k}" aria-pressed="${lp.f === k}">${t}</button>`).join('')}</div>
+        <button class="chip" type="button" data-lp-clear>Clear plan</button>
+      </div>
+      <div class="lp-grid">
+        <div class="lp-list">${LP_SVC.map(s => `
+          <article class="lp-svc${lp.open === s.id ? ' open' : ''}" data-svc="${s.id}" style="${toneVars(s.tone)}">
+            <button class="lp-svc-h" type="button" aria-expanded="${lp.open === s.id}" aria-controls="lp-b-${s.id}">
+              <span class="lp-thumb">${lpThumb(s)}</span>
+              <span><span class="h">${s.t}</span><span class="from">${lpFrom(s)}</span></span>
+              <span class="end"><span class="lp-count" data-count></span><span class="lp-chev">${I.down}</span></span>
+            </button>
+            <div class="lp-svc-b" id="lp-b-${s.id}">${s.items.map(lpItem).join('')}</div>
+          </article>`).join('')}
+        </div>
+        <aside class="lp-sum" id="lp-sum" aria-label="Your plan">
+          <div class="lp-sum-in">
+            <div><p class="label">Approximate estimate</p><h3>Your plan</h3></div>
+            <div class="lp-tot" aria-live="polite">
+              <div><span class="s">Monthly retainer · approx.</span><span class="v" data-tm></span></div>
+              <div><span class="s">One-time projects · approx.</span><span class="v" data-to></span></div>
+            </div>
+            <div><p class="s lp-fine" style="margin-bottom:8px">Retainer term</p><div class="lp-term" role="group" aria-label="Retainer term">${LP_TERMS.map(([m, d]) => `<button type="button" data-term="${m}" aria-pressed="${lp.term === m}">${m} mo${d ? ` · ${d * 100}% off` : ''}</button>`).join('')}</div></div>
+            <div data-lines></div>
+            <div class="acts">
+              <button class="btn btn-solid" type="button" data-lp-go="lp-talk">Get my final quote${I.arrow}</button>
+              <div class="duo"><a class="btn btn-ghost" data-wa href="#" target="_blank" rel="noopener">${ic('chat')}WhatsApp</a><a class="btn btn-ghost" href="tel:${LP_TEL}">${ic('phone')}Call</a></div>
+            </div>
+            <p class="lp-fine"><b style="color:var(--deep-ink);font-weight:500">This is an estimate, not a quote.</b> Ranges are approximate, based on typical scope and before 18% GST. Your final price depends on your exact requirements and is confirmed in a written proposal after a short call.</p>
+          </div>
+          ${artSlot('rise', 'mint', 5)}
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="lp-proof-h">
+    <div class="wrap">
+      <div class="sec-head split">
+        <div>${intro('Proof')}<h2 id="lp-proof-h">Work that brands put their name on.</h2></div>
+        <div style="justify-self:start">${arrowBtn('#work', 'See all work', 'btn-ghost')}</div>
+      </div>
+      <div class="lp-work">
+        ${[['#work-oli', 'img/oli/stage.webp', 'Brand · App · Film', 'Oli, a gig platform for live music'], ['#work-kaynes', 'img/kaynes/page-01.webp', 'Brand identity · Film', 'Kaynes Technology'], ['#work-cube', 'img/cube/s00.webp', 'Product design · UI/UX', 'Cube Audience Manager'], ['#work-milntown', 'img/milntown/07533-s.webp', 'Photography · Film · Print', 'Miln Town, Coonoor']]
+          .map(([href, src, k, t]) => `<a class="lp-w" href="${href}" data-cursor="Open"><img src="${src}" alt="" loading="lazy"><span class="c"><span>${k}</span><b>${t}</b></span></a>`).join('')}
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:0">
+    <div class="wrap">
+      <div class="quotes-rail"><div class="quotes">
+        ${QUOTES.map(q => `<figure class="quote" style="${toneVars(q.tone)}">${I.quote}<blockquote>${q.q}</blockquote><footer><span class="dot"></span>${q.by}</footer></figure>`).join('')}
+      </div></div>
+    </div>
+  </section>
+
+  <section class="sec-tight" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head" style="margin-bottom:28px">${intro('Trusted by')}</div>
+      <div class="mq-wrap">${[CLIENTS.slice(0, 6), CLIENTS.slice(6)].map((row, ri) => `<div class="mq" data-dir="${ri ? 1 : -1}"><ul class="mq-track">${[0, 1, 2].map(k => row.map(([f, n]) => `<li${k ? ' aria-hidden="true"' : ''}><img src="img/logos/${f}.webp" alt="${k ? '' : n}" loading="lazy"></li>`).join('')).join('')}</ul></div>`).join('')}</div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="lp-how-h">
+    <div class="wrap">
+      <div class="sec-head">${intro('How it works')}<h2 id="lp-how-h">From plan to work in three steps.</h2></div>
+      <ol class="lp-steps">
+        <li><h3>Build your plan</h3><p>Choose services above and see an approximate budget straight away. Nothing to sign.</p></li>
+        <li><h3>Talk to us</h3><p>A short call to understand your goals, audience and timeline. We tell you what you need and what you can skip.</p></li>
+        <li><h3>Get your final price</h3><p>A written proposal with the exact scope, timeline and price. Once you say yes, we start.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="sec lp-build-sec" id="lp-talk" aria-labelledby="lp-talk-h">
+    <div class="wrap lp-talk">
+      <div>
+        ${intro('Let’s talk')}<h2 id="lp-talk-h">Turn your estimate into a final quote.</h2>
+        <p class="lede">Send your plan and we will come back with a proposal and your final price, based on what you actually need. Prefer to talk? Call or WhatsApp us now.</p>
+        <div class="lp-ways">
+          <a class="lp-way" href="tel:${LP_TEL}"><span class="i">${ic('phone')}</span><span><b>Call us</b><span>${LP_PHONE}</span></span>${I.arrow}</a>
+          <a class="lp-way" data-wa href="#" target="_blank" rel="noopener"><span class="i">${ic('chat')}</span><span><b>WhatsApp your plan</b><span>Opens a chat with your plan typed in</span></span>${I.arrow}</a>
+          <a class="lp-way" href="mailto:info@latchinfinity.com" data-mail><span class="i">${ic('mail')}</span><span><b>Email</b><span>info@latchinfinity.com</span></span>${I.arrow}</a>
+        </div>
+      </div>
+      <form class="form lp-form" id="lp-form" novalidate>
+        <div class="lp-attach" data-attach></div>
+        <div class="fields">
+          ${field('lp-name', 'Name', 'text', true, 'name')}${field('lp-phone', 'Phone', 'tel', true, 'tel')}
+          ${field('lp-email', 'Email', 'email', false, 'email')}${field('lp-company', 'Company', 'text', false, 'organization')}
+        </div>
+        <fieldset class="field"><legend>Best way to reach you</legend><div class="svc">${['Call', 'WhatsApp', 'Email'].map((s, i) => `<label><input type="radio" name="lp-via" value="${s}"${i ? '' : ' checked'}><span>${s}</span></label>`).join('')}</div></fieldset>
+        <div class="field"><label for="lp-msg">Anything we should know?</label><textarea id="lp-msg" name="message" placeholder="Goals, timeline, budget, links"></textarea></div>
+        <div class="form-foot"><button class="btn btn-solid" type="submit" style="min-height:56px;padding:0 28px">Send my plan${I.arrow}</button><span class="lp-note">We only use your details to reply to you.</span></div>
+        <div id="lp-sent" hidden></div>
+      </form>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="lp-faq-h">
+    <div class="wrap">
+      <div class="sec-head">${intro('Questions')}<h2 id="lp-faq-h">Before you ask.</h2></div>
+      <div class="faq">${[
+        ['Are these prices final?', 'No. They are approximate ranges to help you plan a budget, based on typical scope and before 18% GST. The final price depends on your requirements, such as the number of pages, platforms, posts or shoot days, and is confirmed in a written proposal after a short call.'],
+        ['Is ad spend included in the ads price?', 'No. The price shown is our management fee. Your ad budget is paid straight to Google, Meta, LinkedIn or the other platforms, so you always see where it goes.'],
+        ['How do monthly retainers work?', 'You pick a term of 3, 6 or 12 months. Longer terms cost less each month. Each month you get the work in your plan and a report on how it performed.'],
+        ['Can I mix monthly services and one-time projects?', 'Yes. Many clients start with a one-time project, such as a brand identity or a website, and then keep us on a monthly plan for social media, SEO or ads.'],
+        ['Do you work with businesses outside Bengaluru?', 'Yes. We are based in Bengaluru and work with brands across India and in more than five time zones.'],
+      ].map(([q, a]) => `<details><summary>${q}<span class="pm">${I.plus}</span></summary><p class="a">${a}</p></details>`).join('')}</div>
+    </div>
+  </section>
+
+  <div class="lp-dock" id="lp-dock">
+    <button class="t" type="button" data-lp-go="lp-sum"><span>Approx. estimate</span><b data-dock></b></button>
+    <a class="call" href="tel:${LP_TEL}" aria-label="Call ${LP_PHONE}">${ic('phone')}</a>
+    <button class="btn" type="button" data-lp-go="lp-talk">Get quote</button>
+  </div>`;
+
+function setupStart(main) {
+  const items = [...main.querySelectorAll('.lp-item')], svcs = [...main.querySelectorAll('.lp-svc')], sum = main.querySelector('#lp-sum');
+  const go = id => { const el = document.getElementById(id); if (el) el.scrollIntoView({ behavior: motionOK() ? 'smooth' : 'auto', block: 'start' }); };
+  let bumpT = 0;
+  const update = (bump = true) => {
+    const T = lpTotals();
+    items.forEach(el => {
+      const it = LP_ITEMS[el.dataset.item], s = lp.sel[it.id], on = !!s, [a, b] = lpPrice(it, s || {});
+      el.classList.toggle('on', on); el.querySelector('[data-pick]').checked = on;
+      el.querySelector('[data-pr]').innerHTML = `${rng(a, b)}<small>${it.kind === 'month' ? 'a month' : 'one-time'}</small>`;
+      el.hidden = lp.f !== 'all' && it.kind !== lp.f;
+      el.querySelectorAll('[data-opt]').forEach(o => o.setAttribute('aria-pressed', +o.dataset.opt === ((s && s.o) || 0)));
+      const qo = el.querySelector('[data-qo]');
+      if (qo) { const q = (s && s.q) || it.qty[2]; qo.textContent = `${q} ${q > 1 ? it.qty[1] : it.qty[0]}`; el.querySelector('[data-q="-1"]').disabled = q <= it.qty[2]; el.querySelector('[data-q="1"]').disabled = q >= it.qty[3]; }
+    });
+    svcs.forEach(el => {
+      const s = LP_SVC.find(x => x.id === el.dataset.svc), n = s.items.filter(it => lp.sel[it.id]).length;
+      el.classList.toggle('has', n > 0); el.querySelector('[data-count]').textContent = n;
+      el.hidden = lp.f !== 'all' && !s.items.some(it => it.kind === lp.f);
+    });
+    main.querySelectorAll('[data-spend]').forEach(e => (e.textContent = inr(LP_SPEND[lp.ads.s]) + ' a month'));
+    main.querySelectorAll('[data-pf]').forEach(b => b.setAttribute('aria-pressed', lp.ads.pf.includes(b.dataset.pf)));
+    main.querySelectorAll('[data-f]').forEach(b => b.setAttribute('aria-pressed', b.dataset.f === lp.f));
+    main.querySelectorAll('[data-term]').forEach(b => b.setAttribute('aria-pressed', +b.dataset.term === lp.term));
+    main.querySelectorAll('[data-preset]').forEach(b => b.setAttribute('aria-pressed', b.dataset.preset === lp.preset));
+    const tm = sum.querySelector('[data-tm]'), to = sum.querySelector('[data-to]');
+    tm.innerHTML = T.m[1] ? `${rng(T.m[0], T.m[1])}<small>/mo</small>` : '₹0'; tm.classList.toggle('zero', !T.m[1]);
+    to.innerHTML = T.o[1] ? rng(T.o[0], T.o[1]) : '₹0'; to.classList.toggle('zero', !T.o[1]);
+    sum.querySelector('[data-lines]').innerHTML = T.lines.length
+      ? `<ul class="lp-lines">${T.lines.map(l => `<li><span>${l.it.t}${l.opt ? `<small>${l.opt}</small>` : ''}</span><em>${rng(l.a, l.b)}${l.it.kind === 'month' ? '/mo' : ''}</em></li>`).join('')}</ul>${T.m[1] ? `<p class="lp-fine" style="margin-top:12px">Approximately, over ${lp.term} months including one-time work: <b style="color:var(--deep-ink);font-weight:500">${rng(T.term[0], T.term[1])}</b>${T.disc ? `, with ${T.disc * 100}% off the retainer` : ''}.${lp.sel.ads ? ` Plus ${inr(LP_SPEND[lp.ads.s])} a month ad budget, paid to the platforms.` : ''}</p>` : ''}`
+      : `<p class="lp-empty">Nothing picked yet. Start with a ready-made plan, or open a service and tick what you need.</p>`;
+    const dock = main.querySelector('[data-dock]');
+    if (dock) dock.textContent = T.lines.length ? [T.m[1] ? `${inr(T.m[0])}+/mo` : '', T.o[1] ? `${inr(T.o[0])}+ one-time` : ''].filter(Boolean).join(' · ') : 'Build your plan';
+    const att = main.querySelector('[data-attach]');
+    att.classList.toggle('none', !T.lines.length);
+    att.innerHTML = T.lines.length ? `<b>Your plan is attached: ${T.lines.length} service${T.lines.length > 1 ? 's' : ''}</b><span>Approx. ${[T.m[1] ? `${rng(T.m[0], T.m[1])} a month for ${lp.term} months` : '', T.o[1] ? `${rng(T.o[0], T.o[1])} one-time` : ''].filter(Boolean).join(' + ')}, before GST. We confirm the final price in a proposal.</span>` : `<b>No plan attached</b><span>That’s fine. Tell us what you need, or <button class="link" type="button" data-lp-go="lp-build" style="background:none;border:0;padding:0;font:inherit;text-decoration:underline;cursor:pointer">build a plan</button> first.</span>`;
+    const txt = encodeURIComponent(lpText());
+    main.querySelectorAll('[data-wa]').forEach(a => (a.href = `https://wa.me/${LP_WA}?text=${txt}`));
+    main.querySelectorAll('[data-mail]').forEach(a => (a.href = `mailto:info@latchinfinity.com?subject=${encodeURIComponent('Quote request from the website')}&body=${txt}`));
+    if (bump && motionOK()) { sum.classList.remove('bump'); void sum.offsetWidth; sum.classList.add('bump'); clearTimeout(bumpT); bumpT = setTimeout(() => sum.classList.remove('bump'), 600); }
+    lpSave();
+  };
+  const openSvc = (id, scroll) => {
+    lp.open = id;
+    svcs.forEach(el => { const o = el.dataset.svc === id; el.classList.toggle('open', o); el.querySelector('.lp-svc-h').setAttribute('aria-expanded', o); });
+    if (scroll) { const el = svcs.find(e => e.dataset.svc === id); setTimeout(() => el && el.scrollIntoView({ behavior: motionOK() ? 'smooth' : 'auto', block: 'start' }), 30); }
+  };
+
+  main.addEventListener('click', e => {
+    const t = e.target;
+    const g = t.closest('[data-lp-go]'); if (g) { e.preventDefault(); go(g.dataset.lpGo); return; }
+    const ex = t.closest('[data-lp-svc]');
+    if (ex) { // Explore card: open that service in the builder and pick its first item
+      const s = LP_SVC.find(x => x.id === ex.dataset.lpSvc);
+      if (!s.items.some(it => lp.sel[it.id])) lp.sel[s.items[0].id] = {};
+      if (lp.f !== 'all' && !s.items.some(it => it.kind === lp.f)) lp.f = 'all';
+      lp.preset = ''; openSvc(s.id, true); update(); return;
+    }
+    const h = t.closest('.lp-svc-h'); if (h) { const id = h.closest('.lp-svc').dataset.svc; openSvc(lp.open === id ? '' : id); lpSave(); return; }
+    const pr = t.closest('[data-preset]');
+    if (pr) {
+      const p = LP_PRESETS.find(x => x.id === pr.dataset.preset);
+      lp.sel = JSON.parse(JSON.stringify(p.sel)); if (p.ads) lp.ads = { ...p.ads, pf: [...p.ads.pf] };
+      lp.preset = p.id; lp.f = 'all'; openSvc(LP_ITEMS[Object.keys(p.sel)[0]].svc.id); update(); return;
+    }
+    const f = t.closest('[data-f]'); if (f) { lp.f = f.dataset.f; update(false); return; }
+    const tm = t.closest('[data-term]'); if (tm) { lp.term = +tm.dataset.term; update(); return; }
+    if (t.closest('[data-lp-clear]')) { lp.sel = {}; lp.preset = ''; update(); return; }
+    const item = t.closest('.lp-item'); if (!item) return;
+    const id = item.dataset.item, it = LP_ITEMS[id];
+    const o = t.closest('[data-opt]'); if (o) { lp.sel[id] = { ...lp.sel[id], o: +o.dataset.opt }; lp.preset = ''; update(); return; }
+    const q = t.closest('[data-q]'); if (q) { const s = lp.sel[id] || {}; s.q = clamp((s.q || it.qty[2]) + +q.dataset.q, it.qty[2], it.qty[3]); lp.sel[id] = s; lp.preset = ''; update(); return; }
+    const pf = t.closest('[data-pf]'); if (pf) { const k = pf.dataset.pf, a = lp.ads.pf; lp.ads.pf = a.includes(k) ? (a.length > 1 ? a.filter(x => x !== k) : a) : [...a, k]; lp.preset = ''; update(); }
+  });
+  main.addEventListener('change', e => {
+    const c = e.target.closest('[data-pick]'); if (!c) return;
+    const id = c.closest('.lp-item').dataset.item;
+    if (c.checked) lp.sel[id] = lp.sel[id] || {}; else delete lp.sel[id];
+    lp.preset = ''; update();
+  });
+  main.addEventListener('input', e => { if (e.target.matches('[data-spend-in]')) { lp.ads.s = +e.target.value; lp.preset = ''; update(false); } });
+
+  // Hero stack fans out as the hero scrolls away; the phone dock shows once you are past the hero and hides at the form
+  const hero = main.querySelector('#lp-hero'), dock = main.querySelector('#lp-dock'), talk = main.querySelector('#lp-talk');
+  let raf = 0;
+  const tick = () => {
+    raf = 0; if (!hero.isConnected) return;
+    const r = hero.getBoundingClientRect(), vh = innerHeight;
+    if (motionOK()) hero.style.setProperty('--p', clamp(-r.top / (r.height * 0.7)).toFixed(3));
+    const tr = talk.getBoundingClientRect();
+    dock.classList.toggle('show', r.bottom < vh * 0.35 && tr.top > vh * 0.6);
+  };
+  const onScroll = () => { if (!raf) raf = requestAnimationFrame(tick); };
+  addEventListener('scroll', onScroll, { passive: true }); addEventListener('resize', onScroll);
+  const stop = () => { if (!hero.isConnected) { removeEventListener('scroll', onScroll); removeEventListener('resize', onScroll); } };
+  addEventListener('hashchange', () => setTimeout(stop, 1500), { once: true });
+
+  // Form: checks name and phone, attaches the plan and any ad tags from the URL
+  const form = main.querySelector('#lp-form');
+  const rules = { 'lp-name': v => v.trim() ? '' : 'Enter your name.', 'lp-phone': v => v.replace(/\D/g, '').length >= 7 ? '' : 'Enter a phone number with at least 7 digits.', 'lp-email': v => !v.trim() || /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v.trim()) ? '' : 'Enter an email address like name@company.com.' };
+  const check = id => { const el = document.getElementById(id), msg = rules[id](el.value); document.getElementById(id + '-err').textContent = msg; document.getElementById('f-' + id).classList.toggle('invalid', !!msg); el.setAttribute('aria-invalid', !!msg); return !msg; };
+  Object.keys(rules).forEach(id => document.getElementById(id).addEventListener('blur', () => { if (document.getElementById(id).value) check(id); }));
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const bad = Object.keys(rules).filter(id => !check(id)), out = document.getElementById('lp-sent');
+    if (bad.length) { document.getElementById(bad[0]).focus(); out.hidden = true; return; }
+    const utm = [...new URLSearchParams(location.search)].filter(([k]) => /^utm_|^gclid$|^fbclid$/.test(k));
+    const payload = { name: form['lp-name'].value.trim(), phone: form['lp-phone'].value.trim(), email: form['lp-email'].value.trim(), company: form['lp-company'].value.trim(), via: form.querySelector('[name="lp-via"]:checked').value, message: form['lp-msg'].value.trim(), plan: lpText(), source: Object.fromEntries(utm) };
+    console.info('Lead (prototype, not sent):', payload);
+    out.className = 'sent'; out.hidden = false;
+    out.innerHTML = `<b>Prototype: nothing was sent.</b><span>The form checked out with ${lpTotals().lines.length || 'no'} planned service${lpTotals().lines.length === 1 ? '' : 's'}. On the live site this goes to the team, who reply by ${payload.via.toLowerCase()}.</span>`;
+  });
+
+  const exIO = 'IntersectionObserver' in window ? new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); exIO.unobserve(e.target); } }), { threshold: 0.35 }) : null;
+  main.querySelectorAll('.lp-ex').forEach(el => exIO ? exIO.observe(el) : el.classList.add('on'));
+  if (!svcs.some(el => el.dataset.svc === lp.open)) lp.open = '';
+  update(false); tick();
+}
+
+/* ================= Case study: Miln Town =================
+   The brochure is 18 pages: a cover, eight spreads and a back cover, printed as nine leaves.
+   Page images are the client's print PDF; photographs are from our shoot. */
+const MT_PAGES = 18;
+/* The table's moulded edge, top to bottom: depth, scale and shade of each slice */
+const MT_RIM = [[-2, 1, '#6a4324'], [-5, 1.005, '#553419'], [-9, 1.006, '#432812'], [-13, 1.002, '#341e0d'], [-17, .993, '#26160a'], [-21, .988, '#1d1007'], [-25, .99, '#2b180b'], [-29, .99, '#21130a'], [-35, .955, '#140b05'], [-44, .955, '#0e0703']];
+const MT_STEPS = [
+  ['Cover', 'Experience the British Era', 'The brochure, closed on the table'],
+  ['Spread 01', 'entering history', 'Not just arriving'],
+  ['Spread 02', 'embracing heritage', 'Not just booking a room'],
+  ['Spread 03', 'into timelessness', 'Not just visiting'],
+  ['Spread 04', 'returning to elegance', 'Not just checking in'],
+  ['Spread 05', 'choosing a story', 'Not just choosing a stay'],
+  ['Spread 06', 'touching the past', 'Not just taking a break'],
+  ['Spread 07', 'living a legacy', 'Not just staying'],
+  ['Spread 08', 'the rooms', 'Six frames from the shoot'],
+  ['Back cover', 'Miln Town', 'Experience the British Era'],
+];
+const MT_FRAMES = [
+  ['07163', 'The approach', 'The drive sweeps past the glass verandah to the lawns.', 0],
+  ['07458', 'The garden', 'A fountain, the bandstand and a white picket edge above the valley.', 0],
+  ['07322', 'The sunroom', 'Tables set along a wall of windows, in the light the house was planned for.', 0],
+  ['07302', 'The verandah', 'Carved benches and long shadows on the garden side.', 1],
+  ['07311', 'The corridor', 'Teak, glass and a bronze at the far end.', 0],
+  ['07462', 'The four-poster', 'Carved posts, muslin and a quiet bedroom.', 2],
+  ['07401', 'A bedroom', 'Timber panelling, high ceilings and a window onto the trees.', 0],
+  ['07448', 'The writing desk', 'A bureau by the window, as it might have been in 1900.', 1],
+  ['07433', 'The long verandah', 'One rug after another, all the way down.', 2],
+  ['07533', 'Dusk', 'The lamps come on across the lawn as the hills turn blue.', 0],
+];
+const mtHead = () => parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--head-h')) || 72;
+const mtPg = i => `img/milntown/pg${String(i).padStart(2, '0')}`;
+const mtImg = (n, alt, sizes = '100vw', lazy = true) => `<img src="img/milntown/${n}.webp" srcset="img/milntown/${n}-s.webp 1000w, img/milntown/${n}.webp 2000w" sizes="${sizes}" alt="${alt}"${lazy ? ' loading="lazy" decoding="async"' : ''}>`;
+const mtArrow = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="${d ? 'M5 12h14M13 6l6 6-6 6' : 'M19 12H5M11 6l-6 6 6 6'}"/></svg>`;
+const mtLede = 'Miln Town is a heritage bungalow in Coonoor, in the Nilgiris, built in the hill-station tradition of the late 1800s.<span class="mt-more"> We photographed and filmed the property, then set its story into a table brochure that waits for guests on its tea tables.</span>';
+
+P['work-milntown'] = () => `
+<div class="mt">
+  <div class="mt-still-intro"><div class="wrap"><div class="in">
+    <p class="label intro">Case study · Photography, film &amp; print</p>
+    <h1>Miln Town<em>in the British era</em></h1>
+    <p class="lede">${mtLede}</p>
+  </div></div></div>
+  <section class="mt-book" id="mt-book" aria-labelledby="mt-h">
+    <div class="mt-stage">
+      <div class="mt-room" aria-hidden="true"></div>
+      <div class="mt-cam" aria-hidden="true"><div class="mt-world" id="mt-world">
+        <div class="mt-tbl">${'<i class="rim"></i>'.repeat(MT_RIM.length)}<i class="top"></i><i class="sun"></i><i class="inlay"></i><i class="bead"></i><i class="gloss"></i></div>
+        <div class="mt-shade" id="mt-sh-r"></div><div class="mt-shade" id="mt-sh-l"></div>
+        <div class="mt-bk" id="mt-bk">${Array.from({ length: MT_PAGES / 2 }, (_, i) => `<div class="mt-leaf"><div class="mt-face f" data-pg="${2 * i}"></div><div class="mt-face b" data-pg="${2 * i + 1}"></div></div>`).join('')}</div>
+      </div></div>
+      <div class="mt-vign" aria-hidden="true"></div>
+      <div class="mt-copy" id="mt-copy"><div class="wrap">
+        <nav class="crumbs" aria-label="Breadcrumb"><a href="#home">Home</a><span aria-hidden="true">/</span><a href="#work">Work</a><span aria-hidden="true">/</span><span aria-current="page">Miln Town</span></nav>
+        <div class="in">
+          <img class="mt-logo rise-in" src="img/milntown/logo.webp" alt="Miln Town, Experience the British Era" width="900" height="358">
+          <p class="label intro rise-in d1">Case study · Photography, film &amp; print</p>
+          <h1 id="mt-h" class="rise-in d1">A house that<em>tells its own story</em></h1>
+          <p class="lede rise-in d2">${mtLede}</p>
+          <p class="mt-cue rise-in d3"><i></i>Scroll to open the brochure</p>
+        </div>
+      </div></div>
+      <div class="mt-ticks" id="mt-ticks" aria-hidden="true">${MT_STEPS.map(() => '<i></i>').join('')}</div>
+      <div class="mt-cap" id="mt-cap">
+        <div class="bar">
+          <span class="n" id="mt-n">01 / 10</span>
+          <p class="t" id="mt-t" aria-live="polite"></p>
+          <div class="mt-nav"><button type="button" id="mt-prev" aria-label="Previous page">${mtArrow(0)}</button><button type="button" id="mt-next" aria-label="Next page">${mtArrow(1)}</button></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mt-lead" aria-labelledby="mt-frames-h">
+    <div class="wrap mt-lead-h">
+      <div><p class="label intro">The shoot</p><h2 id="mt-frames-h">Every room, <em>in its own light</em></h2></div>
+      <p>We worked through the house with the daylight, from the drive to the last lamp at dusk. Here are ten of the frames.</p>
+    </div>
+    <div class="wrap mt-stack" id="mt-stack">
+      ${MT_FRAMES.map(([n, t, d, pt], i) => `<figure class="mt-card${pt ? ' pt' : ''}${pt === 2 ? ' flip' : ''}" style="--i:${i}">
+        ${pt ? `<div class="ph">${mtImg(n, `${t}, Miln Town`, '(max-width: 900px) 92vw, 40vw')}</div>` : mtImg(n, `${t}, Miln Town`, '(max-width: 900px) 100vw, 1320px', i > 0)}
+        <figcaption><span class="no">${String(i + 1).padStart(2, '0')} / ${MT_FRAMES.length}</span><div><h3>${t}</h3><p>${d}</p></div></figcaption>
+        <i class="dim" aria-hidden="true"></i>
+      </figure>`).join('')}
+    </div>
+  </section>
+
+  <section class="mt-made" aria-labelledby="mt-made-h">
+    <div class="wrap">
+      <p class="label intro">What we made</p>
+      <h2 id="mt-made-h">One visit, <em>three ways to arrive</em></h2>
+      <p class="lede">Guests meet Miln Town long before they check in: online, in a film, and on the table when they sit down for tea. We made all three from the same shoot so the house looks and sounds like itself everywhere.</p>
+      <div class="mt-three">
+        <div><span class="k">01</span><b>Photography</b><p>The whole property, inside and out, from morning light to dusk.</p></div>
+        <div><span class="k">02</span><b>Film</b><p>Video that walks a guest through the estate before they arrive.</p></div>
+        <div><span class="k">03</span><b>Table brochure</b><p>Eighteen pages that tell the bungalow’s story, set out on the tables for visitors.</p></div>
+      </div>
+      <div class="mt-meta">
+        <div><span>Property</span><b>Miln Town</b></div>
+        <div><span>Location</span><b>Coonoor, Nilgiris</b></div>
+        <div><span>Scope</span><b>Photography, film, print</b></div>
+        <div><span>Year</span><b>2026</b></div>
+      </div>
+      <div class="row"><a class="btn btn-solid" href="https://thezari.co.in/milntown.php" target="_blank" rel="noopener">Visit the property${I.arrow}</a><a class="btn btn-ghost" href="#work">Back to all work</a></div>
+    </div>
+  </section>
+</div>
+  ${ctaBand('mint', 'Have a place with a story?', 'Let’s document it')}`;
+
+function setupMilntown(main) {
+  const root = main.querySelector('.mt'); if (!root) return;
+  const ok = motionOK();
+  root.classList.toggle('still', !ok);
+  const sec = root.querySelector('#mt-book'), stage = sec.querySelector('.mt-stage'), world = root.querySelector('#mt-world'), room = sec.querySelector('.mt-room');
+  const copy = root.querySelector('#mt-copy'), cap = root.querySelector('#mt-cap'), ticksEl = root.querySelector('#mt-ticks'), ticks = [...ticksEl.children];
+  const bk = root.querySelector('#mt-bk'), leaves = [...bk.children];
+  const gloss = root.querySelector('.mt-tbl .gloss');
+  const shR = root.querySelector('#mt-sh-r'), shL = root.querySelector('#mt-sh-l');
+  const tEl = root.querySelector('#mt-t'), nEl = root.querySelector('#mt-n'), prev = root.querySelector('#mt-prev'), next = root.querySelector('#mt-next');
+  const N = leaves.length, PW = 400, PH = 200;
+
+  /* Phases, in stage heights: a moment on the hero, the camera move, then one page turn per step */
+  const HOLD = .3, DOLLY = 1.2, READ = .25, STEP = .8, TURN = .55, TAIL = .5;
+  const flipStart = HOLD + DOLLY + READ, total = flipStart + N * STEP + TAIL;
+  const sm = t => t * t * (3 - 2 * t), lerp = (a, b, t) => a + (b - a) * t;
+
+  let narrow = false, W = 0, H = 0, step = -1, manual = null;
+  /* Lay the book out: wide screens open it side to side, narrow ones top to bottom */
+  const layout = () => {
+    W = stage.clientWidth; H = stage.clientHeight; narrow = W <= 900 && H > W;
+    const small = W <= 900;
+    leaves.forEach((lf, i) => {
+      Object.assign(lf.style, narrow ? { left: `${-PW / 2}px`, top: '0px', width: `${PW}px`, height: `${PH}px`, transformOrigin: '50% 0' } : { left: '0px', top: `${-PH / 2}px`, width: `${PW}px`, height: `${PH}px`, transformOrigin: '0 50%' });
+      lf.children[1].style.transform = narrow ? 'rotateX(180deg)' : 'rotateY(180deg)';
+      lf.children[0].style.setProperty('--mt-dir', narrow ? '180deg' : '90deg');
+      lf.children[1].style.setProperty('--mt-dir', narrow ? '0deg' : '270deg');
+      [...lf.children].forEach(f => { f.style.backgroundImage = `url(${mtPg(+f.dataset.pg)}${small ? '-s' : ''}.webp)`; });
+    });
+    const half = narrow ? { width: `${PW}px`, height: `${PH}px` } : { width: `${PW}px`, height: `${PH}px` };
+    Object.assign(shR.style, half, narrow ? { left: `${-PW / 2}px`, top: '0px' } : { left: '0px', top: `${-PH / 2}px` });
+    Object.assign(shL.style, half, narrow ? { left: `${-PW / 2}px`, top: `${-PH}px` } : { left: `${-PW}px`, top: `${-PH / 2}px` });
+    root.querySelectorAll('.mt-tbl .rim').forEach((r, k) => { const [z, sc, c] = MT_RIM[k]; r.style.transform = `translateZ(${z}px) scale(${sc})`; r.style.background = c; });
+    ['sun', 'inlay', 'bead', 'gloss'].forEach((c, k) => { root.querySelector(`.mt-tbl .${c}`).style.transform = `translateZ(${.2 + k * .1}px)`; });
+    sec.style.setProperty('--mt-len', `calc(${(total + 1).toFixed(2)} * (100svh - var(--head-h)))`);
+  };
+
+  const setStep = k => {
+    if (k === step) return; step = k;
+    const [n, t, s] = MT_STEPS[k];
+    nEl.textContent = `${String(k + 1).padStart(2, '0')} / ${MT_STEPS.length}`; void n;
+    tEl.innerHTML = `<b>${t}</b><span>${s}</span>`;
+    tEl.classList.remove('swap'); void tEl.offsetWidth; tEl.classList.add('swap');
+    ticks.forEach((tk, j) => tk.classList.toggle('on', j === k));
+    prev.disabled = k === 0; next.disabled = k === MT_STEPS.length - 1;
+  };
+
+  /* Draw one frame. d: 0 = hero view, 1 = square to the page. f: turned leaves (fractional while turning). */
+  const draw = (d, f) => {
+    const e = sm(clamp(d));
+    const spreadW = narrow ? PW : 2 * PW, spreadH = narrow ? 2 * PH : PH;
+    const sB = Math.min((narrow ? .92 : .86) * W / spreadW, (H - (narrow ? 150 : 170)) / spreadH);
+    const sA = narrow ? Math.min(W / 700, H / 1100) : Math.min(W / 1000, H / 650);
+    const s = lerp(sA, sB, e);
+    /* Where the camera looks: the closed cover, the open spread, then the closed back cover */
+    const half = narrow ? PH / 2 : PW / 2;
+    const focus = (1 - clamp(f)) * half - clamp(f - (N - 1)) * half;
+    const fx = narrow ? 0 : focus, fy = narrow ? focus : 0;
+    const txA = narrow ? 0 : W * .16, tyA = narrow ? H * .3 : H * .1;
+    const tx = lerp(txA, 0, e), ty = lerp(tyA, narrow ? -28 : -30, e);
+    const pitch = lerp(narrow ? 50 : 56, 0, e), yaw = lerp(narrow ? -14 : -22, 0, e);
+    gloss.style.setProperty('--gx', `${30 + yaw * .5 + e * 6}%`); gloss.style.setProperty('--gy', `${22 + pitch * .22}%`);
+    world.style.transform = `translate3d(${tx}px, ${ty}px, 0) scale(${s}) rotateX(${pitch}deg) rotateZ(${yaw}deg) translate3d(${-fx}px, ${-fy}px, 0)`;
+    stage.querySelector('.mt-cam').style.perspective = `${Math.round(lerp(1.3, 2.6, e) * Math.max(W, H))}px`;
+    room.style.transform = `scale(${1 + e * .18})`; room.style.opacity = 1 - e * .55;
+    copy.style.opacity = clamp(1 - d * 2.6); copy.style.transform = `translateY(${-d * 60}px)`; copy.style.visibility = d > .4 ? 'hidden' : '';
+    const capOn = clamp((d - .7) / .3); cap.style.opacity = capOn; ticksEl.style.opacity = capOn;
+    cap.style.visibility = capOn ? '' : 'hidden';
+    /* Leaves: unturned ones stack on the right (or bottom), turned ones on the left (or top) */
+    leaves.forEach((lf, i) => {
+      const p = sm(clamp(f - i)), z = lerp((N - i) * .7, (i + 1) * .7, p) + 1;
+      lf.style.transform = narrow ? `translateZ(${z}px) rotateX(${p * 180}deg)` : `translateZ(${z}px) rotateY(${-p * 180}deg)`;
+      const lit = Math.sin(Math.PI * p) * .35;
+      lf.children[0].style.setProperty('--sh', lit); lf.children[1].style.setProperty('--sh', lit);
+    });
+    shR.style.opacity = clamp(N - f); shL.style.opacity = clamp(f);
+    shR.style.transform = shL.style.transform = 'translate3d(6px, 9px, .6px)';
+  };
+
+  /* Scroll position (in stage heights) for a step, and the step for a position */
+  const stepAt = k => k === 0 ? HOLD + DOLLY + READ * .5 : flipStart + (k - 1) * STEP + TURN + (STEP - TURN) * .5;
+  const go = k => {
+    k = clamp(k, 0, MT_STEPS.length - 1);
+    if (!ok) { manual = k; setStep(k); draw(1, k); return; }
+    scrollTo({ top: sec.getBoundingClientRect().top + scrollY - mtHead() + stepAt(k) * H, behavior: 'smooth' });
+  };
+  prev.addEventListener('click', () => go(step - 1));
+  next.addEventListener('click', () => go(step + 1));
+
+  /* Prints: a card tilts in, settles, then sinks back as the next one lands on it */
+  const cards = [...root.querySelectorAll('.mt-card')];
+  const drawCards = () => {
+    const tops = cards.map(c => c.getBoundingClientRect());
+    cards.forEach((c, i) => {
+      const r = tops[i], st = parseFloat(getComputedStyle(c).top) || 0;
+      const enter = clamp((r.top - st) / (innerHeight * .9));
+      const nx = tops[i + 1], cover = nx ? clamp(1 - (nx.top - st) / r.height) : 0;
+      const sign = i % 2 ? 1 : -1;
+      const sc = 1 - cover * .06, rot = sign * enter * 3.5;
+      c.style.transform = enter > 0.001 || cover > 0.001 ? `rotate(${rot}deg) scale(${sc})` : 'none';
+      c.querySelector('.dim').style.opacity = cover * .55;
+    });
+  };
+
+  let raf = 0;
+  const tick = () => {
+    raf = 0;
+    if (!root.isConnected) { removeEventListener('scroll', onScroll); removeEventListener('resize', onResize); return; }
+    if (!ok) return;
+    const y = (stage.getBoundingClientRect().top - sec.getBoundingClientRect().top) / H;
+    const d = clamp((y - HOLD) / DOLLY);
+    const raw = (y - flipStart) / STEP, k = Math.floor(raw), frac = clamp((raw - k) / (TURN / STEP));
+    const f = clamp(raw < 0 ? 0 : k + frac, 0, N);
+    draw(d, f);
+    setStep(y < flipStart ? 0 : Math.min(MT_STEPS.length - 1, Math.round(f)));
+    drawCards();
+  };
+  const onScroll = () => { if (!raf) raf = requestAnimationFrame(tick); };
+  const onResize = () => { layout(); if (!ok) draw(1, manual ?? 0); onScroll(); };
+  addEventListener('scroll', onScroll, { passive: true }); addEventListener('resize', onResize);
+  layout();
+  if (!ok) { setStep(0); draw(1, 0); return; }
+  setStep(0); tick();
+}
+
+/* ================= Gamification: the page is played, not read =================
+   Lobby → Join → Switch → Loadout → Players → Bonus → Arena → Start.
+   A HUD tracks the level and a score that rises as the visitor plays. */
+const GM_LV = [['00', 'LOBBY'], ['01', 'JOIN'], ['02', 'SWITCH'], ['03', 'LOADOUT'], ['04', 'PLAYERS'], ['05', 'BONUS'], ['06', 'ARENA'], ['07', 'START']];
+const GM_FEAT = [['REAL-TIME MULTIPLAYER INTERACTION', 'Synchronized participation for large audiences with ultra-low latency.'], ['INSTANT MOBILE ACCESS', 'Join instantly using your own device, no downloads or extra hardware required.'], ['LIVE ANALYTICS DASHBOARD', 'Measure participation and engagement trends in real time.'], ['SCALABLE ARCHITECTURE', 'Built to handle high concurrency during massive live events.'], ['SEAMLESS INTEGRATION', 'Modular APIs for easy connection with your existing event tech stack.']];
+const GM_BIZ = ['Increase audience engagement and participation rates', 'Measure event impact with real-time data', 'Deliver differentiated, memorable experiences', 'Reduce operational complexity and setup time'];
+const GM_PART = ['Easy connect-and-play experience', 'Interactive and immersive participation', 'No additional apps or devices needed', 'More engaging and rewarding event experiences'];
+const GM_WHO = [['Event Organizers', 'calendar'], ['Corporate Conferences', 'mic'], ['Trade Expos', 'tent'], ['B2B Summits', 'building'], ['College Fests', 'music'], ['Brand Activations', 'megaphone'], ['Sponsors', 'star'], ['Exhibitors', 'booth'], ['Brands Running Booths', 'bag']];
+const LOCK = '<svg class="lk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><svg class="ck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+
+function gmConsole() {
+  const L = '#D8CCFF', M = '#9C8FC4', S = '#4A4258', G = '#B1F7BB', I = '#B4E2FF';
+  let dots = ''; for (let j = 0; j < 4; j++) for (let i = 0; i < 7; i++) dots += `<circle cx="${110 + i * 50}" cy="${95 + j * 52}" r="9" fill="${L}"/>`;
+  const bars = [0, 1, 2, 3, 4, 5, 6].map(k => `<rect class="cv-bar" style="--k:${k};--d:${(1.4 + (k % 3) * .55).toFixed(2)}s" x="${118 + k * 46}" y="110" width="28" height="190" rx="5" fill="${k === 4 ? G : k % 2 ? M : L}"/>`).join('');
+  const tree = [[260, 70]], lvls = [[160, 360], [110, 210, 310, 410], [85, 135, 185, 235, 285, 335, 385, 435]];
+  let tlines = '', tnodes = `<circle cx="260" cy="70" r="12" fill="${L}"/>`;
+  lvls.forEach((xs, d) => xs.forEach((x, k) => { const px = d ? lvls[d - 1][Math.floor(k / 2)] : 260, py = d ? 70 + d * 80 : 70; tlines += `<path class="cv-tl" style="--k:${d}" d="M${px} ${py}L${x} ${150 + d * 80}" stroke="${S}" stroke-width="2"/>`; tnodes += `<circle class="cv-tn" style="--k:${d}" cx="${x}" cy="${150 + d * 80}" r="${10 - d * 2}" fill="${[M, L, I][d]}"/>`; }));
+  return `<svg class="cv-svg" viewBox="0 0 520 380" aria-hidden="true">
+    <g class="cv" data-i="0"><circle class="cv-beat" cx="260" cy="173" r="150" fill="none" stroke="${S}" stroke-width="2"/><g class="cv-sync">${dots}</g></g>
+    <g class="cv" data-i="1"><rect x="80" y="110" width="96" height="178" rx="16" fill="#2A2631" stroke="${L}" stroke-width="3"/><rect x="112" y="120" width="32" height="5" rx="2.5" fill="${S}"/><circle cx="128" cy="200" r="20" fill="${G}"/><path d="M119 200l6 6 12-13" fill="none" stroke="#1F1C25" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/>
+      <rect x="300" y="96" width="150" height="104" rx="10" fill="#2A2631" stroke="${S}" stroke-width="2"/><rect x="318" y="116" width="114" height="10" rx="5" fill="${L}"/><rect x="318" y="136" width="80" height="8" rx="4" fill="${S}"/><rect x="318" y="160" width="52" height="24" rx="6" fill="${M}"/><rect x="380" y="160" width="52" height="24" rx="6" fill="${L}"/>
+      <path class="cv-link" d="M180 200C230 200 236 148 296 148" fill="none" stroke="${L}" stroke-width="3" stroke-dasharray="6 9" stroke-linecap="round"/><path d="M236 150l-10 22h12l-8 20" fill="none" stroke="${G}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></g>
+    <g class="cv" data-i="2"><path d="M100 300H440M100 300V90" stroke="${S}" stroke-width="2"/>${bars}<circle class="cv-live" cx="420" cy="80" r="6" fill="${G}"/></g>
+    <g class="cv" data-i="3" fill="none">${tlines}${tnodes}</g>
+    <g class="cv" data-i="4"><rect x="90" y="250" width="340" height="44" rx="10" fill="${S}"/>${[0, 1, 2].map(k => `<rect x="${118 + k * 106}" y="244" width="70" height="12" rx="4" fill="#1F1C25"/><g class="cv-mod" style="--k:${k}"><rect x="${110 + k * 106}" y="150" width="86" height="96" rx="12" fill="${[L, M, I][k]}"/><rect x="${126 + k * 106}" y="240" width="54" height="16" rx="4" fill="${[L, M, I][k]}"/></g>`).join('')}</g>
+  </svg>`;
+}
+
+function gmMarkup() {
+  return `
+  <div class="gm" id="gm">
+    <div class="gm-hud" aria-hidden="true"><div class="wrap gm-hud-in">
+      <span class="gm-lv">LEVEL <b id="gm-lvn">00</b><i id="gm-lvt">LOBBY</i></span>
+      <span class="gm-segs">${GM_LV.map(() => '<i></i>').join('')}</span>
+      <span class="gm-sc">SCORE <b id="gm-score">0000</b></span>
+    </div></div>
+
+    <section class="lv lv-lobby" data-lv="0">
+      <div class="wrap lobby-in">
+        <nav class="crumbs gm-crumbs" aria-label="Breadcrumb"><a href="#home">Home</a><span aria-hidden="true">/</span><span aria-current="page">Gamification</span></nav>
+        <p class="lv-tag">GAMIFIED EXPERIENCE</p>
+        <h1 class="gm-h1">TRANSFORM EVENTS INTO <em>INTERACTIVE</em> EXPERIENCES</h1>
+        <p class="gm-p lead">Bring audiences to life with real-time multiplayer engagement that turns passive attendees into active participants.</p>
+        <div class="gm-actions"><a class="gbtn primary" href="#contact">BOOK A DEMO</a><a class="gbtn" href="#gamification-platform">EXPLORE PLATFORM</a></div>
+      </div>
+      <div class="gm-crowd" id="gm-crowd" aria-hidden="true"></div>
+    </section>
+
+    <section class="lv" data-lv="1" id="gamification-platform">
+      <div class="wrap lv-grid">
+        <div class="lv-copy">
+          <p class="lv-tag">LEVEL 01</p>
+          <h2 class="gm-h2" id="gm-isas"><span class="k">Instant,</span> <span class="k">Seamless,</span> <span class="k">and at Scale.</span></h2>
+          <p class="gm-p">Our platform enables live, mobile-first interaction without downloads or additional devices, helping organizers deliver memorable, measurable, and engaging event experiences.</p>
+          <p class="gm-hint"><span class="key">TAP</span> the phone to join</p>
+        </div>
+        <div class="join frame" id="gm-join" role="button" tabindex="0" aria-label="Join the game">
+          <svg viewBox="0 0 420 420" aria-hidden="true">
+            <g class="ring">${Array.from({ length: 64 }, (_, k) => { const a = k / 64 * Math.PI * 2, r = 176 + (k % 2) * 16; return `<circle style="--k:${k}" cx="${(210 + Math.cos(a) * r).toFixed(1)}" cy="${(210 + Math.sin(a) * r).toFixed(1)}" r="${k % 3 ? 5 : 7}" fill="${['#D8CCFF', '#9C8FC4', '#B1F7BB'][k % 3]}"/>`; }).join('')}</g>
+            <rect x="148" y="96" width="124" height="228" rx="22" fill="#2A2631" stroke="#D8CCFF" stroke-width="3"/><rect x="192" y="108" width="36" height="6" rx="3" fill="#4A4258"/>
+            <g class="s s0"><circle class="pulse" cx="210" cy="210" r="40" fill="none" stroke="#D8CCFF" stroke-width="2"/><circle cx="210" cy="210" r="40" fill="#D8CCFF"/><text x="210" y="216" text-anchor="middle" font-family="Archivo, sans-serif" font-stretch="75%" font-weight="600" font-size="16" letter-spacing="2" fill="#1F1C25">JOIN</text></g>
+            <g class="s s1"><circle cx="210" cy="210" r="40" fill="#B1F7BB"/><path d="M193 211l11 11 24-26" fill="none" stroke="#1F1C25" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></g>
+            <g class="s s2"><rect x="166" y="136" width="88" height="10" rx="5" fill="#D8CCFF"/><rect x="166" y="154" width="60" height="8" rx="4" fill="#4A4258"/>${[0, 1, 2, 3].map(q => `<rect x="${166 + (q % 2) * 46}" y="${184 + Math.floor(q / 2) * 58}" width="42" height="52" rx="8" fill="${['#D8CCFF', '#9C8FC4', '#B4E2FF', '#B1F7BB'][q]}"/>`).join('')}</g>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <section class="lv" data-lv="2">
+      <div class="wrap">
+        <p class="lv-tag">LEVEL 02</p>
+        <div class="sw-row"><span class="sw-l">PASSIVE</span><button class="sw" id="gm-sw" type="button" role="switch" aria-checked="false" aria-label="Switch the audience from passive to active"><i></i></button><span class="sw-l">ACTIVE</span></div>
+        <div class="room" id="gm-room" aria-hidden="true"><svg viewBox="0 0 1000 120" preserveAspectRatio="xMidYMid meet">${[0, 1, 2].map(r => Array.from({ length: 30 - r * 2 }, (_, c) => `<circle class="rp" style="--c:${c}" cx="${(500 + (c - (29 - r * 2) / 2) * (30 + r * 4)).toFixed(1)}" cy="${30 + r * 36}" r="${6 + r * 2.5}"/>`).join('')).join('')}</svg></div>
+        <div class="sw-cards">
+          <div class="gcard why frame"><p class="lv-k">WHY IT MATTERS</p><p>Traditional event tools often struggle to keep audiences engaged, leaving most participants passive and reducing overall event impact. Our platform removes friction by offering easy, hassle-free participation and real-time engagement insights, helping organizers improve audience involvement and event outcomes.</p></div>
+          <div class="gcard what frame"><p class="lv-k">WHAT WE DO</p><p>We provide a SaaS platform that powers real-time gamified experiences for events. Built on a scalable interaction engine, our technology allows participants to join instantly through their mobile devices and engage in synchronized multiplayer activities, live feedback, and dynamic event experiences.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="lv lv-reel">
+      <div class="wrap"><p class="lv-tag">REPLAYS</p><div class="reel">${pic('img/gamification/expo-friends.webp', '21 / 9', 'Four friends cheering at a tech expo as they play on their phones', 'Live at the expo', '50% 38%')}${pic('img/gamification/big-screen.webp', '4 / 3', 'The big screen at an event showing Get Ready before the first question', 'Get ready')}${pic('img/gamification/phone-countdown.webp', '4 / 3', 'A phone in hand counting down to the first question', 'Countdown', '50% 45%')}${pic('img/gamification/phone-score.webp', '4 / 3', 'A phone showing a score of 100', 'Score', '50% 40%')}</div></div>
+    </section>
+
+    <section class="lv" data-lv="3">
+      <div class="wrap">
+        <p class="lv-tag">LEVEL 03</p>
+        <h2 class="gm-h2">SYSTEM FEATURES</h2>
+        <div class="loadout">
+          <ol class="lo-list">${GM_FEAT.map(([t, p], i) => `<li><button class="lo-item" type="button" data-i="${i}" aria-pressed="${i === 0}"><span class="lo-n">0${i + 1}</span><span class="lo-t"><b>${t}</b><span>${p}</span></span></button></li>`).join('')}</ol>
+          <div class="console frame" id="gm-console" data-sel="0">${gmConsole()}</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="lv" data-lv="4" id="gm-players">
+      <div class="wrap">
+        <p class="lv-tag">LEVEL 04 · 2 PLAYERS</p>
+        <div class="players">
+          ${[['P1', 'FOR BUSINESSES', GM_BIZ], ['P2', 'FOR PARTICIPANTS', GM_PART]].map(([pn, h, items]) => `<div class="pl frame"><div class="pl-head"><span class="pl-tag">${pn}</span><p class="lv-k">${h}</p></div><ul class="ach">${items.map(x => `<li><span class="ach-ic">${LOCK}</span><span>${x}</span></li>`).join('')}</ul></div>`).join('')}
+        </div>
+      </div>
+    </section>
+
+    <section class="lv lv-bonus" data-lv="5" id="gm-bonus">
+      <div class="wrap lv-grid">
+        <div class="lv-copy"><p class="lv-tag">BONUS · LEVEL 05</p><h2 class="gm-h2">SUSTAINABLE BY DESIGN</h2><p class="gm-p">By using participants’ own mobile devices, we eliminate the need for additional event hardware, reducing electronic waste and lowering the environmental footprint of events.</p></div>
+        <div class="bonus frame" aria-hidden="true"><svg viewBox="0 0 420 300">
+          ${Array.from({ length: 12 }, (_, k) => { const x = 22 + (k % 4) * 66, y = 34 + Math.floor(k / 4) * 78; return `<g class="hw" data-k="${k}"><rect x="${x}" y="${y}" width="54" height="40" rx="5" fill="none" stroke="#9C8FC4" stroke-width="2"/><rect x="${x + 7}" y="${y + 7}" width="40" height="22" rx="2" fill="#3A3446"/><path d="M${x + 20} ${y + 46}h14" stroke="#9C8FC4" stroke-width="2" stroke-linecap="round"/></g>`; }).join('')}
+          <g class="leaf"><path d="M318 248C318 168 356 120 404 108c4 84-30 132-86 140z" fill="#B1F7BB"/><path d="M318 248l52-80" stroke="#1F1C25" stroke-width="3" stroke-linecap="round"/></g>
+        </svg></div>
+      </div>
+    </section>
+
+    <section class="lv" data-lv="6">
+      <div class="wrap">
+        <p class="lv-tag">LEVEL 06 · SELECT YOUR ARENA</p>
+        <h2 class="gm-h2">WHO WE SERVE</h2>
+        <div class="arena">${GM_WHO.map(([x, icn], i) => `<button class="stage" type="button" aria-pressed="false"><span class="st-n">${String(i + 1).padStart(2, '0')}</span>${ic(icn)}<span class="st-t">${x}</span></button>`).join('')}</div>
+      </div>
+    </section>
+
+    <section class="lv lv-start" data-lv="7" id="gm-start">
+      <div class="start-pin"><div class="wrap start-in">
+        <div class="count" aria-hidden="true"><span>3</span><span>2</span><span>1</span></div>
+        <div class="start-copy">
+          <h2 class="gm-h2 big">READY TO TURN PASSIVE AUDIENCES INTO ACTIVE PARTICIPANTS?</h2>
+          <p class="gm-p">Power your next event with a gamified experience designed for scale, engagement, and measurable impact.</p>
+          <a class="gbtn primary big" href="#contact">GET STARTED / REQUEST A DEMO</a>
+          <p class="final" aria-hidden="true">YOUR SCORE <b id="gm-final">0000</b></p>
+        </div>
+      </div></div>
+    </section>
+  </div>`;
+}
+
+let gm = null;
+function gmAdd(key, pts) { if (!gm || gm.got.has(key)) return; gm.got.add(key); gm.score += pts; }
+function gmSetup(main) {
+  const root = main.querySelector('#gm'); if (!root) { gm = null; return; }
+  gm = {
+    root, score: 0, shown: -1, got: new Set(), lv: -1,
+    lvls: [...root.querySelectorAll('[data-lv]')], lvn: root.querySelector('#gm-lvn'), lvt: root.querySelector('#gm-lvt'), segs: [...root.querySelectorAll('.gm-segs i')],
+    scoreEl: root.querySelector('#gm-score'), finalEl: root.querySelector('#gm-final'), hud: root.querySelector('.gm-hud'),
+    crowd: null, crowdLit: -1, ach: [...root.querySelectorAll('.ach li')], players: root.querySelector('#gm-players'),
+    bonusSec: root.querySelector('#gm-bonus'), hw: [...root.querySelectorAll('.hw')], leaf: root.querySelector('.leaf'),
+    start: root.querySelector('#gm-start'), counts: [...root.querySelectorAll('.count span')], startCopy: root.querySelector('.start-copy'), stage: -1,
+  };
+  gmCrowd();
+  // Level 1: join from a phone — Instant, Seamless, and at Scale
+  const join = root.querySelector('#gm-join'), keys = [...root.querySelectorAll('#gm-isas .k')];
+  let busy = false;
+  const play = () => {
+    if (busy) return; busy = true;
+    const step = (n) => { join.className = join.className.replace(/ st-\d/g, '') + ` st-${n}`; keys.forEach((k, i) => k.classList.toggle('on', i === n - 1)); };
+    const fast = !motionOK();
+    step(0);
+    setTimeout(() => step(1), fast ? 0 : 120);
+    setTimeout(() => step(2), fast ? 0 : 1000);
+    setTimeout(() => { step(3); gmAdd('join', 100); busy = false; }, fast ? 0 : 1900);
+  };
+  join.addEventListener('click', play);
+  join.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); play(); } });
+  // Level 2: switch the room from passive to active
+  const sw = root.querySelector('#gm-sw'), lv2 = sw.closest('.lv');
+  sw.addEventListener('click', () => { const on = sw.getAttribute('aria-checked') !== 'true'; sw.setAttribute('aria-checked', on); lv2.classList.toggle('active', on); if (on) gmAdd('switch', 50); });
+  // Level 3: equip a feature, the console shows it
+  const con = root.querySelector('#gm-console'), items = [...root.querySelectorAll('.lo-item')];
+  items.forEach(b => b.addEventListener('click', () => { items.forEach(x => x.setAttribute('aria-pressed', x === b)); con.dataset.sel = b.dataset.i; gmAdd('f' + b.dataset.i, 20); }));
+  // Level 6: select an arena
+  root.querySelectorAll('.stage').forEach((b, i) => b.addEventListener('click', () => { root.querySelectorAll('.stage').forEach(x => x.setAttribute('aria-pressed', x === b)); gmAdd('arena', 30); }));
+  if (!motionOK()) { gm.ach.forEach(li => li.classList.add('on')); gm.hw.forEach(h => h.classList.add('gone')); }
+}
+function gmCrowd() {
+  const el = gm && gm.root.querySelector('#gm-crowd'); if (!el) return;
+  const w = el.clientWidth, h = el.clientHeight; if (!w || !h) return;
+  let out = `<svg viewBox="0 0 ${w} ${h}">`, n = 0;
+  const rows = 9;
+  for (let r = 0; r < rows; r++) {
+    const t = r / (rows - 1), y = h * (0.06 + 0.86 * Math.pow(t, 1.25)), sp = 16 + 30 * t, rad = 1.8 + 4.6 * t, cols = Math.ceil(w / sp) + 1, off = (r % 2) * sp / 2;
+    for (let c = 0; c < cols; c++) { const x = c * sp + off - sp / 2; out += `<circle class="cr" data-th="${((Math.sin(n * 12.9898) * 43758.5453) % 1 + 1) % 1}" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${rad.toFixed(1)}"/>`; n++; }
+  }
+  el.innerHTML = out + '</svg>';
+  gm.crowd = [...el.querySelectorAll('.cr')].map(c => ({ el: c, th: +c.dataset.th, on: false })); gm.crowdLit = -1; gm.crowdT0 = performance.now();
+}
+function gmTick(vh, stick, now) {
+  if (!gm) return;
+  // HUD: which level are we on?
+  let lv = 0; gm.lvls.forEach(s => { if (s.getBoundingClientRect().top <= stick + 120) lv = +s.dataset.lv; });
+  if (lv !== gm.lv) { gm.lv = lv; gm.lvn.textContent = GM_LV[lv][0]; gm.lvt.textContent = GM_LV[lv][1]; gm.segs.forEach((s, i) => s.classList.toggle('on', i <= lv)); if (lv > 0) gmAdd('lv' + lv, 10); }
+  // Score ticks up
+  if (gm.shown !== gm.score) { gm.shown = gm.shown < 0 ? gm.score : gm.shown + Math.max(1, Math.round((gm.score - gm.shown) * 0.12)); if (gm.shown > gm.score) gm.shown = gm.score; const t = String(gm.shown).padStart(4, '0'); gm.scoreEl.textContent = t; gm.finalEl.textContent = t; }
+  // Lobby: the crowd goes from passive to active as you scroll in
+  if (gm.crowd) {
+    const lob = gm.lvls[0].getBoundingClientRect(), p = clamp(-lob.top / (lob.height * 0.6)), intro = motionOK() ? clamp((now - gm.crowdT0) / 1600) * 0.32 : 1;
+    const lit = Math.round(Math.max(intro, motionOK() ? 0.32 + 0.68 * p : 1) * 100) / 100;
+    if (lit !== gm.crowdLit) { gm.crowdLit = lit; gm.crowd.forEach(c => { const on = c.th < lit; if (on !== c.on) { c.on = on; c.el.classList.toggle('on', on); } }); }
+  }
+  if (!motionOK()) return;
+  // Players: achievements unlock as you scroll through them
+  gm.ach.forEach((li, k) => { const on = li.getBoundingClientRect().top < vh * 0.7; if (on !== li.classList.contains('on')) { li.classList.toggle('on', on); if (on) gmAdd('a' + k, 10); } });
+  // Bonus: event hardware disappears, the leaf grows
+  const br = gm.bonusSec.querySelector('.bonus').getBoundingClientRect(), bp = clamp((vh * 0.88 - br.top) / (br.height * 0.9 + vh * 0.2));
+  gm.hw.forEach((g, k) => g.classList.toggle('gone', bp > (k + 1) / 15));
+  gm.leaf.style.transform = `scale(${(0.15 + 0.85 * clamp(bp * 1.15)).toFixed(3)})`;
+  if (bp > 0.95) gmAdd('bonus', 50);
+  // Start: 3 · 2 · 1 · go, driven by the scroll
+  const sr = gm.start.getBoundingClientRect(), sp = clamp((stick - sr.top) / Math.max(1, sr.height - (vh - stick)));
+  const st = sp < 0.2 ? 0 : sp < 0.4 ? 1 : sp < 0.6 ? 2 : 3;
+  if (st !== gm.stage) { gm.stage = st; gm.counts.forEach((c, i) => c.classList.toggle('on', i === st)); gm.start.classList.toggle('go', st === 3); if (st === 3) gmAdd('start', 100); }
+}
+
+/* ================= Shell: nav, routing, behaviours ================= */
+const NAV = [['about', 'About'], ['work', 'Work'], ['edtech', 'EdTech', 'ice'], ['marketing', 'Marketing', 'mint'], ['gamification', 'Gamification', 'lilac'], ['blog', 'Blogs']];
+const MARKETING_KIDS = ['marketing', 'branding', 'advertising', 'digital-services', 'web-app-development'];
+const dot = t => t ? `<span class="dot" style="--tone:${TONES[t].light}"></span>` : '';
+function renderNav(route) {
+  document.getElementById('nav').innerHTML = NAV.map(([k, t, tone]) => k === 'marketing'
+    ? `<div class="has-sub" id="has-sub"><button class="sub-btn${MARKETING_KIDS.includes(route) ? ' current' : ''}" type="button" aria-expanded="false" aria-controls="sub">${dot(tone)}${t}${I.down}</button>
+       <div class="sub" id="sub">${DETAIL_NAV.map(([kk, tt]) => `<a href="#${kk}">${tt}${I.arrow}</a>`).join('')}<a class="sub-all" href="#marketing">All marketing services${I.arrow}</a></div></div>`
+    : `<a href="#${k}"${route === k || route.startsWith(k + '-') ? ' aria-current="page"' : ''}>${dot(tone)}${t}</a>`).join('');
+  document.getElementById('sheet-nav').innerHTML = NAV.map(([k, t, tone]) => `<a href="#${k}">${t}${tone ? dot(tone) : ''}</a>` + (k === 'marketing' ? DETAIL_NAV.map(([kk, tt]) => `<a class="child" href="#${kk}">${tt}</a>`).join('') : '')).join('') + `<a href="#contact">Let's Talk</a>`;
+  const FAB_IC = { about: 'users', work: 'layout', edtech: 'cap', marketing: 'megaphone', gamification: 'trophy', blog: 'book' };
+  const CHAT = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9.5h8M8 12.5h5"/></svg>';
+  const fabItems = [...NAV.map(([k, t, tone]) => [k, t, tone, FAB_IC[k]]), ['contact', 'Let\'s Talk', 'talk', 'chat']];
+  const isHere = k => route === k || route.startsWith(k + '-') || (k === 'marketing' && MARKETING_KIDS.includes(route));
+  document.getElementById('fab-list').innerHTML = fabItems.map(([k, t, tone, icn], i) => `<li><a href="#${k}"${tone === 'talk' ? ' class="talk"' : ''} style="--r:${fabItems.length - 1 - i}${tone && tone !== 'talk' ? `;--pill:${TONES[tone].light}` : ''}"${isHere(k) ? ' aria-current="page"' : ''}>${icn === 'chat' ? CHAT : ic(icn)}<span>${t}</span></a></li>`).join('');
+  const hs = document.getElementById('has-sub'), sb = hs.querySelector('.sub-btn');
+  sb.addEventListener('click', () => { const o = !hs.classList.contains('open'); hs.classList.toggle('open', o); sb.setAttribute('aria-expanded', o); });
+  hs.addEventListener('focusout', e => { if (!hs.contains(e.relatedTarget)) { hs.classList.remove('open'); sb.setAttribute('aria-expanded', 'false'); } });
+}
+
+let heroTimer = null;
+function setupHero() {
+  const hero = document.getElementById('hero'); if (!hero) return;
+  const tabs = [...hero.querySelectorAll('.hero-tab')], slides = [...hero.querySelectorAll('.slide')], tablist = hero.querySelector('.hero-tabs');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const DUR = 6500; let idx = 0, paused = false, started = Date.now(), left = DUR;
+  const show = (i, user) => {
+    idx = i; const t = TONES[HERO[i].tone];
+    tabs.forEach((b, j) => { b.setAttribute('aria-selected', j === i); b.tabIndex = j === i ? 0 : -1; });
+    slides.forEach((s, j) => s.setAttribute('aria-hidden', j !== i));
+    hero.style.setProperty('--tone-deep', t.deep); hero.style.setProperty('--tone', t.light);
+    const art = document.getElementById('hero-art');
+    if (art) { recolorArt(art, HERO[i].tone); if (art._pulsed) pulse(art); art._pulsed = true; }
+    tablist.classList.remove('running'); void tablist.offsetWidth;
+    if (user) { stop(); return; }
+    if (!reduce) { tablist.classList.add('running'); started = Date.now(); left = DUR; schedule(DUR); }
+  };
+  const schedule = ms => { clearTimeout(heroTimer); heroTimer = setTimeout(() => show((idx + 1) % HERO.length), ms); };
+  const stop = () => { clearTimeout(heroTimer); heroTimer = null; tablist.classList.remove('running'); };
+  tabs.forEach((b, i) => {
+    b.addEventListener('click', () => show(i, true));
+    b.addEventListener('keydown', e => { if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { const n = (i + (e.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length; tabs[n].focus(); show(n, true); } });
+  });
+  const pause = () => { if (!heroTimer || paused) return; paused = true; left -= Date.now() - started; clearTimeout(heroTimer); tablist.classList.add('paused'); };
+  const resume = () => { if (!paused) return; paused = false; started = Date.now(); tablist.classList.remove('paused'); schedule(Math.max(left, 400)); };
+  hero.addEventListener('click', e => { if (e.target.closest('a, button')) return; show((idx + 1) % HERO.length, true); });
+  hero.addEventListener('mouseenter', pause); hero.addEventListener('mouseleave', resume);
+  hero.addEventListener('focusin', pause); hero.addEventListener('focusout', e => { if (!hero.contains(e.relatedTarget)) resume(); });
+  show(0);
+}
+
+function setupPage(route) {
+  setupHero();
+  if (route === 'work-kaynes') setupKaynes(document.getElementById('main'));
+  if (route === 'work-oli') setupOli(document.getElementById('main'));
+  if (route === 'work-cube') setupCube(document.getElementById('main'));
+  if (route === 'work-dharmaram') setupDharmaram(document.getElementById('main'));
+  if (route === 'work-milntown') setupMilntown(document.getElementById('main'));
+  if (route === 'start') setupStart(document.getElementById('main'));
+  document.querySelectorAll('.tabs').forEach(list => {
+    const tabs = [...list.querySelectorAll('[role="tab"]')];
+    const sel = i => tabs.forEach((t, j) => {
+      t.setAttribute('aria-selected', i === j); t.tabIndex = i === j ? 0 : -1;
+      const pnl = document.getElementById(t.getAttribute('aria-controls')); pnl.hidden = i !== j;
+      if (i === j) { pnl.classList.remove('swap'); void pnl.offsetWidth; pnl.classList.add('swap'); pnl.querySelectorAll('li').forEach((li, k) => li.style.setProperty('--k', k)); }
+    });
+    tabs.forEach((t, i) => { t.addEventListener('click', () => sel(i)); t.addEventListener('keydown', e => { if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { const n = (i + (e.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length; tabs[n].focus(); sel(n); } }); });
+    sel(0);
+  });
+  const main = document.getElementById('main');
+  if (route === 'blog-post' && !main._artBound) {
+    main._artBound = true;
+    main.addEventListener('click', e => {
+      const t = e.target.closest('[data-kw-go]'); if (t) { blogKw = t.dataset.kwGo; blogFilter = 'All articles'; }
+    });
+  }
+  if (route === 'blog' && !main._blogBound) {
+    main._blogBound = true;
+    main.addEventListener('click', e => {
+      if (!document.getElementById('posts')) return;
+      const c = e.target.closest('[data-cat]'), k = e.target.closest('[data-kw]');
+      if (!c && !k) return;
+      if (c) { blogFilter = c.dataset.cat; blogKw = null; }
+      if (k) { blogKw = blogKw === k.dataset.kw ? null : k.dataset.kw; blogFilter = 'All articles'; }
+      main.querySelectorAll('[data-cat]').forEach(b => b.setAttribute('aria-pressed', b.dataset.cat === blogFilter));
+      main.querySelectorAll('[data-kw]').forEach(b => b.setAttribute('aria-pressed', b.dataset.kw === blogKw));
+      const posts = document.getElementById('posts');
+      posts.innerHTML = renderPosts(); posts.classList.remove('swap'); void posts.offsetWidth; posts.classList.add('swap');
+      [...posts.children].forEach((c, k) => c.style.setProperty('--k', k));
+    });
+  }
+  const form = document.getElementById('form');
+  if (form) {
+    const rules = { name: v => v.trim() ? '' : 'Enter your name.', email: v => /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v.trim()) ? '' : 'Enter an email address like name@company.com.', phone: v => v.replace(/\D/g, '').length >= 7 ? '' : 'Enter a phone number with at least 7 digits.', location: v => v.trim() ? '' : 'Enter your city or country.' };
+    const check = id => { const el = document.getElementById(id), msg = rules[id](el.value); document.getElementById(id + '-err').textContent = msg; document.getElementById('f-' + id).classList.toggle('invalid', !!msg); el.setAttribute('aria-invalid', !!msg); return !msg; };
+    Object.keys(rules).forEach(id => document.getElementById(id).addEventListener('blur', () => { if (document.getElementById(id).value) check(id); }));
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const bad = Object.keys(rules).filter(id => !check(id));
+      const out = document.getElementById('sent');
+      if (bad.length) { document.getElementById(bad[0]).focus(); out.hidden = true; return; }
+      const n = form.querySelectorAll('input[name="svc"]:checked').length;
+      out.className = 'sent'; out.hidden = false;
+      out.innerHTML = `<b>Prototype: nothing was sent.</b><span>The form checked out${n ? ` with ${n} service${n > 1 ? 's' : ''} selected` : ''}. On the live site this is where the enquiry goes to the team.</span>`;
+    });
+  }
+}
+
+function render(r) {
+  clearTimeout(heroTimer); heroTimer = null;
+  document.getElementById('main').innerHTML = P[r]();
+  document.body.classList.toggle('lp', r === 'start');
+  document.getElementById('lp-head').innerHTML = r === 'start' ? `<a class="btn btn-ghost" href="tel:${LP_TEL}">${ic('phone')}Call</a><button class="btn btn-solid lp-head-quote" type="button" onclick="document.getElementById('lp-talk').scrollIntoView({behavior:'smooth'})">Get a quote</button>` : '';
+  renderNav(r);
+  setupPage(r);
+  setupMotion(r);
+  closeSheet();
+  window.scrollTo(0, 0);
+  const crumb = document.getElementById('foot-crumb');
+  if (crumb) crumb.innerHTML = r === 'home' ? '' : `<span aria-hidden="true">›</span>${PAGE_NAME[r] || ''}`;
+  const bp = r === 'blog-post' && POSTS.find(p => p.slug === blogSlug);
+  const nm = (PAGE_NAME[r] || '').replace(/&amp;/g, '&');
+  document.title = bp ? `${bp.title} | Latch Infinity` : r === 'home' ? document.title : `${nm} | Latch Infinity`;
+}
+let firstRoute = true, routeToken = 0;
+/* Every page has its own file; the route comes from <html data-route>. Blog articles are blog/?p=<slug>. */
+const PAGE_URL = { home: './', about: 'about/', work: 'work/', 'work-kaynes': 'work/kaynes/', 'work-dharmaram': 'work/dharmaram/', 'work-oli': 'work/oli/', 'work-cube': 'work/cube/', 'work-milntown': 'work/milntown/',
+  marketing: 'marketing/', branding: 'marketing/branding/', advertising: 'marketing/advertising/', 'digital-services': 'marketing/digital-services/', 'web-app-development': 'marketing/web-app-development/',
+  edtech: 'edtech/', gamification: 'gamification/', blog: 'blog/', contact: 'contact/', legal: 'legal/', start: 'start/' };
+const isPageHash = h => !!PAGE_URL[h] || (h.startsWith('blog/') && h.length > 5);
+const pageUrl = h => h.startsWith('blog/') ? 'blog/?p=' + encodeURIComponent(h.slice(5)) : PAGE_URL[h];
+const CUR_ROUTE = document.documentElement.dataset.route || 'home';
+function route() {
+  let r = CUR_ROUTE;
+  if (r === 'blog') { const q = new URLSearchParams(location.search).get('p'); if (q) { blogSlug = q; r = 'blog-post'; } }
+  if ((r === 'blog' || r === 'blog-post') && !POSTS.length && !blogReady.done) { blogReady.then(() => { blogReady.done = true; route(); }); return; }
+  if (r === 'gamification-platform') { document.getElementById('gamification-platform')?.scrollIntoView({ behavior: 'smooth' }); return; }
+  if (!P[r]) r = 'home';
+  if (firstRoute) { firstRoute = false; render(r); playIntro(); return; }
+  if (!motionOK()) { render(r); return; }
+  wipeTo(r, ++routeToken);
+}
+
+/* ================= Motion layer =================
+   Immersion comes from scrolling and clicking. Nothing reacts to the pointer just moving,
+   apart from the cursor ring that labels what a click will do. */
+const RM = matchMedia('(prefers-reduced-motion: reduce)'), FINE = matchMedia('(hover: hover) and (pointer: fine)');
+const motionOK = () => !RM.matches;
+const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+const easeIO = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+const PAGE_TONE = { edtech: 'ice', gamification: 'lilac' };
+const PAGE_NAME = { home: 'Latch Infinity', about: 'About', work: 'Work', 'work-kaynes': 'Kaynes Technology', 'work-oli': 'Oli', 'work-cube': 'Cube', 'work-dharmaram': 'Dharmaram', 'work-milntown': 'Miln Town', marketing: 'Marketing', branding: 'Branding', advertising: 'Advertising', 'digital-services': 'Digital Services', 'web-app-development': 'Website &amp; App Development', edtech: 'EdTech', gamification: 'Gamification', blog: 'Blogs', 'blog-post': 'Blogs', contact: 'Let\'s Talk', start: 'Plans &amp; Pricing', legal: 'Terms &amp; Privacy' };
+const wipe = document.getElementById('wipe'), bars = [...wipe.querySelectorAll('i')], wipeMark = document.getElementById('wipe-mark');
+const EASE_IO = 'cubic-bezier(.76,0,.24,1)';
+const SKEW = x => `translateX(${x}) skewX(-33deg)`;
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+function splitWords(el, mode) {
+  if (el.dataset.split) return;
+  el.dataset.split = mode; let i = 0;
+  const walk = node => [...node.childNodes].forEach(c => {
+    if (c.nodeType === 3) {
+      const frag = document.createDocumentFragment();
+      c.textContent.split(/(\s+)/).forEach(part => {
+        if (!part) return;
+        if (/^\s+$/.test(part)) { frag.append(document.createTextNode(part)); return; }
+        part.split(/(?<=-)(?=.)/).forEach(chunk => {
+          const w = document.createElement('span'), inner = document.createElement('span');
+          w.className = 'w'; w.style.setProperty('--w', i++); inner.textContent = chunk; w.append(inner); frag.append(w);
+        });
+      });
+      c.replaceWith(frag);
+    } else if (c.nodeType === 1 && c.tagName !== 'BR') walk(c);
+  });
+  walk(el);
+  el.classList.add(mode === 'time' ? 'w-time' : mode === 'scroll' ? 'w-mask' : mode === 'fill' ? 'w-fill' : 'w-slide');
+}
+
+/* Strands draw themselves in the first time they come into view */
+function drawIn(el, delay = 0) {
+  if (!motionOK()) return;
+  el.querySelectorAll('.b').forEach((p, i) => p.animate([{ strokeDashoffset: 1 }, { strokeDashoffset: 0 }], { duration: 1500, delay: delay + i * 70, easing: 'cubic-bezier(.22,1,.36,1)', fill: 'backwards' }));
+}
+/* A click sends a bright pulse along every strand */
+function pulse(el) {
+  if (!motionOK()) return;
+  const svg = el.querySelector('svg'); if (!svg) return;
+  svg.querySelectorAll('.b').forEach((p, i) => {
+    const c = p.cloneNode(); c.setAttribute('class', 'pz'); c.setAttribute('stroke', '#F4F8F2'); c.style.strokeDasharray = '0.09 2';
+    svg.append(c);
+    c.animate([{ strokeDashoffset: 0.09 }, { strokeDashoffset: -1.02 }], { duration: 1250, delay: i * 55, easing: 'cubic-bezier(.45,0,.2,1)', fill: 'both' }).finished.then(() => c.remove(), () => c.remove());
+  });
+}
+const drawObserver = 'IntersectionObserver' in window ? new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) { drawObserver.unobserve(e.target); drawIn(e.target, 120); } }), { threshold: 0.25 }) : null;
+
+let scene = { retract: [], scrubs: [], fills: [], hs: null, mqs: [], story: null, scenes: [], latches: [] };
+let evInterval = 0;
+const hsIO = 'IntersectionObserver' in window ? new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); hsIO.unobserve(e.target); } }), { threshold: 0.3 }) : { observe: c => c.classList.add('on') };
+function setupMotion(r) {
+  root.style.setProperty('--page-tone', TONES[PAGE_TONE[r] || 'mint'].light);
+  const main = document.getElementById('main');
+  main.querySelectorAll('.art:not(.fx)').forEach(renderArt);
+  main.querySelectorAll('.art.fx').forEach(renderFx);
+  clearInterval(evInterval);
+  if (motionOK()) {
+    const hsEl = main.querySelector('.hs'); if (hsEl) hsEl.classList.add('pre');
+    main.querySelectorAll('.hs-card').forEach(c => hsIO.observe(c));
+    if (r === 'gamification') evInterval = setInterval(() => { const st = document.querySelector('.ev-stage'); if (st && !document.hidden) playEvent(st); }, 5200);
+    main.querySelectorAll('.page-hero h1').forEach(el => splitWords(el, 'time'));
+    main.querySelectorAll('.slide').forEach(el => splitWords(el, 'slide'));
+    main.querySelectorAll('.sec-head h2:not(.fillme), .hs-head h2, .cta h2, .panel h2').forEach(el => splitWords(el, 'scroll'));
+    main.querySelectorAll('.statement, .sec .split > .lede, .goal p, .green-note p:last-child, .fillme').forEach(el => splitWords(el, 'fill'));
+    main.querySelectorAll('.index li, .card:not(.pillar), .quote, .tile, .post, .steps li, .value li, .who li, .flow > *, .quad, .goal, .green-note, .stats, .faq details, .tabpanel li, .ticks li, .chips, .info .blk, .form .fields > *').forEach(el => el.classList.add('rv'));
+    if (drawObserver) main.querySelectorAll('.art[data-draw]').forEach(a => drawObserver.observe(a));
+    setupFaq(main);
+  }
+  const st = main.querySelector('#story');
+  scene = {
+    retract: [...main.querySelectorAll('.art[data-retract]')].map(el => ({ el, band: el.closest('.band') })),
+    scrubs: [...main.querySelectorAll('.art[data-scrub]')],
+    fills: [...main.querySelectorAll('.w-fill')].filter(el => el.id !== 'story-st').map(el => ({ el, words: [...el.querySelectorAll('.w')], lit: -1 })),
+    hs: (() => { const el = main.querySelector('.hs'); return el ? { el, track: el.querySelector('.hs-track'), vp: el.querySelector('.hs-viewport'), n: el.querySelector('#hs-n'), rail: el.querySelector('.hs-rail'), travel: 0, last: '' } : null; })(),
+    mqs: [...main.querySelectorAll('.mq')].map(m => ({ el: m, track: m.querySelector('.mq-track'), dir: +m.dataset.dir, x: 0, speed: 1, hover: false })),
+    story: st ? setupStory(st) : null,
+    pillars: (() => { const el = main.querySelector('#pillars'); return el ? { el, path: el.querySelector('.pl-path'), svg: el.querySelector('.pl-line'), cards: [...el.querySelectorAll('.pillar')], nodes: [], last: -1 } : null; })(),
+    scenes: [...main.querySelectorAll('.scene[data-scene]')].map(el => { const sc = { globe: globeScene, ux: uxScene, arena: arenaScene }[el.dataset.scene](el, el.dataset.tone); sc.build(); sc.update(motionOK() ? 0 : 1, 0); return { el, sc, panel: el.closest('.panel') }; }),
+    latches: [...main.querySelectorAll('.latch-stage .scene')].map(el => { const sc = latchScene(el, el.dataset.tone); sc.build(); sc.set(motionOK() ? 0 : 1); return { el, sc, stage: el.closest('.latch-stage'), replayStart: 0 }; }),
+  };
+  scene.mqs.forEach(m => { m.el.addEventListener('pointerenter', () => (m.hover = true)); m.el.addEventListener('pointerleave', () => (m.hover = false)); });
+  layoutHS(); layoutStory(); layoutPanels(); layoutPillars(); gmSetup(main);
+}
+/* The line runs through each pillar's node: across on wide screens, down the stack on phones */
+function layoutPillars() {
+  const pl = scene.pillars; if (!pl) return;
+  const box = pl.el.getBoundingClientRect();
+  pl.nodes = pl.cards.map(c => { const r = c.querySelector('.node').getBoundingClientRect(); return [r.left + r.width / 2 - box.left, r.top + r.height / 2 - box.top]; });
+  const [a, b] = [pl.nodes[0], pl.nodes[pl.nodes.length - 1]], across = Math.abs(b[1] - a[1]) < 4;
+  const lead = across ? [[-Math.min(box.left, 80), a[1]]] : [[a[0], a[1] - 40]], tail = across ? [[box.width + Math.min(innerWidth - box.right, 80), b[1]]] : [[b[0], box.height + 24]];
+  const pts = [...lead, ...pl.nodes, ...tail];
+  pl.path.setAttribute('d', 'M' + pts.map(q => `${f2(q[0])} ${f2(q[1])}`).join('L'));
+  pl.len = pts; pl.across = across; pl.last = -1;
+}
+function layoutPanels() {
+  let T = 0;
+  scene.scenes.forEach((s, i) => { const cs = getComputedStyle(s.panel); if (i) T += parseFloat(cs.marginTop) || 0; s.T = T; T += s.panel.offsetHeight + (parseFloat(cs.marginBottom) || 0); });
+}
+
+/* Accordions open and close with a measured height */
+function setupFaq(main) {
+  main.querySelectorAll('.faq details').forEach(d => {
+    const sm = d.querySelector('summary'), a = d.querySelector('.a');
+    sm.addEventListener('click', e => {
+      if (!motionOK()) return;
+      e.preventDefault();
+      if (d.open) { a.animate([{ height: a.offsetHeight + 'px', opacity: 1 }, { height: '0px', opacity: 0 }], { duration: 360, easing: 'cubic-bezier(.4,0,.2,1)' }).finished.then(() => (d.open = false), () => {}); }
+      else { d.open = true; const h = a.offsetHeight; a.animate([{ height: '0px', opacity: 0 }, { height: h + 'px', opacity: 1 }], { duration: 520, easing: 'cubic-bezier(.22,1,.36,1)' }); }
+    });
+  });
+}
+
+/* ---------- Story: Create (the strands draw), Refine (they bend to 57°), Strengthen (the bundle widens) ---------- */
+function setupStory(el) {
+  const art = el.querySelector('#story-art'), stmt = el.querySelector('#story-st');
+  const words = stmt ? [...stmt.querySelectorAll('.w')] : [];
+  const find = re => words.find(w => re.test(w.textContent));
+  return { el, art, words, verbs: [find(/^Create/), find(/^Refine/), find(/^Strengthen/)], steps: [...el.querySelectorAll('.story-steps li')], last: -1 };
+}
+function layoutStory() {
+  const s = scene.story; if (!s) return;
+  const pin = motionOK() && innerHeight >= 560;
+  s.el.classList.toggle('pinned', pin);
+  s.art._w = 0; renderArt(s.art); s.last = -1;
+  drawStory(pin ? 0 : 1);
+}
+function drawStory(p) {
+  const s = scene.story, a = s.art, svg = a.querySelector('svg'); if (!svg) return;
+  const w = a._w, h = a._h, paths = [...svg.querySelectorAll('.b')], n = paths.length, c = (n - 1) / 2;
+  const { sp, R } = strandMetrics(w, h, n);
+  const draw = clamp(p * 3 * 1.1), bend = easeIO(clamp(p * 3 - 1)), grow = 1 + 3 * clamp(p * 3 - 2);
+  const ds = bundle(storyPts(w, h, bend), R, n, sp);
+  paths.forEach((pa, i) => {
+    const rank = Math.abs(i - c);
+    pa.setAttribute('d', ds[i]);
+    pa.style.strokeDashoffset = (rank <= 1 ? clamp(1 - (draw * 1.25 - rank * .12)) : clamp(1 - (grow - rank + 1))).toFixed(3);
+  });
+  const stage = p < 1 / 3 ? 0 : p < 2 / 3 ? 1 : 2;
+  const lit = Math.round(clamp(p * 1.25) * s.words.length);
+  s.words.forEach((w, i) => w.classList.toggle('lit', i < lit));
+  s.verbs.forEach((v, i) => v && v.classList.toggle('on', i === stage && p > 0.02));
+  s.steps.forEach((li, i) => { li.classList.toggle('on', i === stage); li.querySelector('span').style.setProperty('--sp', clamp(p * 3 - i).toFixed(3)); });
+}
+
+/* One loop drives every scroll-linked effect */
+let mx = -100, my = -100, rx = -100, ry = -100, lastSy = scrollY, vel = 0, lastNow = performance.now();
+const progressEl = document.getElementById('progress');
+function loop(now) {
+  const vh = innerHeight, sy = scrollY, max = document.documentElement.scrollHeight - vh;
+  const dt = Math.min(0.05, (now - lastNow) / 1000 || 0); lastNow = now;
+  vel = vel * 0.9 + (sy - lastSy) * 0.1; lastSy = sy;
+  progressEl.style.setProperty('--p', max > 0 ? (sy / max).toFixed(4) : 0);
+  if (motionOK()) {
+    const stick = head.getBoundingClientRect().bottom;
+    // Hero strands slip away as their band leaves the screen
+    scene.retract.forEach(({ el, band }) => {
+      const r = band.getBoundingClientRect(), out = clamp(-r.top / (r.height * 0.8));
+      el.querySelectorAll('.b').forEach((pa, i) => { if (!pa.getAnimations().length) pa.style.strokeDashoffset = (-clamp(out * 1.4 - i * 0.05)).toFixed(3); });
+    });
+    // Panel and CTA strands draw in step with the scroll
+    scene.scrubs.forEach(el => {
+      const r = el.getBoundingClientRect(), pr = clamp((vh - r.top) / (vh * 0.85));
+      el.querySelectorAll('.b').forEach((pa, i) => (pa.style.strokeDashoffset = clamp(1 - pr * 1.35 + i * 0.06).toFixed(3)));
+    });
+    // Stacked panels: the one underneath recedes as the next arrives
+    document.querySelectorAll('#main .panel').forEach((p, i, all) => {
+      const next = all[i + 1]; if (!next) return;
+      const r = p.getBoundingClientRect(), nr = next.getBoundingClientRect(), cov = clamp(1 - (nr.top - stick) / r.height);
+      p.style.scale = cov > 0.001 ? (1 - cov * 0.06).toFixed(4) : '';
+      p.style.setProperty('--dim', (cov * 0.5).toFixed(3));
+    });
+    // Panel scenes: progress while arriving, then while the next panel slides over
+    if (scene.scenes.length) {
+      const y = stick - scene.scenes[0].panel.parentElement.getBoundingClientRect().top;
+      scene.scenes.forEach((s, i) => {
+        const r = s.panel.getBoundingClientRect(); if (r.bottom < -40 || r.top > vh + 40) return;
+        const nxt = scene.scenes[i + 1], start = s.T - vh * 0.55, end = nxt ? nxt.T - 40 : s.T + r.height * 0.5;
+        s.sc.update(clamp((y - start) / Math.max(1, end - start)), now);
+      });
+    }
+    // The latch: lines meet and become the logo as the closing band rises
+    scene.latches.forEach(l => {
+      if (!l.stage.clientWidth) return; // hidden on phones
+      // Scroll drives it: it starts as the band comes in and completes as the whole band reaches the screen.
+      const r = l.stage.closest('.cta').getBoundingClientRect();
+      const from = vh * 0.92, to = Math.max(stick + 8, vh - r.height);
+      let p = clamp((from - r.top) / Math.max(1, from - to));
+      if (l.replayStart && now - l.replayStart < 3300) p = Math.min(p, clamp((now - l.replayStart) / 3200)); else l.replayStart = 0;
+      l.sc.set(p);
+    });
+    // Story
+    const s = scene.story;
+    if (s && s.el.classList.contains('pinned')) {
+      const r = s.el.getBoundingClientRect(), pinH = vh - stick, p = clamp((stick - r.top) / Math.max(1, r.height - pinH));
+      if (Math.abs(p - s.last) > 0.0005) { drawStory(p); s.last = p; }
+    }
+    gmTick(vh, stick, now);
+    // About: the line draws through the pillars; each lights as the line reaches it
+    const pl = scene.pillars;
+    if (pl && pl.len) {
+      const r = pl.el.getBoundingClientRect(), pr = clamp((vh * 0.85 - r.top) / (Math.min(r.height, vh * .7) + vh * 0.25));
+      if (Math.abs(pr - pl.last) > 0.001) {
+        pl.last = pr; pl.path.style.strokeDashoffset = f2(1 - pr);
+        const pts = pl.len, segs = pts.slice(1).map((q, i) => Math.hypot(q[0] - pts[i][0], q[1] - pts[i][1])), total = segs.reduce((x, y) => x + y, 0);
+        let acc = 0; const at = pts.map((_, i) => { if (i) acc += segs[i - 1]; return acc / total; });
+        pl.cards.forEach((c, i) => c.classList.toggle('lit', pr >= at[i + 1] - 0.002));
+      }
+    } else if (pl && !motionOK()) pl.cards.forEach(c => c.classList.add('lit'));
+    // Reading fill
+    scene.fills.forEach(f => {
+      const r = f.el.getBoundingClientRect(), pr = clamp((vh * 0.9 - r.top) / (r.height + vh * 0.45)), lit = Math.round(pr * f.words.length * 1.08);
+      if (lit !== f.lit) { f.words.forEach((w, i) => w.classList.toggle('lit', i < lit)); f.lit = lit; }
+    });
+    // Client marquee: drifts, speeds up with the scroll, rests under the pointer
+    scene.mqs.forEach(m => {
+      const w = m.track.scrollWidth / 3; if (!w) return;
+      m.speed += ((m.hover ? 0 : 1) - m.speed) * 0.06;
+      m.x += m.dir * (34 * m.speed + Math.min(Math.abs(vel) * 28, 520)) * dt;
+      if (m.x <= -w) m.x += w; if (m.x > 0) m.x -= w;
+      m.track.style.transform = `translate3d(${m.x.toFixed(2)}px, 0, 0)`;
+    });
+    // Footer rises into place as the page lifts away
+    if (document.body.classList.contains('has-cursor')) {
+      rx += (mx - rx) * 0.2; ry += (my - ry) * 0.2;
+      cursorEl.style.transform = `translate3d(${rx}px, ${ry}px, 0)`;
+      cursorDot.style.transform = `translate3d(${mx}px, ${my}px, 0)`;
+    }
+  } else { scene.fills.forEach(f => { if (f.lit !== f.words.length) { f.words.forEach(w => w.classList.add('lit')); f.lit = f.words.length; } }); gmTick(innerHeight, head.getBoundingClientRect().bottom, now); }
+  // Pinned services gallery (and the swipe rail on phones)
+  const hs = scene.hs;
+  if (hs) {
+    let pr;
+    if (hs.el.classList.contains('pinned')) {
+      const r = hs.el.getBoundingClientRect(); pr = hs.travel ? clamp((head.getBoundingClientRect().bottom - r.top) / hs.travel) : 0;
+      hs.track.style.transform = `translate3d(${(-pr * hs.travel).toFixed(1)}px, 0, 0)`;
+    } else { const vpw = hs.vp.scrollWidth - hs.vp.clientWidth; pr = vpw > 0 ? hs.vp.scrollLeft / vpw : 0; }
+    hs.rail.style.setProperty('--hp', pr.toFixed(4));
+    const n = String(1 + Math.round(pr * 5)).padStart(2, '0'); if (n !== hs.last) { hs.n.textContent = n; hs.last = n; }
+  }
+  requestAnimationFrame(loop);
+}
+const foot = document.querySelector('.foot');
+
+function layoutHS() {
+  const hs = scene.hs; if (!hs) return;
+  const pin = motionOK() && innerWidth >= 900 && innerHeight >= 640;
+  hs.el.classList.toggle('pinned', pin); hs.el.classList.toggle('free', !pin);
+  if (pin) { hs.travel = Math.max(0, hs.track.scrollWidth - hs.vp.clientWidth); hs.el.style.height = `calc(100vh - var(--head-h) + ${hs.travel}px)`; }
+  else { hs.el.style.height = ''; hs.track.style.transform = ''; hs.travel = 0; }
+}
+let resizeT = 0;
+addEventListener('resize', () => { clearTimeout(resizeT); resizeT = setTimeout(() => { document.querySelectorAll('#main .art:not(.fx)').forEach(renderArt); document.querySelectorAll('#main .art.fx').forEach(renderFx); scene.scenes.forEach(x => x.sc.rebuild()); scene.latches.forEach(x => { x.sc.rebuild(); x.sc.set(motionOK() ? 0 : 1); }); layoutHS(); layoutStory(); layoutPanels(); layoutPillars(); gmCrowd(); }, 150); });
+
+/* Clicks: each graphic answers in its own way */
+document.addEventListener('click', e => {
+  if (e.target.closest('a, button')) return;
+  const pnl = e.target.closest('.panel');
+  if (pnl) { const s = scene.scenes.find(x => x.panel === pnl); if (s) s.sc.click(); return; }
+  const cta = e.target.closest('.cta');
+  if (cta) { const s = scene.latches.find(x => x.stage.closest('.cta') === cta); if (s && motionOK()) s.replayStart = performance.now(); return; }
+  const ev = e.target.closest('.ev-stage');
+  if (ev) { playEvent(ev); return; }
+  const host = e.target.closest('.story-art, .band-device[data-cursor]');
+  if (host) { const art = host.querySelector('.art'); if (art) pulse(art); }
+});
+document.addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.classList && e.target.classList.contains('ev-stage')) { e.preventDefault(); playEvent(e.target); } });
+
+/* Cursor ring: labels what a click will do. Fine pointers only. */
+const cursorEl = document.getElementById('cursor'), cursorDot = document.getElementById('cursor-dot'), cursorLbl = document.getElementById('cursor-lbl');
+const pointerFX = () => FINE.matches && motionOK();
+function syncCursor() { document.body.classList.toggle('has-cursor', pointerFX()); }
+FINE.addEventListener('change', syncCursor); RM.addEventListener('change', syncCursor); syncCursor();
+addEventListener('pointermove', e => {
+  mx = e.clientX; my = e.clientY;
+  if (!pointerFX()) return;
+  const t = e.target, link = t.closest('a, button, summary, label, [role="tab"]'), txt = t.closest('input, textarea');
+  let lab = t.closest('[data-cursor]'); if (lab && link && lab !== link && lab.contains(link)) lab = null;
+  cursorEl.classList.toggle('label', !!lab); cursorEl.classList.toggle('link', !lab && !!link); cursorEl.classList.toggle('text', !!txt);
+  cursorEl.classList.toggle('dark', !!t.closest('.band, .panel, .sheet, .ask, .quad > div:hover, .hs-card, .story-art'));
+  cursorEl.classList.remove('away');
+  if (lab) cursorLbl.textContent = lab.dataset.cursor;
+}, { passive: true });
+document.addEventListener('mouseout', e => { if (!e.relatedTarget) cursorEl.classList.add('away'); });
+addEventListener('blur', () => cursorEl.classList.add('away'));
+
+/* Page transition: five strands of the destination's colour cross at 57°, the page swaps behind them */
+async function wipeTo(r, token) {
+  const t = TONES[PAGE_TONE[r] || 'mint'], cols = ramp(t.light, t.deep, bars.length);
+  bars.forEach((b, k) => { b.getAnimations().forEach(a => a.cancel()); b.style.background = cols[k]; });
+  wipeMark.innerHTML = `<b>${PAGE_NAME[r] || ''}</b>`;
+  wipe.style.visibility = 'visible';
+  const ins = bars.map((b, k) => b.animate([{ transform: SKEW('-130%') }, { transform: SKEW('0%') }], { duration: 640, delay: k * 60, easing: EASE_IO, fill: 'forwards' }));
+  wipeMark.animate([{ opacity: 0, transform: 'translateY(16px)' }, { opacity: 1, transform: 'none' }], { duration: 420, delay: 480, easing: 'cubic-bezier(.22,1,.36,1)', fill: 'forwards' });
+  await Promise.all(ins.map(a => a.finished.catch(() => {})));
+  if (token !== routeToken) return;
+  render(r);
+  await sleep(160);
+  wipeMark.animate([{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'translateY(-12px)' }], { duration: 300, easing: 'ease-in', fill: 'forwards' });
+  const outs = bars.map((b, k) => b.animate([{ transform: SKEW('0%') }, { transform: SKEW('130%') }], { duration: 720, delay: (bars.length - 1 - k) * 60, easing: EASE_IO, fill: 'forwards' }));
+  await Promise.all(outs.map(a => a.finished.catch(() => {})));
+  if (token === routeToken) wipe.style.visibility = 'hidden';
+}
+
+/* First visit: the symbol draws on deep green, then the strands lift away at 57° */
+function playIntro() {
+  let seen = false, arrived = '';
+  try { seen = sessionStorage.getItem('li-intro') === '1'; arrived = sessionStorage.getItem('li-wipe') || ''; sessionStorage.removeItem('li-wipe'); } catch (e) {}
+  if (arrived && seen && motionOK()) { revealArrival(arrived); return; }
+  const finish = () => { wipe.classList.remove('covering'); wipe.style.visibility = 'hidden'; bars.forEach(b => (b.style.transform = SKEW('130%'))); document.body.classList.remove('intro-running'); };
+  if (seen || !motionOK()) { finish(); return; }
+  try { sessionStorage.setItem('li-intro', '1'); } catch (e) {}
+  const cols = ramp(MINT, DEEP, bars.length); bars.forEach((b, k) => (b.style.background = cols[k]));
+  wipeMark.innerHTML = logoMarkup(true);
+  document.body.classList.add('intro-running');
+  let done = false;
+  const lift = () => {
+    if (done) return; done = true;
+    wipe.style.visibility = 'visible'; wipe.classList.remove('covering');
+    document.body.classList.remove('intro-running');
+    wipeMark.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 260, fill: 'forwards' });
+    const outs = bars.map((b, k) => b.animate([{ transform: SKEW('0%') }, { transform: SKEW('130%') }], { duration: 950, delay: (bars.length - 1 - k) * 70, easing: EASE_IO, fill: 'forwards' }));
+    Promise.all(outs.map(a => a.finished)).then(() => { wipe.style.visibility = 'hidden'; }, () => {});
+  };
+  setTimeout(lift, 1300);
+  wipe.addEventListener('pointerdown', lift, { once: true });
+  addEventListener('keydown', lift, { once: true });
+}
+
+/* Root */
+const root = document.documentElement;
+
+/* Sheet */
+const sheet = document.getElementById('sheet'), menuBtn = document.getElementById('menu');
+function closeSheet() { if (!sheet.classList.contains('open')) return; sheet.classList.remove('open'); menuBtn.setAttribute('aria-expanded', 'false'); document.body.style.overflow = ''; menuBtn.focus({ preventScroll: true }); }
+menuBtn.addEventListener('click', () => { sheet.classList.add('open'); menuBtn.setAttribute('aria-expanded', 'true'); document.body.style.overflow = 'hidden'; document.getElementById('menu-close').focus(); });
+document.getElementById('menu-close').addEventListener('click', closeSheet);
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSheet(); });
+
+/* Phone menu */
+const fab = document.getElementById('fab'), fabBtn = document.getElementById('fab-btn'), fabScrim = document.getElementById('fab-scrim');
+function setFab(open) {
+  if (fab.classList.contains('open') === open) return;
+  fab.classList.toggle('open', open); fabScrim.classList.toggle('open', open);
+  fabBtn.setAttribute('aria-expanded', open); fabBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  document.body.style.overflow = open ? 'hidden' : '';
+}
+fabBtn.addEventListener('click', () => setFab(!fab.classList.contains('open')));
+fabScrim.addEventListener('click', () => setFab(false));
+fab.addEventListener('click', e => { if (e.target.closest('.fab-list a')) setFab(false); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && fab.classList.contains('open')) { setFab(false); fabBtn.focus(); } });
+addEventListener('resize', () => { if (innerWidth > 1080) setFab(false); });
+
+/* Copy buttons */
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-copy]'); if (!b) return;
+  const done = () => { b.textContent = 'Copied'; setTimeout(() => (b.textContent = 'Copy'), 1600); };
+  const fallback = () => { const c = b.parentElement.querySelector('code'); const r = document.createRange(); r.selectNodeContents(c); const s = getSelection(); s.removeAllRanges(); s.addRange(r); b.textContent = 'Selected'; setTimeout(() => (b.textContent = 'Copy'), 1600); };
+  try { navigator.clipboard.writeText(b.dataset.copy).then(done, fallback); } catch (err) { fallback(); }
+});
+
+/* Header border on scroll */
+const head = document.getElementById('head');
+addEventListener('scroll', () => head.classList.toggle('scrolled', scrollY > 8), { passive: true });
+
+document.getElementById('brand-logo').innerHTML = logoMarkup(true);
+document.querySelector('.sheet-logo').innerHTML = logoMarkup();
+document.querySelector('.foot-sym').innerHTML = symbol(18);
+let footWide = null;
+const syncFoot = () => { const wide = innerWidth >= 834; if (wide === footWide) return; footWide = wide; document.querySelectorAll('.fcol').forEach(d => (d.open = wide)); };
+syncFoot(); addEventListener('resize', syncFoot);
+document.querySelectorAll('[data-social]').forEach(el => (el.innerHTML = socials()));
+document.getElementById('skip').addEventListener('click', e => { e.preventDefault(); document.getElementById('main').focus(); });
+/* Links to a section on the current page (#ky-film, #dv-read) scroll to it instead of being read as a route */
+document.addEventListener('click', e => {
+  const a = e.target.closest('a[href^="#"]'); if (!a || e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey) return;
+  const id = a.getAttribute('href').slice(1), el = id && !P[id] && document.getElementById(id);
+  if (!el || !document.getElementById('main').contains(el)) return;
+  e.preventDefault(); el.scrollIntoView({ behavior: motionOK() ? 'smooth' : 'auto' });
+});
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { const a = document.getElementById('hero-art'); if (a) { a._w = 0; renderArt(a); } layoutPillars(); });
+/* Links inside the page are written as #route; point them at the page files so they open, share and bookmark normally */
+function fixLinks(root) {
+  root.querySelectorAll('a[href^="#"]').forEach(a => {
+    const h = decodeURIComponent(a.getAttribute('href').slice(1));
+    if (h && isPageHash(h)) { a.dataset.r = h.startsWith('blog/') ? 'blog-post' : h; a.setAttribute('href', pageUrl(h)); }
+  });
+}
+fixLinks(document.body);
+let fixQueued = false;
+new MutationObserver(() => { if (fixQueued) return; fixQueued = true; queueMicrotask(() => { fixQueued = false; fixLinks(document.body); }); }).observe(document.body, { childList: true, subtree: true });
+
+/* Moving between pages keeps the diagonal wipe: the stripes cover this page, the next page opens under them and they lift away */
+function coverThen(url, r) {
+  const t = TONES[PAGE_TONE[r] || 'mint'], cols = ramp(t.light, t.deep, bars.length);
+  bars.forEach((b, k) => { b.getAnimations().forEach(a => a.cancel()); b.style.background = cols[k]; });
+  wipeMark.innerHTML = `<b>${PAGE_NAME[r] || ''}</b>`;
+  wipe.classList.remove('covering'); wipe.style.visibility = 'visible';
+  const ins = bars.map((b, k) => b.animate([{ transform: SKEW('-130%') }, { transform: SKEW('0%') }], { duration: 560, delay: k * 50, easing: EASE_IO, fill: 'forwards' }));
+  wipeMark.animate([{ opacity: 0, transform: 'translateY(16px)' }, { opacity: 1, transform: 'none' }], { duration: 380, delay: 380, easing: 'cubic-bezier(.22,1,.36,1)', fill: 'forwards' });
+  try { sessionStorage.setItem('li-wipe', r); } catch (e) {}
+  Promise.all(ins.map(a => a.finished.catch(() => {}))).then(() => { location.href = url; });
+}
+function revealArrival(r) {
+  const t = TONES[PAGE_TONE[r] || 'mint'], cols = ramp(t.light, t.deep, bars.length);
+  bars.forEach((b, k) => { b.style.background = cols[k]; b.style.transform = SKEW('0%'); });
+  wipeMark.innerHTML = `<b>${PAGE_NAME[r] || ''}</b>`; wipeMark.style.opacity = 1;
+  wipe.classList.remove('covering'); wipe.style.visibility = 'visible';
+  wipeMark.animate([{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'translateY(-12px)' }], { duration: 300, delay: 120, easing: 'ease-in', fill: 'forwards' });
+  const outs = bars.map((b, k) => b.animate([{ transform: SKEW('0%') }, { transform: SKEW('130%') }], { duration: 720, delay: 200 + (bars.length - 1 - k) * 60, easing: EASE_IO, fill: 'forwards' }));
+  Promise.all(outs.map(a => a.finished.catch(() => {}))).then(() => { wipe.style.visibility = 'hidden'; });
+}
+document.addEventListener('click', e => {
+  const a = e.target.closest('a[data-r]');
+  if (!a || e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || a.target === '_blank') return;
+  if (!motionOK()) return;
+  e.preventDefault(); if (typeof setFab === 'function') setFab(false); closeSheet();
+  coverThen(a.href, a.dataset.r);
+});
+/* Any other #link stays on this page: jump to its section, or to the top for a bare # */
+document.addEventListener('click', e => {
+  const a = e.target.closest('a[href^="#"]');
+  if (!a || e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey) return;
+  const id = decodeURIComponent(a.getAttribute('href').slice(1)), el = id && document.getElementById(id);
+  e.preventDefault();
+  if (el) el.scrollIntoView({ behavior: motionOK() ? 'smooth' : 'auto' }); else if (!id) scrollTo({ top: 0, behavior: motionOK() ? 'smooth' : 'auto' });
+});
+/* Back and forward can restore a page from memory while its wipe still covers it */
+addEventListener('pageshow', e => { if (e.persisted) { bars.forEach(b => b.getAnimations().forEach(a => a.cancel())); wipe.style.visibility = 'hidden'; } });
+/* Old single-file links (…/#work, …/#blog/slug) open the matching page */
+const legacy = decodeURIComponent(location.hash.slice(1));
+addEventListener('hashchange', () => { const h = decodeURIComponent(location.hash.slice(1)); if (isPageHash(h)) location.replace(new URL(pageUrl(h), document.baseURI).href); });
+if (legacy && isPageHash(legacy) && !(CUR_ROUTE === 'home' && legacy === 'home')) location.replace(new URL(pageUrl(legacy), document.baseURI).href);
+else route();
+requestAnimationFrame(loop);
+})();
