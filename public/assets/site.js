@@ -48,12 +48,12 @@ document.body.insertAdjacentHTML('afterbegin', `<a class="skip" href="#main" id=
     <div class="foot-top"><a class="foot-mark" href="#home" aria-label="Latch Infinity home"><span class="foot-sym"></span></a><span class="foot-crumb" id="foot-crumb"></span></div>
     <p class="foot-note">One Stop. All Things. Digital.</p>
     <div class="foot-cols">
-      <details class="fcol" open><summary>Company</summary><ul><li><a href="#about">About Us</a></li><li><a href="#contact">Let's Talk</a></li><li><a href="#start">Plans &amp; Pricing</a></li><li><a href="#work">Work</a></li><li><a href="#blog">Blogs</a></li></ul></details>
+      <details class="fcol" open><summary>Company</summary><ul><li><a href="#about">About Us</a></li><li><a href="#contact">Let's Talk</a></li><li><a href="#work">Work</a></li><li><a href="#blog">Blogs</a></li></ul></details>
       <details class="fcol" open><summary>Quick Links</summary><ul><li><a href="#branding">Branding</a></li><li><a href="#digital-services">Digital Services</a></li><li><a href="#web-app-development">Web &amp; App Development</a></li><li><a href="#advertising">Advertising</a></li></ul></details>
       <details class="fcol" open><summary>Get In Touch</summary><address>LATCH INFINITY PRIVATE LIMITED, Commercial Building, Unit 2, B Block, 4th Floor, Uma Shree Dream World, Hosur Rd, Behind Race Institute, Kudlu Gate, Bengaluru, Karnataka 560068</address><div class="copyline"><code>info@latchinfinity.com</code><button class="chip-btn" type="button" data-copy="info@latchinfinity.com">Copy</button></div></details>
       <details class="fcol" open><summary>Follow</summary><ul><li><a href="https://www.instagram.com/latchinfinity/" target="_blank" rel="noopener">Instagram</a></li><li><a href="https://www.linkedin.com/company/latchinfinity/" target="_blank" rel="noopener">LinkedIn</a></li><li><a href="https://www.behance.net/latchinfinity" target="_blank" rel="noopener">Behance</a></li></ul></details>
     </div>
-    <div class="foot-bottom"><span>©2026. All Rights Reserved by Latch Infinity.</span><a class="foot-lp" href="#start"><span class="dot"></span>Preview: ads landing page →</a><nav aria-label="Legal"><a href="#legal">Terms &amp; Conditions</a><a href="#legal">Privacy Policy</a></nav></div>
+    <div class="foot-bottom"><span>©2026. All Rights Reserved by Latch Infinity.</span><nav aria-label="Legal"><a href="#legal">Terms &amp; Conditions</a><a href="#legal">Privacy Policy</a></nav></div>
   </div>
 </footer>`);
 
@@ -2042,29 +2042,6 @@ P['blog-post'] = () => {
 
 const SVC = ['Social Media Management', 'Content Development', 'Search Engine Optimisation (SEO)', 'Paid Advertising', 'Website Development & Management', 'Branding', 'Public Relations', 'Programmatic Advertising', 'Lead Generation', 'Marketing Strategy & Consulting'];
 const field = (id, label, type = 'text', req = false, auto = '') => `<div class="field" id="f-${id}"><label for="${id}">${label}${req ? '*' : ''}</label><input id="${id}" name="${id}" type="${type}"${req ? ' required' : ''}${auto ? ` autocomplete="${auto}"` : ''}><span class="err" id="${id}-err" aria-live="polite"></span></div>`;
-P.contact = () => `
-  ${pageHero({ tone: 'mint', crumbs: [['#home', 'Home'], ['', 'Let\'s Talk']], h: 'Got an Idea? Let’s Discuss', lede: 'Get in touch for prompt and detailed answers to all your questions.' })}
-  <section class="sec">
-    <div class="wrap contact">
-      <form class="form" id="form" novalidate>
-        <div class="fields">
-          ${field('name', 'Name', 'text', true, 'name')}${field('email', 'Email', 'email', true, 'email')}
-          ${field('phone', 'Phone', 'tel', true, 'tel')}${field('location', 'Location', 'text', true, 'address-level2')}
-          ${field('company', 'Company', 'text', false, 'organization')}${field('designation', 'Designation', 'text', false, 'organization-title')}
-        </div>
-        <fieldset class="field"><legend>Selected Services</legend><div class="svc">${SVC.map((s, i) => `<label><input type="checkbox" id="svc-${i}" name="svc" value="${s}"><span>${s}</span></label>`).join('')}</div></fieldset>
-        <div class="field"><label for="message">Message</label><textarea id="message" name="message"></textarea></div>
-        <div class="form-foot"><button class="btn btn-solid" type="submit" style="min-height:56px;padding:0 28px">SEND MESSAGE${I.arrow}</button></div>
-        <div id="sent" hidden></div>
-      </form>
-      <div class="info">
-        <div class="blk"><p class="label">Get In Touch</p><address>LATCH INFINITY PRIVATE LIMITED, Commercial Building, Unit 2, B Block, 4th Floor, Uma Shree Dream World, Hosur Rd, Behind Race Institute, Kudlu Gate, Bengaluru, Karnataka 560068</address>
-          <a class="link" href="https://www.google.com/maps/dir/?api=1&destination=Latch+Infinity+Private+Limited%2C+Bengaluru" target="_blank" rel="noopener">Get directions</a></div>
-        <div class="blk"><p class="label">Email</p><div class="copyline" style="margin:0"><code>info@latchinfinity.com</code><button class="chip-btn" type="button" data-copy="info@latchinfinity.com">Copy</button></div></div>
-        <div class="blk"><p class="label">Follow</p><div class="social">${socials()}</div></div>
-      </div>
-    </div>
-  </section>`;
 
 P.legal = () => `
   ${pageHero({ tone: 'mint', crumbs: [['#home', 'Home'], ['', 'Terms &amp; Privacy']], h: 'Terms &amp; Conditions, Privacy Policy' })}
@@ -2076,7 +2053,7 @@ P.legal = () => `
    see an approximate price, then call, WhatsApp or send the plan with the form.
    PRICES ARE PLACEHOLDERS: indicative INR ranges before GST. Confirm every figure, and the
    phone number below, before the page is used for ads. */
-const LP_PHONE = '+91 00000 00000'; // TODO: replace with the real sales number
+const LP_PHONE = '+91 99027 25482';
 const LP_TEL = LP_PHONE.replace(/[^\d+]/g, ''), LP_WA = LP_TEL.replace('+', '');
 const LP_TERMS = [[3, 0, '3 months'], [6, 0.05, '6 months · 5% off'], [12, 0.1, '12 months · 10% off']];
 const LP_SPEND = [25000, 50000, 100000, 200000, 300000, 500000, 1000000];
@@ -2109,24 +2086,19 @@ const LP_SVC = [
     { id: 'shoot', t: 'Photoshoot', d: 'Direction, crew and edited photographs.', kind: 'once', qty: ['shoot day', 'shoot days', 1, 5], opts: [['Per day', 60000, 120000]] },
     { id: 'bfilm', t: 'Brand or ad film', d: 'Script to final cut, 30 to 60 seconds.', kind: 'once', opts: [['Film', 150000, 400000]] },
   ] },
-  { id: 'edtech', t: 'EdTech', tone: 'ice', art: 2, icon: 'cap', p: '4-Quadrant e-learning, compliance-led quality checks and LMS-ready delivery for institutions and teams.', items: [
-    { id: 'elearn', t: 'E-learning content', d: 'Academic content and e-learning assets, LMS-ready.', kind: 'once', qty: ['learning hour', 'learning hours', 1, 40], opts: [['Standard', 80000, 120000], ['Interactive', 120000, 180000]] },
-    { id: 'lms', t: 'LMS set-up', d: 'Platform, structure, users and launch.', kind: 'once', opts: [['Set-up', 100000, 250000]] },
-  ] },
-  { id: 'game', t: 'Gamified events', tone: 'lilac', art: 5, icon: 'multi', p: 'Live events turned into real-time games that attendees play from their phones.', items: [
-    { id: 'event', t: 'Live event game', d: 'Multiplayer rounds on a shared screen, with live results.', kind: 'once', opts: [['Up to 200', 150000, 250000, 'attendees'], ['Up to 1,000', 300000, 500000, 'attendees'], ['1,000+', 600000, 1000000, 'attendees']] },
-  ] },
 ];
 const LP_ITEMS = {}; LP_SVC.forEach(s => s.items.forEach(it => { it.svc = s; LP_ITEMS[it.id] = it; }));
 const LP_PRESETS = [
   { id: 'launch', t: 'Launch a brand', d: 'Identity, website, social', icon: 'rocket', sel: { logo: { o: 1 }, book: {}, site: { o: 1 }, smm: { o: 0 } } },
   { id: 'leads', t: 'Get more leads', d: 'Ads, landing page, SEO', icon: 'target', sel: { ads: {}, creat: {}, site: { o: 0 }, seo: { o: 0 } }, ads: { s: 2, pf: ['Google', 'Meta'] } },
   { id: 'always', t: 'Always-on growth', d: 'Social, SEO, ads, content', icon: 'chart', sel: { smm: { o: 1 }, seo: { o: 1 }, ads: {}, blog: { o: 0 } }, ads: { s: 1, pf: ['Meta'] } },
-  { id: 'learn', t: 'Training & events', d: 'E-learning and live games', icon: 'cap', sel: { elearn: { o: 0, q: 5 }, event: { o: 0 } } },
 ];
 const LP_KEY = 'latch.plan.v1';
+const escH = t => String(t).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 const lpDefault = () => ({ sel: {}, term: 6, ads: { s: 1, pf: ['Google', 'Meta'] }, f: 'all', open: 'brand', preset: '' });
 let lp = (() => { try { const s = JSON.parse(localStorage.getItem(LP_KEY)); if (s && s.sel) return { ...lpDefault(), ...s }; } catch (e) {} return lpDefault(); })();
+Object.keys(lp.sel).forEach(id => { if (!LP_ITEMS[id]) delete lp.sel[id]; });
+if (lp.preset && !LP_PRESETS.some(p => p.id === lp.preset)) lp.preset = '';
 const lpSave = () => { try { localStorage.setItem(LP_KEY, JSON.stringify(lp)); } catch (e) {} };
 
 const inr = n => n >= 1e7 ? `₹${+(n / 1e7).toFixed(2)} Cr` : n >= 1e5 ? `₹${+(n / 1e5).toFixed(n >= 1e6 ? 1 : 2)}L` : `₹${Math.round(n / 1000)}k`;
@@ -2215,7 +2187,38 @@ P.start = () => `
     </div>
   </section>
 
-  <section class="sec lp-build-sec" id="lp-build" aria-labelledby="lp-build-h">
+  <section class="sec lp-build-sec" id="lp-talk" aria-labelledby="lp-talk-h">
+    <div class="wrap lp-talk">
+      <div>
+        ${intro('Let’s talk')}<h2 id="lp-talk-h">Tell us about you, then build your plan.</h2>
+        <p class="lede">Pick a service above, share a few details and your plan builder opens with it ready, so you can see an approximate budget straight away. Prefer to talk? Call, WhatsApp or email us.</p>
+        <div class="lp-ways">
+          <a class="lp-way" href="tel:${LP_TEL}"><span class="i">${ic('phone')}</span><span><b>Call us</b><span>${LP_PHONE}</span></span>${I.arrow}</a>
+          <a class="lp-way" data-wa href="#" target="_blank" rel="noopener"><span class="i">${ic('chat')}</span><span><b>WhatsApp</b><span>Opens a chat with us</span></span>${I.arrow}</a>
+          <a class="lp-way" href="mailto:info@latchinfinity.com" data-mail><span class="i">${ic('mail')}</span><span><b>Email</b><span>info@latchinfinity.com</span></span>${I.arrow}</a>
+        </div>
+        <div class="lp-visit">
+          <div class="blk"><p class="label">Visit us</p><address>LATCH INFINITY PRIVATE LIMITED, Commercial Building, Unit 2, B Block, 4th Floor, Uma Shree Dream World, Hosur Rd, Behind Race Institute, Kudlu Gate, Bengaluru, Karnataka 560068</address>
+            <a class="link" href="https://www.google.com/maps/dir/?api=1&destination=Latch+Infinity+Private+Limited%2C+Bengaluru" target="_blank" rel="noopener">Get directions</a></div>
+          <div class="blk"><p class="label">Email</p><div class="copyline" style="margin:0"><code>info@latchinfinity.com</code><button class="chip-btn" type="button" data-copy="info@latchinfinity.com">Copy</button></div></div>
+          <div class="blk"><p class="label">Follow</p><div class="social">${socials()}</div></div>
+        </div>
+      </div>
+      <form class="form lp-form" id="lp-form" novalidate>
+        <div class="lp-attach" data-attach></div>
+        <div class="fields">
+          ${field('lp-name', 'Name', 'text', true, 'name')}${field('lp-phone', 'Phone', 'tel', true, 'tel')}
+          ${field('lp-email', 'Email', 'email', false, 'email')}${field('lp-company', 'Company', 'text', false, 'organization')}
+        </div>
+        <fieldset class="field"><legend>Best way to reach you</legend><div class="svc">${['Call', 'WhatsApp', 'Email'].map((s, i) => `<label><input type="radio" name="lp-via" value="${s}"${i ? '' : ' checked'}><span>${s}</span></label>`).join('')}</div></fieldset>
+        <div class="field"><label for="lp-msg">Anything we should know?</label><textarea id="lp-msg" name="message" placeholder="Goals, timeline, budget, links"></textarea></div>
+        <div class="form-foot"><button class="btn btn-solid" type="submit" style="min-height:56px;padding:0 28px">Build my plan${I.arrow}</button><span class="lp-note">We only use your details to reply to you.</span></div>
+        <div id="lp-sent" hidden></div>
+      </form>
+    </div>
+  </section>
+
+  <section class="sec lp-build-sec" id="lp-build"${lp.lead ? '' : ' hidden'} aria-labelledby="lp-build-h">
     <div class="wrap">
       <div class="sec-head split">
         <div>${intro('Build your plan')}<h2 id="lp-build-h">Pick what you need. Watch your estimate move.</h2></div>
@@ -2247,9 +2250,10 @@ P.start = () => `
             <div><p class="s lp-fine" style="margin-bottom:8px">Retainer term</p><div class="lp-term" role="group" aria-label="Retainer term">${LP_TERMS.map(([m, d]) => `<button type="button" data-term="${m}" aria-pressed="${lp.term === m}">${m} mo${d ? ` · ${d * 100}% off` : ''}</button>`).join('')}</div></div>
             <div data-lines></div>
             <div class="acts">
-              <button class="btn btn-solid" type="button" data-lp-go="lp-talk">Get my final quote${I.arrow}</button>
+              <button class="btn btn-solid" type="button" data-lp-send>Send my plan${I.arrow}</button>
               <div class="duo"><a class="btn btn-ghost" data-wa href="#" target="_blank" rel="noopener">${ic('chat')}WhatsApp</a><a class="btn btn-ghost" href="tel:${LP_TEL}">${ic('phone')}Call</a></div>
             </div>
+            <div class="lp-plan-sent" data-plan-sent hidden></div>
             <p class="lp-fine"><b style="color:var(--deep-ink);font-weight:500">This is an estimate, not a quote.</b> Ranges are approximate, based on typical scope and before 18% GST. Your final price depends on your exact requirements and is confirmed in a written proposal after a short call.</p>
           </div>
           ${artSlot('rise', 'mint', 5)}
@@ -2297,30 +2301,6 @@ P.start = () => `
     </div>
   </section>
 
-  <section class="sec lp-build-sec" id="lp-talk" aria-labelledby="lp-talk-h">
-    <div class="wrap lp-talk">
-      <div>
-        ${intro('Let’s talk')}<h2 id="lp-talk-h">Turn your estimate into a final quote.</h2>
-        <p class="lede">Send your plan and we will come back with a proposal and your final price, based on what you actually need. Prefer to talk? Call or WhatsApp us now.</p>
-        <div class="lp-ways">
-          <a class="lp-way" href="tel:${LP_TEL}"><span class="i">${ic('phone')}</span><span><b>Call us</b><span>${LP_PHONE}</span></span>${I.arrow}</a>
-          <a class="lp-way" data-wa href="#" target="_blank" rel="noopener"><span class="i">${ic('chat')}</span><span><b>WhatsApp your plan</b><span>Opens a chat with your plan typed in</span></span>${I.arrow}</a>
-          <a class="lp-way" href="mailto:info@latchinfinity.com" data-mail><span class="i">${ic('mail')}</span><span><b>Email</b><span>info@latchinfinity.com</span></span>${I.arrow}</a>
-        </div>
-      </div>
-      <form class="form lp-form" id="lp-form" novalidate>
-        <div class="lp-attach" data-attach></div>
-        <div class="fields">
-          ${field('lp-name', 'Name', 'text', true, 'name')}${field('lp-phone', 'Phone', 'tel', true, 'tel')}
-          ${field('lp-email', 'Email', 'email', false, 'email')}${field('lp-company', 'Company', 'text', false, 'organization')}
-        </div>
-        <fieldset class="field"><legend>Best way to reach you</legend><div class="svc">${['Call', 'WhatsApp', 'Email'].map((s, i) => `<label><input type="radio" name="lp-via" value="${s}"${i ? '' : ' checked'}><span>${s}</span></label>`).join('')}</div></fieldset>
-        <div class="field"><label for="lp-msg">Anything we should know?</label><textarea id="lp-msg" name="message" placeholder="Goals, timeline, budget, links"></textarea></div>
-        <div class="form-foot"><button class="btn btn-solid" type="submit" style="min-height:56px;padding:0 28px">Send my plan${I.arrow}</button><span class="lp-note">We only use your details to reply to you.</span></div>
-        <div id="lp-sent" hidden></div>
-      </form>
-    </div>
-  </section>
 
   <section class="sec" aria-labelledby="lp-faq-h">
     <div class="wrap">
@@ -2338,12 +2318,22 @@ P.start = () => `
   <div class="lp-dock" id="lp-dock">
     <button class="t" type="button" data-lp-go="lp-sum"><span>Approx. estimate</span><b data-dock></b></button>
     <a class="call" href="tel:${LP_TEL}" aria-label="Call ${LP_PHONE}">${ic('phone')}</a>
-    <button class="btn" type="button" data-lp-go="lp-talk">Get quote</button>
+    <button class="btn" type="button" data-lp-go="lp-talk">Let’s talk</button>
   </div>`;
 
 function setupStart(main) {
   const items = [...main.querySelectorAll('.lp-item')], svcs = [...main.querySelectorAll('.lp-svc')], sum = main.querySelector('#lp-sum');
-  const go = id => { const el = document.getElementById(id); if (el) el.scrollIntoView({ behavior: motionOK() ? 'smooth' : 'auto', block: 'start' }); };
+  const build = main.querySelector('#lp-build');
+  const go = id => {
+    if (!lp.lead && (id === 'lp-build' || id === 'lp-sum')) id = 'lp-talk'; // the builder opens once we know who you are
+    const el = document.getElementById(id); if (el) el.scrollIntoView({ behavior: motionOK() ? 'smooth' : 'auto', block: 'start' });
+  };
+  const picked = () => LP_SVC.filter(s => s.items.some(it => lp.sel[it.id]));
+  const unlock = () => {
+    build.hidden = false;
+    const first = picked()[0];
+    if (first) openSvc(first.id); else if (!lp.open) openSvc('brand');
+  };
   let bumpT = 0;
   const update = (bump = true) => {
     const T = lpTotals();
@@ -2374,9 +2364,12 @@ function setupStart(main) {
       : `<p class="lp-empty">Nothing picked yet. Start with a ready-made plan, or open a service and tick what you need.</p>`;
     const dock = main.querySelector('[data-dock]');
     if (dock) dock.textContent = T.lines.length ? [T.m[1] ? `${inr(T.m[0])}+/mo` : '', T.o[1] ? `${inr(T.o[0])}+ one-time` : ''].filter(Boolean).join(' · ') : 'Build your plan';
-    const att = main.querySelector('[data-attach]');
-    att.classList.toggle('none', !T.lines.length);
-    att.innerHTML = T.lines.length ? `<b>Your plan is attached: ${T.lines.length} service${T.lines.length > 1 ? 's' : ''}</b><span>Approx. ${[T.m[1] ? `${rng(T.m[0], T.m[1])} a month for ${lp.term} months` : '', T.o[1] ? `${rng(T.o[0], T.o[1])} one-time` : ''].filter(Boolean).join(' + ')}, before GST. We confirm the final price in a proposal.</span>` : `<b>No plan attached</b><span>That’s fine. Tell us what you need, or <button class="link" type="button" data-lp-go="lp-build" style="background:none;border:0;padding:0;font:inherit;text-decoration:underline;cursor:pointer">build a plan</button> first.</span>`;
+    const att = main.querySelector('[data-attach]'), pk = picked();
+    att.classList.toggle('none', !pk.length && !lp.lead);
+    att.innerHTML = lp.lead
+      ? `<b>Thanks${lp.lead.name ? ', ' + escH(lp.lead.name.split(' ')[0]) : ''}. Your plan builder is open.</b><span>${pk.length ? `You picked ${pk.map(x => x.t).join(', ')}.` : 'Pick what you need and see an approximate budget.'} <button class="link" type="button" data-lp-go="lp-build">Go to my plan</button></span>`
+      : pk.length ? `<b>You picked ${pk.map(x => x.t).join(', ')}</b><span>Share your details and your plan builder opens with ${pk.length > 1 ? 'them' : 'it'} ready.</span>`
+      : `<b>Pick a service above</b><span>Or just tell us what you need. Your plan builder opens once you send your details.</span>`;
     const txt = encodeURIComponent(lpText());
     main.querySelectorAll('[data-wa]').forEach(a => (a.href = `https://wa.me/${LP_WA}?text=${txt}`));
     main.querySelectorAll('[data-mail]').forEach(a => (a.href = `mailto:info@latchinfinity.com?subject=${encodeURIComponent('Quote request from the website')}&body=${txt}`));
@@ -2392,12 +2385,22 @@ function setupStart(main) {
   main.addEventListener('click', e => {
     const t = e.target;
     const g = t.closest('[data-lp-go]'); if (g) { e.preventDefault(); go(g.dataset.lpGo); return; }
+    if (t.closest('[data-lp-send]')) {
+      if (!lp.lead) { go('lp-talk'); return; }
+      const T = lpTotals(), box = sum.querySelector('[data-plan-sent]');
+      console.info('Plan (prototype, not sent):', { ...lp.lead, plan: lpText() });
+      box.hidden = false;
+      box.innerHTML = `<b>Prototype: nothing was sent.</b><span>On the live site your plan (${T.lines.length || 'no'} service${T.lines.length === 1 ? '' : 's'}) and your details go to the team, who reply by ${lp.lead.via.toLowerCase()}.</span>`;
+      return;
+    }
     const ex = t.closest('[data-lp-svc]');
     if (ex) { // Explore card: open that service in the builder and pick its first item
       const s = LP_SVC.find(x => x.id === ex.dataset.lpSvc);
       if (!s.items.some(it => lp.sel[it.id])) lp.sel[s.items[0].id] = {};
       if (lp.f !== 'all' && !s.items.some(it => it.kind === lp.f)) lp.f = 'all';
-      lp.preset = ''; openSvc(s.id, true); update(); return;
+      lp.preset = '';
+      if (lp.lead) openSvc(s.id, true); else { lp.open = s.id; go('lp-talk'); }
+      update(); return;
     }
     const h = t.closest('.lp-svc-h'); if (h) { const id = h.closest('.lp-svc').dataset.svc; openSvc(lp.open === id ? '' : id); lpSave(); return; }
     const pr = t.closest('[data-preset]');
@@ -2431,7 +2434,7 @@ function setupStart(main) {
     const r = hero.getBoundingClientRect(), vh = innerHeight;
     if (motionOK()) hero.style.setProperty('--p', clamp(-r.top / (r.height * 0.7)).toFixed(3));
     const tr = talk.getBoundingClientRect();
-    dock.classList.toggle('show', r.bottom < vh * 0.35 && tr.top > vh * 0.6);
+    dock.classList.toggle('show', r.bottom < vh * 0.35 && (tr.top > vh * 0.6 || tr.bottom < vh * 0.2));
   };
   const onScroll = () => { if (!raf) raf = requestAnimationFrame(tick); };
   addEventListener('scroll', onScroll, { passive: true }); addEventListener('resize', onScroll);
@@ -2449,14 +2452,21 @@ function setupStart(main) {
     if (bad.length) { document.getElementById(bad[0]).focus(); out.hidden = true; return; }
     const utm = [...new URLSearchParams(location.search)].filter(([k]) => /^utm_|^gclid$|^fbclid$/.test(k));
     const payload = { name: form['lp-name'].value.trim(), phone: form['lp-phone'].value.trim(), email: form['lp-email'].value.trim(), company: form['lp-company'].value.trim(), via: form.querySelector('[name="lp-via"]:checked').value, message: form['lp-msg'].value.trim(), plan: lpText(), source: Object.fromEntries(utm) };
+    lp.lead = { name: payload.name, phone: payload.phone, email: payload.email, company: payload.company, via: payload.via, message: payload.message };
     console.info('Lead (prototype, not sent):', payload);
     out.className = 'sent'; out.hidden = false;
-    out.innerHTML = `<b>Prototype: nothing was sent.</b><span>The form checked out with ${lpTotals().lines.length || 'no'} planned service${lpTotals().lines.length === 1 ? '' : 's'}. On the live site this goes to the team, who reply by ${payload.via.toLowerCase()}.</span>`;
+    out.innerHTML = `<b>Prototype: nothing was sent.</b><span>On the live site your details go to the team. Your plan builder is open below.</span>`;
+    unlock(); update(false);
+    setTimeout(() => go('lp-build'), 60);
   });
 
   const exIO = 'IntersectionObserver' in window ? new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); exIO.unobserve(e.target); } }), { threshold: 0.35 }) : null;
   main.querySelectorAll('.lp-ex').forEach(el => exIO ? exIO.observe(el) : el.classList.add('on'));
   if (!svcs.some(el => el.dataset.svc === lp.open)) lp.open = '';
+  if (lp.lead) {
+    [['lp-name', 'name'], ['lp-phone', 'phone'], ['lp-email', 'email'], ['lp-company', 'company'], ['lp-msg', 'message']].forEach(([id, k]) => { const el = document.getElementById(id); if (el && lp.lead[k]) el.value = lp.lead[k]; });
+    const v = form.querySelector(`[name="lp-via"][value="${lp.lead.via}"]`); if (v) v.checked = true;
+  }
   update(false); tick();
 }
 
@@ -2919,7 +2929,7 @@ function renderNav(route) {
   const FAB_IC = { about: 'users', work: 'layout', edtech: 'cap', marketing: 'megaphone', gamification: 'trophy', blog: 'book' };
   const CHAT = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9.5h8M8 12.5h5"/></svg>';
   const fabItems = [...NAV.map(([k, t, tone]) => [k, t, tone, FAB_IC[k]]), ['contact', 'Let\'s Talk', 'talk', 'chat']];
-  const isHere = k => route === k || route.startsWith(k + '-') || (k === 'marketing' && MARKETING_KIDS.includes(route));
+  const isHere = k => route === k || (k === 'contact' && route === 'start') || route.startsWith(k + '-') || (k === 'marketing' && MARKETING_KIDS.includes(route));
   document.getElementById('fab-list').innerHTML = fabItems.map(([k, t, tone, icn], i) => `<li><a href="#${k}"${tone === 'talk' ? ' class="talk"' : ''} style="--r:${fabItems.length - 1 - i}${tone && tone !== 'talk' ? `;--pill:${TONES[tone].light}` : ''}"${isHere(k) ? ' aria-current="page"' : ''}>${icn === 'chat' ? CHAT : ic(icn)}<span>${t}</span></a></li>`).join('');
   const hs = document.getElementById('has-sub'), sb = hs.querySelector('.sub-btn');
   sb.addEventListener('click', () => { const o = !hs.classList.contains('open'); hs.classList.toggle('open', o); sb.setAttribute('aria-expanded', o); });
@@ -3018,7 +3028,7 @@ function render(r) {
   clearTimeout(heroTimer); heroTimer = null;
   document.getElementById('main').innerHTML = P[r]();
   document.body.classList.toggle('lp', r === 'start');
-  document.getElementById('lp-head').innerHTML = r === 'start' ? `<a class="btn btn-ghost" href="tel:${LP_TEL}">${ic('phone')}Call</a><button class="btn btn-solid lp-head-quote" type="button" onclick="document.getElementById('lp-talk').scrollIntoView({behavior:'smooth'})">Get a quote</button>` : '';
+  document.getElementById('lp-head').innerHTML = r === 'start' ? `<a class="btn btn-ghost" href="tel:${LP_TEL}">${ic('phone')}Call</a><button class="btn btn-solid lp-head-quote" type="button" onclick="document.getElementById('lp-talk').scrollIntoView({behavior:'smooth'})">Let’s talk</button>` : '';
   renderNav(r);
   setupPage(r);
   setupMotion(r);
@@ -3034,13 +3044,14 @@ let firstRoute = true, routeToken = 0;
 /* Every page has its own file; the route comes from <html data-route>. Blog articles are blog/?p=<slug>. */
 const PAGE_URL = { home: './', about: 'about/', work: 'work/', 'work-kaynes': 'work/kaynes/', 'work-dharmaram': 'work/dharmaram/', 'work-oli': 'work/oli/', 'work-cube': 'work/cube/', 'work-milntown': 'work/milntown/',
   marketing: 'marketing/', branding: 'marketing/branding/', advertising: 'marketing/advertising/', 'digital-services': 'marketing/digital-services/', 'web-app-development': 'marketing/web-app-development/',
-  edtech: 'edtech/', gamification: 'gamification/', blog: 'blog/', contact: 'contact/', legal: 'legal/', start: 'start/' };
+  edtech: 'edtech/', gamification: 'gamification/', blog: 'blog/', contact: 'start/', legal: 'legal/', start: 'start/' };
 const isPageHash = h => !!PAGE_URL[h] || (h.startsWith('blog/') && h.length > 5);
 const pageUrl = h => h.startsWith('blog/') ? 'blog/' + encodeURIComponent(h.slice(5)) + '/' : PAGE_URL[h];
 const metaOf = n => (document.querySelector(`meta[name="${n}"]`) || {}).content || '';
 const CUR_ROUTE = metaOf('li-route') || document.documentElement.dataset.route || 'home';
 function route() {
   let r = CUR_ROUTE;
+  if (r === 'contact') { location.replace(new URL('start/', document.baseURI).href); return; } // the contact page moved to /start/
   if (r === 'blog' && metaOf('li-slug')) { blogSlug = metaOf('li-slug'); r = 'blog-post'; }
   if ((r === 'blog' || r === 'blog-post') && !POSTS.length && !blogReady.done) { blogReady.then(() => { blogReady.done = true; route(); }); return; }
   if (r === 'gamification-platform') { document.getElementById('gamification-platform')?.scrollIntoView({ behavior: 'smooth' }); return; }
@@ -3058,7 +3069,7 @@ const motionOK = () => !RM.matches;
 const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 const easeIO = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 const PAGE_TONE = { edtech: 'ice', gamification: 'lilac' };
-const PAGE_NAME = { home: 'Latch Infinity', about: 'About', work: 'Work', 'work-kaynes': 'Kaynes Technology', 'work-oli': 'Oli', 'work-cube': 'Cube', 'work-dharmaram': 'Dharmaram', 'work-milntown': 'Miln Town', marketing: 'Marketing', branding: 'Branding', advertising: 'Advertising', 'digital-services': 'Digital Services', 'web-app-development': 'Website &amp; App Development', edtech: 'EdTech', gamification: 'Gamification', blog: 'Blogs', 'blog-post': 'Blogs', contact: 'Let\'s Talk', start: 'Plans &amp; Pricing', legal: 'Terms &amp; Privacy' };
+const PAGE_NAME = { home: 'Latch Infinity', about: 'About', work: 'Work', 'work-kaynes': 'Kaynes Technology', 'work-oli': 'Oli', 'work-cube': 'Cube', 'work-dharmaram': 'Dharmaram', 'work-milntown': 'Miln Town', marketing: 'Marketing', branding: 'Branding', advertising: 'Advertising', 'digital-services': 'Digital Services', 'web-app-development': 'Website &amp; App Development', edtech: 'EdTech', gamification: 'Gamification', blog: 'Blogs', 'blog-post': 'Blogs', contact: 'Let\'s Talk', start: 'Let\'s Talk', legal: 'Terms &amp; Privacy' };
 const wipe = document.getElementById('wipe'), bars = [...wipe.querySelectorAll('i')], wipeMark = document.getElementById('wipe-mark');
 const EASE_IO = 'cubic-bezier(.76,0,.24,1)';
 const SKEW = x => `translateX(${x}) skewX(-33deg)`;
