@@ -158,7 +158,7 @@ img { max-width: 100%; display: block; }
   .menu-btn { display: none !important; }
   .fab { position: fixed; z-index: 80; right: max(16px, calc(env(safe-area-inset-right, 0px) + 12px)); bottom: calc(env(safe-area-inset-bottom, 0px) + 18px);
     display: flex; flex-direction: column; align-items: flex-end; gap: 12px; pointer-events: none; }
-  .fab > * { pointer-events: auto; }
+  .fab .fab-btn, .fab.open .fab-list { pointer-events: auto; } /* closed, only the round button takes taps */
   body.lp .fab { bottom: calc(env(safe-area-inset-bottom, 0px) + 90px); }
   .fab-scrim { display: block; position: fixed; inset: 0; z-index: 79; background: rgba(20, 24, 19, .5); -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px);
     opacity: 0; visibility: hidden; transition: opacity .3s var(--ease), visibility 0s .3s; }
@@ -2682,3 +2682,18 @@ body.lp .lp-head { display: flex; }
   .lp-svc.open .lp-svc-b, .lp-item.on .lp-ctl, .lp-sum.bump .lp-tot .v { animation: none; }
   .lp-dock { transition: none; }
 }
+
+/* /start/ is the contact page: the ways to reach us sit beside the form */
+.lp-visit { display: grid; gap: 20px; margin-top: 28px; }
+.lp-visit .blk { display: grid; gap: 8px; padding-top: 18px; border-top: 1px solid var(--line); }
+.lp-visit address { font-style: normal; color: var(--ink-2); line-height: 1.6; font-size: 15px; }
+.lp-visit .copyline code { color: var(--ink); }
+.lp-visit .chip-btn { border-color: var(--line); color: var(--ink); }
+.lp-visit .chip-btn:hover { background: var(--ink); color: var(--paper); }
+.lp-visit .social a { border-color: var(--line); color: var(--ink); }
+.lp-visit .social a:hover { background: var(--ink); color: var(--paper); }
+.lp-attach .link { background: none; border: 0; padding: 0; font: inherit; color: inherit; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.lp-plan-sent { border-radius: 12px; padding: 12px 14px; background: rgba(177, 247, 187, .14); display: grid; gap: 4px; font-size: 14px; }
+.lp-plan-sent b { font-weight: 600; }
+@media (prefers-reduced-motion: no-preference) { #lp-build:not([hidden]) { animation: lpOpen .7s var(--ease) both; } }
+@keyframes lpOpen { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }

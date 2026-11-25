@@ -21,7 +21,7 @@ export const PAGES = {
   blog: { title: 'Blogs | Latch Infinity', description: 'Articles from Latch Infinity on branding, SEO, advertising, video production, web development and EdTech.' },
   contact: { title: 'Let’s Talk | Latch Infinity', description: 'Got an idea? Let’s discuss. Get in touch with Latch Infinity in Bengaluru.' },
   legal: { title: 'Terms & Privacy | Latch Infinity', description: 'Terms and conditions and privacy policy for Latch Infinity.' },
-  start: { title: 'Plans & Pricing | Latch Infinity', description: 'Explore services, build a plan and see the price with Latch Infinity.' },
+  start: { title: 'Let’s Talk | Latch Infinity', description: 'Talk to Latch Infinity in Bengaluru: call, WhatsApp, email or visit us, pick a service and build a plan with an approximate budget.' },
 } as const;
 
 export type Route = keyof typeof PAGES;
