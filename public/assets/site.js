@@ -2057,24 +2057,24 @@ const LP_PHONE = '+91 99027 25482';
 const LP_TEL = LP_PHONE.replace(/[^\d+]/g, ''), LP_WA = LP_TEL.replace('+', '');
 const LP_TERMS = [[3, 0, '3 months'], [6, 0.05, '6 months · 5% off'], [12, 0.1, '12 months · 10% off']];
 const LP_SPEND = [25000, 50000, 100000, 200000, 300000, 500000, 1000000];
-const LP_PLATFORMS = ['Google', 'Meta', 'LinkedIn', 'YouTube', 'Programmatic'];
+const LP_PLATFORMS = ['Meta', 'Google', 'Other socials', 'Programmatic'];
+const LP_PF_FEE = { Meta: [35000, 45000], Google: [35000, 45000], 'Other socials': [20000, 25000], Programmatic: [30000, 35000] };
 const LP_SVC = [
   { id: 'brand', t: 'Branding', tone: 'mint', art: 1, icon: 'pen', p: 'An identity people remember: strategy, a logo that means something and a brand book that keeps every channel consistent.', items: [
-    { id: 'logo', t: 'Logo & visual identity', d: 'Logo, colour, type and core stationery.', kind: 'once', opts: [['Essential', 40000, 60000, 'Logo + colours + type'], ['Complete', 75000, 120000, 'Full identity system']] },
-    { id: 'book', t: 'Brand guidelines book', d: 'A lookbook your team and vendors can follow.', kind: 'once', opts: [['Brand book', 50000, 90000]] },
-    { id: 'strat', t: 'Strategy & positioning', d: 'Workshop, audience, voice and key messages.', kind: 'once', opts: [['Workshop', 60000, 100000]] },
+    { id: 'logo', t: 'Logo & visual identity', d: 'Logo, colour, type and core stationery.', kind: 'once', opts: [['Identity', 100000, 125000]] },
+    { id: 'book', t: 'Brand guidelines book', d: 'A lookbook your team and vendors can follow.', kind: 'once', opts: [['Brand book', 100000, 125000]] },
+    { id: 'strat', t: 'Strategy & positioning', d: 'Workshop, audience, voice and key messages.', kind: 'once', opts: [['Workshop', 150000, 200000]] },
   ] },
   { id: 'social', t: 'Social media & content', tone: 'mint', art: 6, icon: 'megaphone', p: 'Always-on content that looks like you: planned, designed, posted and reported every month.', items: [
-    { id: 'smm', t: 'Social media management', d: 'Calendar, design, posting, replies and a monthly report.', kind: 'month', opts: [['Starter', 25000, 35000, '2 platforms · 12 posts'], ['Growth', 45000, 60000, '3 platforms · 16 posts + 4 reels'], ['Scale', 80000, 110000, '4 platforms · 24 posts + 8 reels']] },
-    { id: 'blog', t: 'Articles & blogs', d: 'Search-led long-form writing for your site.', kind: 'month', opts: [['4 a month', 16000, 24000], ['8 a month', 30000, 44000]] },
-    { id: 'reels', t: 'Reels production day', d: 'Six short videos, shot and edited in one day.', kind: 'once', opts: [['6 reels', 45000, 80000]] },
+    { id: 'smm', t: 'Social media management', d: 'Calendar, design, posting, replies and a monthly report.', kind: 'month', opts: [['Management', 150000, 250000]] },
+    { id: 'blog', t: 'Reports, articles & blogs', d: 'Search-led reports and long-form writing for your site.', kind: 'month', opts: [['Content', 45000, 75000]] },
   ] },
   { id: 'ads', t: 'Performance ads', tone: 'mint', art: 4, icon: 'target', p: 'Google, Meta, LinkedIn and programmatic campaigns built for leads and sales, tuned every week.', items: [
     { id: 'ads', t: 'Ads management', d: 'Set-up, targeting, daily optimisation and weekly reports.', kind: 'month', ads: true },
     { id: 'creat', t: 'Ad creative pack', d: '12 static and 4 motion ads for launch.', kind: 'once', opts: [['Launch pack', 25000, 45000]] },
   ] },
   { id: 'seo', t: 'SEO', tone: 'mint', art: 0, icon: 'search', p: 'Be found on Google and in AI answers: technical fixes, content and links, reported every month.', items: [
-    { id: 'seo', t: 'Search engine optimisation', d: 'On-page, technical and off-page SEO with ranking reports.', kind: 'month', opts: [['Local', 18000, 25000, 'Up to 10 keywords'], ['Growth', 30000, 45000, 'Up to 25 keywords'], ['Scale', 55000, 80000, '50+ keywords · links']] },
+    { id: 'seo', t: 'Search engine optimisation', d: 'On-page, technical and off-page SEO with ranking reports.', kind: 'month', opts: [['Local', 25000, 25000, '25 keywords'], ['Growth', 50000, 75000, '50 keywords'], ['Scale', 125000, 175000, '100+ keywords']] },
     { id: 'audit', t: 'SEO & site audit', d: 'A prioritised fix list for speed, structure and content.', kind: 'once', opts: [['Audit', 15000, 25000]] },
   ] },
   { id: 'web', t: 'Website & app', tone: 'mint', art: 3, icon: 'code', p: 'Fast, good-looking websites and apps that turn visits into enquiries, from a landing page to a product.', items: [
@@ -2089,24 +2089,28 @@ const LP_SVC = [
 ];
 const LP_ITEMS = {}; LP_SVC.forEach(s => s.items.forEach(it => { it.svc = s; LP_ITEMS[it.id] = it; }));
 const LP_PRESETS = [
-  { id: 'launch', t: 'Launch a brand', d: 'Identity, website, social', icon: 'rocket', sel: { logo: { o: 1 }, book: {}, site: { o: 1 }, smm: { o: 0 } } },
+  { id: 'launch', t: 'Launch a brand', d: 'Identity, website, social', icon: 'rocket', sel: { logo: {}, book: {}, site: { o: 1 }, smm: {} } },
   { id: 'leads', t: 'Get more leads', d: 'Ads, landing page, SEO', icon: 'target', sel: { ads: {}, creat: {}, site: { o: 0 }, seo: { o: 0 } }, ads: { s: 2, pf: ['Google', 'Meta'] } },
-  { id: 'always', t: 'Always-on growth', d: 'Social, SEO, ads, content', icon: 'chart', sel: { smm: { o: 1 }, seo: { o: 1 }, ads: {}, blog: { o: 0 } }, ads: { s: 1, pf: ['Meta'] } },
+  { id: 'always', t: 'Always-on growth', d: 'Social, SEO, ads, content', icon: 'chart', sel: { smm: {}, seo: { o: 1 }, ads: {}, blog: {} }, ads: { s: 1, pf: ['Meta'] } },
 ];
 const LP_KEY = 'latch.plan.v1';
 const escH = t => String(t).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
-const lpDefault = () => ({ sel: {}, term: 6, ads: { s: 1, pf: ['Google', 'Meta'] }, f: 'all', open: 'brand', preset: '' });
+const lpDefault = () => ({ sel: {}, term: 6, ads: { s: 1, pf: ['Meta', 'Google'] }, f: 'all', open: 'brand', preset: '' });
 let lp = (() => { try { const s = JSON.parse(localStorage.getItem(LP_KEY)); if (s && s.sel) return { ...lpDefault(), ...s }; } catch (e) {} return lpDefault(); })();
 Object.keys(lp.sel).forEach(id => { if (!LP_ITEMS[id]) delete lp.sel[id]; });
 if (lp.preset && !LP_PRESETS.some(p => p.id === lp.preset)) lp.preset = '';
+lp.ads.pf = (lp.ads.pf || []).filter(p => LP_PF_FEE[p]); if (!lp.ads.pf.length) lp.ads.pf = ['Meta', 'Google'];
+Object.entries(lp.sel).forEach(([id, v]) => { const it = LP_ITEMS[id]; if (it.opts && v.o && !it.opts[v.o]) delete v.o; });
 const lpSave = () => { try { localStorage.setItem(LP_KEY, JSON.stringify(lp)); } catch (e) {} };
 
 const inr = n => n >= 1e7 ? `₹${+(n / 1e7).toFixed(2)} Cr` : n >= 1e5 ? `₹${+(n / 1e5).toFixed(n >= 1e6 ? 1 : 2)}L` : `₹${Math.round(n / 1000)}k`;
 const rng = (a, b) => a === b ? inr(a) : `${inr(a)} – ${inr(b)}`;
 const r1k = n => Math.round(n / 1000) * 1000;
+/* Ads management fee: the sum of each platform's monthly fee, or 10% of the ad budget, whichever is higher */
 function lpAdsFee(a) {
-  const spend = LP_SPEND[a.s] || LP_SPEND[1], n = Math.max(1, a.pf.length);
-  return [r1k(Math.max(20000, spend * 0.12) + 6000 * (n - 1)), r1k(Math.max(30000, spend * 0.18) + 8000 * (n - 1))];
+  const spend = LP_SPEND[a.s] || LP_SPEND[1], pf = a.pf.filter(p => LP_PF_FEE[p]), list = pf.length ? pf : ['Meta'];
+  const lo = list.reduce((t, p) => t + LP_PF_FEE[p][0], 0), hi = list.reduce((t, p) => t + LP_PF_FEE[p][1], 0), pct = spend * 0.1;
+  return [r1k(Math.max(lo, pct)), r1k(Math.max(hi, pct))];
 }
 /* Price of one picked item: [lo, hi], before any term discount */
 function lpPrice(it, s = lp.sel[it.id] || {}) {
@@ -2114,14 +2118,14 @@ function lpPrice(it, s = lp.sel[it.id] || {}) {
   const o = it.opts[s.o || 0] || it.opts[0], q = it.qty ? (s.q || it.qty[2]) : 1;
   return [o[1] * q, o[2] * q];
 }
-const lpFrom = s => { const lo = Math.min(...s.items.map(it => it.ads ? lpAdsFee({ s: 0, pf: ['Google'] })[0] : Math.min(...it.opts.map(o => o[1])))); const m = s.items.every(it => it.kind === 'month'); return `From ~${inr(lo)}${m ? ' a month' : ''}`; };
+const lpFrom = s => { const lo = Math.min(...s.items.map(it => it.ads ? lpAdsFee({ s: 0, pf: ['Other socials'] })[0] : Math.min(...it.opts.map(o => o[1])))); const m = s.items.every(it => it.kind === 'month'); return `From ~${inr(lo)}${m ? ' a month' : ''}`; };
 function lpTotals() {
   const disc = (LP_TERMS.find(t => t[0] === lp.term) || LP_TERMS[0])[1];
   let m = [0, 0], o = [0, 0];
   const lines = Object.keys(lp.sel).filter(id => LP_ITEMS[id]).map(id => {
     const it = LP_ITEMS[id], s = lp.sel[id], [a, b] = lpPrice(it, s);
     const t = it.kind === 'month' ? m : o; t[0] += a; t[1] += b;
-    const opt = it.ads ? `${inr(LP_SPEND[lp.ads.s])} ad budget · ${lp.ads.pf.join(', ') || 'Google'}` : [it.opts.length > 1 ? it.opts[s.o || 0][0] : '', it.qty ? `${s.q || it.qty[2]} ${(s.q || it.qty[2]) > 1 ? it.qty[1] : it.qty[0]}` : ''].filter(Boolean).join(' · ');
+    const opt = it.ads ? `${inr(LP_SPEND[lp.ads.s])} ad budget · ${lp.ads.pf.join(', ') || 'Meta'}` : [it.opts.length > 1 ? it.opts[s.o || 0][0] : '', it.qty ? `${s.q || it.qty[2]} ${(s.q || it.qty[2]) > 1 ? it.qty[1] : it.qty[0]}` : ''].filter(Boolean).join(' · ');
     return { it, opt, a, b };
   });
   m = m.map(v => r1k(v * (1 - disc)));
@@ -2140,7 +2144,7 @@ const lpItem = it => {
     ? `<div class="lp-ads"><div class="lbl"><span>Monthly ad budget, paid to the platforms</span><b data-spend>${inr(LP_SPEND[lp.ads.s])}</b></div>
         <input class="lp-range" type="range" min="0" max="${LP_SPEND.length - 1}" step="1" value="${lp.ads.s}" data-spend-in aria-label="Monthly ad budget">
         <div class="lp-pf" role="group" aria-label="Platforms">${LP_PLATFORMS.map(p => `<button class="chip" type="button" data-pf="${p}" aria-pressed="${lp.ads.pf.includes(p)}">${p}</button>`).join('')}</div>
-        <p class="lp-note">Our fee covers strategy, set-up and management. Ad spend is paid straight to Google, Meta and the others.</p></div>`
+        <p class="lp-note">Our monthly fee: Meta ₹35k–45k, Google ₹35k–45k, other socials ₹20k–25k, programmatic ₹30k–35k, or 10% of your ad budget, whichever is higher. Ad spend is paid straight to the platforms.</p></div>`
     : (it.opts.length > 1 ? `<div class="lp-opts" role="group" aria-label="${it.t} options">${it.opts.map((o, i) => `<button class="lp-opt" type="button" data-opt="${i}" aria-pressed="${(lp.sel[it.id]?.o || 0) === i}">${o[0]}${o[3] ? `<small>${o[3]}</small>` : ''}</button>`).join('')}</div>` : '') +
       (it.qty ? `<div class="lp-qty"><button type="button" data-q="-1" aria-label="Fewer">−</button><output data-qo></output><button type="button" data-q="1" aria-label="More">+</button></div>` : '');
   return `<div class="lp-item" data-item="${it.id}" data-kind="${it.kind}">
