@@ -2053,7 +2053,7 @@ P.legal = () => `
    see an approximate price, then call, WhatsApp or send the plan with the form.
    PRICES ARE PLACEHOLDERS: indicative INR ranges before GST. Confirm every figure, and the
    phone number below, before the page is used for ads. */
-const LP_PHONE = '+91 00000 00000'; // TODO: replace with the real sales number
+const LP_PHONE = '+91 99027 25482';
 const LP_TEL = LP_PHONE.replace(/[^\d+]/g, ''), LP_WA = LP_TEL.replace('+', '');
 const LP_TERMS = [[3, 0, '3 months'], [6, 0.05, '6 months · 5% off'], [12, 0.1, '12 months · 10% off']];
 const LP_SPEND = [25000, 50000, 100000, 200000, 300000, 500000, 1000000];
